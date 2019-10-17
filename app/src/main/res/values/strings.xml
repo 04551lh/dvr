@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DVRRemoteController</string>
+
+    <string name="please_open_wifi_switch">请打开WiFi开关</string>
+
+    <string name="please_connect_device">请连接设备</string>
+</resources>

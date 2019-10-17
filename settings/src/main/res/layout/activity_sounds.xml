@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".activity.SoundsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/system_navigation_bar_color">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_back"
+            android:layout_marginStart="@dimen/dp_10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sound_set"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:text="@string/volume"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/sp_12"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_10"/>
+    <View
+       style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <ImageView
+            android:id="@+id/iv_mute_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <SeekBar
+            android:id="@+id/sb_sounds_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <ImageView
+            android:id="@+id/iv_sounds_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_margin="@dimen/dp_20"
+        android:background="@drawable/btn_shape_style"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@android:color/white" />
+</LinearLayout>

@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name">basicInfo</string>
+
+    <string name="car_info">车辆信息</string>
+
+    <string name="driver_info">司机信息</string>
+
+    <string name="system_info">系统信息</string>
+
+    <string name="driver_name">姓名</string>
+
+    <string name="driver_sex">性别</string>
+
+    <string name="driver_id_card">身份证号</string>
+
+    <string name="driver_is_license">驾驶证号</string>
+
+    <string name="validity_of_driver_is_license">驾驶证有效期</string>
+
+    <string name="driver_nvq">从业资格证</string>
+
+    <string name="certification_authority">发证机构</string>
+
+    <string name="bind_vehicle">绑定车辆</string>
+
+    <string name="software_version">软件版本:</string>
+
+    <string name="hardware_version">硬件版本:</string>
+
+    <string name="mcu_version">MCU版本:</string>
+
+    <string name="disk_temperature">磁盘温度:</string>
+
+    <string name="external_temperature">外部温度:</string>
+
+    <string name="vehicle_mileage">车辆里程:</string>
+
+    <string name="speed">速度:</string>
+
+    <string name="pulse_number">脉冲数:</string>
+
+    <string name="gps_model">定位模块:</string>
+
+    <string name="directional_antenna">定位天线:</string>
+
+    <string name="gps_signal">GPS信号强度:</string>
+
+    <string name="latitude_and_longitude">经纬度:</string>
+
+    <string name="four_g_model">4g模块:</string>
+
+    <string name="four_g_status">4g状态:</string>
+
+    <string name="four_g_signal">4g信号:</string>
+
+    <string name="sim_card_number">SIM卡号:</string>
+
+    <string name="center_connect_status">中心连接:</string>
+
+    <string name="targets">部标:</string>
+
+    <string name="dns">DNS:</string>
+
+    <string name="intercom_serial_id">对讲串口Id:</string>
+
+    <string name="imei_number">IMEI:</string>
+
+    <string name="serial_number">序列号:</string>
+
+    <string name="camera_status">镜头状态</string>
+
+    <string name="main_power_supply_state">主电源状态:</string>
+
+    <string name="left_turn_signal_state">左转灯状态:</string>
+
+    <string name="right_turn_signal_state">右转灯状态:</string>
+
+    <string name="dipped_headlight_state">近光灯状态:</string>
+
+    <string name="high_beam_state">远光灯状态:</string>
+
+    <string name="state_of_the_brake">刹车状态:</string>
+
+    <string name="state_of_the_microphone">麦克风状态:</string>
+
+    <string name="state_of_the_speaker">扬声器状态:</string>
+
+    <string name="state_of_the_printer">打印机状态:</string>
+
+    <string name="all_interface_state">各接口(外设)状态:</string>
+
+    <string name="battery_voltage">电池电压:</string>
+    
+    <string name="battery_status">电池状态:</string>
+    
+    <string name="mch_serial">MCH 串口</string>
+
+    <string name="serial_device">串口设备:</string>
+
+    <string name="normal">正常</string>
+
+    <string name="exception">异常</string>
+
+    <string name="open_circuit">开路</string>
+
+    <string name="close_circuit">关路</string>
+
+    <string name="no_signal">无信号</string>
+
+    <string name="weak">弱</string>
+
+    <string name="strong">强</string>
+
+    <string name="no_access">未接入</string>
+
+    <string name="have_access">已接入</string>
+
+    <string name="no_connect">未连接</string>
+
+    <string name="connected">已连接</string>
+
+    <string name="open">打开</string>
+
+    <string name="close">关闭</string>
+    
+    <string name="main_disk">主存储</string>
+    
+    <string name="iso_disk">镜像盘</string>
+
+    <string name="backup_disk">备份盘</string>
+
+    <string name="capacity_storage">总容量:</string>
+
+    <string name="used_storage">已用:</string>
+
+    <string name="free_storage">可用:</string>
+
+    <string name="disk_status">磁盘状态:</string>
+
+    <string name="special_video">特殊录像:</string>
+
+    <string name="disk_status_used">已使用</string>
+
+    <string name="disk_status_no">未使用</string>
+</resources>

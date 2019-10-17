@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".activity.CalibrationSetActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/system_navigation_bar_color">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="@string/calibration_set"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_auto_calibrate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/auto_calibration"
+            android:textSize="@dimen/sp_15"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"/>
+        <CheckBox
+            android:id="@+id/cb_auto_calibration"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:button="@drawable/cb_box_selector"
+            android:checked="true"/>
+    </LinearLayout>
+
+    <View
+       style="@style/DividerLineStyle"/>
+    <LinearLayout
+        android:id="@+id/ll_manual_calibrate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/manual_calibrate"
+            android:textSize="@dimen/sp_15"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"/>
+        <CheckBox
+            android:id="@+id/cb_manual_calibrate"
+            android:layout_width="@dimen/dp_25"
+            android:layout_height="@dimen/dp_25"
+            android:button="@drawable/cb_box_selector"
+           />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cameraHigh"
+            android:textSize="@dimen/sp_15"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/black"/>
+
+        <EditText
+            android:id="@+id/et_camera_high"
+            android:layout_width="@dimen/dp_85"
+            android:layout_height="@dimen/dp_35"
+            android:gravity="center"
+            android:hint="@string/please_enter"
+            android:textSize="@dimen/sp_15"
+            android:layout_gravity="center"
+            android:textColor="@android:color/black"
+            android:background="@drawable/et_bg_border"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="@string/unit"/>
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="@dimen/dp_200">
+        <Button
+            android:id="@+id/btn_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="上"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="左"
+                android:layout_marginEnd="@dimen/dp_30"
+                android:layout_centerHorizontal="true"/>
+            <Button
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="右"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_centerHorizontal="true"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:text="@string/calibration_video_description"/>
+    </LinearLayout>
+
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_margin="@dimen/dp_20"
+        android:background="@drawable/btn_shape_style"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

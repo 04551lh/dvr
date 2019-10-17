@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.AddNewPlatformsActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:background="@color/system_navigation_bar_color">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_back"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_platforms"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+
+        <TextView
+            style="@style/RequiredFlag"
+            android:text="@string/required_flag" />
+
+        <TextView
+            style="@style/TvActivateText"
+            android:text="@string/platform_ip_address" />
+
+        <EditText
+            android:id="@+id/et_platform_ip_address"
+            style="@style/EtInputText"
+            android:layout_marginStart="@dimen/dp_10"
+            android:hint="@string/please_enter"
+            android:inputType="text" />
+    </LinearLayout>
+
+    <View style="@style/UnderLineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+
+        <TextView
+            style="@style/RequiredFlag"
+            android:text="@string/required_flag" />
+
+        <TextView
+            style="@style/TvActivateText"
+            android:text="@string/platform_port" />
+
+        <EditText
+            android:id="@+id/et_platform_port"
+            style="@style/EtInputText"
+            android:layout_marginStart="@dimen/dp_22"
+            android:hint="@string/please_enter"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <View style="@style/UnderLineStyle" />
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:background="@drawable/btn_shape_style"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@android:color/white" />
+</LinearLayout>

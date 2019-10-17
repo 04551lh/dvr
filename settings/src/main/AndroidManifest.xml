@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.adasplus.settings">
+
+    <application>
+        <activity android:name=".activity.DeviceFormatActivity"/>
+        <activity android:name=".activity.VideoSetActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.CalibrationSetActivity" />
+        <activity android:name=".activity.DMSWarningActivity" />
+        <activity android:name=".activity.ADASWarningActivity" />
+        <activity android:name=".activity.WarningsSetActivity" />
+        <activity android:name=".activity.DormancySetActivity" />
+        <activity android:name=".activity.SoundsActivity" />
+        <activity android:name=".activity.TimeSetActivity" />
+        <activity android:name=".activity.CommonSetActivity" />
+        <activity android:name=".activity.CANSetActivity" />
+        <activity android:name=".activity.NetworkSetActivity" />
+        <activity android:name=".activity.SpeedSetActivity" />
+        <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.ParamsSetActivity" />
+    </application>
+
+</manifest>

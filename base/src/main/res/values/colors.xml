@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="system_navigation_bar_color">#5677FC</color>
+
+    <color name="under_line_color">#4a4a4a</color>
+
+    <color name="item_press_color">#f0f0f0</color>
+
+    <color name="split_line_color">#D3D3D3</color>
+</resources>

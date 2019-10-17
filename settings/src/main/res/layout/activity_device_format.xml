@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context=".activity.DeviceFormatActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/system_navigation_bar_color">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:src="@drawable/icon_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="@string/device_format"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:text="@string/memory"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/sp_15"
+        android:textColor="@android:color/black"/>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_device_format_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       />
+
+    <View
+        style="@style/DividerLineStyle"
+        android:layout_marginTop="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/tv_device_format_data"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:text="@string/format"
+        android:textSize="@dimen/sp_18"
+        android:gravity="center"
+        android:textColor="@android:color/holo_red_light"/>
+    <View
+        style="@style/DividerLineStyle"
+        />
+</LinearLayout>

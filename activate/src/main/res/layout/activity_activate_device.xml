@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="com.adasplus.activate.activity.ActivateDeviceActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:background="@color/system_navigation_bar_color">
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_back"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_platform"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/tv_action_bar_add_platforms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_shape_style"
+            android:gravity="center_vertical"
+            android:text="@string/add_new_platforms"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_18" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/include_terminal_basic_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                style="@style/DividerLineStyle"
+                android:layout_marginTop="@dimen/dp_5"/>
+
+            <TextView
+                android:id="@+id/tv_platform_list"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_10"/>
+            <View
+                style="@style/DividerLineStyle"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_activated_platforms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:id="@+id/tv_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_60"
+                    android:text="@string/no_data"
+                    android:gravity="center"
+                    android:visibility="gone"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_add_new_platforms"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_45"
+                android:layout_margin="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
+                android:background="@drawable/btn_shape_style"
+                android:gravity="center"
+                android:text="@string/add_new_platforms"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

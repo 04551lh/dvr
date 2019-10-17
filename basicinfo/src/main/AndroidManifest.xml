@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.adasplus.basicinfo">
+
+    <application>
+        <activity android:name=".activity.SystemInfoActivity"></activity>
+        <activity android:name=".activity.DriverInfoActivity" />
+        <activity android:name=".activity.CarInfoActivity" />
+        <activity android:name=".activity.BasicInfoActivity" />
+    </application>
+
+</manifest>

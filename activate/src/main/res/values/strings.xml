@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">activate</string>
+
+    <string name="select_connect_network">选择网络</string>
+
+    <string name="please_input_wifi_pwd">请输入密码</string>
+
+    <string name="add_new_platforms">添加新平台</string>
+
+    <string name="platform_ip_address">部标平台地址</string>
+
+    <string name="platform_port">部标端口</string>
+
+    <string name="required_flag">*</string>
+
+    <string name="please_select">请选择</string>
+
+    <string name="please_choose_province">请选择省</string>
+
+    <string name="please_choose_area">请选择地区</string>
+
+    <string name="ip_address_is_not_empty">部标平台IP不能为空!</string>
+
+    <string name="input_ip_address_format_error">IP地址输入的不合法!</string>
+
+    <string name="port_number_is_not_empty">部标端口不能为空!</string>
+
+    <string name="phone_number_is_not_empty">手机号不能为空!</string>
+
+    <string name="phone_number_format_error">手机号格式输入有误!</string>
+
+    <string name="logout_platform">注销平台</string>
+
+    <string name="confirm_the_cancellation">确认注销</string>
+
+    <string name="cancellation_text_descrption">如需再次激活，到激活新平台页面重新激活即可。</string>
+
+    <string name="fill_terminal_info">填写终端信息</string>
+
+    <string name="update_terminal_info">修改终端信息</string>
+
+
+    <string name="terminal_basic_info">基本信息</string>
+
+    <string name="connect_status">连接状态:</string>
+
+    <string name="connected">已连接</string>
+
+    <string name="disconnect">断开连接</string>
+
+    <string name="platform_list">平台列表</string>
+
+    <string name="targets_platforms">部标平台</string>
+
+</resources>

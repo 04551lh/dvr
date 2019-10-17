@@ -1,0 +1,46 @@
+ext {
+    android = [
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.2",
+            minSdkVersion    : 19,
+            targetSdkVersion : 29,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+
+    dependVersion = [
+            appcompatVersion        : "1.1.0",
+            androidSupportSdkVersion: "29.0.2",
+            constraintlayoutVersion : "1.1.3",
+            junitVersion            : "4.12",
+    ]
+
+    supportDeps = [
+            "appcompat"   : "androidx.appcompat:appcompat:${dependVersion.appcompatVersion}",
+            "appcompatV7" : "com.android.support:appcompat-v7:${dependVersion.androidSupportSdkVersion}",
+            "recyclerview": "com.android.support:recyclerview-v7:${dependVersion.androidSupportSdkVersion}",
+            "cardview"    : "com.android.support:cardview-v7:${dependVersion.androidSupportSdkVersion}"
+    ]
+
+
+    testDeps = [
+            "junit"       : "junit:junit:${dependVersion.junitVersion}",
+            "runner"      : 'androidx.test:runner:1.2.0',
+            "espressoCore": 'androidx.test.espresso:espresso-core:3.2.0'
+    ]
+
+    commonDeps = [
+            "arouter"           : 'com.alibaba:arouter-api:1.4.0',
+            "gson"              : 'com.google.code.gson:gson:2.8.5',
+            "retrofit"          : 'com.squareup.retrofit2:retrofit:2.0.2',
+            "converterGson"     : 'com.squareup.retrofit2:converter-gson:2.0.2',
+            "adapterRxjava"     : 'com.squareup.retrofit2:adapter-rxjava:2.0.2',
+            "loggingLnterceptor": 'com.squareup.okhttp3:logging-interceptor:3.1.2',
+            "rxjava"            : 'io.reactivex:rxjava:1.1.5',
+            "rxandroid"         : 'io.reactivex:rxandroid:1.2.0',
+            "logger"            : 'com.orhanobut:logger:2.2.0'
+    ]
+
+    supportLibs = supportDeps.values()
+    commonLibs = commonDeps.values()
+}
