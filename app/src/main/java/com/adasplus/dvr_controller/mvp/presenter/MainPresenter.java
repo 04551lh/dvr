@@ -1,14 +1,20 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adasplus.dvr_controller.R;
+import com.adasplus.dvr_controller.activity.MainActivity;
 import com.adasplus.dvr_controller.adapter.NavigationMenuAdapter;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Author:刘净辉
@@ -34,10 +40,27 @@ public class MainPresenter implements IMainContract.Presenter{
     private ImageView mIvPhoneSignal;
     private ImageView mIvActivate;
     private ImageView mIvGpsStatus;
+    private MainActivity mMainActivity;
+    private  DeviceStateHandler mDeviceStateHandler;
+
+    private static class DeviceStateHandler extends Handler{
+
+        private WeakReference<MainActivity> mMainWeakReference;
+        private DeviceStateHandler(MainActivity mainActivity){
+            mMainWeakReference = new WeakReference<>(mainActivity);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+        }
+    }
 
     public MainPresenter(IMainContract.View view) {
         mMainView = view;
         mContext = (Context) mMainView;
+        mMainActivity = (MainActivity) mMainView;
+        mDeviceStateHandler = new DeviceStateHandler(mMainActivity);
 
         initWidget();
     }
