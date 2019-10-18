@@ -1,8 +1,6 @@
 package com.adasplus.dvr_controller.mvp.contract;
 
 
-import android.view.View;
-
 /**
  * Author:刘净辉
  * Date : 2019/10/18 11:36

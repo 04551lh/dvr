@@ -84,4 +84,5 @@ public class HttpConstant {
 
     public static final String MEDIA_TYPE = "application/json;charset=GBK";
 
+    public static final String DEVICE_WIFI_TAG = "ky_test";
 }

@@ -15,7 +15,9 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -53,6 +55,7 @@ public class RetrofitHelper {
     private final static int CONNECT_TIMEOUT = 3000;
     private final static int READ_TIMEOUT = 3000;
     private final static int WRITE_TIMEOUT = 3000;
+    private static final Charset GBK = Charset.forName("GBK");
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(HttpConstant.BASE_URL)
@@ -193,7 +196,8 @@ public class RetrofitHelper {
 
         @Override
         public T convert(ResponseBody value) throws IOException {
-            JsonReader jsonReader = gson.newJsonReader(value.charStream());
+            Reader reader = new InputStreamReader(value.byteStream(),GBK);
+            JsonReader jsonReader = gson.newJsonReader(reader);
             try {
                 return adapter.read(jsonReader);
             } finally {
@@ -204,7 +208,6 @@ public class RetrofitHelper {
 
     public static class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
         private static final MediaType MEDIA_TYPE = MediaType.parse(HttpConstant.MEDIA_TYPE);
-        private static final Charset GBK = Charset.forName("GBK");
 
         private final Gson gson;
         private final TypeAdapter<T> adapter;

@@ -9,8 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.WifiHelper;
@@ -35,7 +38,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private LinearLayout mLlPlatformsConnect;
     private LinearLayout mLlFillParams;
     private LinearLayout mLlTerminalSet;
-    private static final String DEVICE_WIFI_TAG = "ky_test";
 
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
@@ -55,6 +57,8 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mLlPlatformsConnect = view.findViewById(R.id.ll_platforms_connect);
         mLlFillParams = view.findViewById(R.id.ll_fill_params);
         mLlTerminalSet = view.findViewById(R.id.ll_terminal_set);
+        CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
+        cr_platforms_basic_info.bringToFront();
     }
 
     @Override
@@ -67,34 +71,30 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+        String wifiName = wifiInfo.getSSID();
+        boolean isDeviceWifi = !wifiName.contains(HttpConstant.DEVICE_WIFI_TAG);
 
         switch (v.getId()){
             case R.id.ll_device_connect:
-                ARouter.getInstance()
-                        .build(ActivityPathConstant.CONNECT_DEVICE_PATH)
-                        .navigation();
+                startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
                 break;
             case R.id.ll_fill_params:
-
-                if (!isDeviceWifi()){
+                if (isDeviceWifi){
                     Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ARouter.getInstance()
-                        .build(ActivityPathConstant.PARAMS_PATH)
-                        .navigation();
+                startActivity(ActivityPathConstant.PARAMS_PATH);
                 break;
             case R.id.ll_terminal_set:
-                if (!isDeviceWifi()){
+                if (isDeviceWifi){
                     Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ARouter.getInstance()
-                        .build(ActivityPathConstant.SETTINGS_PATH)
-                        .navigation();
+                startActivity(ActivityPathConstant.SETTINGS_PATH);
                 break;
             case R.id.ll_platforms_connect:
-                if (!isDeviceWifi()){
+                if (isDeviceWifi){
                     Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -130,9 +130,9 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         }
     }
 
-    private boolean isDeviceWifi(){
-        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-        String wifiName = wifiInfo.getSSID();
-        return wifiName.contains(DEVICE_WIFI_TAG);
+    private void startActivity(String path){
+        ARouter.getInstance()
+                .build(path)
+                .navigation();
     }
 }

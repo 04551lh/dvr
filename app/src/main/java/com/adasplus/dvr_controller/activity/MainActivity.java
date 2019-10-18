@@ -2,18 +2,11 @@ package com.adasplus.dvr_controller.activity;
 
 
 import android.os.Bundle;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.adasplus.dvr_controller.R;
 import com.adasplus.base.base.BaseActivity;
-import com.adasplus.dvr_controller.fragment.BasicInfoFragment;
-import com.adasplus.dvr_controller.fragment.FileExportFragment;
-import com.adasplus.dvr_controller.fragment.HomeFragment;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
 import com.adasplus.dvr_controller.mvp.presenter.MainPresenter;
 

@@ -3,9 +3,6 @@ package com.adasplus.dvr_controller.fragment;
 
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.fragment.app.Fragment;
-
 import com.adasplus.base.base.BaseFragment;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.mvp.contract.IBasicInfoContract;
