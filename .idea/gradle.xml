@@ -8,14 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/activate" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/basicinfo" />
-            <option value="$PROJECT_DIR$/deviceconnection" />
-            <option value="$PROJECT_DIR$/fileexport" />
+            <option value="$PROJECT_DIR$/homepager" />
             <option value="$PROJECT_DIR$/pickerview" />
-            <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/wheelview" />
           </set>
         </option>

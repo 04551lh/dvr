@@ -1,7 +1,6 @@
 package com.adasplus.dvr_controller.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,14 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adasplus.activate.activity.ActivateDeviceActivity;
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.base.utils.WifiHelper;
-import com.adasplus.settings.activity.ParamsSetActivity;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import rx.Subscriber;
@@ -92,41 +89,10 @@ public class NavigationMenuAdapter extends RecyclerView.Adapter<NavigationMenuAd
                         .build(ActivityPathConstant.CONNECT_DEVICE_PATH)
                         .navigation();
             } else {
-                //判断当前连接的WiFi是否设备热点WiFi
-                if (!ssid.contains("ky_test")) {
-                    Toast.makeText(context, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+
                 switch (position) {
                     case 1: //激活设备
-                        BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
-                            @Override
-                            public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                ExceptionUtils.exceptionHandling(context,e);
-                            }
-
-                            @Override
-                            public void onNext(TerminalInfoModel terminalInfoModel) {
-                                String phoneNumber = terminalInfoModel.getPhoneNumber();
-                                if (TextUtils.isEmpty(phoneNumber)){
-                                    ARouter.getInstance()
-                                            .build(ActivityPathConstant.FILL_TERMINAL_INFO_PATH)
-                                            .withString("type",ActivityPathConstant.FILL_TERMINAL_INFO)
-                                            .withBoolean("isFillTerminalInfo",true)
-                                            .navigation();
-                                }else {
-                                    ARouter.getInstance()
-                                            .build(ActivityPathConstant.ACTIVATE_DEVICE_PATH)
-                                            .withString("type",ActivityPathConstant.ADD_NEW_PLATFORMS)
-                                            .navigation();
-                                }
-                            }
-                        });
                         break;
                     case 2:
                         goToActivity(ActivityPathConstant.PARAMS_PATH);

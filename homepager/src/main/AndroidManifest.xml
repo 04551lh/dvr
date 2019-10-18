@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.adasplus.homepager" >
+    <application>
+        <activity android:name=".connect.activity.ConnectDeviceActivity"/>
+        <activity android:name=".params.activity.ParamsSetActivity"/>
+        <activity android:name=".set.activity.ADASWarningActivity"/>
+        <activity android:name=".set.activity.CalibrationSetActivity"/>
+        <activity android:name=".set.activity.CANSetActivity"/>
+        <activity android:name=".set.activity.CommonSetActivity"/>
+        <activity android:name=".set.activity.DeviceFormatActivity"/>
+        <activity android:name=".set.activity.DMSWarningActivity"/>
+        <activity android:name=".set.activity.DormancySetActivity"/>
+        <activity android:name=".set.activity.NetworkSetActivity"/>
+        <activity android:name=".set.activity.SettingsActivity"/>
+        <activity android:name=".set.activity.SoundsActivity"/>
+        <activity android:name=".set.activity.SpeedSetActivity"/>
+        <activity android:name=".set.activity.TimeSetActivity"/>
+        <activity android:name=".set.activity.VideoSetActivity"/>
+        <activity android:name=".set.activity.WarningsSetActivity"/>
+        <activity android:name=".activate.activity.ActivateDeviceActivity"/>
+        <activity android:name=".activate.activity.AddNewPlatformsActivity"/>
+        <activity android:name=".activate.activity.FillTerminalInfoActivity"/>
+    </application>
+</manifest>

@@ -45,19 +45,13 @@ dependencies {
     testImplementation rootProject.ext.testDeps["junit"]
     implementation project(path: ':base')
     if (!isMoudle.toBoolean()) {
-        //激活功能模块
-        implementation project(path: ':activate')
-        //设置
-        implementation project(path: ':settings')
-        //设备连接模块
-        implementation project(path: ':deviceconnection')
-        //文件导出模块
-        implementation project(path: ':fileexport')
         //基本信息
         implementation project(path: ':basicinfo')
+        //首页模块
+        implementation project(path: ':homepager')
     }
+    implementation project(path: ':pickerview')
+    implementation project(path: ':wheelview')
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
-
-
 
 }

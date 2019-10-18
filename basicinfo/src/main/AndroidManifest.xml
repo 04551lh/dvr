@@ -6,7 +6,6 @@
         <activity android:name=".activity.SystemInfoActivity"></activity>
         <activity android:name=".activity.DriverInfoActivity" />
         <activity android:name=".activity.CarInfoActivity" />
-        <activity android:name=".activity.BasicInfoActivity" />
     </application>
 
 </manifest>

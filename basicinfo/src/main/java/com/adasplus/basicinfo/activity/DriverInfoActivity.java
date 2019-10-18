@@ -6,10 +6,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
+import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.basicinfo.R;
 import com.adasplus.basicinfo.mvp.contract.IDriverInfoContract;
 import com.adasplus.basicinfo.mvp.presenter.DriverInfoPresenter;
+import com.alibaba.android.arouter.facade.annotation.Route;
 
+@Route(path = ActivityPathConstant.DRIVER_INFO_PATH)
 public class DriverInfoActivity extends BaseActivity implements IDriverInfoContract.View {
 
     private ImageView mIvBack;

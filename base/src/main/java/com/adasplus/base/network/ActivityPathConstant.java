@@ -19,6 +19,15 @@ public class ActivityPathConstant {
     //设置 Activity
     public static final String SETTINGS_PATH = "/device/settings";
 
+    //车辆信息 Activity
+    public static final String CAR_INFO_PATH = "/car/carInfo";
+
+    //车辆信息 Activity
+    public static final String DRIVER_INFO_PATH = "/car/driverInfo";
+
+    //系统信息
+    public static final String SYSTEM_INFO_PATH = "/system/systemInfo";
+
     /**
      * 基本信息
      */

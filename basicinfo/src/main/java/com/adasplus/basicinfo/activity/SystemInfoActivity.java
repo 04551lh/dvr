@@ -7,10 +7,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adasplus.base.base.BaseActivity;
+import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.basicinfo.R;
 import com.adasplus.basicinfo.mvp.contract.ISystemInfoContract;
 import com.adasplus.basicinfo.mvp.presenter.SystemInfoPresenter;
+import com.alibaba.android.arouter.facade.annotation.Route;
 
+@Route(path = ActivityPathConstant.SYSTEM_INFO_PATH)
 public class SystemInfoActivity extends BaseActivity implements ISystemInfoContract.View {
 
     private ImageView mIvBack; // 返回

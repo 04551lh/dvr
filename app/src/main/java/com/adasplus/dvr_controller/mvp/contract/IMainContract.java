@@ -1,9 +1,16 @@
 package com.adasplus.dvr_controller.mvp.contract;
 
 import android.media.Image;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.adasplus.dvr_controller.fragment.BasicInfoFragment;
+import com.adasplus.dvr_controller.fragment.FileExportFragment;
+import com.adasplus.dvr_controller.fragment.HomeFragment;
 
 /**
  * Author:刘净辉
@@ -15,28 +22,29 @@ public interface IMainContract {
     }
 
     interface View {
-        RecyclerView getRvNavigationBar();
 
-        ImageView getIvHighBeam();
+        LinearLayout getLlHomePager();
 
-        ImageView getIvDippedHeadlight();
+        LinearLayout getLlBasicInfoPager();
 
-        ImageView getIvBrake();
+        LinearLayout getLlFileExportPager();
 
-        ImageView getIvNetworkDevice();
+        ImageView getIvHomePager();
 
-        ImageView getIvActivate();
+        TextView  getTvHomePager();
 
-        ImageView getIvPhoneSignal();
+        ImageView getIvBasicInfoPager();
 
-        ImageView getIvGpsStatus();
+        TextView getTvBasicInfoPager();
+
+        ImageView getIvFileExportPager();
+
+        TextView getTvFileExportPager();
     }
 
     interface Presenter {
         void initData();
 
-        void onResume();
-
-        void onStop();
+        void initListener();
     }
 }

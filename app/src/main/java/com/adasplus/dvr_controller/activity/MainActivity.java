@@ -2,33 +2,40 @@ package com.adasplus.dvr_controller.activity;
 
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adasplus.dvr_controller.R;
 import com.adasplus.base.base.BaseActivity;
+import com.adasplus.dvr_controller.fragment.BasicInfoFragment;
+import com.adasplus.dvr_controller.fragment.FileExportFragment;
+import com.adasplus.dvr_controller.fragment.HomeFragment;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
 import com.adasplus.dvr_controller.mvp.presenter.MainPresenter;
 
 
 public class MainActivity extends BaseActivity implements IMainContract.View {
 
-    RecyclerView mRvNavigationBar;
-    ImageView mIvHighBeam;
-    ImageView mIvDippedHeadlight;
-    ImageView mIvBrake;
-    ImageView mIvNetworkDevice;
-    ImageView mIvActivate;
-    ImageView mIvPhoneSignal;
-    ImageView mIvGpsStatus;
-
-    MainPresenter mMainPresenter;
+    private LinearLayout mLlHomePager;
+    private LinearLayout mLlBasicInfoPager;
+    private LinearLayout mLlFileExportPager;
+    private ImageView mIvHomePager;
+    private TextView mTvHomePager;
+    private ImageView mIvBasicInfoPager;
+    private TextView mTvBasicInfoPager;
+    private ImageView mIvFileExportPager;
+    private TextView mTvFileExportPager;
+    private MainPresenter mMainPresenter;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         mMainPresenter = new MainPresenter(this);
         mMainPresenter.initData();
+        mMainPresenter.initListener();
     }
 
     @Override
@@ -38,65 +45,59 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
 
     @Override
     protected void initWidget() {
-        mRvNavigationBar = findViewById(R.id.rv_navigation_bar);
-        mIvHighBeam = findViewById(R.id.iv_high_beam);
-        mIvDippedHeadlight = findViewById(R.id.iv_dipped_headlight);
-        mIvBrake = findViewById(R.id.iv_brake);
-        mIvNetworkDevice = findViewById(R.id.iv_network_device);
-        mIvActivate = findViewById(R.id.iv_activate);
-        mIvPhoneSignal = findViewById(R.id.iv_phone_signal);
-        mIvGpsStatus = findViewById(R.id.iv_gps_status);
+        mLlHomePager = findViewById(R.id.ll_home_pager);
+        mLlBasicInfoPager = findViewById(R.id.ll_basic_info_pager);
+        mLlFileExportPager = findViewById(R.id.ll_file_export_pager);
+        mIvHomePager = findViewById(R.id.iv_home_pager);
+        mTvHomePager = findViewById(R.id.tv_home_pager);
+        mIvBasicInfoPager = findViewById(R.id.iv_basic_info_pager);
+        mTvBasicInfoPager = findViewById(R.id.tv_basic_info_pager);
+        mIvFileExportPager = findViewById(R.id.iv_file_export_pager);
+        mTvFileExportPager = findViewById(R.id.tv_file_export_pager);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mMainPresenter.onResume();
+    public LinearLayout getLlHomePager() {
+        return mLlHomePager;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        mMainPresenter.onStop();
+    public LinearLayout getLlBasicInfoPager() {
+        return mLlBasicInfoPager;
     }
 
     @Override
-    public RecyclerView getRvNavigationBar() {
-        return mRvNavigationBar;
+    public LinearLayout getLlFileExportPager() {
+        return mLlFileExportPager;
     }
 
     @Override
-    public ImageView getIvHighBeam() {
-        return mIvHighBeam;
+    public ImageView getIvHomePager() {
+        return mIvHomePager;
     }
 
     @Override
-    public ImageView getIvDippedHeadlight() {
-        return mIvDippedHeadlight;
+    public TextView getTvHomePager() {
+        return mTvHomePager;
     }
 
     @Override
-    public ImageView getIvBrake() {
-        return mIvBrake;
+    public ImageView getIvBasicInfoPager() {
+        return mIvBasicInfoPager;
     }
 
     @Override
-    public ImageView getIvNetworkDevice() {
-        return mIvNetworkDevice;
+    public TextView getTvBasicInfoPager() {
+        return mTvBasicInfoPager;
     }
 
     @Override
-    public ImageView getIvActivate() {
-        return mIvActivate;
+    public ImageView getIvFileExportPager() {
+        return mIvFileExportPager;
     }
 
     @Override
-    public ImageView getIvPhoneSignal() {
-        return mIvPhoneSignal;
-    }
-
-    @Override
-    public ImageView getIvGpsStatus() {
-        return mIvGpsStatus;
+    public TextView getTvFileExportPager() {
+        return mTvFileExportPager;
     }
 }

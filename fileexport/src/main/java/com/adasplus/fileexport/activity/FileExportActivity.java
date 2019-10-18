@@ -16,18 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 @Route(path = ActivityPathConstant.FILE_EXPORT_PATH)
 public class FileExportActivity extends BaseActivity implements IFileExportContract.View {
 
-    private ImageView mIvBack;
-    private TextView mTvFileType;
-    private TextView mTvSelectDate;
-    private TextView mTvStartTime;
-    private TextView mTvEndTime;
-    private TextView mTvChannel;
-    private TextView mTvStreamType;
-    private TextView mTvExportFile;
-    private ProgressBar mPbExportProgressbar;
-    private TextView mTvCurrentExportSize;
-    private TextView mTvChannelValue;
-    private TextView mTvStreamTypeValue;
+
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -43,18 +32,7 @@ public class FileExportActivity extends BaseActivity implements IFileExportContr
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvFileType = (TextView) findViewById(R.id.tv_file_type);
-        mTvSelectDate = (TextView) findViewById(R.id.tv_select_date);
-        mTvStartTime = (TextView) findViewById(R.id.tv_start_time);
-        mTvEndTime = (TextView) findViewById(R.id.tv_end_time);
-        mTvChannel = (TextView) findViewById(R.id.tv_channel);
-        mTvStreamType = (TextView) findViewById(R.id.tv_stream_type);
-        mTvExportFile = (TextView) findViewById(R.id.tv_export_file);
-        mPbExportProgressbar = (ProgressBar) findViewById(R.id.pb_export_progressbar);
-        mTvCurrentExportSize = (TextView) findViewById(R.id.tv_current_export_size);
-        mTvChannelValue = (TextView) findViewById(R.id.tv_channel_value);
-        mTvStreamTypeValue = findViewById(R.id.tv_stream_type_value);
+
     }
 
     @Override

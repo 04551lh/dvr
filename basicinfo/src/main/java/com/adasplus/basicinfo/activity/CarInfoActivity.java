@@ -6,10 +6,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
+import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.basicinfo.R;
 import com.adasplus.basicinfo.mvp.contract.ICarInfoContract;
 import com.adasplus.basicinfo.mvp.presenter.CarInfoPresenter;
+import com.alibaba.android.arouter.facade.annotation.Route;
 
+@Route(path = ActivityPathConstant.CAR_INFO_PATH)
 public class CarInfoActivity extends BaseActivity implements ICarInfoContract.View {
 
     private ImageView mIvBack;

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    tools:context="com.adasplus.settings.com.adasplus.homepager.params.activity.ParamsSetActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/system_navigation_bar_color">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+           android:src="@drawable/icon_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="@string/params_write"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@android:color/black"
+            android:text="@string/bumper_distance"
+            />
+
+        <EditText
+            android:id="@+id/et_bumper_distance"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:inputType="number"
+            android:hint="0"
+            android:gravity="center"
+            android:background="@drawable/et_bg_border"
+            android:layout_marginEnd="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@android:color/black"
+            android:text="@string/unit"
+            />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@android:color/black"
+            android:text="@string/left_wheel_distance"
+            />
+
+        <EditText
+            android:id="@+id/et_left_wheel_distance"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:inputType="number"
+            android:hint="0"
+            android:gravity="center"
+            android:background="@drawable/et_bg_border"
+            android:layout_marginEnd="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@android:color/black"
+            android:text="@string/unit"
+            />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@android:color/black"
+            android:text="@string/right_wheel_distance"
+            />
+
+        <EditText
+            android:id="@+id/et_right_wheel_distance"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:inputType="number"
+            android:gravity="center"
+            android:hint="0"
+            android:background="@drawable/et_bg_border"
+            android:layout_marginEnd="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@android:color/black"
+            android:text="@string/unit"
+            />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@android:color/black"
+            android:text="@string/front_wheel_distance"
+            />
+
+        <EditText
+            android:id="@+id/et_front_wheel_distance"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:hint="0"
+            android:inputType="number"
+            android:gravity="center"
+            android:background="@drawable/et_bg_border"
+            android:layout_marginEnd="@dimen/dp_10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@android:color/black"
+            android:text="@string/unit"
+            />
+    </LinearLayout>
+    <View
+        style="@style/DividerLineStyle"/>
+
+    <TextView
+        android:id="@+id/tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_margin="@dimen/dp_20"
+        android:background="@drawable/btn_shape_style"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@android:color/white" />
+</LinearLayout>

@@ -1,96 +1,171 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+
+import android.graphics.Color;
+
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.activity.MainActivity;
-import com.adasplus.dvr_controller.adapter.NavigationMenuAdapter;
+import com.adasplus.dvr_controller.fragment.BasicInfoFragment;
+import com.adasplus.dvr_controller.fragment.FileExportFragment;
+import com.adasplus.dvr_controller.fragment.HomeFragment;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Author:刘净辉
  * Date : 2019/9/10
  * Description :
  */
-public class MainPresenter implements IMainContract.Presenter{
-
-    private static final int COLUMNS_COUNT = 4;
-
-    private int[] mNavigationBarText = new int[]{R.string.connect_device, R.string.connect_platform,R.string.params_write,R.string.settings,R.string.basic_info, R.string.files_export};
-
-    private int[] mNavigationBarIcon = new int[]{R.mipmap.connect_device, R.mipmap.activate_device,R.mipmap.activate_device,R.mipmap.activate_device,R.mipmap.activate_device, R.mipmap.files_export};
+public class MainPresenter implements IMainContract.Presenter, View.OnClickListener {
 
     private IMainContract.View mMainView;
-    private Context mContext;
-    private RecyclerView mRvNavigationBar;
-    private NavigationMenuAdapter mNavigationMenuAdapter;
-    private ImageView mIvHighBeam;
-    private ImageView mIvDippedHeadlight;
-    private ImageView mIvBrake;
-    private ImageView mIvNetworkDevice;
-    private ImageView mIvPhoneSignal;
-    private ImageView mIvActivate;
-    private ImageView mIvGpsStatus;
+
     private MainActivity mMainActivity;
-    private  DeviceStateHandler mDeviceStateHandler;
+    private HomeFragment mHomeFragment = new HomeFragment();
+    private BasicInfoFragment mBasicInfoFragment = new BasicInfoFragment();
+    private FileExportFragment mFileExportFragment = new FileExportFragment();
 
-    private static class DeviceStateHandler extends Handler{
-
-        private WeakReference<MainActivity> mMainWeakReference;
-        private DeviceStateHandler(MainActivity mainActivity){
-            mMainWeakReference = new WeakReference<>(mainActivity);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-        }
-    }
+    private ImageView mIvHomePager;
+    private TextView mTvHomePager;
+    private LinearLayout mLlHomePager;
+    private LinearLayout mLlBasicInfoPager;
+    private LinearLayout mLlFileExportPager;
+    private ImageView mIvBasicInfoPager;
+    private TextView mTvBasicInfoPager;
+    private ImageView mIvFileExportPager;
+    private TextView mTvFileExportPager;
 
     public MainPresenter(IMainContract.View view) {
         mMainView = view;
-        mContext = (Context) mMainView;
         mMainActivity = (MainActivity) mMainView;
-        mDeviceStateHandler = new DeviceStateHandler(mMainActivity);
-
-        initWidget();
     }
 
-    private void initWidget() {
-        mRvNavigationBar = mMainView.getRvNavigationBar();
-        mIvHighBeam = mMainView.getIvHighBeam();
-        mIvDippedHeadlight = mMainView.getIvDippedHeadlight();
-        mIvBrake = mMainView.getIvBrake();
-        mIvNetworkDevice = mMainView.getIvNetworkDevice();
-        mIvPhoneSignal = mMainView.getIvPhoneSignal();
-        mIvActivate = mMainView.getIvActivate();
-        mIvGpsStatus = mMainView.getIvGpsStatus();
-
-        mRvNavigationBar.setLayoutManager(new GridLayoutManager(mContext, COLUMNS_COUNT));
-        mNavigationMenuAdapter = new NavigationMenuAdapter();
-    }
 
     @Override
     public void initData() {
-        mNavigationMenuAdapter.setData(mNavigationBarText, mNavigationBarIcon);
-        mRvNavigationBar.setAdapter(mNavigationMenuAdapter);
+        mLlHomePager = mMainView.getLlHomePager();
+        mLlBasicInfoPager = mMainView.getLlBasicInfoPager();
+        mLlFileExportPager = mMainView.getLlFileExportPager();
+        mIvHomePager = mMainView.getIvHomePager();
+        mTvHomePager = mMainView.getTvHomePager();
+        mIvBasicInfoPager = mMainView.getIvBasicInfoPager();
+        mTvBasicInfoPager = mMainView.getTvBasicInfoPager();
+        mIvFileExportPager = mMainView.getIvFileExportPager();
+        mTvFileExportPager = mMainView.getTvFileExportPager();
+
+        initFragment();
     }
 
     @Override
-    public void onResume() {
+    public void initListener() {
+        mLlHomePager.setOnClickListener(this);
+        mLlBasicInfoPager.setOnClickListener(this);
+        mLlFileExportPager.setOnClickListener(this);
+    }
+
+    private void initFragment() {
+        FragmentTransaction fragmentTransaction = mMainActivity.getSupportFragmentManager().beginTransaction();
+        if (!mHomeFragment.isAdded()){
+            fragmentTransaction.add(R.id.fl_frame_layout,mHomeFragment);
+            fragmentTransaction.hide(mHomeFragment);
+        }
+
+        if (!mBasicInfoFragment.isAdded()){
+            fragmentTransaction.add(R.id.fl_frame_layout,mBasicInfoFragment);
+            fragmentTransaction.hide(mBasicInfoFragment);
+        }
+
+        if (!mFileExportFragment.isAdded()){
+            fragmentTransaction.add(R.id.fl_frame_layout,mFileExportFragment);
+            fragmentTransaction.hide(mFileExportFragment);
+        }
+
+
+        hideAllFragment(fragmentTransaction);
+
+        fragmentTransaction.commit();
+        clickTab(mHomeFragment);
+    }
+
+
+    private void hideAllFragment(FragmentTransaction fragmentTransaction) {
+        fragmentTransaction.hide(mHomeFragment);
+        fragmentTransaction.hide(mBasicInfoFragment);
+        fragmentTransaction.hide(mFileExportFragment);
+    }
+
+
+    private void clickTab(Fragment fragment){
+        clearSelected();
+
+        FragmentTransaction fragmentTransaction = mMainActivity.getSupportFragmentManager().beginTransaction();
+        hideAllFragment(fragmentTransaction);
+
+        fragmentTransaction.show(fragment);
+        fragmentTransaction.commit();
+        changeTabStyle(fragment);
+    }
+
+
+    //TODO 这是选中的逻辑处理
+
+    private void changeTabStyle(Fragment fragment) {
+        if (fragment instanceof HomeFragment){
+            mIvHomePager.setImageResource(R.mipmap.home_checked_icon);
+            mTvHomePager.setTextColor(Color.parseColor("#5677FC"));
+        }
+
+        if (fragment instanceof  BasicInfoFragment){
+            //TODO 图标需要更换成选中的图标
+            mIvBasicInfoPager.setImageResource(R.mipmap.basic_info_unchecked_icon);
+            mTvBasicInfoPager.setTextColor(Color.parseColor("#5677FC"));
+        }
+
+        if (fragment instanceof  FileExportFragment){
+            //TODO 图标需要更换成选中的图标
+            mIvFileExportPager.setImageResource(R.mipmap.file_export_unchecked_icon);
+            mTvFileExportPager.setTextColor(Color.parseColor("#5677FC"));
+        }
+    }
+
+    //TODO 这是未选中的逻辑处理
+
+    private void clearSelected() {
+        if (!mHomeFragment.isHidden()){
+            //TODO 图标需要更换成未选中的图标
+            mIvHomePager.setImageResource(R.mipmap.home_checked_icon);
+            mTvHomePager.setTextColor(Color.BLACK);
+        }
+
+        if (!mBasicInfoFragment.isHidden()){
+            mIvBasicInfoPager.setImageResource(R.mipmap.basic_info_unchecked_icon);
+            mTvBasicInfoPager.setTextColor(Color.BLACK);
+        }
+
+        if (!mFileExportFragment.isHidden()){
+            mIvFileExportPager.setImageResource(R.mipmap.file_export_unchecked_icon);
+            mTvFileExportPager.setTextColor(Color.BLACK);
+        }
     }
 
     @Override
-    public void onStop() {
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_home_pager:
+                clickTab(mHomeFragment);
+                break;
+            case R.id.ll_basic_info_pager:
+                clickTab(mBasicInfoFragment);
+                break;
+            case R.id.ll_file_export_pager:
+                clickTab(mFileExportFragment);
+                break;
+        }
     }
-
 }

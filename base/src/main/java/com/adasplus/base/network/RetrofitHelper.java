@@ -3,6 +3,8 @@ package com.adasplus.base.network;
 
 import android.util.Log;
 
+import com.adasplus.base.app.App;
+import com.adasplus.base.utils.ExceptionUtils;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
@@ -140,7 +142,7 @@ public class RetrofitHelper {
                         }
                     }
                 }catch (Exception e){
-                    Log.e(TAG, "-----:"+e.getMessage());
+                    ExceptionUtils.exceptionHandling(App.getInstance().getApplicationContext(),e);
                 }
 
             }
@@ -201,8 +203,8 @@ public class RetrofitHelper {
     }
 
     public static class GsonRequestBodyConverter<T> implements Converter<T, RequestBody> {
-        private static final MediaType MEDIA_TYPE = MediaType.parse("application/json; charset=UTF-8");
-        private static final Charset UTF_8 = Charset.forName("UTF-8");
+        private static final MediaType MEDIA_TYPE = MediaType.parse(HttpConstant.MEDIA_TYPE);
+        private static final Charset GBK = Charset.forName("GBK");
 
         private final Gson gson;
         private final TypeAdapter<T> adapter;
@@ -215,7 +217,7 @@ public class RetrofitHelper {
         @Override
         public RequestBody convert(T value) throws IOException {
             Buffer buffer = new Buffer();
-            Writer writer = new OutputStreamWriter(buffer.outputStream(), UTF_8);
+            Writer writer = new OutputStreamWriter(buffer.outputStream(), GBK);
             JsonWriter jsonWriter = gson.newJsonWriter(writer);
             adapter.write(jsonWriter, value);
             jsonWriter.close();

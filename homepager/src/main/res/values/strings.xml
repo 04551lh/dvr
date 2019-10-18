@@ -1,0 +1,312 @@
+<resources>
+    <string name="app_name">homepager</string>
+
+    <string name="please_open_the_request_permissions">请您在设置中打开定位权限!</string>
+
+    <string name="please_open_the_request_permissions_in_app_manager">请您在应用管理中打开当前应用所需要的定位权限!</string>
+
+    <string name="please_open_permissions_failed">定位权限打开失败</string>
+
+    <string name="open_wifi_tips">若要查看可用设备,请您打开wifi开关</string>
+
+    <string name="please_input_wifi_pwd_error">输入的wifi密码有误!</string>
+
+    <string name="no_available_device">没有搜索到可用的设备</string>
+
+    <string name="input_pwd_is_not_empty">输入的密码不能为空!</string>
+
+    <string name="wifi_pwd">密码</string>
+
+    <string name="select_connect_network">选取网络</string>
+
+    <string name="connected">已连接</string>
+
+    <string name="connect">连接</string>
+
+    <string name="targets_about">部标相关</string>
+
+    <string name="speed_set">速度设置</string>
+
+    <string name="network_set">网络设置</string>
+
+    <string name="targets_set">部标设置</string>
+
+    <string name="can_settings">CAN设置</string>
+
+    <string name="calibration_set">标定设置</string>
+
+    <string name="active_security_settings">主动安全设置</string>
+
+    <string name="common_set">通用设置</string>
+
+    <string name="pulse_speed">脉冲速度</string>
+
+    <string name="manual_calibration">手动校准</string>
+
+    <string name="coefficient_of_the_pulse">脉冲系数</string>
+
+    <string name="automatic_calibration">自动校准</string>
+
+    <string name="error_value">允许误差值(0–20%)</string>
+
+    <string name="sub">-</string>
+
+    <string name="add">+</string>
+
+    <string name="default_number">1</string>
+
+    <string name="percent">%</string>
+
+    <string name="wireless_network_set">无线网络设置</string>
+
+    <string name="ip_address">IP地址</string>
+
+    <string name="mask_code">掩码</string>
+
+    <string name="gateway">网关</string>
+
+    <string name="mac_address">MAC地址</string>
+
+    <string name="wired_network_set">有线网络设置</string>
+
+    <string name="add_new_platform">+添加平台</string>
+
+    <string name="freight_platform_ip">货运平台IP</string>
+
+    <string name="port">端口</string>
+
+    <string name="address">地址</string>
+
+    <string name="targets_port">部标端口</string>
+
+    <string name="channels">通道</string>
+
+    <string name="channels_number">通道号</string>
+
+    <string name="rate">速率(KPPS)</string>
+
+    <string name="rate_scope_of">(0–1024)</string>
+
+    <string name="time_set">时间设置</string>
+
+    <string name="sound_set">声音设置</string>
+
+    <string name="dormancy_set">休眠设置</string>
+
+    <string name="reboot_set">重启设置</string>
+
+    <string name="factory_data_reset">恢复出厂设置</string>
+
+    <string name="automatic_correction_when">自动校时</string>
+
+    <string name="network_time">网络时间</string>
+
+    <string name="gps_time">GPS时间</string>
+
+    <string name="when_manual_calibration">手动校时</string>
+
+    <string name="year">年</string>
+
+    <string name="month">月</string>
+
+    <string name="day">日</string>
+
+    <string name="hours">时</string>
+
+    <string name="minutes">分</string>
+
+    <string name="seconds">秒</string>
+
+    <string name="volume">音量调节</string>
+
+    <string name="timeout_value">超时时长(s)</string>
+
+    <string name="confirm_reboot">确定重启设备</string>
+
+    <string name="reboot_description">设备关闭会导致APP与设备断开连接，需要在设备重启后重新连接。</string>
+
+    <string name="cancel">取消</string>
+
+    <string name="confirm">确定</string>
+
+    <string name="factory_data_reset_description">确认恢复设备出厂设置？</string>
+
+    <string name="adas">ADAS</string>
+
+    <string name="dms">DMS</string>
+
+    <string name="acceleration">加速度</string>
+
+    <string name="temperature">温度</string>
+
+    <string name="vehicle_collision_warning">前车碰撞报警</string>
+
+    <string name="sensitivity">灵敏度</string>
+
+    <string name="low">低</string>
+
+    <string name="middle">中</string>
+
+    <string name="high">高</string>
+
+    <string name="minimum_speed">最低速度(10–60km/h)</string>
+
+    <string name="distance_too_close">车距过近报警</string>
+
+    <string name="safety_alarm">行人碰撞报警</string>
+
+    <string name="lane_departure_warning">车道偏离报警</string>
+
+    <string name="frequently_change_lanes">频繁变道报警</string>
+
+    <string name="road_marking">道路标识报警</string>
+
+    <string name="restore_the_default_settings">恢复默认设置</string>
+
+    <string name="fatigue_driving">疲劳驾驶报警</string>
+
+    <string name="call_phone">接打电话报警</string>
+
+    <string name="smoking_warning">抽烟报警</string>
+
+    <string name="distracted_warning">分神报警</string>
+
+    <string name="driver_abnormal">驾驶员异常报警</string>
+
+    <string name="driver_change">驾驶员变更报警</string>
+
+    <string name="wireless_ip_address_format_error">无线网络设置中的ip地址输入有误!</string>
+
+    <string name="wireless_mask_code_format_error">无线网络设置中的掩码格式输入有误！</string>
+
+    <string name="wireless_mac_address_format_error">无线网络设置中的mac地址输入有误！</string>
+
+    <string name="wired_ip_address_format_error">有线网络设置中的ip地址输入有误!</string>
+
+    <string name="wired_mask_code_format_error">有线网络设置中的掩码格式输入有误！</string>
+
+    <string name="wired_mac_address_format_error">有线网络设置中的mac地址输入有误！</string>
+
+    <string name="save_params_write_success">保存参数填写数据成功</string>
+
+    <string name="save_params_write_dialog_description">当前设置尚未保存，是否保存后再退出？</string>
+
+    <string name="yes">是</string>
+
+    <string name="no">否</string>
+
+    <string name="sleep_value_between_60_600_range">请输入休眠值在 60–600 范围之间</string>
+
+    <string name="sleep_time_set_successfully">休眠时间设置成功</string>
+
+    <string name="min_sleep_time_tips">设置的休眠值已经达到了最小值</string>
+
+    <string name="max_sleep_time_tips">设置的休眠值已经达到了最大值</string>
+
+    <string name="auto_calibration">自动标定</string>
+
+    <string name="manual_calibrate">手动标定</string>
+
+    <string name="video_set">视频设置</string>
+
+    <string name="cameraHigh">镜头高度</string>
+
+    <string name="calibration_video_description">点击箭头调整屏幕中的标定线位置</string>
+
+    <string name="device_format">设备格式化</string>
+
+    <string name="format">格式化</string>
+
+    <string name="memory">存储器</string>
+
+    <string name="total_capacity">总容量:</string>
+
+    <string name="used_space">已用空间:</string>
+
+    <string name="available_space">可用空间:</string>
+
+    <string name="main_stream">主码流设置</string>
+
+    <string name="sub_stream">子码流设置</string>
+
+    <string name="open_or_close">开关</string>
+
+    <string name="video_frame_rate">视频帧率</string>
+
+    <string name="image_quality">画质(1–7级)</string>
+
+    <string name="resolution_ratio">分辨率</string>
+
+    <string name="date_time">日期时间</string>
+
+    <string name="channel_name">通道名称</string>
+
+    <string name="gps_signal">定位信号</string>
+
+    <string name="speed">速度</string>
+
+    <string name="warnings_max_speed">已经达到了最大的速度</string>
+
+    <string name="warnings_min_speed">已经达到了最小的速度</string>
+
+    <string name="restore_default_set_tips">恢复默认设置成功</string>
+
+    <string name="warnings_set_save_success">报警设置保存成功</string>
+
+    <string name="targets_set_save_success">标定设置保存成功</string>
+
+    <string name="device_format_success">设备格式化成功</string>
+
+    <string name="picture_quality_min_level_tips">已经达到了最小的画质等级</string>
+
+    <string name="picture_quality_max_level_tips">已经达到了最大的画质等级</string>
+
+    <string name="video_set_success">视频设置保存成功</string>
+
+    <string name="please_input_wifi_pwd">请输入密码</string>
+
+    <string name="add_new_platforms">添加新平台</string>
+
+    <string name="platform_ip_address">部标平台地址</string>
+
+    <string name="platform_port">部标端口</string>
+
+    <string name="required_flag">*</string>
+
+    <string name="please_select">请选择</string>
+
+    <string name="please_choose_province">请选择省</string>
+
+    <string name="please_choose_area">请选择地区</string>
+
+    <string name="ip_address_is_not_empty">部标平台IP不能为空!</string>
+
+    <string name="input_ip_address_format_error">IP地址输入的不合法!</string>
+
+    <string name="port_number_is_not_empty">部标端口不能为空!</string>
+
+    <string name="phone_number_is_not_empty">手机号不能为空!</string>
+
+    <string name="phone_number_format_error">手机号格式输入有误!</string>
+
+    <string name="logout_platform">注销平台</string>
+
+    <string name="confirm_the_cancellation">确认注销</string>
+
+    <string name="cancellation_text_descrption">如需再次激活，到激活新平台页面重新激活即可。</string>
+
+    <string name="fill_terminal_info">填写终端信息</string>
+
+    <string name="update_terminal_info">修改终端信息</string>
+
+
+    <string name="terminal_basic_info">基本信息</string>
+
+    <string name="connect_status">连接状态:</string>
+
+    <string name="disconnect">断开连接</string>
+
+    <string name="platform_list">平台列表</string>
+
+    <string name="port_is_empty">端口号不能为空!</string>
+</resources>
