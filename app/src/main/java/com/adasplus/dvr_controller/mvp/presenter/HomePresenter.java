@@ -5,6 +5,7 @@ import android.net.wifi.WifiInfo;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.HttpConstant;
+import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.WifiHelper;
@@ -38,6 +40,14 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private LinearLayout mLlPlatformsConnect;
     private LinearLayout mLlFillParams;
     private LinearLayout mLlTerminalSet;
+    private ImageView mIvFourGSignalStatus;
+    private ImageView mIvLocationStatus;
+    private ImageView mIvFarLightStatus;
+    private ImageView mIvNearLightStatus;
+    private ImageView mIvLeftTurnStatus;
+    private ImageView mIvRightTurnStatus;
+    private ImageView mIvBrakeStatus;
+    private ImageView mIvTargetsPlatformStatus;
 
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
@@ -46,7 +56,37 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void initData() {
+        //获取系统信息
+        BaseWrapper.getInstance().getSystemInfo().subscribe(new Subscriber<SystemInfoModel>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mActivity,e);
+            }
+
+            @Override
+            public void onNext(SystemInfoModel systemInfoModel) {
+                initData(systemInfoModel);
+                SystemInfoModel.GpsBean gps = systemInfoModel.getGps();
+                int gpsValid = gps.getGpsValid();
+
+            }
+        });
+    }
+
+    private void initData(SystemInfoModel systemInfoModel){
+        SystemInfoModel.GpsBean gps = systemInfoModel.getGps();
+        int gpsValid = gps.getGpsValid();
+        Log.e("gpsValid","----->"+gpsValid);
+        if (gpsValid == 1){
+            mIvLocationStatus.setImageResource(R.drawable.location_signal_checked_icon);
+        }else if (gpsValid == 0){}{
+            mIvLocationStatus.setImageResource(R.drawable.location_signal_unchecked_icon);
+        }
     }
 
     @Override
@@ -57,8 +97,18 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mLlPlatformsConnect = view.findViewById(R.id.ll_platforms_connect);
         mLlFillParams = view.findViewById(R.id.ll_fill_params);
         mLlTerminalSet = view.findViewById(R.id.ll_terminal_set);
+        mIvFourGSignalStatus = view.findViewById(R.id.iv_four_g_signal_status);
+        mIvLocationStatus = view.findViewById(R.id.iv_location_status);
+        mIvFarLightStatus = view.findViewById(R.id.iv_far_light_status);
+        mIvNearLightStatus = view.findViewById(R.id.iv_near_light_status);
+        mIvLeftTurnStatus = view.findViewById(R.id.iv_left_turn_status);
+        mIvRightTurnStatus = view.findViewById(R.id.iv_right_turn_status);
+        mIvBrakeStatus = view.findViewById(R.id.iv_brake_status);
+        mIvTargetsPlatformStatus = view.findViewById(R.id.iv_targets_platform_status);
+
         CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
         cr_platforms_basic_info.bringToFront();
+
     }
 
     @Override

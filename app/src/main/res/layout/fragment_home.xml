@@ -22,45 +22,53 @@
         android:paddingEnd="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_20">
         <ImageView
+            android:id="@+id/iv_four_g_signal_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@mipmap/four_g_signal_full_icon"/>
         <ImageView
+            android:id="@+id/iv_location_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/location_signal_checked_icon"/>
+            android:src="@drawable/location_signal_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_far_light_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/far_light_checked_icon"/>
+            android:src="@drawable/far_light_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_near_light_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/near_light_checked_icon"/>
+            android:src="@drawable/near_light_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_left_turn_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/left_turn_signal_checked_icon"/>
+            android:src="@drawable/left_turn_signal_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_right_turn_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/right_turn_signal_checked_icon"/>
+            android:src="@drawable/right_turn_signal_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_brake_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/brake_checked_icon"/>
+            android:src="@drawable/brake_unchecked_icon"/>
         <ImageView
+            android:id="@+id/iv_targets_platform_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/targets_platform_checked_icon"/>
+            android:src="@drawable/targets_platform_checked_icon"/>
     </LinearLayout>
 
 

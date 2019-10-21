@@ -111,14 +111,12 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
         FragmentTransaction fragmentTransaction = mMainActivity.getSupportFragmentManager().beginTransaction();
         hideAllFragment(fragmentTransaction);
-
         fragmentTransaction.show(fragment);
         fragmentTransaction.commit();
+
         changeTabStyle(fragment);
     }
 
-
-    //TODO 这是选中的逻辑处理
 
     private void changeTabStyle(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
@@ -127,24 +125,20 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
         }
 
         if (fragment instanceof BasicInfoFragment) {
-            //TODO 图标需要更换成选中的图标
-            mIvBasicInfoPager.setImageResource(R.mipmap.basic_info_unchecked_icon);
+            mIvBasicInfoPager.setImageResource(R.mipmap.basic_info_checked_icon);
             mTvBasicInfoPager.setTextColor(Color.parseColor("#5677FC"));
         }
 
         if (fragment instanceof FileExportFragment) {
-            //TODO 图标需要更换成选中的图标
-            mIvFileExportPager.setImageResource(R.mipmap.file_export_unchecked_icon);
+            mIvFileExportPager.setImageResource(R.mipmap.file_export_checked_icon);
             mTvFileExportPager.setTextColor(Color.parseColor("#5677FC"));
         }
     }
 
-    //TODO 这是未选中的逻辑处理
 
     private void clearSelected() {
         if (!mHomeFragment.isHidden()) {
-            //TODO 图标需要更换成未选中的图标
-            mIvHomePager.setImageResource(R.mipmap.home_checked_icon);
+            mIvHomePager.setImageResource(R.mipmap.home_unchecked);
             mTvHomePager.setTextColor(Color.BLACK);
         }
 

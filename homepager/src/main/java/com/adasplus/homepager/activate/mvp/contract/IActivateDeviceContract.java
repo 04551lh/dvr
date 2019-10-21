@@ -53,5 +53,7 @@ public interface IActivateDeviceContract {
         void initData();
 
         void initListener();
+
+        void notifyPlatformsSizeShow();
     }
 }

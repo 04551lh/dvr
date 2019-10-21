@@ -293,7 +293,7 @@
 
     <string name="confirm_the_cancellation">确认注销</string>
 
-    <string name="cancellation_text_descrption">如需再次激活，到激活新平台页面重新激活即可。</string>
+    <string name="cancellation_text_description">如需再次激活，到激活新平台页面重新激活即可。</string>
 
     <string name="fill_terminal_info">填写终端信息</string>
 
@@ -309,4 +309,10 @@
     <string name="platform_list">平台列表</string>
 
     <string name="port_is_empty">端口号不能为空!</string>
+
+    <string name="retry_connect">重新连接</string>
+
+    <string name="disconnect_tips">确定要断开连接吗?</string>
+
+    <string name="retry_connect_tips">确定要重新连接吗?</string>
 </resources>

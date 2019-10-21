@@ -49,6 +49,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private TextView mTvActionBarAddPlatforms;
     private ImageView mIvEditBasicInfoIcon;
     private String mType;
+    private String mPlatformList;
+    private List<GetPlatformInfoModel.ArrayBean> mPlatformInfoArray;
 
 
     public ActivateDevicePresenter(IActivateDeviceContract.View view) {
@@ -84,6 +86,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     @Override
     public void initData() {
+        mPlatformList = mActivateDeviceActivity.getResources().getString(R.string.platform_list);
         //TODO 频繁的一下子请求两个接口，会造成接收不到返回的内容,所以中间加了一个休眠的时间。这个需要进行优化
         //获取终端的基本信息
         BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
@@ -141,16 +144,15 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
             @Override
             public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
-                List<GetPlatformInfoModel.ArrayBean> platformInfoArray = getPlatformInfoModel.getArray();
-                String platform_list = mActivateDeviceActivity.getResources().getString(R.string.platform_list);
-                int size = platformInfoArray.size();
+                mPlatformInfoArray = getPlatformInfoModel.getArray();
+
+                int size = mPlatformInfoArray.size();
                 // 判断是否有已连接的平台，如果有，进行显示已连接的WiFi 的列表，否则显示暂无数据
                 if (size > 0) {
-                    mRvActivatedPlatforms.setVisibility(View.VISIBLE);
-                    mTvNoData.setVisibility(View.GONE);
+                    showConnectedPlatforms();
                     //已连接平台的总数量
-                    mTvPlatformList.setText(String.format("%s ( %s )", platform_list, String.valueOf(size)));
-                    mActivatedPlatformsAdapter.setData(platformInfoArray, mActivateDeviceActivity);
+                    mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
+                    mActivatedPlatformsAdapter.setData(mPlatformInfoArray, mActivateDeviceActivity);
                     if (!mActivatedPlatformsAdapter.hasObservers()) {
                         mRvActivatedPlatforms.setAdapter(mActivatedPlatformsAdapter);
                     } else {
@@ -160,23 +162,35 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                     mTvActionBarAddPlatforms.setVisibility(View.GONE);
                     mTvAddNewPlatforms.setVisibility(View.GONE);
                 } else {
-                    mTvPlatformList.setText(platform_list);
-                    mRvActivatedPlatforms.setVisibility(View.GONE);
-                    mTvNoData.setVisibility(View.VISIBLE);
-
-                    //通过类型进行来判断是否是 填写信息 或者 添加新平台，通过这个类型进行来
-                    // 显示不同的添加新平台的按钮
-                    mType = mActivateDeviceView.getType();
-                    if (mType.equals(ActivityPathConstant.FILL_TERMINAL_INFO)) {
-                        mTvActionBarAddPlatforms.setVisibility(View.GONE);
-                        mTvAddNewPlatforms.setVisibility(View.VISIBLE);
-                    } else if (mType.equals(ActivityPathConstant.ADD_NEW_PLATFORMS)) {
-                        mTvActionBarAddPlatforms.setVisibility(View.VISIBLE);
-                        mTvAddNewPlatforms.setVisibility(View.GONE);
-                    }
+                    mTvPlatformList.setText(mPlatformList);
+                    dismissConnectedPlatforms();
+                    showAddNewPlatformBtn();
                 }
             }
         });
+    }
+
+    private void dismissConnectedPlatforms() {
+        mRvActivatedPlatforms.setVisibility(View.GONE);
+        mTvNoData.setVisibility(View.VISIBLE);
+    }
+
+    private void showConnectedPlatforms() {
+        mRvActivatedPlatforms.setVisibility(View.VISIBLE);
+        mTvNoData.setVisibility(View.GONE);
+    }
+
+    private void showAddNewPlatformBtn() {
+        //通过类型进行来判断是否是 填写信息 或者 添加新平台，通过这个类型进行来
+        // 显示不同的添加新平台的按钮
+        mType = mActivateDeviceView.getType();
+        if (mType.equals(ActivityPathConstant.FILL_TERMINAL_INFO)) {
+            mTvActionBarAddPlatforms.setVisibility(View.GONE);
+            mTvAddNewPlatforms.setVisibility(View.VISIBLE);
+        } else if (mType.equals(ActivityPathConstant.ADD_NEW_PLATFORMS)) {
+            mTvActionBarAddPlatforms.setVisibility(View.VISIBLE);
+            mTvAddNewPlatforms.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -186,6 +200,27 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         mTvActionBarAddPlatforms.setOnClickListener(this);
         mTvAddNewPlatforms.setOnClickListener(this);
         mIvEditBasicInfoIcon.setOnClickListener(this);
+    }
+
+    @Override
+    public void notifyPlatformsSizeShow() {
+        if (mPlatformInfoArray != null){
+            int size = mPlatformInfoArray.size();
+            if (size > 0){
+                showConnectedPlatforms();
+                //已连接平台的总数量
+                mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
+            }else {
+                dismissConnectedPlatforms();
+                mTvPlatformList.setText(String.format("%s", mPlatformList));
+                showAddNewPlatformBtn();
+            }
+        }else {
+            dismissConnectedPlatforms();
+            mTvPlatformList.setText(String.format("%s", mPlatformList));
+            showAddNewPlatformBtn();
+        }
+
     }
 
     @Override

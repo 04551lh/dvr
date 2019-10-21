@@ -91,11 +91,11 @@ public class SystemInfoModel {
 
     public static class FourGBean {
 
-        @SerializedName("4gModel")
+        @SerializedName("g4Model")
         private String fourGModel; // 4g 模块
-        @SerializedName("4gStatus")
+        @SerializedName("g4Status")
         private String fourGStatus; // 4g 状态
-        @SerializedName("4gSignalLevel")
+        @SerializedName("g4SignalLevel")
         private int fourGSignalLevel; // 4g 信号强度
         private String simNumber;
         private String IMEI;
@@ -344,6 +344,7 @@ public class SystemInfoModel {
 
     public static class GpsBean {
 
+        private int gpsValid;
         private String gpsModel;
         private int gpsAntStatus;
         private int gpsSignalLevel;
@@ -351,6 +352,14 @@ public class SystemInfoModel {
         private int longitudeDir;
         private double latitude;
         private int latitudeDir;
+
+        public int getGpsValid() {
+            return gpsValid;
+        }
+
+        public void setGpsValid(int gpsValid) {
+            this.gpsValid = gpsValid;
+        }
 
         public String getGpsModel() {
             return gpsModel;

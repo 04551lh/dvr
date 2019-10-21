@@ -1,6 +1,7 @@
 package com.adasplus.dvr_controller.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.adasplus.base.base.BaseFragment;

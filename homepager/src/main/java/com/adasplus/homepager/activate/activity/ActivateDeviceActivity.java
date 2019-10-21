@@ -147,4 +147,8 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         return mIvEditBasicInfoIcon;
     }
 
+
+    public void notifyPlatformsSizeShow(){
+        mActivateDevicePresenter.notifyPlatformsSizeShow();
+    }
 }

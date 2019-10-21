@@ -5,6 +5,7 @@ import com.adasplus.base.network.RetrofitHelper;
 import com.adasplus.homepager.activate.mvp.model.ActivateNewPlatformsModel;
 import com.adasplus.homepager.activate.mvp.model.GetPlatformInfoModel;
 import com.adasplus.homepager.activate.mvp.model.LogoutPlatformsModel;
+import com.adasplus.homepager.activate.mvp.model.UpdateDeviceConnectStatus;
 import com.adasplus.homepager.params.mvp.model.ParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
@@ -225,4 +226,9 @@ public class HomeWrapper extends RetrofitHelper {
         return homeService.logoutPlatforms(requestBody).compose(this.<LogoutPlatformsModel>applySchedulers());
     }
 
+    public Observable<UpdateDeviceConnectStatus> updateDeviceConnectStatus(JSONObject jsonObject){
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.updateDeviceConnectStatus(requestBody).compose(this.<UpdateDeviceConnectStatus>applySchedulers());
+    }
 }

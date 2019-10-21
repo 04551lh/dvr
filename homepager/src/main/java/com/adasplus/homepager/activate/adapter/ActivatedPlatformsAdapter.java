@@ -21,8 +21,10 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.activity.ActivateDeviceActivity;
 import com.adasplus.homepager.activate.mvp.model.GetPlatformInfoModel;
 import com.adasplus.homepager.activate.mvp.model.LogoutPlatformsModel;
+import com.adasplus.homepager.activate.mvp.model.UpdateDeviceConnectStatus;
 import com.adasplus.homepager.network.HomeWrapper;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,10 +42,24 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     private List<GetPlatformInfoModel.ArrayBean> mPlatformInfoArray;
     private ActivateDeviceActivity mActivateDeviceActivity;
+    private String mConfirmTheCancellation;
+    private String mCancellationTextDescription;
+    private String mCancel;
+    private String mConfirm;
+    private float mMagin;
+    private String mDisconnect;
+    private String mRetryConnect;
 
     public void setData(List<GetPlatformInfoModel.ArrayBean> platformInfoArray,ActivateDeviceActivity activateDeviceActivity) {
         mPlatformInfoArray = platformInfoArray;
         mActivateDeviceActivity = activateDeviceActivity;
+        mConfirmTheCancellation = mActivateDeviceActivity.getResources().getString(R.string.confirm_the_cancellation);
+        mCancellationTextDescription = mActivateDeviceActivity.getResources().getString(R.string.cancellation_text_description);
+        mCancel = mActivateDeviceActivity.getResources().getString(R.string.cancel);
+        mConfirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
+        mMagin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
+        mDisconnect = mActivateDeviceActivity.getString(R.string.disconnect);
+        mRetryConnect = mActivateDeviceActivity.getString(R.string.retry_connect);
     }
 
     @NonNull
@@ -93,12 +109,19 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void logoutMainPlatForm( ImageView ivPlatformChange, int position) {
         final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
+        int connectStatus = arrayBean.getConnectStatus();
         View view = View.inflate(mActivateDeviceActivity, R.layout.item_logout_main_platform, null);
         TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
+        TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
+
+        if (connectStatus == 1 ){
+            tv_update_connect_status.setText(mDisconnect);
+        }else if (connectStatus == 0){
+            tv_update_connect_status.setText(mRetryConnect);
+        }
 
         int width = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_100);
-        int height = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_40);
-
+        int height = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_90);
         final CommonPopupWindow commonPopupWindow = new CommonPopupWindow.Builder(mActivateDeviceActivity)
                 .setWidthAndHeight(width, height)
                 .setOutsideTouchable(true)
@@ -109,18 +132,100 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         tv_logout_platform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLogoutDialog(arrayBean,true);
+                showLogoutDialog(arrayBean);
+                commonPopupWindow.dismiss();
+            }
+        });
+
+        tv_update_connect_status.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateDeviceConnectStatus(arrayBean);
                 commonPopupWindow.dismiss();
             }
         });
     }
 
-    private void showLogoutDialog(final GetPlatformInfoModel.ArrayBean arrayBean, final boolean isMainPlatform) {
+    private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean){
+        int connectStatus = arrayBean.getConnectStatus();
+        View view = View.inflate(mActivateDeviceActivity, R.layout.dialog_common_styles, null);
+        TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
+        TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+        String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips);
+        String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
 
-        String confirm_the_cancellation = mActivateDeviceActivity.getResources().getString(R.string.confirm_the_cancellation);
-        String cancellation_text_descrption = mActivateDeviceActivity.getResources().getString(R.string.cancellation_text_descrption);
-        String cancel = mActivateDeviceActivity.getResources().getString(R.string.cancel);
-        String confirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
+        if (connectStatus == 1 ){
+            tv_dialog_title.setText(mDisconnect);
+            tv_dialog_description.setText(disconnect_tips);
+        }else if (connectStatus == 0){
+            tv_dialog_title.setText(mRetryConnect);
+            tv_dialog_description.setText(retry_connect_tips);
+        }
+
+        tv_cancel.setText(mCancel);
+        tv_confirm.setText(mConfirm);
+
+        final BasicDialog basicDialog = CommonDialog.init()
+                .setView(view)
+                .setDimAmount(0.8f)
+                .setOutCancel(false)
+                .setAnimStyle(R.style.BottomAnimStyle)
+                .setMargin(mMagin)
+                .show(mActivateDeviceActivity.getSupportFragmentManager());
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                basicDialog.dismiss();
+            }
+        });
+        tv_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int platformPort = arrayBean.getPlatformPort();
+                JSONArray jarr = new JSONArray();
+                JSONObject jobj = new JSONObject();
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jobj.put("platformIp", arrayBean.getPlatformIp());
+                    jobj.put("platformPort", Short.valueOf(String.valueOf(platformPort)));
+                    jobj.put("connectStatus", arrayBean.getConnectStatus() == 1 ? 0 : 1);
+                    jarr.put(jobj);
+                    jsonObject.put("Array",jarr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                HomeWrapper.getInstance().updateDeviceConnectStatus(jsonObject).subscribe(new Subscriber<UpdateDeviceConnectStatus>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity,e);
+                    }
+
+                    @Override
+                    public void onNext(UpdateDeviceConnectStatus updateDeviceConnectStatus) {
+                        int status = arrayBean.getConnectStatus();
+                        if (status == 1){
+                            arrayBean.setConnectStatus(0);
+                        }else if (status == 0){
+                            arrayBean.setConnectStatus(1);
+                        }
+                        notifyDataSetChanged();
+                        basicDialog.dismiss();
+                    }
+                });
+            }
+        });
+    }
+
+    private void showLogoutDialog(final GetPlatformInfoModel.ArrayBean arrayBean) {
 
         View view = View.inflate(mActivateDeviceActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
@@ -128,19 +233,17 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
 
-        tv_dialog_title.setText(confirm_the_cancellation);
-        tv_dialog_description.setText(cancellation_text_descrption);
-        tv_cancel.setText(cancel);
-        tv_confirm.setText(confirm);
-
-        float magin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
+        tv_dialog_title.setText(mConfirmTheCancellation);
+        tv_dialog_description.setText(mCancellationTextDescription);
+        tv_cancel.setText(mCancel);
+        tv_confirm.setText(mConfirm);
 
         final BasicDialog basicDialog = CommonDialog.init()
                 .setView(view)
                 .setDimAmount(0.8f)
                 .setOutCancel(false)
                 .setAnimStyle(R.style.BottomAnimStyle)
-                .setMargin(magin)
+                .setMargin(mMagin)
                 .show(mActivateDeviceActivity.getSupportFragmentManager());
 
         tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -175,6 +278,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                     @Override
                     public void onNext(LogoutPlatformsModel logoutPlatformsModel) {
                         mPlatformInfoArray.remove(arrayBean);
+                        mActivateDeviceActivity.notifyPlatformsSizeShow();
                         notifyDataSetChanged();
                         basicDialog.dismiss();
                     }

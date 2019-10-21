@@ -3,6 +3,7 @@ package com.adasplus.base.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,7 @@ public abstract class BaseFragment extends Fragment {
     private Activity mActivity;
     private View mView = null;
     private boolean isPrepared;
-    private boolean isFirstVisible = true;
-    private boolean isFirstInvisible = true;
+    private boolean isVisible = true;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -62,33 +62,19 @@ public abstract class BaseFragment extends Fragment {
 
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (isFirstVisible) {
-                isFirstVisible = false;
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!isHidden()){
+            if (isVisible){
+                isVisible = false;
                 initPrepare();
-            } else {
-                onUserVisible();
             }
-        } else {
-            if (isFirstInvisible) {
-                isFirstInvisible = false;
-                onFirstUserInvisible();
-            } else {
-                onUserInvisible();
-            }
+        }else {
+            isVisible = true;
         }
     }
 
-    protected abstract void onFirstUserVisible();//加载数据，开启动画/广播..
-
-    protected  void onUserVisible(){}///开启动画/广播..
-
-    private void onFirstUserInvisible() {
-    }
-
-    protected void onUserInvisible(){}//暂停动画，暂停广播
+    protected abstract void onFirstUserVisible();//加载数据
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
