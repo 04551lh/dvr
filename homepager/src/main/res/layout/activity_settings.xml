@@ -20,7 +20,7 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="@dimen/dp_16"
             android:paddingRight="@dimen/dp_10"
-            android:src="@drawable/icon_black_back"
+            android:src="@drawable/common_left_back_icon"
             android:textColor="@color/font_color_333" />
 
         <TextView

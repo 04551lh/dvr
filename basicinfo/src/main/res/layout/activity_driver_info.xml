@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_10"
-            android:src="@drawable/icon_black_back"
+            android:src="@drawable/common_left_back_icon"
             android:textColor="@android:color/white" />
 
         <TextView
