@@ -267,6 +267,8 @@
 
     <string name="add_new_platforms">添加新平台</string>
 
+    <string name="ministerial_platform">部标平台</string>
+
     <string name="platform_ip_address">部标平台地址</string>
 
     <string name="platform_port">部标端口</string>
@@ -306,6 +308,8 @@
 
     <string name="disconnect">断开连接</string>
 
+    <string name="platform_connect">平台连接</string>
+
     <string name="platform_list">平台列表</string>
 
     <string name="port_is_empty">端口号不能为空!</string>
@@ -315,4 +319,11 @@
     <string name="disconnect_tips">确定要断开连接吗?</string>
 
     <string name="retry_connect_tips">确定要重新连接吗?</string>
+
+    <string name="cancellation_tips">如需再次添加，到添加新平台页面重新输入信息并保存即可。</string>
+
+    <string name="platform_hint_message">提示：不同的平台对激活时需要填写的信息有不同 的要求，请根据实际需求填写。</string>
+
+    <string name="cancellation">注销</string>
+
 </resources>

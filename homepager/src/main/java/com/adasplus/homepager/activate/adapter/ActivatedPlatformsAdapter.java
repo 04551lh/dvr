@@ -59,7 +59,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         mConfirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
         mMagin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
         mDisconnect = mActivateDeviceActivity.getString(R.string.disconnect);
-        mRetryConnect = mActivateDeviceActivity.getString(R.string.retry_connect);
+        mRetryConnect =  mActivateDeviceActivity.getString(R.string.retry_connect);
     }
 
     @NonNull
@@ -90,11 +90,11 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         //设置部标平台的端口号
         holder.mTvPlatformPortValue.setText(platformPort+"");
         //更多的操作
-        holder.mIvPlatformChange.setOnClickListener(new View.OnClickListener() {
+        holder.mTvPlatformCancellation.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                logoutMainPlatForm(holder.mIvPlatformChange,position);
+                logoutMainPlatForm(holder.mTvPlatformCancellation,position);
             }
         });
 
@@ -107,7 +107,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void logoutMainPlatForm( ImageView ivPlatformChange, int position) {
+    private void logoutMainPlatForm( TextView tvPlatformCancellation, int position) {
         final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
         int connectStatus = arrayBean.getConnectStatus();
         View view = View.inflate(mActivateDeviceActivity, R.layout.item_logout_main_platform, null);
@@ -127,7 +127,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 .setOutsideTouchable(true)
                 .setView(view)
                 .create();
-        commonPopupWindow.showAsDropDown(ivPlatformChange,0,20, Gravity.RIGHT);
+        commonPopupWindow.showAsDropDown(tvPlatformCancellation,0,20, Gravity.RIGHT);
 
         tv_logout_platform.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +153,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
-        String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips);
-        String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
+        String disconnect_tips = mActivateDeviceActivity.getString(R.string.confirm_the_cancellation) +"?";
+        String retry_connect_tips = mActivateDeviceActivity.getString(R.string.cancellation_tips);
 
         if (connectStatus == 1 ){
             tv_dialog_title.setText(mDisconnect);
@@ -294,7 +294,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     class ActivatedPlatformsViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mIvPlatformChange;
+        private TextView mTvPlatformCancellation;
         private TextView mTvPlatformIpAddress;
         private TextView mTvPlatformIpAddressValue;
         private TextView mTvPlatformPort;
@@ -303,7 +303,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
         ActivatedPlatformsViewHolder(@NonNull View itemView) {
             super(itemView);
-            mIvPlatformChange = (ImageView) itemView.findViewById(R.id.iv_platform_change);
+            mTvPlatformCancellation = itemView.findViewById(R.id.tv_platform_cancellation);
             mTvPlatformIpAddress = (TextView) itemView.findViewById(R.id.tv_platform_ip_address);
             mTvPlatformIpAddressValue = (TextView) itemView.findViewById(R.id.tv_platform_ip_address_value);
             mTvPlatformPort = (TextView) itemView.findViewById(R.id.tv_platform_port);

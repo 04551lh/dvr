@@ -2,7 +2,7 @@ package com.adasplus.homepager.set.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.homepager.R;
@@ -12,12 +12,12 @@ import com.adasplus.homepager.set.mvp.presenter.CommonSetPresenter;
 public class CommonSetActivity extends BaseActivity implements ICommonSetContract.View {
 
     private ImageView mIvBack;
-    private TextView mTvTimeSet;
-    private TextView mTvSoundSet;
-    private TextView mTvDormancySet;
-    private TextView mTvRebootSet;
-    private TextView mTvFactoryDataReset;
-    private TextView mTvDeviceFormat;
+    private LinearLayout mLlTimeSet;
+    private LinearLayout mLlSoundSet;
+    private LinearLayout mLlDormancySet;
+    private LinearLayout mLlRebootSet;
+    private LinearLayout mLlFactoryDataReset;
+    private LinearLayout mLlDeviceFormat;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -34,12 +34,12 @@ public class CommonSetActivity extends BaseActivity implements ICommonSetContrac
     @Override
     protected void initWidget() {
         mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvTimeSet = (TextView) findViewById(R.id.tv_time_set);
-        mTvSoundSet = (TextView) findViewById(R.id.tv_sound_set);
-        mTvDormancySet = (TextView) findViewById(R.id.tv_dormancy_set);
-        mTvRebootSet = (TextView) findViewById(R.id.tv_reboot_set);
-        mTvFactoryDataReset = (TextView) findViewById(R.id.tv_factory_data_reset);
-        mTvDeviceFormat = (TextView) findViewById(R.id.tv_device_format);
+        mLlTimeSet = (LinearLayout) findViewById(R.id.ll_time_set);
+        mLlSoundSet = (LinearLayout) findViewById(R.id.ll_sound_set);
+        mLlDormancySet = (LinearLayout) findViewById(R.id.ll_dormancy_set);
+        mLlRebootSet = (LinearLayout) findViewById(R.id.ll_reboot_set);
+        mLlFactoryDataReset = (LinearLayout) findViewById(R.id.ll_factory_data_reset);
+        mLlDeviceFormat = (LinearLayout) findViewById(R.id.ll_device_format);
     }
 
 
@@ -49,32 +49,32 @@ public class CommonSetActivity extends BaseActivity implements ICommonSetContrac
     }
 
     @Override
-    public TextView getTvTimeSet() {
-        return mTvTimeSet;
+    public LinearLayout getLlTimeSet() {
+        return mLlTimeSet;
     }
 
     @Override
-    public TextView getTvSoundSet() {
-        return mTvSoundSet;
+    public LinearLayout getLlSoundSet() {
+        return mLlSoundSet;
     }
 
     @Override
-    public TextView getTvDormancySet() {
-        return mTvDormancySet;
+    public LinearLayout getLlDormancySet() {
+        return mLlDormancySet;
     }
 
     @Override
-    public TextView getTvRebootSet() {
-        return mTvRebootSet;
+    public LinearLayout getLlRebootSet() {
+        return mLlRebootSet;
     }
 
     @Override
-    public TextView getTvFactoryDataReset() {
-        return mTvFactoryDataReset;
+    public LinearLayout getLlFactoryDataReset() {
+        return mLlFactoryDataReset;
     }
 
     @Override
-    public TextView getTvDeviceFormat() {
-        return mTvDeviceFormat;
+    public LinearLayout getLlDeviceFormat() {
+        return mLlDeviceFormat;
     }
 }

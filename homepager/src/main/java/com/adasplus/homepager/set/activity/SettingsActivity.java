@@ -3,7 +3,8 @@ package com.adasplus.homepager.set.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.homepager.R;
@@ -15,13 +16,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 public class SettingsActivity extends BaseActivity implements ISettingsContract.View {
 
     ImageView mIvBack;
-    TextView mTvSpeedSet;
-    TextView mTvNetworkSet;
-    TextView mTvCanSet;
-    TextView mTvCalibrationSet;
-    TextView mTvWarningSet;
-    TextView mTvCommonSet;
-    TextView mTvVideoSet;
+    LinearLayout mLlSpeedSet;
+    LinearLayout mLlNetworkSet;
+    LinearLayout mLlCanSet;
+    LinearLayout mLlCalibrationSet;
+    LinearLayout mLlWarningSet;
+    LinearLayout mLlCommonSet;
+    LinearLayout mLlVideoSet;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -38,13 +39,13 @@ public class SettingsActivity extends BaseActivity implements ISettingsContract.
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
-        mTvSpeedSet = findViewById(R.id.tv_speed_set);
-        mTvNetworkSet = findViewById(R.id.tv_network_set);
-        mTvCanSet = findViewById(R.id.tv_can_set);
-        mTvCalibrationSet = findViewById(R.id.tv_calibration_set);
-        mTvWarningSet = findViewById(R.id.tv_warning_set);
-        mTvCommonSet = findViewById(R.id.tv_common_set);
-        mTvVideoSet = findViewById(R.id.tv_video_set);
+        mLlSpeedSet = findViewById(R.id.ll_speed_set);
+        mLlNetworkSet = findViewById(R.id.ll_network_set);
+        mLlCanSet = findViewById(R.id.ll_can_set);
+        mLlCalibrationSet = findViewById(R.id.ll_calibration_set);
+        mLlWarningSet = findViewById(R.id.ll_warning_set);
+        mLlCommonSet = findViewById(R.id.ll_common_set);
+        mLlVideoSet = findViewById(R.id.ll_video_set);
     }
 
     @Override
@@ -53,37 +54,37 @@ public class SettingsActivity extends BaseActivity implements ISettingsContract.
     }
 
     @Override
-    public TextView getTvSpeedSet() {
-        return mTvSpeedSet;
+    public LinearLayout getLlSpeedSet() {
+        return mLlSpeedSet;
     }
 
     @Override
-    public TextView getTvNetworkSet() {
-        return mTvNetworkSet;
+    public LinearLayout getLlNetworkSet() {
+        return mLlNetworkSet;
     }
 
     @Override
-    public TextView getTvCanSet() {
-        return mTvCanSet;
+    public LinearLayout getLlCanSet() {
+        return mLlCanSet;
     }
 
     @Override
-    public TextView getTvCalibrationSet() {
-        return mTvCalibrationSet;
+    public LinearLayout getLlCalibrationSet() {
+        return mLlCalibrationSet;
     }
 
     @Override
-    public TextView getTvWarningSet() {
-        return mTvWarningSet;
+    public LinearLayout getLlWarningSet() {
+        return mLlWarningSet;
     }
 
     @Override
-    public TextView getTvCommonSet() {
-        return mTvCommonSet;
+    public LinearLayout getLlCommonSet() {
+        return mLlCommonSet;
     }
 
     @Override
-    public TextView getTvVideoSet() {
-        return mTvVideoSet;
+    public LinearLayout getLlVideoSet() {
+        return mLlVideoSet;
     }
 }

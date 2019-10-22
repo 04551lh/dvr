@@ -41,9 +41,9 @@ public interface IActivateDeviceContract {
 
         String getType();
 
-        TextView getTvActionBarAddPlatforms();
+        ImageView getIvAddNewPlatform();
 
-        ImageView getIvEditBasicInfoIcon();
+        TextView getTvEditBasicInfo();
     }
 
     interface Presenter {

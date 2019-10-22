@@ -1,7 +1,7 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 /**
  * Author:刘净辉
@@ -15,17 +15,17 @@ public interface ICommonSetContract {
     interface View {
         ImageView getIvBack();
 
-        TextView getTvTimeSet();
+        LinearLayout getLlTimeSet();
 
-        TextView getTvSoundSet();
+        LinearLayout getLlSoundSet();
 
-        TextView getTvDormancySet();
+        LinearLayout getLlDormancySet();
 
-        TextView getTvRebootSet();
+        LinearLayout getLlRebootSet();
 
-        TextView getTvFactoryDataReset();
+        LinearLayout getLlFactoryDataReset();
 
-        TextView getTvDeviceFormat();
+        LinearLayout getLlDeviceFormat();
     }
 
     interface Presenter {

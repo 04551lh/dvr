@@ -5,43 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
-    >
+    android:background="@color/app_background">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:background="@color/system_navigation_bar_color">
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_15"
+        android:layout_height="wrap_content">
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_back"
-            android:textColor="@android:color/white"
-            />
+            android:layout_marginStart="@dimen/dp_16"
+            android:src="@drawable/icon_black_back"
+            android:textColor="@color/font_color_333" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/connect_platform"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sp_18"
-            android:layout_marginStart="@dimen/dp_10"
-            android:layout_gravity="center_vertical"/>
-
-        <TextView
-            android:id="@+id/tv_action_bar_add_platforms"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/btn_shape_style"
-            android:gravity="center_vertical"
-            android:text="@string/add_new_platforms"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sp_18" />
+            android:layout_marginStart="@dimen/dp_10"
+            android:textSize="@dimen/sp_18"
+            android:text="@string/platform_connect"
+            android:textColor="@color/font_color_333" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <ImageView
+            android:id="@+id/iv_add_new_platform"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:src="@drawable/icon_add_platform"
+            android:textColor="@color/font_color_333" />
+
+
     </LinearLayout>
 
     <ScrollView

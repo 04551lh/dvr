@@ -30,8 +30,8 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
     private TextView mTvPlatformList;
-    private TextView mTvActionBarAddPlatforms;
-    private ImageView mIvEditBasicInfoIcon;
+    private ImageView mIvAddNewPlatform;
+    private TextView mTvEditBasicInfo;
 
     @Autowired(name = "type")
     String mType;
@@ -68,8 +68,8 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mTvProvincialDomainId = (TextView) findViewById(R.id.tv_provincial_domain_id);
         mTvCityAndCountyId = (TextView) findViewById(R.id.tv_city_and_county_id);
         mTvPlatformList = (TextView) findViewById(R.id.tv_platform_list);
-        mTvActionBarAddPlatforms = (TextView) findViewById(R.id.tv_action_bar_add_platforms);
-        mIvEditBasicInfoIcon = findViewById(R.id.iv_edit_basic_info_icon);
+        mIvAddNewPlatform =(ImageView) findViewById(R.id.iv_add_new_platform);
+        mTvEditBasicInfo = (TextView)findViewById(R.id.tv_edit_basic_info);
     }
 
     @Override
@@ -138,13 +138,13 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     }
 
     @Override
-    public TextView getTvActionBarAddPlatforms() {
-        return mTvActionBarAddPlatforms;
+    public ImageView getIvAddNewPlatform() {
+        return mIvAddNewPlatform;
     }
 
     @Override
-    public ImageView getIvEditBasicInfoIcon() {
-        return mIvEditBasicInfoIcon;
+    public TextView getTvEditBasicInfo() {
+        return mTvEditBasicInfo;
     }
 
 

@@ -4,6 +4,8 @@ package com.adasplus.homepager.activate.activity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
@@ -22,15 +24,20 @@ import java.util.List;
 public class FillTerminalInfoActivity extends BaseActivity implements IFillTerminalInfoContract.View {
 
     ImageView mIvBack;
+    ImageView mIvAddPlatform;
+    ImageView mIvCloseHintMessage;
     EditText mEtPlatformPhoneNumber;
     EditText mEtLicensePlateNumber;
     TextView mTvLicensePlateColor;
+    TextView mTvAddNewPlatform;
     EditText mEtTerminalId;
     TextView mTvProvincialDomainId;
     TextView mTvCityAndCountyId;
     TextView mTvSaveTerminalInfo;
     TextView mTvTitle;
     EditText mEtChassisNumber;
+    RelativeLayout mRlHintMessage;
+    LinearLayout mLlPlatformInformation;
 
     private FillTerminalInfoPresenter mFillTerminalInfoPresenter;
 
@@ -55,6 +62,8 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mIvAddPlatform = findViewById(R.id.iv_add_platform);
+        mIvCloseHintMessage = findViewById(R.id.iv_close_hint_message);
         mEtPlatformPhoneNumber = findViewById(R.id.et_platform_phone_number);
         mEtLicensePlateNumber = findViewById(R.id.et_license_plate_number);
         mEtChassisNumber = findViewById(R.id.et_chassis_number);
@@ -64,11 +73,34 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
         mTvCityAndCountyId = findViewById(R.id.tv_city_and_county_id);
         mTvSaveTerminalInfo = findViewById(R.id.tv_save_terminal_info);
         mTvTitle = findViewById(R.id.tv_title);
+        mRlHintMessage = findViewById(R.id.rl_hint_message);
+        mTvAddNewPlatform = findViewById(R.id.tv_add_new_platform);
+        mLlPlatformInformation = findViewById(R.id.ll_platform_information);
     }
 
     @Override
     public ImageView getIvBack() {
         return mIvBack;
+    }
+
+    @Override
+    public ImageView getIvAddPlatform() {
+        return mIvAddPlatform;
+    }
+
+    @Override
+    public ImageView getIvCloseHintMessage() {
+        return mIvCloseHintMessage;
+    }
+
+    @Override
+    public RelativeLayout getRlHintMessage() {
+        return mRlHintMessage;
+    }
+
+    @Override
+    public LinearLayout getLlPlatformInformation() {
+        return mLlPlatformInformation;
     }
 
     @Override
@@ -84,6 +116,11 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     @Override
     public TextView getTvLicensePlateColor() {
         return mTvLicensePlateColor;
+    }
+
+    @Override
+    public TextView getTvAddNewPlatform() {
+        return mTvAddNewPlatform;
     }
 
     @Override

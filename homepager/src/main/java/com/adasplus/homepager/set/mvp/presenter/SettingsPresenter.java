@@ -3,7 +3,7 @@ package com.adasplus.homepager.set.mvp.presenter;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.homepager.R;
@@ -45,22 +45,22 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
     @Override
     public void initListener() {
         ImageView ivBack = mSettingsView.getIvBack();
-        TextView tvSpeedSet = mSettingsView.getTvSpeedSet();
-        TextView tvCanSet = mSettingsView.getTvCanSet();
-        TextView tvCalibrationSet = mSettingsView.getTvCalibrationSet();
-        TextView tvWarningSet = mSettingsView.getTvWarningSet();
-        TextView tvCommonSet = mSettingsView.getTvCommonSet();
-        TextView tvNetworkSet = mSettingsView.getTvNetworkSet();
-        TextView tvVideoSet = mSettingsView.getTvVideoSet();
+        LinearLayout llSpeedSet = mSettingsView.getLlSpeedSet();
+        LinearLayout llCanSet = mSettingsView.getLlCanSet();
+        LinearLayout llCalibrationSet = mSettingsView.getLlCalibrationSet();
+        LinearLayout llWarningSet = mSettingsView.getLlWarningSet();
+        LinearLayout llCommonSet = mSettingsView.getLlCommonSet();
+        LinearLayout llNetworkSet = mSettingsView.getLlNetworkSet();
+        LinearLayout llVideoSet = mSettingsView.getLlVideoSet();
 
         ivBack.setOnClickListener(this);
-        tvSpeedSet.setOnClickListener(this);
-        tvCanSet.setOnClickListener(this);
-        tvCalibrationSet.setOnClickListener(this);
-        tvWarningSet.setOnClickListener(this);
-        tvCommonSet.setOnClickListener(this);
-        tvNetworkSet.setOnClickListener(this);
-        tvVideoSet.setOnClickListener(this);
+        llSpeedSet.setOnClickListener(this);
+        llCanSet.setOnClickListener(this);
+        llCalibrationSet.setOnClickListener(this);
+        llWarningSet.setOnClickListener(this);
+        llCommonSet.setOnClickListener(this);
+        llNetworkSet.setOnClickListener(this);
+        llVideoSet.setOnClickListener(this);
     }
 
     @Override
@@ -68,19 +68,19 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
         int id = v.getId();
         if (id == R.id.iv_back) {
             mSettingsActivity.finish();
-        } else if (id == R.id.tv_speed_set) { //速度设置
+        } else if (id == R.id.ll_speed_set) { //速度设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, SpeedSetActivity.class));
-        } else if (id == R.id.tv_network_set) { //网络设置
+        } else if (id == R.id.ll_network_set) { //网络设置
 //            mSettingsActivity.startActivity(new Intent(mSettingsActivity, NetworkSetActivity.class));
-        } else if (id == R.id.tv_can_set) {  // CAN 设置
+        } else if (id == R.id.ll_can_set) {  // CAN 设置
             //mSettingsActivity.startActivity(new Intent(mSettingsActivity, CANSetActivity.class));
-        } else if (id == R.id.tv_calibration_set) { //标定设置
+        } else if (id == R.id.ll_calibration_set) { //标定设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, CalibrationSetActivity.class));
-        } else if (id == R.id.tv_warning_set) { //报警设置
+        } else if (id == R.id.ll_warning_set) { //报警设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, WarningsSetActivity.class));
-        } else if (id == R.id.tv_common_set) { //通用设置
+        } else if (id == R.id.ll_common_set) { //通用设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, CommonSetActivity.class));
-        }else if (id == R.id.tv_video_set){ //视频设置
+        }else if (id == R.id.ll_video_set){ //视频设置
             JSONObject jobj = new JSONObject();
             try {
                 jobj.put("channelNumber",0);

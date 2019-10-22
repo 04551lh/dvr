@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +69,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private OptionsPickerView<String> mLicensePlateColorPickerView;
     private int mLicensePlateColor = 0;
     private String mProvincialDomainId = "0";
+    private int mProvincialDomainPositionId = 0;
     private String mAreaId = "0";
     private OptionsPickerView<String> mProvincialDomainIdPickerView;
     private OptionsPickerView mCityAndCountyIdPickerView;
@@ -75,6 +78,11 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private EditText mEtChassisNumber;
     private boolean mIsFillTerminalInfo;
     private InitDataHandler mInitDataHandler;
+
+    private RelativeLayout mRlHintMessage;
+    private ImageView mIvAddPlatform;
+    private TextView mTvAddNewPlatform;
+    private LinearLayout mLlPlatformInformation;
 
 
     private static class InitDataHandler extends Handler {
@@ -99,7 +107,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                     //初始化 省域ID 数据
                     fillTerminalInfoActivity.initProvincialDomainId(administrativeRegionCodeModelList);
                     //初始化 市县域ID 数据
-                    fillTerminalInfoActivity.initCityAndCountyId(administrativeRegionCodeModelList);
+//                    fillTerminalInfoActivity.initCityAndCountyId(administrativeRegionCodeModelList);
                 }
             }
         }
@@ -121,9 +129,13 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mTvProvincialDomainId = mFillTerminalInfoView.getTvProvincialDomainId();
         mTvCityAndCountyId = mFillTerminalInfoView.getTvCityAndCountyId();
         mEtChassisNumber = mFillTerminalInfoView.getEtChassisNumber();
+        mLlPlatformInformation = mFillTerminalInfoView.getLlPlatformInformation();
+        mIvAddPlatform = mFillTerminalInfoView.getIvAddPlatform();
+        mRlHintMessage= mFillTerminalInfoView.getRlHintMessage();
         mType = mFillTerminalInfoView.getType();
+        mTvAddNewPlatform = mFillTerminalInfoView.getTvAddNewPlatform();
         TextView tvTitle = mFillTerminalInfoView.getTvTitle();
-        String fill_terminal_info = mActivateNewPlatformsActivity.getResources().getString(R.string.fill_terminal_info);
+        String platform_connect = mActivateNewPlatformsActivity.getResources().getString(R.string.platform_connect);
         String update_terminal_info = mActivateNewPlatformsActivity.getResources().getString(R.string.update_terminal_info);
         mIsFillTerminalInfo = mFillTerminalInfoView.isFillTerminalInfo();
 
@@ -149,9 +161,16 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         });
 
         if (mIsFillTerminalInfo) {
-            tvTitle.setText(fill_terminal_info);
+            tvTitle.setText(platform_connect);
+            mLlPlatformInformation.setVisibility(View.GONE);
+            mIvAddPlatform.setVisibility(View.VISIBLE);
+            mTvAddNewPlatform.setVisibility(View.VISIBLE);
         } else {
             tvTitle.setText(update_terminal_info);
+            mLlPlatformInformation.setVisibility(View.VISIBLE);
+            mIvAddPlatform.setVisibility(View.GONE);
+            mTvAddNewPlatform.setVisibility(View.GONE);
+
             //获取终端的车辆信息
             BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
                 @Override
@@ -202,60 +221,51 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
     //这个是市县域 ID，根据 GB2260 协议 中的行政区域代码进行定义，行政区域代码的后四位代表的是市县域Id
     public void initCityAndCountyId(final List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
-        final List<String> provincialIdList = new ArrayList<>();
-        List<ArrayList<String>> cityIdList = new ArrayList<>();
-        final List<ArrayList<ArrayList<String>>> areaIdList = new ArrayList<>();
-        for (int i = 0; i < administrativeRegionCodeModelList.size(); i++) {
-            AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(i);
-            String name = administrativeRegionCodeModel.getName();
-            List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
-            provincialIdList.add(name);
-            ArrayList<String> cityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<String>> province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-            if (city != null && city.size() > 0) {
-                for (int j = 0; j < city.size(); j++) {
-                    AdministrativeRegionCodeModel.CityBean cityBean = city.get(j);
-                    cityList.add(cityBean.getName());
-                    List<AdministrativeRegionCodeModel.CityBean.AreaBean> area = cityBean.getArea();
-                    ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
-                    if (area != null && area.size() > 0) {
-                        for (int z = 0; z < area.size(); z++) {
-                            AdministrativeRegionCodeModel.CityBean.AreaBean areaBean = area.get(z);
-                            city_AreaList.add(areaBean.getName());
-                        }
-                        province_AreaList.add(city_AreaList);
+        List<String> cityIdList = new ArrayList<>();//该省的城市列表（第二级）
+        final List<ArrayList<String>> areaIdList = new ArrayList<>();
+        AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(mProvincialDomainPositionId);
+        List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
+        if (city != null && city.size() > 0) {
+            for (int j = 0; j < city.size(); j++) {
+                AdministrativeRegionCodeModel.CityBean cityBean = city.get(j);
+                cityIdList.add(cityBean.getName());
+                List<AdministrativeRegionCodeModel.CityBean.AreaBean> area = cityBean.getArea();
+                ArrayList<String> city_AreaList = new ArrayList<>();//该城市的所有地区列表
+                if (area != null && area.size() > 0) {
+                    for (int z = 0; z < area.size(); z++) {
+                        AdministrativeRegionCodeModel.CityBean.AreaBean areaBean = area.get(z);
+                        city_AreaList.add(areaBean.getName());
                     }
                 }
+                areaIdList.add(city_AreaList);
             }
-            cityIdList.add(cityList);
-            areaIdList.add(province_AreaList);
         }
 
         mCityAndCountyIdPickerView = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
             @SuppressLint("LongLogTag")
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(options1);
+                AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(mProvincialDomainPositionId);
                 List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
                 if (city.size() > 0) {
-                    AdministrativeRegionCodeModel.CityBean cityBean = city.get(options2);
+                    AdministrativeRegionCodeModel.CityBean cityBean = city.get(options1);
                     List<AdministrativeRegionCodeModel.CityBean.AreaBean> area = cityBean.getArea();
                     if (area.size() > 0) {
-                        AdministrativeRegionCodeModel.CityBean.AreaBean areaBean = area.get(options3);
+                        AdministrativeRegionCodeModel.CityBean.AreaBean areaBean = area.get(options2);
                         String code = areaBean.getCode();
                         mAreaId = code.substring(2);
-                        mTvCityAndCountyId.setText(mAreaId);
+                        mTvCityAndCountyId.setText(cityBean.getName()+"-"+areaBean.getName());
                     }
                 } else {
                     String code = administrativeRegionCodeModel.getCode();
                     mAreaId = code.substring(2);
-                    mTvCityAndCountyId.setText(mAreaId);
+                    mTvCityAndCountyId.setText(administrativeRegionCodeModel.getName());
                 }
             }
         }).setTitleText(mContext.getString(R.string.please_choose_area))
                 .setOutSideCancelable(false)
                 .build();
-        mCityAndCountyIdPickerView.setPicker(provincialIdList, cityIdList, areaIdList);
+        mCityAndCountyIdPickerView.setPicker(cityIdList, areaIdList);
     }
 
     // 这个是省域Id ，GB2260 协议 中的行政区域代码进行定义，行政区域代码中的前两位代表的是省域Id
@@ -267,10 +277,12 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mProvincialDomainIdPickerView = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                mProvincialDomainPositionId = options1;
                 AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(options1);
                 String code = administrativeRegionCodeModel.getCode();
                 mProvincialDomainId = code.substring(0, 2);
-                mTvProvincialDomainId.setText(mProvincialDomainId);
+                mTvProvincialDomainId.setText(administrativeRegionCodeModel.getName());
+                initCityAndCountyId(administrativeRegionCodeModelList);
             }
         }).setCancelText(mContext.getString(R.string.cancel))
                 .setSubmitText(mContext.getString(R.string.confirm))
@@ -325,8 +337,13 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     @Override
     public void initListener() {
         ImageView ivBack = mFillTerminalInfoView.getIvBack();
+
+        ImageView ivCloseHintMessage = mFillTerminalInfoView.getIvCloseHintMessage();
         TextView tvSaveTerminalInfo = mFillTerminalInfoView.getTvSaveTerminalInfo();
         ivBack.setOnClickListener(this);
+        mIvAddPlatform.setOnClickListener(this);
+        mTvAddNewPlatform.setOnClickListener(this);
+        ivCloseHintMessage.setOnClickListener(this);
         tvSaveTerminalInfo.setOnClickListener(this);
         mTvLicensePlateColor.setOnClickListener(this);
         mTvProvincialDomainId.setOnClickListener(this);
@@ -404,6 +421,13 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             if (mCityAndCountyIdPickerView != null) {
                 mCityAndCountyIdPickerView.show();
             }
+        }else if(i == R.id.iv_add_platform || i == R.id.tv_add_new_platform){
+            mIvAddPlatform.setVisibility(View.GONE);
+            mTvAddNewPlatform.setVisibility(View.GONE);
+            mLlPlatformInformation.setVisibility(View.VISIBLE);
+            mRlHintMessage.setVisibility(View.VISIBLE);
+        }else if(i == R.id.iv_close_hint_message){
+            mRlHintMessage.setVisibility(View.GONE);
         }
     }
 

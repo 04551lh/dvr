@@ -1,7 +1,7 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 /**
  * Author:刘净辉
@@ -15,19 +15,19 @@ public interface ISettingsContract {
     interface View {
         ImageView getIvBack();
 
-        TextView getTvSpeedSet();
+        LinearLayout getLlSpeedSet();
 
-        TextView getTvNetworkSet();
+        LinearLayout getLlNetworkSet();
 
-        TextView getTvCanSet();
+        LinearLayout getLlCanSet();
 
-        TextView getTvCalibrationSet();
+        LinearLayout getLlCalibrationSet();
 
-        TextView getTvWarningSet();
+        LinearLayout getLlWarningSet();
 
-        TextView getTvCommonSet();
+        LinearLayout getLlCommonSet();
 
-        TextView getTvVideoSet();
+        LinearLayout getLlVideoSet();
     }
 
     interface Presenter {

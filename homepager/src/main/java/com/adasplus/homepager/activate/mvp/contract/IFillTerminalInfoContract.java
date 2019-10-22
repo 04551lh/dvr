@@ -2,6 +2,8 @@ package com.adasplus.homepager.activate.mvp.contract;
 
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -23,11 +25,21 @@ public interface IFillTerminalInfoContract {
 
         ImageView getIvBack();
 
+        ImageView getIvAddPlatform();
+
+        ImageView getIvCloseHintMessage();
+
+        RelativeLayout getRlHintMessage();
+
+        LinearLayout getLlPlatformInformation();
+
         EditText getEtPlatformPhoneNumber();
 
         EditText getEtLicensePlateNumber();
 
         TextView getTvLicensePlateColor();
+
+        TextView getTvAddNewPlatform();
 
         EditText getEtTerminalId();
 

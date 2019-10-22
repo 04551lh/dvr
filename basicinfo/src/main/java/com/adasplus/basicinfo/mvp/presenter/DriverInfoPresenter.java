@@ -1,5 +1,6 @@
 package com.adasplus.basicinfo.mvp.presenter;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,7 +69,18 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
             @Override
             public void onNext(DriverInfoModel driverInfoModel) {
                 Log.e("driverInfoModel","-----"+driverInfoModel.toString());
+
                 String name = driverInfoModel.getName();
+
+                if (TextUtils.isEmpty(name)){
+                    mLlDriverInfo.setVisibility(View.GONE);
+                    mTvNoData.setVisibility(View.VISIBLE);
+                }else {
+                    mLlDriverInfo.setVisibility(View.VISIBLE);
+                    mTvNoData.setVisibility(View.GONE);
+                }
+
+
                 int sex = driverInfoModel.getSex();
                 String id = driverInfoModel.getId();
                 String drivingLicenseId = driverInfoModel.getDrivingLicenseId();
