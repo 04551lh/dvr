@@ -1,97 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.adasplus.menudrawer.OverlayDrawer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:clipChildren="false"
-    android:clipToPadding="false"
+    android:id="@+id/od_top_slide_view"
     tools:context=".activity.MainActivity">
-    <FrameLayout
-        android:id="@+id/fl_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
+        android:id="@id/mdContent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"
-        app:cardBackgroundColor="@android:color/white"
-        app:cardElevation="@dimen/dp_3"
-        app:cardCornerRadius="0dp"
-        >
-        <LinearLayout
-            android:id="@+id/ll_home_pager"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/fl_frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/iv_home_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/home_checked_icon"
-                    />
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-                <TextView
-                    android:id="@+id/tv_home_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_text"
-                    android:layout_marginTop="@dimen/dp_5"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="@dimen/dp_3"
+            app:cardCornerRadius="0dp"
+            >
+            <LinearLayout
+                android:id="@+id/ll_home_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_home_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/home_checked_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_home_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_text"
+                        android:layout_marginTop="@dimen/dp_5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_basic_info_pager"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_basic_info_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/basic_info_unchecked_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_basic_info_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/basic_info"
+                        android:layout_marginTop="@dimen/dp_5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_file_export_pager"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_file_export_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/file_export_unchecked_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_file_export_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/files_export"
+                        android:layout_marginTop="@dimen/dp_5"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_basic_info_pager"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/iv_basic_info_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/basic_info_unchecked_icon"
-                    />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_basic_info_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/basic_info"
-                    android:layout_marginTop="@dimen/dp_5"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_file_export_pager"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-                <ImageView
-                    android:id="@+id/iv_file_export_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/file_export_unchecked_icon"
-                    />
-
-                <TextView
-                    android:id="@+id/tv_file_export_pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/files_export"
-                    android:layout_marginTop="@dimen/dp_5"/>
-            </LinearLayout>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+    <include
+        layout="@layout/include_top_slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</com.adasplus.menudrawer.OverlayDrawer>

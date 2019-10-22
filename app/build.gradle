@@ -27,7 +27,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "markermachine_${defaultConfig.versionName}_${releaseTime()}.apk"
+                def fileName = "DVRController_${defaultConfig.versionName}_${releaseTime()}.apk"
                 outputFileName = fileName
             }
         }
@@ -52,6 +52,7 @@ dependencies {
     }
     implementation project(path: ':pickerview')
     implementation project(path: ':wheelview')
-    annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
 
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
+    implementation project(path: ':menudrawer')
 }

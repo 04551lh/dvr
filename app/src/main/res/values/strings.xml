@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DVRRemoteController</string>
+    <string name="app_name">北极星安装助手</string>
 
     <string name="please_open_wifi_switch">请打开WiFi开关</string>
 
@@ -38,4 +38,30 @@
     <string name="main_stream">主码流</string>
 
     <string name="child_stream">子码流</string>
+
+    <string name="no_car_info">——</string>
+
+    <string name="four_g_signal_level">4G信号</string>
+
+    <string name="location_signal">定位信号</string>
+
+    <string name="far_light">远光灯</string>
+
+    <string name="near_light">近光灯</string>
+
+    <string name="left_turn_light">左转灯</string>
+
+    <string name="right_turn_light">右转灯</string>
+
+    <string name="brake">制动</string>
+
+    <string name="target_platforms">部标平台</string>
+
+    <string name="have_location">已定位</string>
+
+    <string name="no_location">未定位</string>
+
+    <string name="open">开启</string>
+
+    <string name="close">关闭</string>
 </resources>

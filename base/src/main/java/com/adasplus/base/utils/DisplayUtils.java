@@ -17,6 +17,10 @@ public class DisplayUtils {
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
+    public static int getScreenHeight(Context context){
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
     public static int sp2px(Context context, float spValue) {
         float scaledDensity = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * scaledDensity + 0.5f);

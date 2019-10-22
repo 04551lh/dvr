@@ -10,10 +10,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.PrettyFormatStrategy;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -82,12 +78,7 @@ public class RetrofitHelper {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                PrettyFormatStrategy prettyFormatStrategy = PrettyFormatStrategy.newBuilder()
-                        .tag(TAG)
-                        .build();
-                Logger.addLogAdapter(new AndroidLogAdapter(prettyFormatStrategy));
-                Logger.i(message);
-                Logger.clearLogAdapters();
+                Log.i(TAG,message);
             }
         });
 
@@ -133,7 +124,6 @@ public class RetrofitHelper {
             @Override
             public void call(rx.Subscriber<? super T> subscriber) {
                 int statuesCode = response.getStatusCode();
-                Log.e(TAG,"StatusCode---->"+statuesCode);
                 try{
                     if (statuesCode == 0){
                         if (!subscriber.isUnsubscribed()) {

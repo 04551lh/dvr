@@ -20,14 +20,20 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     protected void onFirstUserVisible() {
-        if (mHomePresenter != null){
-            mHomePresenter.initData();
-        }
+        initData();
     }
 
     @Override
     protected void init(View view, Bundle savedInstanceState) {
         mHomePresenter = new HomePresenter(getAppCompatActivity(), this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mHomePresenter != null) {
+            mHomePresenter.onResume();
+        }
     }
 
     @Override
@@ -39,7 +45,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void findViewById(View view) {
         super.findViewById(view);
-        if (mHomePresenter != null){
+        if (mHomePresenter != null) {
             mHomePresenter.findViewById(view);
         }
     }
@@ -47,8 +53,31 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void setClickEvent(View view) {
         super.setClickEvent(view);
-        if (mHomePresenter != null){
+        if (mHomePresenter != null) {
             mHomePresenter.setClickEvent(view);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mHomePresenter != null) {
+            mHomePresenter.onPause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mHomePresenter != null) {
+            mHomePresenter.onDestroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void initData() {
+        if (mHomePresenter != null) {
+            mHomePresenter.initData();
         }
     }
 }

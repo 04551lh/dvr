@@ -30,5 +30,11 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-
+    <style name="TvSlideCommonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_18</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

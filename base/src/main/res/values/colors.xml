@@ -11,4 +11,6 @@
     <color name="item_press_color">#f0f0f0</color>
 
     <color name="split_line_color">#D3D3D3</color>
+
+    <color name="swipe_bg_progress_color">#505677fc</color>
 </resources>

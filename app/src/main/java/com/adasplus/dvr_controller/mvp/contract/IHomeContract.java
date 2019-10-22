@@ -11,6 +11,9 @@ public interface IHomeContract {
     }
 
     interface View {
+        void initData();
+
+
     }
 
     interface Presenter {
@@ -20,5 +23,12 @@ public interface IHomeContract {
         void findViewById(android.view.View view);
 
         void setClickEvent(android.view.View view);
+
+        void onResume();
+
+        void onPause();
+
+        void onDestroy();
+
     }
 }

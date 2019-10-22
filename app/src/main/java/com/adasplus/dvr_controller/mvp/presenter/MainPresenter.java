@@ -1,6 +1,7 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
 
+import android.app.Activity;
 import android.graphics.Color;
 
 import android.net.wifi.WifiInfo;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.adasplus.base.network.HttpConstant;
+import com.adasplus.base.utils.DisplayUtils;
 import com.adasplus.base.utils.WifiHelper;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.activity.MainActivity;
@@ -21,6 +23,8 @@ import com.adasplus.dvr_controller.fragment.BasicInfoFragment;
 import com.adasplus.dvr_controller.fragment.FileExportFragment;
 import com.adasplus.dvr_controller.fragment.HomeFragment;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
+import com.adasplus.menudrawer.OverlayDrawer;
+import com.adasplus.menudrawer.Position;
 
 /**
  * Author:刘净辉
@@ -45,6 +49,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
     private TextView mTvBasicInfoPager;
     private ImageView mIvFileExportPager;
     private TextView mTvFileExportPager;
+    private OverlayDrawer mOdTopSlideView;
 
     public MainPresenter(IMainContract.View view) {
         mMainView = view;
@@ -63,8 +68,35 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
         mTvBasicInfoPager = mMainView.getTvBasicInfoPager();
         mIvFileExportPager = mMainView.getIvFileExportPager();
         mTvFileExportPager = mMainView.getTvFileExportPager();
+        mOdTopSlideView = mMainView.getOdTopSlideView();
+
+        topSlidePager();
+        mOdTopSlideView.setPosition(Position.TOP);
 
         initFragment();
+    }
+
+    private void topSlidePager() {
+        int stateBarHeight = getStateBarHeight();
+        if (stateBarHeight > 0){
+            mOdTopSlideView.setMenuSize(DisplayUtils.getScreenHeight(mMainActivity) - stateBarHeight);
+        }else {
+            mOdTopSlideView.setMenuSize(DisplayUtils.getScreenHeight(mMainActivity) - getDefaultStateBarHeight());
+        }
+    }
+
+    private int getStateBarHeight(){
+        int result = 0;
+        int resourceId = mMainActivity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0){
+            result =  mMainActivity.getResources().getDimensionPixelSize(resourceId);;
+        }
+        return result;
+    }
+
+    private int getDefaultStateBarHeight(){
+        double statusBarHeight = Math.ceil(20 * mMainActivity.getResources().getDisplayMetrics().density);
+        return (int) statusBarHeight;
     }
 
     @Override
@@ -161,6 +193,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
         switch (v.getId()) {
             case R.id.ll_home_pager:
+                topSlidePager();
                 clickTab(mHomeFragment);
                 break;
             case R.id.ll_basic_info_pager:
@@ -168,6 +201,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     Toast.makeText(mMainActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                mOdTopSlideView.setMenuSize(0);
                 clickTab(mBasicInfoFragment);
                 break;
             case R.id.ll_file_export_pager:
@@ -175,6 +209,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     Toast.makeText(mMainActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                mOdTopSlideView.setMenuSize(0);
                 clickTab(mFileExportFragment);
                 break;
         }

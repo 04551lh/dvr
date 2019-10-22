@@ -9,6 +9,7 @@ import com.adasplus.dvr_controller.R;
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
 import com.adasplus.dvr_controller.mvp.presenter.MainPresenter;
+import com.adasplus.menudrawer.OverlayDrawer;
 
 
 public class MainActivity extends BaseActivity implements IMainContract.View {
@@ -23,6 +24,24 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
     private ImageView mIvFileExportPager;
     private TextView mTvFileExportPager;
     private MainPresenter mMainPresenter;
+    private OverlayDrawer mOdTopSlideView;
+    private ImageView mIvFourGSignalStatus;
+    private TextView mTvFourGSignalLevel;
+    private ImageView mIvLocationStatus;
+    private TextView mTvLocationStatus;
+    private ImageView mIvFarLightStatus;
+    private TextView mTvFarLightStatus;
+    private ImageView mIvNearLightStatus;
+    private TextView mTvNearLightStatus;
+    private ImageView mIvLeftTurnStatus;
+    private TextView mTvLeftTurnStatus;
+    private ImageView mIvRightTurnStatus;
+    private TextView mTvRightTurnStatus;
+    private ImageView mIvBrakeStatus;
+    private TextView mTvBrakeStatus;
+    private ImageView mIvTargetsPlatformStatus;
+    private TextView mTvTargetsPlatformStatus;
+    private ImageView mIvCloseMenu;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -47,6 +66,24 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         mTvBasicInfoPager = findViewById(R.id.tv_basic_info_pager);
         mIvFileExportPager = findViewById(R.id.iv_file_export_pager);
         mTvFileExportPager = findViewById(R.id.tv_file_export_pager);
+        mOdTopSlideView = findViewById(R.id.od_top_slide_view);
+        mIvFourGSignalStatus = findViewById(R.id.iv_four_g_signal_status);
+        mTvFourGSignalLevel = findViewById(R.id.tv_four_g_signal_level);
+        mIvLocationStatus = findViewById(R.id.iv_location_status);
+        mTvLocationStatus = findViewById(R.id.tv_location_status);
+        mIvFarLightStatus = findViewById(R.id.iv_far_light_status);
+        mTvFarLightStatus = findViewById(R.id.tv_far_light_status);
+        mIvNearLightStatus = findViewById(R.id.iv_near_light_status);
+        mTvNearLightStatus = findViewById(R.id.tv_near_light_status);
+        mIvLeftTurnStatus = findViewById(R.id.iv_left_turn_status);
+        mTvLeftTurnStatus = findViewById(R.id.tv_left_turn_status);
+        mIvRightTurnStatus = findViewById(R.id.iv_right_turn_status);
+        mTvRightTurnStatus = findViewById(R.id.tv_right_turn_status);
+        mIvBrakeStatus = findViewById(R.id.iv_brake_status);
+        mTvBrakeStatus = findViewById(R.id.tv_brake_status);
+        mIvTargetsPlatformStatus = findViewById(R.id.iv_targets_platform_status);
+        mTvTargetsPlatformStatus = findViewById(R.id.tv_targets_platform_status);
+        mIvCloseMenu = findViewById(R.id.iv_close_menu);
     }
 
     @Override
@@ -92,5 +129,10 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
     @Override
     public TextView getTvFileExportPager() {
         return mTvFileExportPager;
+    }
+
+    @Override
+    public OverlayDrawer getOdTopSlideView() {
+        return mOdTopSlideView;
     }
 }

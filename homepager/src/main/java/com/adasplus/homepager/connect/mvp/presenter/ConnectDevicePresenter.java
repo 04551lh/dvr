@@ -36,6 +36,7 @@ import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
 import com.adasplus.base.dialog.ViewConvertListener;
 import com.adasplus.base.dialog.ViewHolder;
+import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.receiver.WifiBroadcastReceiver;
 import com.adasplus.base.utils.PermissionsPagerUtils;
 import com.adasplus.base.utils.WifiConnectStatus;
@@ -61,7 +62,6 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
 
     private static final int REQUEST_PERMISSIONS_CODE = 0x01;
     private static final int REQUEST_IN_SETTINGS_OPEN_PERMISSIONS = 0x02;
-    private static final String TARGET_WIFI_TAG = "ky_test";
     private static final String TAG = "ConnectDevicePresenter";
 
     private static final List<String> mIgnoreSsid = Arrays.asList("0x", "<unknown ssid>");
@@ -388,7 +388,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     private void setConnectedWifiInfo(String wifiName) {
         ScanResult scanResult = WifiHelper.getInstance().getScanResult(wifiName);
         if (scanResult != null){
-            if (scanResult.SSID.contains(TARGET_WIFI_TAG)){
+            if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
                 mLlConnectedWifi.setVisibility(View.VISIBLE);
             }
             mTvWifiName.setText(scanResult.SSID);
@@ -481,7 +481,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     }
 
     private void convertScanResult() {
-        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid(TARGET_WIFI_TAG);
+        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid(HttpConstant.DEVICE_WIFI_TAG);
         if (scanResults.size() > 0) {
             mRealWifiList.clear();
             if (!isNullOrEmpty(scanResults)) {
