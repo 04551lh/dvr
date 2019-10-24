@@ -1,11 +1,16 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
 import android.net.wifi.WifiInfo;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.MotionEventCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.ActivityPathConstant;
@@ -21,12 +27,12 @@ import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
+import com.adasplus.base.utils.DisplayUtils;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.WifiHelper;
+import com.adasplus.base.view.SwipeRefreshView;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.mvp.contract.IHomeContract;
-import com.adasplus.menudrawer.MenuDrawer;
-import com.adasplus.menudrawer.Position;
 import com.alibaba.android.arouter.launcher.ARouter;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -38,7 +44,7 @@ import rx.Subscriber;
  * Date : 2019/10/18 11:36
  * Description :
  */
-public class HomePresenter implements IHomeContract.Presenter, View.OnClickListener{
+public class HomePresenter implements IHomeContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int ZERO = 0;
     private static final int ONE = 1;
@@ -46,9 +52,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private static final int THREE = 3;
     private static final int FOUR = 4;
     private static final int FIVE = 5;
-
-    private static final int VEHICLE_STATUS_WHAT = 1;
-    private static final int VEHICLE_STATUS_TIMEOUT = 1000;
 
     private Activity mActivity;
     private IHomeContract.View mHomeView;
@@ -66,34 +69,18 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private ImageView mIvRightTurnStatus;
     private ImageView mIvBrakeStatus;
     private ImageView mIvTargetsPlatformStatus;
-    private  static HomeHandler mHomeHandler;
+    private LinearLayout mLlHomePager;
+    private Handler mHomeHandler;
+//    private  static HomeHandler mHomeHandler;
     //用于进行来判断是否跳转了Activity,跳转了平台会暂停每一秒的进行更新状态。
     //重新回到了当前的界面后，继续每间隔一秒的更新车辆信息状态
     private  boolean isStartActivity = false;
-    private SwipeRefreshLayout mSrlHomeRefreshData;
-
-    private static class HomeHandler extends Handler{
-        private WeakReference<IHomeContract.View> mViewWeakReference;
-        HomeHandler(IHomeContract.View view){
-            mViewWeakReference = new WeakReference<>(view);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            IHomeContract.View homeView = mViewWeakReference.get();
-            if (msg.what == 1) {
-                mHomeHandler.removeMessages(VEHICLE_STATUS_WHAT);
-                homeView.initData();
-                mHomeHandler.sendEmptyMessageDelayed(VEHICLE_STATUS_WHAT, VEHICLE_STATUS_TIMEOUT);
-            }
-        }
-    }
+    private SwipeRefreshView mSrlHomeRefreshData;
 
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
         mHomeView = view;
-        mHomeHandler = new HomeHandler(mHomeView);
+        mHomeHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -216,14 +203,12 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                     }else if (FIVE == fourGLSignalLevel){
                         mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_full_icon);
                     }
-
-                    mHomeHandler.removeMessages(VEHICLE_STATUS_WHAT);
-                    mHomeHandler.sendEmptyMessageDelayed(VEHICLE_STATUS_WHAT,VEHICLE_STATUS_TIMEOUT);
                 }
             });
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void findViewById(View view) {
         mTvCarSpeed = view.findViewById(R.id.tv_car_speed);
@@ -240,6 +225,47 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mIvRightTurnStatus = view.findViewById(R.id.iv_right_turn_status);
         mIvBrakeStatus = view.findViewById(R.id.iv_brake_status);
         mIvTargetsPlatformStatus = view.findViewById(R.id.iv_targets_platform_status);
+        mSrlHomeRefreshData = view.findViewById(R.id.srl_refresh_home_data);
+        mLlHomePager = view.findViewById(R.id.ll_home_pager);
+
+
+        mSrlHomeRefreshData.setOnRefreshListener(this);
+        mSrlHomeRefreshData.setEnabled(false);
+        mLlHomePager.setFocusable(true);
+
+        mLlHomePager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int startY = 0;
+                int endY;
+                int screenHeight = DisplayUtils.getScreenHeight(mActivity) / 3;
+                switch (event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        startY = (int) event.getY();
+                        if (startY < screenHeight){
+                            mSrlHomeRefreshData.setEnabled(false);
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        endY = (int) event.getY();
+                        if (endY > screenHeight){
+                            if (endY - startY > 50){
+                                mSrlHomeRefreshData.setEnabled(true);
+                            }
+                        }else {
+                            mSrlHomeRefreshData.setEnabled(false);
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
+
+
+        mSrlHomeRefreshData.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSrlHomeRefreshData.setProgressBackgroundColorSchemeResource(android.R.color.white);
 
         CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
         cr_platforms_basic_info.bringToFront();
@@ -263,16 +289,11 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onPause() {
-        if (mHomeHandler != null){
-            mHomeHandler.removeCallbacksAndMessages(null);
-        }
     }
 
     @Override
     public void onDestroy() {
-        if (mHomeHandler != null){
-            mHomeHandler = null;
-        }
+
     }
 
     @Override
@@ -343,5 +364,16 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         ARouter.getInstance()
                 .build(path)
                 .navigation();
+    }
+
+    @Override
+    public void onRefresh() {
+        mHomeHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+                mSrlHomeRefreshData.setRefreshing(false);
+            }
+        },HttpConstant.SWIPE_REFRESH_DELAYED);
     }
 }

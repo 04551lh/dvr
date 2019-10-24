@@ -1,6 +1,7 @@
 package com.adasplus.homepager.activate.adapter;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -46,9 +47,10 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     private String mCancellationTextDescription;
     private String mCancel;
     private String mConfirm;
-    private float mMagin;
+    private float mMargin;
     private String mDisconnect;
     private String mRetryConnect;
+    private String mConnected = "#ff4ddb6e";
 
     public void setData(List<GetPlatformInfoModel.ArrayBean> platformInfoArray,ActivateDeviceActivity activateDeviceActivity) {
         mPlatformInfoArray = platformInfoArray;
@@ -57,7 +59,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         mCancellationTextDescription = mActivateDeviceActivity.getResources().getString(R.string.cancellation_text_description);
         mCancel = mActivateDeviceActivity.getResources().getString(R.string.cancel);
         mConfirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
-        mMagin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
+        mMargin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
         mDisconnect = mActivateDeviceActivity.getString(R.string.disconnect);
         mRetryConnect =  mActivateDeviceActivity.getString(R.string.retry_connect);
     }
@@ -89,28 +91,30 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         holder.mTvPlatformIpAddressValue.setText(platformIp);
         //设置部标平台的端口号
         holder.mTvPlatformPortValue.setText(platformPort+"");
-        //更多的操作
-        holder.mTvPlatformCancellation.setOnClickListener(new View.OnClickListener() {
+        //平台列表的更多操作
+        holder.mIvPlatformsMoreOperation.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                logoutMainPlatForm(holder.mTvPlatformCancellation,position);
+                platformMoreOperation(holder.mIvPlatformsMoreOperation,position);
             }
         });
 
         //终端连接状态
         if (connectStatus == 1){
             holder.mTvPlatformConnectStatus.setText(R.string.connected);
+            holder.mTvPlatformConnectStatus.setTextColor(Color.parseColor(mConnected));
         }else if (connectStatus == 0){
             holder.mTvPlatformConnectStatus.setText(R.string.disconnect);
+            holder.mTvPlatformConnectStatus.setTextColor(Color.RED);
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void logoutMainPlatForm( TextView tvPlatformCancellation, int position) {
+    private void platformMoreOperation(ImageView ivPlatformsMoreOperation, int position) {
         final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
         int connectStatus = arrayBean.getConnectStatus();
-        View view = View.inflate(mActivateDeviceActivity, R.layout.item_logout_main_platform, null);
+        View view = View.inflate(mActivateDeviceActivity, R.layout.item_platforms_more_operation, null);
         TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
         TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
 
@@ -127,7 +131,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 .setOutsideTouchable(true)
                 .setView(view)
                 .create();
-        commonPopupWindow.showAsDropDown(tvPlatformCancellation,0,20, Gravity.RIGHT);
+        commonPopupWindow.showAsDropDown(ivPlatformsMoreOperation,0,20, Gravity.RIGHT);
 
         tv_logout_platform.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +157,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
-        String disconnect_tips = mActivateDeviceActivity.getString(R.string.confirm_the_cancellation) +"?";
-        String retry_connect_tips = mActivateDeviceActivity.getString(R.string.cancellation_tips);
+        String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips) +"?";
+        String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
 
         if (connectStatus == 1 ){
             tv_dialog_title.setText(mDisconnect);
@@ -172,7 +176,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 .setDimAmount(0.8f)
                 .setOutCancel(false)
                 .setAnimStyle(R.style.BottomAnimStyle)
-                .setMargin(mMagin)
+                .setMargin(mMargin)
                 .show(mActivateDeviceActivity.getSupportFragmentManager());
 
         tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +230,6 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     }
 
     private void showLogoutDialog(final GetPlatformInfoModel.ArrayBean arrayBean) {
-
         View view = View.inflate(mActivateDeviceActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
         TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
@@ -243,7 +246,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 .setDimAmount(0.8f)
                 .setOutCancel(false)
                 .setAnimStyle(R.style.BottomAnimStyle)
-                .setMargin(mMagin)
+                .setMargin(mMargin)
                 .show(mActivateDeviceActivity.getSupportFragmentManager());
 
         tv_cancel.setOnClickListener(new View.OnClickListener() {
@@ -294,21 +297,25 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     class ActivatedPlatformsViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTvPlatformCancellation;
+//        private TextView mTvPlatformCancellation;
         private TextView mTvPlatformIpAddress;
         private TextView mTvPlatformIpAddressValue;
         private TextView mTvPlatformPort;
         private TextView mTvPlatformPortValue;
         private TextView mTvPlatformConnectStatus;
+//        private TextView mTvUpdateConnectStatus;
+        private ImageView mIvPlatformsMoreOperation;
 
         ActivatedPlatformsViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTvPlatformCancellation = itemView.findViewById(R.id.tv_platform_cancellation);
-            mTvPlatformIpAddress = (TextView) itemView.findViewById(R.id.tv_platform_ip_address);
-            mTvPlatformIpAddressValue = (TextView) itemView.findViewById(R.id.tv_platform_ip_address_value);
-            mTvPlatformPort = (TextView) itemView.findViewById(R.id.tv_platform_port);
-            mTvPlatformPortValue = (TextView) itemView.findViewById(R.id.tv_platform_port_value);
-            mTvPlatformConnectStatus = (TextView) itemView.findViewById(R.id.tv_platform_connect_status);
+//            mTvPlatformCancellation = itemView.findViewById(R.id.tv_platform_cancellation);
+            mTvPlatformIpAddress = itemView.findViewById(R.id.tv_platform_ip_address);
+            mTvPlatformIpAddressValue = itemView.findViewById(R.id.tv_platform_ip_address_value);
+            mTvPlatformPort = itemView.findViewById(R.id.tv_platform_port);
+            mTvPlatformPortValue = itemView.findViewById(R.id.tv_platform_port_value);
+            mTvPlatformConnectStatus = itemView.findViewById(R.id.tv_platform_connect_status);
+//            mTvUpdateConnectStatus = itemView.findViewById(R.id.tv_update_connect_status);
+            mIvPlatformsMoreOperation = itemView.findViewById(R.id.iv_platforms_more_operation);
         }
     }
 }

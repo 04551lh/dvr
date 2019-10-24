@@ -3,6 +3,7 @@ package com.adasplus.dvr_controller.mvp.presenter;
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.network.ActivityPathConstant;
@@ -19,10 +20,10 @@ public class BasicInfoPresenter implements IBasicInfoContract.Presenter, View.On
 
     private IBasicInfoContract.View mBasicInfoView;
     private Activity mActivity;
-    private TextView mTvCarInfo;
-    private TextView mTvDriverInfo;
-    private TextView mTvSystemInfo;
-    
+    private LinearLayout mLlCarInfo;
+    private LinearLayout mLlDriverInfo;
+    private LinearLayout mLlSystemInfo;
+
     public BasicInfoPresenter(Activity activity,IBasicInfoContract.View view){
         mActivity = activity;
         mBasicInfoView = view;
@@ -30,28 +31,28 @@ public class BasicInfoPresenter implements IBasicInfoContract.Presenter, View.On
 
     @Override
     public void findViewById(View view) {
-        mTvCarInfo = (TextView) view.findViewById(R.id.tv_car_info);
-        mTvDriverInfo = (TextView) view.findViewById(R.id.tv_driver_info);
-        mTvSystemInfo = (TextView) view.findViewById(R.id.tv_system_info);
+        mLlCarInfo = view.findViewById(R.id.ll_car_info);
+        mLlDriverInfo = view.findViewById(R.id.ll_driver_info);
+        mLlSystemInfo = view.findViewById(R.id.ll_system_info);
     }
 
     @Override
     public void setClickEvent(View view) {
-        mTvCarInfo.setOnClickListener(this);
-        mTvDriverInfo.setOnClickListener(this);
-        mTvSystemInfo.setOnClickListener(this);
+        mLlCarInfo.setOnClickListener(this);
+        mLlDriverInfo.setOnClickListener(this);
+        mLlSystemInfo.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tv_car_info:
+            case R.id.ll_car_info:
                 startActivity(ActivityPathConstant.CAR_INFO_PATH);
                 break;
-            case R.id.tv_driver_info:
+            case R.id.ll_driver_info:
                 startActivity(ActivityPathConstant.DRIVER_INFO_PATH);
                 break;
-            case R.id.tv_system_info:
+            case R.id.ll_system_info:
                 startActivity(ActivityPathConstant.SYSTEM_INFO_PATH);
                 break;
         }

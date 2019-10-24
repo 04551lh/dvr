@@ -4,6 +4,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
 
 
 /**
@@ -37,13 +40,17 @@ public interface IActivateDeviceContract {
 
         TextView getTvCityAndCountyId();
 
-        TextView getTvPlatformList();
-
         String getType();
 
         ImageView getIvAddNewPlatform();
 
         TextView getTvEditBasicInfo();
+
+        void showDefaultPlateInfo(CarInfoModel carInfoModel);
+
+        TextView getTvPlatformList();
+
+        SwipeRefreshLayout getSrlActivatePlatformData();
     }
 
     interface Presenter {

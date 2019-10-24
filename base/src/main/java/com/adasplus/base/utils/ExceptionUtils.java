@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import java.io.InterruptedIOException;
 import java.net.ConnectException;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 
@@ -40,8 +41,8 @@ public class ExceptionUtils {
         if (e instanceof HttpException) {
             // http 请求异常，服务器宕机的时候会进行报这个异常
             onException(context, ExceptionReason.BAD_NETWORK);
-        } else if (e instanceof ConnectException
-                || e instanceof UnknownHostException) {
+        } else if (e instanceof UnknownHostException
+                 || e instanceof SocketException) {
             //联网异常 或 不是正确的主机名
             onException(context, ExceptionReason.CONNECT_ERROR);
         } else if (e instanceof InterruptedIOException) {

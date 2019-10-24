@@ -1,6 +1,7 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.model.FileExportModel;
 import com.adasplus.base.popup.CommonPopupWindow;
+import com.adasplus.base.service.FloatWindowService;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.adapter.ChannelsNumberAdapter;
@@ -48,7 +50,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     
     private IFileExportContract.View mFileExportView;
     private Activity mActivity;
-    private ImageView mIvBack;
     private TextView mTvFileType;
     private TextView mTvSelectDate;
     private TextView mTvStartTime;
@@ -56,8 +57,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private TextView mTvChannel;
     private TextView mTvStreamType;
     private TextView mTvExportFile;
-    private ProgressBar mPbExportProgressbar;
-    private TextView mTvCurrentExportSize;
     private TextView mTvChannelValue;
     private TextView mTvStreamTypeValue;
     private static final String START_TIME_FLAG = "start";
@@ -96,7 +95,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         String[] streamTypeContent = {all, main_stream, child_stream};
         initStreamTypeData(streamTypeContent);
         //默认显示的是系统的当前的时间
-        String format = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(new Date());
         mTvSelectDate.setText(format);
         mChannels = mActivity.getResources().getString(R.string.channels);
 
@@ -156,16 +155,14 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
     @Override
     public void findViewById(View view) {
-        mTvFileType = (TextView) view.findViewById(R.id.tv_file_type);
-        mTvSelectDate = (TextView) view.findViewById(R.id.tv_select_date);
-        mTvStartTime = (TextView) view.findViewById(R.id.tv_start_time);
-        mTvEndTime = (TextView) view.findViewById(R.id.tv_end_time);
-        mTvChannel = (TextView) view.findViewById(R.id.tv_channel);
-        mTvStreamType = (TextView) view.findViewById(R.id.tv_stream_type);
-        mTvExportFile = (TextView) view.findViewById(R.id.tv_export_file);
-        mPbExportProgressbar = (ProgressBar) view.findViewById(R.id.pb_export_progressbar);
-        mTvCurrentExportSize = (TextView) view.findViewById(R.id.tv_current_export_size);
-        mTvChannelValue = (TextView) view.findViewById(R.id.tv_channel_value);
+        mTvFileType = view.findViewById(R.id.tv_file_type);
+        mTvSelectDate = view.findViewById(R.id.tv_select_date);
+        mTvStartTime = view.findViewById(R.id.tv_start_time);
+        mTvEndTime = view.findViewById(R.id.tv_end_time);
+        mTvChannel = view.findViewById(R.id.tv_channel);
+        mTvStreamType = view.findViewById(R.id.tv_stream_type);
+        mTvExportFile = view.findViewById(R.id.tv_export_file);
+        mTvChannelValue = view.findViewById(R.id.tv_channel_value);
         mTvStreamTypeValue = view.findViewById(R.id.tv_stream_type_value);
 
         mChannelsNumberAdapter = new ChannelsNumberAdapter();
@@ -190,9 +187,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) { // 返回
-            mActivity.finish();
-        } else if (id == R.id.tv_file_type) { //选择文件类型
+        if (id == R.id.tv_file_type) { //选择文件类型
             showFileTypePopup();
         } else if (id == R.id.tv_log) { //日志
             dismissFileTypePopup();
@@ -243,34 +238,38 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                 break;
             }
         }
-        JSONObject jobj = new JSONObject();
-        try {
-            jobj.put("type",mSelectFileType);
-            jobj.put("data",date);
-            jobj.put("timeStart",startTime);
-            jobj.put("endStart",endTime);
-            jobj.put("channelNumber",channelNumber);
-            jobj.put("streamType",streamType);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<FileExportModel>() {
-            @Override
-            public void onCompleted() {
+        mActivity.startService(new Intent(mActivity, FloatWindowService.class));
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mActivity,e);
-            }
-
-            @Override
-            public void onNext(FileExportModel fileExportModel) {
-                //TODO 需要进行通过实时设备数据调试
-            }
-        });
+//        JSONObject jobj = new JSONObject();
+//        try {
+//            jobj.put("type",mSelectFileType);
+//            jobj.put("data",date);
+//            jobj.put("timeStart",startTime);
+//            jobj.put("endStart",endTime);
+//            jobj.put("channelNumber",channelNumber);
+//            jobj.put("streamType",streamType);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<FileExportModel>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                ExceptionUtils.exceptionHandling(mActivity,e);
+//            }
+//
+//            @Override
+//            public void onNext(FileExportModel fileExportModel) {
+//                //TODO 需要进行通过实时设备数据调试
+//                mActivity.startService(new Intent(mActivity, FloatWindowService.class));
+//            }
+//        });
     }
 
     /**
@@ -335,7 +334,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
      * 选择日期
      */
     private void selectDate() {
-        String select_date = mActivity.getResources().getString(R.string.select_date);
+        String select_date = mActivity.getString(R.string.select_date);
         Calendar date = Calendar.getInstance();
         TimePickerView pickerView = new TimePickerBuilder(mActivity, new OnTimeSelectListener() {
 

@@ -6,7 +6,7 @@
     android:background="@color/under_line_color"
     android:orientation="vertical"
     app:cardCornerRadius="@dimen/dp_10"
-    app:cardBackgroundColor="@color/under_line_color"
+    app:cardBackgroundColor="#4a4a4a"
     android:padding="@dimen/dp_10"
     app:cardElevation="0dp"
     app:cardUseCompatPadding="true">

@@ -64,4 +64,10 @@
     <string name="open">开启</string>
 
     <string name="close">关闭</string>
+
+    <string name="start_time_default_value">00:00:00</string>
+
+    <string name="end_time_default_value">23:59:00</string>
+
+    <string name="look_plate_status">下滑查看车辆状态</string>
 </resources>

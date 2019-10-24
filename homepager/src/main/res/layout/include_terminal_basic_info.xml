@@ -45,16 +45,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/phone_number"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_phone_number"
@@ -76,16 +72,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/license_plate_number"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_license_plate_number"
@@ -107,16 +99,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/chassis_number"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_chassis_number"
@@ -138,16 +126,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/license_plate_color"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_license_plate_color"
@@ -169,16 +153,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/terminal_id"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_terminal_id"
@@ -200,16 +180,12 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/provincial_domain_id"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_14" />
-
-        <TextView
-            android:layout_width="@dimen/dp_1"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_provincial_domain_id"
@@ -231,7 +207,8 @@
         android:paddingEnd="@dimen/dp_16">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/city_and_county_id"
             android:textColor="@color/font_color_333"

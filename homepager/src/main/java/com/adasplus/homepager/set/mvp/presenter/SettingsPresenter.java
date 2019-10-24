@@ -8,8 +8,10 @@ import android.widget.LinearLayout;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
+import com.adasplus.homepager.set.activity.CANSetActivity;
 import com.adasplus.homepager.set.activity.CalibrationSetActivity;
 import com.adasplus.homepager.set.activity.CommonSetActivity;
+import com.adasplus.homepager.set.activity.NetworkSetActivity;
 import com.adasplus.homepager.set.activity.SettingsActivity;
 import com.adasplus.homepager.set.activity.SpeedSetActivity;
 import com.adasplus.homepager.set.activity.VideoSetActivity;
@@ -71,9 +73,9 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
         } else if (id == R.id.ll_speed_set) { //速度设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, SpeedSetActivity.class));
         } else if (id == R.id.ll_network_set) { //网络设置
-//            mSettingsActivity.startActivity(new Intent(mSettingsActivity, NetworkSetActivity.class));
+            mSettingsActivity.startActivity(new Intent(mSettingsActivity, NetworkSetActivity.class));
         } else if (id == R.id.ll_can_set) {  // CAN 设置
-            //mSettingsActivity.startActivity(new Intent(mSettingsActivity, CANSetActivity.class));
+            mSettingsActivity.startActivity(new Intent(mSettingsActivity, CANSetActivity.class));
         } else if (id == R.id.ll_calibration_set) { //标定设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, CalibrationSetActivity.class));
         } else if (id == R.id.ll_warning_set) { //报警设置

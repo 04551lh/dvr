@@ -326,4 +326,5 @@
 
     <string name="cancellation">注销</string>
 
+    <string name="please_choose_provincial_id">请先选择省域ID</string>
 </resources>

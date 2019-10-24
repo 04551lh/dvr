@@ -1,1 +1,1 @@
-include ':app', ':pickerview', ':wheelview', ':base', ':basicinfo', ':homepager', ':menudrawer'
+include ':app', ':pickerview', ':wheelview', ':base', ':basicinfo', ':homepager'

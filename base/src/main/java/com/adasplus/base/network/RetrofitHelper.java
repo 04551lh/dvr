@@ -100,16 +100,21 @@ public class RetrofitHelper {
     Observable.Transformer transformer = new Observable.Transformer() {
         @Override
         public Object call(Object observable) {
-            Observable observable1 = ((Observable) observable)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .flatMap(new Func1() {
-                        @Override
-                        public Object call(Object response) {
-                            return flatResponse((BaseResponse<Object>) response);
-                        }
-                    });
-            return observable1;
+            try{
+                Observable observable1 = ((Observable) observable)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .flatMap(new Func1() {
+                            @Override
+                            public Object call(Object response) {
+                                return flatResponse((BaseResponse<Object>) response);
+                            }
+                        });
+                return observable1;
+            }catch (Exception e){
+                ExceptionUtils.exceptionHandling(App.getInstance().getApplicationContext(),e);
+                return null;
+            }
         }
     };
 

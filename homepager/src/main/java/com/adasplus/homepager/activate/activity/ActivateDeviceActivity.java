@@ -5,11 +5,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.mvp.contract.IActivateDeviceContract;
+import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
 import com.adasplus.homepager.activate.mvp.presenter.ActivateDevicePresenter;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -29,9 +31,10 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private TextView mTvTerminalId;
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
-    private TextView mTvPlatformList;
     private ImageView mIvAddNewPlatform;
     private TextView mTvEditBasicInfo;
+    private TextView mTvPlatformList;
+    private SwipeRefreshLayout mSrlActivatePlatformData;
 
     @Autowired(name = "type")
     String mType;
@@ -67,9 +70,10 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mTvTerminalId = (TextView) findViewById(R.id.tv_terminal_id);
         mTvProvincialDomainId = (TextView) findViewById(R.id.tv_provincial_domain_id);
         mTvCityAndCountyId = (TextView) findViewById(R.id.tv_city_and_county_id);
-        mTvPlatformList = (TextView) findViewById(R.id.tv_platform_list);
         mIvAddNewPlatform =(ImageView) findViewById(R.id.iv_add_new_platform);
         mTvEditBasicInfo = (TextView)findViewById(R.id.tv_edit_basic_info);
+        mTvPlatformList = (TextView) findViewById(R.id.tv_platform_list);
+        mSrlActivatePlatformData =  findViewById(R.id.srl_activate_platform_data);
     }
 
     @Override
@@ -128,11 +132,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     }
 
     @Override
-    public TextView getTvPlatformList() {
-        return mTvPlatformList;
-    }
-
-    @Override
     public String getType() {
         return mType;
     }
@@ -147,6 +146,20 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         return mTvEditBasicInfo;
     }
 
+    @Override
+    public TextView getTvPlatformList() {
+        return mTvPlatformList;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSrlActivatePlatformData() {
+        return mSrlActivatePlatformData;
+    }
+
+    @Override
+    public void showDefaultPlateInfo(CarInfoModel carInfoModel) {
+        mActivateDevicePresenter.showDefaultPlateInfo(carInfoModel);
+    }
 
     public void notifyPlatformsSizeShow(){
         mActivateDevicePresenter.notifyPlatformsSizeShow();

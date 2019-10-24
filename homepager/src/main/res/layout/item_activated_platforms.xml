@@ -7,33 +7,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:paddingRight="@dimen/dp_16"
-        android:paddingLeft="@dimen/dp_16"
+        android:layout_height="@dimen/dp_30"
         android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        >
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/system_navigation_bar_color"
-            android:paddingTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_10"
             android:id="@+id/ministerial_platform_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
+            android:paddingTop="@dimen/dp_10"
             android:text="@string/ministerial_platform"
-            android:layout_height="wrap_content"/>
+            android:textColor="@color/system_navigation_bar_color"
+            android:textSize="@dimen/sp_10" />
+
         <TextView
             android:layout_width="@dimen/dp_0.1"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:textColor="@color/system_navigation_bar_color"
-            android:paddingTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_14"
-            android:background="@android:color/white"
-            android:text="@string/cancellation"
-            android:id="@+id/tv_platform_cancellation"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1" />
+
+
+        <ImageView
+            android:id="@+id/iv_platforms_more_operation"
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:src="@mipmap/platforms_more_operation"/>
 
     </LinearLayout>
 
@@ -41,96 +42,104 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:paddingStart="@dimen/dp_16"
-            android:paddingBottom="@dimen/dp_16"
             android:paddingEnd="@dimen/dp_16"
-            android:layout_height="wrap_content">
+            android:paddingBottom="@dimen/dp_16">
+
             <TextView
                 android:id="@+id/tv_platform_ip_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
                 android:text="@string/platform_ip_address"
-                android:textColor="@color/font_color_333"/>
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_14" />
+
             <TextView
                 android:layout_width="@dimen/dp_1"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/tv_platform_ip_address_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/font_color_666"/>
+                android:textColor="@color/font_color_666"
+                android:textSize="@dimen/sp_14" />
 
             <ImageView
                 android:id="@+id/iv_platform_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:layout_gravity="center_vertical"
                 android:src="@drawable/activate_more_icon"
-                android:layout_gravity="center_vertical"/>
+                android:visibility="gone" />
         </LinearLayout>
 
-        <View
-            style="@style/DividerLineStyle"/>
+        <View style="@style/DividerLineStyle" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:paddingStart="@dimen/dp_16"
-            android:paddingBottom="@dimen/dp_16"
-            android:paddingEnd="@dimen/dp_16">
+            android:paddingEnd="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16">
+
             <TextView
                 android:id="@+id/tv_platform_port"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
                 android:text="@string/platform_port"
-                android:textColor="@color/font_color_333"/>
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_14" />
+
             <TextView
                 android:layout_width="@dimen/dp_1"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/tv_platform_port_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/font_color_666"/>
+                android:textColor="@color/font_color_666"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
-        <View
-            style="@style/DividerLineStyle"/>
+        <View style="@style/DividerLineStyle" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_16"
             android:paddingStart="@dimen/dp_16"
-            android:paddingBottom="@dimen/dp_16"
-            android:paddingEnd="@dimen/dp_16">
+            android:paddingEnd="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
                 android:text="@string/connect_status"
-                android:textColor="@color/font_color_333"/>
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_14" />
+
             <TextView
                 android:layout_width="@dimen/dp_1"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
             <TextView
                 android:id="@+id/tv_platform_connect_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/sp_14"
-                android:textColor="@color/connection_state_tv_color"/>
+                android:textColor="@color/connected"
+                android:textSize="@dimen/sp_14" />
         </LinearLayout>
-        
+
     </LinearLayout>
 </LinearLayout>

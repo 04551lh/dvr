@@ -3,9 +3,6 @@ package com.adasplus.dvr_controller.mvp.contract;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.adasplus.menudrawer.OverlayDrawer;
-
 /**
  * Author:刘净辉
  * Date : 2019/9/10
@@ -34,8 +31,6 @@ public interface IMainContract {
         ImageView getIvFileExportPager();
 
         TextView getTvFileExportPager();
-
-        OverlayDrawer getOdTopSlideView();
     }
 
     interface Presenter {

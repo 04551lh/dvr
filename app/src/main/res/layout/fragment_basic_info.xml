@@ -5,39 +5,105 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@color/app_background"
     >
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         android:layout_gravity="center"
         android:text="@string/basic_info"
         android:gravity="center"
-        android:background="@color/system_navigation_bar_color"
-        android:textColor="@android:color/white"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:textColor="@color/font_color_333"
         android:textSize="@dimen/sp_18" />
-    <TextView
-        android:id="@+id/tv_car_info"
-        style="@style/tvTextShow"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:text="@string/car_info"
-        android:textSize="@dimen/sp_15"/>
-    <View
-        style="@style/DividerLineStyle"/>
-    <TextView
-        android:id="@+id/tv_driver_info"
-        style="@style/tvTextShow"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardBackgroundColor="@android:color/white">
+        <LinearLayout
+            android:id="@+id/ll_car_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/car_info_icon"
+                android:layout_gravity="center_vertical"
+               />
+            <TextView
+                style="@style/tvTextShow"
+                android:layout_height="@dimen/dp_45"
+                android:text="@string/car_info"
+                android:textSize="@dimen/sp_15"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/common_right_back_icon"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:text="@string/driver_info"
-        android:textSize="@dimen/sp_15"/>
-    <View
-        style="@style/DividerLineStyle"/>
-    <TextView
-        android:id="@+id/tv_system_info"
-        style="@style/tvTextShow"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardBackgroundColor="@android:color/white">
+        <LinearLayout
+            android:id="@+id/ll_driver_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/car_info_icon"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                style="@style/tvTextShow"
+                android:layout_height="@dimen/dp_45"
+                android:text="@string/driver_info"
+                android:textSize="@dimen/sp_15"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/common_right_back_icon"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:text="@string/system_info"
-        android:textSize="@dimen/sp_15"/>
-    <View
-        style="@style/DividerLineStyle"/>
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardBackgroundColor="@android:color/white">
+        <LinearLayout
+            android:id="@+id/ll_system_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/car_info_icon"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                style="@style/tvTextShow"
+                android:layout_height="@dimen/dp_45"
+                android:text="@string/system_info"
+                android:textSize="@dimen/sp_15"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/common_right_back_icon"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

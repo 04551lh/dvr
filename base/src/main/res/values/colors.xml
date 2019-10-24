@@ -22,5 +22,5 @@
 
     <color name="font_color_666">#666666</color>
 
-    <color name="connection_state_tv_color">#ff4ddb6e</color>
+    <color name="connected">#ff4ddb6e</color>
 </resources>

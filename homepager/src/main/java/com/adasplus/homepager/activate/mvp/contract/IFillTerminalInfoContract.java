@@ -25,21 +25,15 @@ public interface IFillTerminalInfoContract {
 
         ImageView getIvBack();
 
-        ImageView getIvAddPlatform();
-
         ImageView getIvCloseHintMessage();
 
         RelativeLayout getRlHintMessage();
-
-        LinearLayout getLlPlatformInformation();
 
         EditText getEtPlatformPhoneNumber();
 
         EditText getEtLicensePlateNumber();
 
         TextView getTvLicensePlateColor();
-
-        TextView getTvAddNewPlatform();
 
         EditText getEtTerminalId();
 
@@ -61,12 +55,15 @@ public interface IFillTerminalInfoContract {
 
         void initProvincialDomainId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
 
-        void initCityAndCountyId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
+        void showDefaultCityId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
+
     }
 
     interface Presenter {
         void initData();
 
         void initListener();
+
+        void setAdministrativeRegionCodeData(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
     }
 }

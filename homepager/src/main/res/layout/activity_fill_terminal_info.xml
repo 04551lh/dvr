@@ -35,34 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-
-        <ImageView
-            android:id="@+id/iv_add_platform"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:src="@drawable/icon_add_platform"
-            android:textColor="@color/font_color_333" />
-
-
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_add_new_platform"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/dp_100"
-        android:background="@drawable/btn_shape_style"
-        android:paddingLeft="@dimen/dp_35"
-        android:paddingTop="@dimen/dp_8"
-        android:paddingRight="@dimen/dp_35"
-        android:paddingBottom="@dimen/dp_7"
-        android:text="@string/add_new_platforms"
-        android:textColor="@android:color/white"
-        android:visibility="gone" />
 
 
     <LinearLayout
@@ -95,13 +68,13 @@
                 android:id="@+id/iv_close_hint_message"
                 android:layout_width="@dimen/dp_11"
                 android:layout_height="@dimen/dp_11"
-                android:layout_alignRight="@id/tv_hint"
+                android:layout_alignEnd="@id/tv_hint"
                 android:layout_marginTop="@dimen/dp_8"
-                android:layout_marginRight="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
                 android:src="@mipmap/close_hint_message_icon" />
         </RelativeLayout>
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <LinearLayout
                 android:layout_width="@dimen/dp_60"
@@ -126,7 +99,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"
@@ -142,7 +115,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"
@@ -158,7 +131,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"
@@ -180,7 +153,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"
@@ -197,7 +170,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"
@@ -218,7 +191,7 @@
 
         <View style="@style/UnderLineStyle" />
 
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle">
 
             <TextView
                 style="@style/TvActivateText"

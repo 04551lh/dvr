@@ -9,7 +9,6 @@ import com.adasplus.dvr_controller.R;
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
 import com.adasplus.dvr_controller.mvp.presenter.MainPresenter;
-import com.adasplus.menudrawer.OverlayDrawer;
 
 
 public class MainActivity extends BaseActivity implements IMainContract.View {
@@ -24,7 +23,6 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
     private ImageView mIvFileExportPager;
     private TextView mTvFileExportPager;
     private MainPresenter mMainPresenter;
-    private OverlayDrawer mOdTopSlideView;
     private ImageView mIvFourGSignalStatus;
     private TextView mTvFourGSignalLevel;
     private ImageView mIvLocationStatus;
@@ -66,7 +64,6 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         mTvBasicInfoPager = findViewById(R.id.tv_basic_info_pager);
         mIvFileExportPager = findViewById(R.id.iv_file_export_pager);
         mTvFileExportPager = findViewById(R.id.tv_file_export_pager);
-        mOdTopSlideView = findViewById(R.id.od_top_slide_view);
         mIvFourGSignalStatus = findViewById(R.id.iv_four_g_signal_status);
         mTvFourGSignalLevel = findViewById(R.id.tv_four_g_signal_level);
         mIvLocationStatus = findViewById(R.id.iv_location_status);
@@ -131,8 +128,4 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         return mTvFileExportPager;
     }
 
-    @Override
-    public OverlayDrawer getOdTopSlideView() {
-        return mOdTopSlideView;
-    }
 }
