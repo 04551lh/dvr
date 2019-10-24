@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/dp_42"
-    android:background="@drawable/number_add_sub_bg"
-    android:layout_marginEnd="@dimen/dp_10"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:gravity="center_vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_gravity="center_vertical">
     <Button
         android:id="@+id/btn_sub"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
-        android:background="@drawable/btn__bg_style"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:background="@drawable/btn_bg_left_style"
         android:gravity="center"
         android:text="@string/sub"
-        android:textColor="#000"
-        android:textSize="@dimen/sp_20"/>
+        android:textColor="@color/font_color_999"
+        android:textSize="@dimen/sp_15"/>
     <EditText
         android:id="@+id/et_error_number"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_2"
-        android:layout_marginBottom="@dimen/dp_2"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:text="@string/default_number"
         android:gravity="center"
-        android:textColor="#55000000"
-        android:background="@android:color/white"
+        android:layout_marginLeft="@dimen/dp_1"
+        android:layout_marginRight="@dimen/dp_1"
+        android:textColor="@color/font_color_333"
+        android:background="@drawable/btn_bg_rectangle_style"
         android:textSize="@dimen/sp_15"/>
     <Button
         android:id="@+id/btn_add"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
-        android:background="@drawable/btn__bg_style"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:background="@drawable/btn_bg_right_style"
         android:gravity="center"
         android:text="@string/add"
-        android:textColor="#000"
-        android:textSize="@dimen/sp_20"/>
+        android:textColor="@color/font_color_999"
+        android:textSize="@dimen/sp_15"/>
 </LinearLayout>

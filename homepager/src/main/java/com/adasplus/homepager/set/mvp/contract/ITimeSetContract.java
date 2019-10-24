@@ -19,17 +19,13 @@ public interface ITimeSetContract {
 
         ImageView getIvBack();
 
-        LinearLayout getLlNetworkTime();
+        ImageView getIvNetworkTime();
+        
+        ImageView getIvAutomaticCorrectionWhen();
 
-        CheckBox getCbNetworkTime();
+        ImageView getIvGpsTime();
 
-        LinearLayout getLlGpsTime();
-
-        CheckBox getCbGpsTime();
-
-        LinearLayout getLlWhenManualCalibration();
-
-        CheckBox getCbWhenManualCalibration();
+        ImageView getIvWhenManualCalibration();
 
         EditText getEtYear();
 

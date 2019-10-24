@@ -40,22 +40,19 @@
             android:id="@+id/ll_car_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:orientation="vertical">
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/phone_number"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <TextView
                     android:id="@+id/tv_phone_number"
                     android:layout_width="wrap_content"
@@ -70,18 +67,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/license_plate_number"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <TextView
                     android:id="@+id/tv_license_plate_number"
                     android:layout_width="wrap_content"
@@ -96,18 +89,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/chassis_number"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <TextView
                     android:id="@+id/tv_chassis_number"
                     android:layout_width="wrap_content"
@@ -121,18 +110,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/license_plate_color"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
-
                 <TextView
                     android:id="@+id/tv_license_plate_color"
                     android:layout_width="wrap_content"
@@ -146,17 +131,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/terminal_id"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/tv_terminal_id"
@@ -171,17 +153,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/provincial_domain_id"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/tv_provincial_domain_id"
@@ -196,17 +175,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/city_and_county_id"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"
                     android:textSize="@dimen/sp_14" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/tv_city_and_county_id"
@@ -220,10 +196,13 @@
 
         <TextView
             android:id="@+id/tv_no_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:gravity="center"
             android:text="@string/no_data"
+            android:textSize="@dimen/sp_18"
+            android:background="@color/app_background"
+            android:textColor="@color/font_color_666"
             android:visibility="gone"/>
     </RelativeLayout>
 

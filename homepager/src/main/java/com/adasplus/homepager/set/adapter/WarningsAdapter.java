@@ -1,13 +1,12 @@
 package com.adasplus.homepager.set.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -17,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.collection.SparseArrayCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ISwitchItemClickListener;
 import com.adasplus.homepager.set.mvp.model.ConvertWarningsModel;
@@ -118,7 +116,7 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof WarningsViewHolder) {
             final WarningsViewHolder warningsViewHolder = (WarningsViewHolder) holder;
             final ConvertWarningsModel convertWarningsModel = mConvertWarningsList.get(position - getHeadersCount());
-            int enable = convertWarningsModel.getEnable();
+            final int enable = convertWarningsModel.getEnable();
             int warningNameResId = convertWarningsModel.getWarningNameResId();
             int sensitivityLevel = convertWarningsModel.getSensitivityLevel();
             int lowestSpeed = convertWarningsModel.getLowestSpeed();
@@ -131,11 +129,12 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             //判断报警的类型 enable 值 1：代表的是打开报警类型的开关， 0 代表的关闭类型的开关
             if (enable == 1) {
                 //设置条目显示的字体颜色
-                widgetTextColor(warningsViewHolder, Color.BLACK);
+                int color = mContext.getResources().getColor(R.color.font_color_333);
+                widgetTextColor(warningsViewHolder, color);
                 //设置按钮的状态
                 widgetStatus(warningsViewHolder, true);
             } else {
-                int color = mContext.getResources().getColor(R.color.split_line_color);
+                int color = mContext.getResources().getColor(R.color.under_line_color);
                 widgetTextColor(warningsViewHolder, color);
                 widgetStatus(warningsViewHolder, false);
             }
@@ -150,10 +149,16 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
             //每个条目报警的总报警的开关
-            warningsViewHolder.mSsvWarningTypeSwitch.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
+            warningsViewHolder.mIvWarningTypeSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onSwitchStatus(boolean status) {
+                public void onClick(View v) {
                     if (mSwitchClickListener != null) {
+                        boolean status;
+                        if(enable == 1){
+                            status = false;
+                        }else{
+                            status = true;
+                        }
                         mSwitchClickListener.onSwitchListener(position, convertWarningsModel, status);
                     }
                 }
@@ -237,7 +242,12 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private void widgetStatus(WarningsViewHolder warningsViewHolder, boolean status) {
-        warningsViewHolder.mSsvWarningTypeSwitch.setOpen(status);
+        if(status){
+            warningsViewHolder.mIvWarningTypeSwitch.setImageResource(R.mipmap.switch_open_icon);
+        }else{
+            warningsViewHolder.mIvWarningTypeSwitch.setImageResource(R.mipmap.switch_close_icon);
+        }
+
         warningsViewHolder.mRbSensitivityLow.setEnabled(status);
         warningsViewHolder.mRbSensitivityLow.setClickable(status);
         warningsViewHolder.mRbSensitivityMiddle.setEnabled(status);
@@ -259,7 +269,7 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class WarningsViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvWarningType;
-        private SlideSwitchView mSsvWarningTypeSwitch;
+        private ImageView mIvWarningTypeSwitch;
         private TextView mTvSensitivity;
         private RadioGroup mRgSensitivity;
         private RadioButton mRbSensitivityLow;
@@ -272,17 +282,17 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         WarningsViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTvWarningType = (TextView) itemView.findViewById(R.id.tv_warning_type);
-            mSsvWarningTypeSwitch = (SlideSwitchView) itemView.findViewById(R.id.ssv_warning_type_switch);
-            mTvSensitivity = (TextView) itemView.findViewById(R.id.tv_sensitivity);
-            mRgSensitivity = (RadioGroup) itemView.findViewById(R.id.rg_sensitivity);
-            mRbSensitivityLow = (RadioButton) itemView.findViewById(R.id.rb_sensitivity_low);
-            mRbSensitivityMiddle = (RadioButton) itemView.findViewById(R.id.rb_sensitivity_middle);
-            mRbSensitivityHigh = (RadioButton) itemView.findViewById(R.id.rb_sensitivity_high);
-            mTvMinimumSpeed = (TextView) itemView.findViewById(R.id.tv_minimum_speed);
-            mBtnSub = (Button) itemView.findViewById(R.id.btn_sub);
-            mEtErrorNumber = (EditText) itemView.findViewById(R.id.et_error_number);
-            mBtnAdd = (Button) itemView.findViewById(R.id.btn_add);
+            mTvWarningType =  itemView.findViewById(R.id.tv_warning_type);
+            mIvWarningTypeSwitch =  itemView.findViewById(R.id.iv_warning_type_switch);
+            mTvSensitivity =  itemView.findViewById(R.id.tv_sensitivity);
+            mRgSensitivity =  itemView.findViewById(R.id.rg_sensitivity);
+            mRbSensitivityLow =  itemView.findViewById(R.id.rb_sensitivity_low);
+            mRbSensitivityMiddle =  itemView.findViewById(R.id.rb_sensitivity_middle);
+            mRbSensitivityHigh =  itemView.findViewById(R.id.rb_sensitivity_high);
+            mTvMinimumSpeed =  itemView.findViewById(R.id.tv_minimum_speed);
+            mBtnSub =  itemView.findViewById(R.id.btn_sub);
+            mEtErrorNumber =  itemView.findViewById(R.id.et_error_number);
+            mBtnAdd =  itemView.findViewById(R.id.btn_add);
         }
     }
 

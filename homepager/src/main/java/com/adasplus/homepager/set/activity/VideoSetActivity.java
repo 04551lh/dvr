@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.IVideoSetContract;
 import com.adasplus.homepager.set.mvp.presenter.VideoSetPresenter;
@@ -18,14 +17,15 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     private TextView mTvSelectChannelsNumber;
     private TextView mTvMainStreamSet;
     private TextView mTvSubStreamSet;
-    private SlideSwitchView mSsvStreamTotalSwitch;
+
+    private ImageView mIvStreamTotalSwitch;
     private TextView mTvVideoFrameRate;
     private TextView mTvResolutionRatio;
-    private SlideSwitchView mSsvDateTime;
-    private SlideSwitchView mSsvLicensePlateNumber;
-    private SlideSwitchView mSsvChannelName;
-    private SlideSwitchView mSsvGpsSignal;
-    private SlideSwitchView mSsvSpeed;
+    private ImageView mIvDateTime;
+    private ImageView mIvLicensePlateNumber;
+    private ImageView mIvChannelName;
+    private ImageView mIvGpsSignal;
+    private ImageView mIvSpeed;
     private TextView mTvSave;
     private Button mBtnSub;
     private EditText mEtErrorNumber;
@@ -45,23 +45,23 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvSelectChannelsNumber = (TextView) findViewById(R.id.tv_select_channels_number);
-        mTvMainStreamSet = (TextView) findViewById(R.id.tv_main_stream_set);
-        mTvSubStreamSet = (TextView) findViewById(R.id.tv_sub_stream_set);
-        mSsvStreamTotalSwitch = (SlideSwitchView) findViewById(R.id.ssv_stream_total_switch);
-        mTvVideoFrameRate = (TextView) findViewById(R.id.tv_video_frame_rate);
-        mTvResolutionRatio = (TextView) findViewById(R.id.tv_resolution_ratio);
-        mSsvDateTime = (SlideSwitchView) findViewById(R.id.ssv_date_time);
-        mSsvLicensePlateNumber = (SlideSwitchView) findViewById(R.id.ssv_license_plate_number);
-        mSsvChannelName = (SlideSwitchView) findViewById(R.id.ssv_channel_name);
-        mSsvGpsSignal = (SlideSwitchView) findViewById(R.id.ssv_gps_signal);
-        mSsvSpeed = (SlideSwitchView) findViewById(R.id.ssv_speed);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
-        mBtnSub = (Button) findViewById(R.id.btn_sub);
-        mEtErrorNumber = (EditText) findViewById(R.id.et_error_number);
+        mIvBack = findViewById(R.id.iv_back);
+        mTvSelectChannelsNumber = findViewById(R.id.tv_select_channels_number);
+        mTvMainStreamSet = findViewById(R.id.tv_main_stream_set);
+        mTvSubStreamSet =  findViewById(R.id.tv_sub_stream_set);
+        mIvStreamTotalSwitch = findViewById(R.id.iv_stream_total_switch);
+        mTvVideoFrameRate =  findViewById(R.id.tv_video_frame_rate);
+        mTvResolutionRatio = findViewById(R.id.tv_resolution_ratio);
+        mIvDateTime =  findViewById(R.id.iv_date_time);
+        mIvLicensePlateNumber =  findViewById(R.id.iv_license_plate_number);
+        mIvChannelName =  findViewById(R.id.iv_channel_name);
+        mIvGpsSignal =  findViewById(R.id.iv_gps_signal);
+        mIvSpeed =  findViewById(R.id.iv_speed);
+        mTvSave =  findViewById(R.id.tv_save);
+        mBtnSub =  findViewById(R.id.btn_sub);
+        mEtErrorNumber =  findViewById(R.id.et_error_number);
         mEtErrorNumber.setFocusable(false);
-        mBtnAdd = (Button) findViewById(R.id.btn_add);
+        mBtnAdd = findViewById(R.id.btn_add);
     }
 
     @Override
@@ -85,8 +85,8 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public SlideSwitchView getSsvStreamTotalSwitch() {
-        return mSsvStreamTotalSwitch;
+    public ImageView getIvStreamTotalSwitch() {
+        return mIvStreamTotalSwitch;
     }
 
     @Override
@@ -100,28 +100,28 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public SlideSwitchView getSsvDateTime() {
-        return mSsvDateTime;
+    public ImageView getIvDateTime() {
+        return mIvDateTime;
     }
 
     @Override
-    public SlideSwitchView getSsvLicensePlateNumber() {
-        return mSsvLicensePlateNumber;
+    public ImageView getIvLicensePlateNumber() {
+        return mIvLicensePlateNumber;
     }
 
     @Override
-    public SlideSwitchView getSsvChannelName() {
-        return mSsvChannelName;
+    public ImageView getIvChannelName() {
+        return mIvChannelName;
     }
 
     @Override
-    public SlideSwitchView getSsvGpsSignal() {
-        return mSsvGpsSignal;
+    public ImageView getIvGpsSignal() {
+        return mIvGpsSignal;
     }
 
     @Override
-    public SlideSwitchView getSsvSpeed() {
-        return mSsvSpeed;
+    public ImageView getIvSpeed() {
+        return mIvSpeed;
     }
 
     @Override

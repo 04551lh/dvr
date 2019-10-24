@@ -32,10 +32,6 @@
             android:textSize="@dimen/sp_18"
             android:text="@string/add_new_platforms"
             android:textColor="@color/font_color_333" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +43,8 @@
             android:layout_width="match_parent"
             android:textColor="@color/system_navigation_bar_color"
             android:paddingTop="@dimen/dp_10"
-            android:paddingLeft="@dimen/dp_16"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
             android:textSize="@dimen/sp_10"
             android:background="@android:color/white"
             android:text="@string/ministerial_platform"

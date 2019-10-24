@@ -39,13 +39,13 @@ import rx.Subscriber;
  * Date : 2019/9/26 19:31
  * Description :
  */
-public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.OnClickListener, SlideSwitchView.OnSwitchStatusChangeListener, ISwitchItemClickListener {
+public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.OnClickListener,ISwitchItemClickListener {
 
     private IDMSWarningContract.View mDMSWarningView;
     private DMSWarningActivity mDmsWarningActivity;
     private RecyclerView mRvDmsList;
     private WarningsAdapter mWarningsAdapter;
-    private SlideSwitchView mSsvDMSTotalSwitch;
+    private ImageView mIvDMSTotalSwitch;
     private TextView mTvSave;
     private TextView mTvRestoreTheDefaultSettings;
     private int mCloseWarningCount = 0;
@@ -53,6 +53,8 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
     private DMSWarningModel mDmsWarningModel;
     private List<ConvertWarningsModel> mConvertWarningsList = new ArrayList<>();
     private BasicDialog mDialog;
+
+    private  int mDmsEnable;
 
     public DMSWarningPresenter(IDMSWarningContract.View view) {
         mDMSWarningView = view;
@@ -65,14 +67,13 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         View headerView = View.inflate(mDmsWarningActivity, R.layout.item_head_view, null);
         View footerView = View.inflate(mDmsWarningActivity, R.layout.item_footer_view, null);
 
-        mSsvDMSTotalSwitch = headerView.findViewById(R.id.ssv_adas_total_switch);
+        mIvDMSTotalSwitch = headerView.findViewById(R.id.iv_adas_total_switch);
         TextView tv_warning_type = headerView.findViewById(R.id.tv_warning_type);
         tv_warning_type.setText(R.string.dms);
         mTvSave = footerView.findViewById(R.id.tv_save);
         mTvRestoreTheDefaultSettings = footerView.findViewById(R.id.tv_restore_the_default_settings);
 
-        float dp_45 = mDmsWarningActivity.getResources().getDimension(R.dimen.dp_45);
-        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) dp_45));
+        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         footerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         mWarningsAdapter = new WarningsAdapter();
@@ -89,7 +90,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         ivBack.setOnClickListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
-        mSsvDMSTotalSwitch.setOnSwitchStatusChangeListener(this);
+        mIvDMSTotalSwitch.setOnClickListener(this);
         mWarningsAdapter.setOnSwitchClickListener(this);
     }
 
@@ -97,7 +98,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.iv_back) { //点击返回按钮的监听
-
             //点击返回按钮判断是否 dms 设置是否有未保存的数据。如果有未保存的设置，进行弹出
             // 对话框来提示，选择是，保存并退出，否的话直接进行退出
             boolean isSaveSet = false;
@@ -200,8 +200,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     mDialog.dismiss();
                 }
 
-                int dmsTotalSwitch = mSsvDMSTotalSwitch.isOpen() ? 1 : 0;
-                mDmsWarningModel.setDmsEnable(dmsTotalSwitch);
+                mDmsWarningModel.setDmsEnable(mDmsEnable);
 
                 //通过对应的 id 来设置对应的报警数据。并保存
                 for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
@@ -276,6 +275,25 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     e.printStackTrace();
                 }
             }
+        }else if (id == R.id.iv_adas_total_switch) {
+            if(mDmsEnable == 1){
+                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                mDmsEnable = 0;
+                mCloseWarningCount = mCloseTotalCount;
+                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                    convertWarningsModel.setEnable(0);
+                }
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }else{
+                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                mDmsEnable = 1;
+                getDMSDefaultSet();
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 
@@ -295,7 +313,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
-        tv_dialog_description.setTextColor(Color.BLACK);
+        tv_dialog_description.setTextColor(mDmsWarningActivity.getResources().getColor(R.color.font_color_333));
         tv_dialog_description.setPadding(padding, padding, padding, padding);
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
@@ -310,22 +328,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
 
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
-    }
-
-    @Override
-    public void onSwitchStatus(boolean status) {
-        if (status) {
-            getDMSDefaultSet();
-        } else {
-            mCloseWarningCount = mCloseTotalCount;
-            for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                convertWarningsModel.setEnable(0);
-            }
-        }
-
-        if (mWarningsAdapter != null) {
-            mWarningsAdapter.notifyDataSetChanged();
-        }
     }
 
     private void getDMSDefaultSet() {
@@ -348,11 +350,11 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     mConvertWarningsList.clear();
                 }
 
-                int dmsEnable = dmsWarningModel.getDmsEnable();
-                if (dmsEnable == 1){
-                    mSsvDMSTotalSwitch.setOpen(true);
+               mDmsEnable = dmsWarningModel.getDmsEnable();
+                if (mDmsEnable == 1){
+                    mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 }else {
-                    mSsvDMSTotalSwitch.setOpen(false);
+                    mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
                 }
 
                 //疲劳驾驶报警
@@ -401,12 +403,12 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         // 关闭。当有其中一个报警进行打开，总开关的按钮同样也要进行打开
         if (status) {
             mCloseWarningCount--;
-            mSsvDMSTotalSwitch.setOpen(true);
+            mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
             convertWarningsModel.setEnable(1);
         } else {
             mCloseWarningCount++;
             if (mCloseTotalCount == mCloseWarningCount) {
-                mSsvDMSTotalSwitch.setOpen(false);
+                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
             }
             convertWarningsModel.setEnable(0);
         }

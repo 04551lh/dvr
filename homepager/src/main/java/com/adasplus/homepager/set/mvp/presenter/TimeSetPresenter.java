@@ -1,10 +1,10 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +30,10 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
     private ITimeSetContract.View mTimeSetView;
     private TimeSetActivity mTimeSetActivity;
-    private LinearLayout mLlNetworkTime;
-    private CheckBox mCbNetworkTime;
-    private LinearLayout mLlGpsTime;
-    private CheckBox mCbGpsTime;
-    private LinearLayout mLlWhenManualCalibration;
-    private CheckBox mCbWhenManualCalibration;
+    private ImageView mIvNetworkTime;
+    private ImageView mIvAutomaticCorrectionWhen;
+    private ImageView mIvGpsTime;
+    private ImageView mIvWhenManualCalibration;
     private EditText mEtYear;
     private EditText mEtMonth;
     private EditText mEtDay;
@@ -44,26 +42,32 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
     private EditText mEtSeconds;
     private TimeSetModel mTimeSetModel;
 
-    public TimeSetPresenter(ITimeSetContract.View view){
+    private int mIvSelectId;
+    private int mIvNoSelectId;
+    private int autoCalibrationTimeEnable;
+    private int calibrationTimeThroughGPS;
+    private int calibrationTimeThroughNet;
+    private int manualCalibrationTimeEnable;
+
+    public TimeSetPresenter(ITimeSetContract.View view) {
         mTimeSetView = view;
         mTimeSetActivity = (TimeSetActivity) view;
     }
 
     @Override
     public void initData() {
-
-        mLlNetworkTime = mTimeSetView.getLlNetworkTime();
-        mCbNetworkTime = mTimeSetView.getCbNetworkTime();
-        mLlGpsTime = mTimeSetView.getLlGpsTime();
-        mCbGpsTime = mTimeSetView.getCbGpsTime();
-        mLlWhenManualCalibration = mTimeSetView.getLlWhenManualCalibration();
-        mCbWhenManualCalibration = mTimeSetView.getCbWhenManualCalibration();
+        mIvNetworkTime = mTimeSetView.getIvNetworkTime();
+        mIvAutomaticCorrectionWhen = mTimeSetView.getIvAutomaticCorrectionWhen();
+        mIvGpsTime = mTimeSetView.getIvGpsTime();
+        mIvWhenManualCalibration = mTimeSetView.getIvWhenManualCalibration();
         mEtYear = mTimeSetView.getEtYear();
         mEtMonth = mTimeSetView.getEtMonth();
         mEtDay = mTimeSetView.getEtDay();
         mEtHours = mTimeSetView.getEtHours();
         mEtMinutes = mTimeSetView.getEtMinutes();
         mEtSeconds = mTimeSetView.getEtSeconds();
+        mIvSelectId = R.mipmap.switch_open_icon;
+        mIvNoSelectId = R.mipmap.switch_close_icon;
 
         //获取部标设备中的时间设置的信息
         HomeWrapper.getInstance().getTimeSet().subscribe(new Subscriber<TimeSetModel>() {
@@ -74,7 +78,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mTimeSetActivity,e);
+                ExceptionUtils.exceptionHandling(mTimeSetActivity, e);
             }
 
             @Override
@@ -84,35 +88,17 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
                 TimeSetModel.AutoCalibrationTimeBean autoCalibrationTime = timeSetModel.getAutoCalibrationTime();
                 TimeSetModel.ManualCalibrationTimeBean manualCalibrationTime = timeSetModel.getManualCalibrationTime();
 
-                int calibrationTimeThroughGPS = autoCalibrationTime.getCalibrationTimeThroughGPS();
-                int calibrationTimeThroughNet = autoCalibrationTime.getCalibrationTimeThroughNet();
+                autoCalibrationTimeEnable = autoCalibrationTime.getEnable();
+                calibrationTimeThroughGPS = autoCalibrationTime.getCalibrationTimeThroughGPS();
+                calibrationTimeThroughNet = autoCalibrationTime.getCalibrationTimeThroughNet();
 
-                int manualCalibrationTimeEnable = manualCalibrationTime.getEnable();
+                manualCalibrationTimeEnable = manualCalibrationTime.getEnable();
                 String date = manualCalibrationTime.getDate();
                 String time = manualCalibrationTime.getTime();
                 String[] split = date.split("-");
                 String[] split1 = time.split(":");
 
-                //设置是否选择了 GPS时间
-                if (calibrationTimeThroughGPS == 1){
-                    mCbGpsTime.setChecked(true);
-                }else {
-                    mCbGpsTime.setChecked(false);
-                }
-
-                //设置是否选择了 网络时间
-                if (calibrationTimeThroughNet == 1){
-                    mCbNetworkTime.setChecked(true);
-                }else {
-                    mCbNetworkTime.setChecked(false);
-                }
-
-                //设置是否选择了手动设置时间
-                if (manualCalibrationTimeEnable == 1){
-                    mCbWhenManualCalibration.setChecked(true);
-                }else {
-                    mCbWhenManualCalibration.setChecked(false);
-                }
+                initSelectImage();
 
                 mEtYear.setText(split[0]);
                 mEtMonth.setText(split[1]);
@@ -125,6 +111,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
         });
     }
 
+
     @Override
     public void initListener() {
         ImageView ivBack = mTimeSetView.getIvBack();
@@ -132,45 +119,56 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
         ivBack.setOnClickListener(this);
         tvSave.setOnClickListener(this);
-        mLlNetworkTime.setOnClickListener(this);
-        mLlGpsTime.setOnClickListener(this);
-        mLlWhenManualCalibration.setOnClickListener(this);
-        mCbNetworkTime.setOnClickListener(this);
-        mCbGpsTime.setOnClickListener(this);
-        mCbWhenManualCalibration.setOnClickListener(this);
+        mIvAutomaticCorrectionWhen.setOnClickListener(this);
+        mIvNetworkTime.setOnClickListener(this);
+        mIvGpsTime.setOnClickListener(this);
+        mIvWhenManualCalibration.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+
         int id = v.getId();
-        if (id == R.id.iv_back){
+        if (id == R.id.iv_back) {
             mTimeSetActivity.finish();
-        }else if (id == R.id.ll_network_time || id == R.id.cb_network_time){
+        } else if (id == R.id.iv_automatic_correction_when) {
+            autoCalibrationTimeEnable = 1;
+            manualCalibrationTimeEnable = 0;
+            initSelectImage();
+        } else if (id == R.id.iv_network_time) {
             //选择联网时间
-            mCbNetworkTime.setChecked(true);
-            mCbGpsTime.setChecked(false);
-            mCbWhenManualCalibration.setChecked(false);
-        }else if (id == R.id.ll_gps_time || id == R.id.cb_gps_time){
+            if (autoCalibrationTimeEnable == 1) {
+                calibrationTimeThroughNet = 1;
+                calibrationTimeThroughGPS = 0;
+                initSelectImage();
+            }
+        } else if (id == R.id.iv_gps_time) {
             //选择 gps 时间
-            mCbNetworkTime.setChecked(false);
-            mCbGpsTime.setChecked(true);
-            mCbWhenManualCalibration.setChecked(false);
-        }else if (id == R.id.ll_when_manual_calibration || id == R.id.cb_when_manual_calibration){
-            mCbNetworkTime.setChecked(false);
-            mCbGpsTime.setChecked(false);
-            mCbWhenManualCalibration.setChecked(true);
-        }else if (id == R.id.tv_save){
-
-            boolean cbNetworkTimeChecked = mCbNetworkTime.isChecked();
-            boolean cbGpsTimeChecked = mCbGpsTime.isChecked();
-
-            //判断 GPS时间 或 网络时间 其中一个是否选中，如果选中，是选择的自动校时
-            // ，否则选择的是手动校时
-            int enable = (cbNetworkTimeChecked || cbGpsTimeChecked) ? 1 : 0;
-            int networkTimeEnable = cbNetworkTimeChecked ? 1 : 0;
-            int gpsTimeEnable = cbGpsTimeChecked ? 1 : 0;
-            int manualCalibrationEnable = mCbWhenManualCalibration.isChecked() ? 1 : 0;
-
+            if (autoCalibrationTimeEnable == 1) {
+                calibrationTimeThroughNet = 0;
+                calibrationTimeThroughGPS = 1;
+                initSelectImage();
+            }
+        } else if (id == R.id.iv_when_manual_calibration) {
+            autoCalibrationTimeEnable = 0;
+            manualCalibrationTimeEnable = 1;
+            //设置是否选择了 自动校时
+            mSetImageResource(mIvAutomaticCorrectionWhen, autoCalibrationTimeEnable);
+            //设置是否选择了 GPS时间
+            if (calibrationTimeThroughGPS == 1) {
+                mIvGpsTime.setImageResource(mIvNoSelectId);
+            } else {
+                mIvGpsTime.setImageResource(mIvNoSelectId);
+            }
+            //设置是否选择了 网络时间
+            if (calibrationTimeThroughGPS == 1) {
+                mIvNetworkTime.setImageResource(mIvNoSelectId);
+            } else {
+                mIvNetworkTime.setImageResource(mIvNoSelectId);
+            }
+            //设置是否选择了手动设置时间
+            mSetImageResource(mIvWhenManualCalibration, manualCalibrationTimeEnable);
+        } else if (id == R.id.tv_save) {
             String year = mEtYear.getText().toString().trim();
             String months = mEtMonth.getText().toString().trim();
             String days = mEtDay.getText().toString().trim();
@@ -179,17 +177,17 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
             String minutes = mEtMinutes.getText().toString().trim();
             String seconds = mEtSeconds.getText().toString().trim();
 
-            String date = year + "-" + months + "-" +days;
-            String time = hours + ":" + minutes + ":"+seconds;
+            String date = year + "-" + months + "-" + days;
+            String time = hours + ":" + minutes + ":" + seconds;
 
-            if (mTimeSetModel != null){
+            if (mTimeSetModel != null) {
                 TimeSetModel.AutoCalibrationTimeBean autoCalibrationTime = mTimeSetModel.getAutoCalibrationTime();
-                autoCalibrationTime.setEnable(enable);
-                autoCalibrationTime.setCalibrationTimeThroughNet(networkTimeEnable);
-                autoCalibrationTime.setCalibrationTimeThroughGPS(gpsTimeEnable);
+                autoCalibrationTime.setEnable(autoCalibrationTimeEnable);
+                autoCalibrationTime.setCalibrationTimeThroughNet(calibrationTimeThroughNet);
+                autoCalibrationTime.setCalibrationTimeThroughGPS(calibrationTimeThroughGPS);
 
                 TimeSetModel.ManualCalibrationTimeBean manualCalibrationTime = mTimeSetModel.getManualCalibrationTime();
-                manualCalibrationTime.setEnable(manualCalibrationEnable);
+                manualCalibrationTime.setEnable(manualCalibrationTimeEnable);
                 manualCalibrationTime.setDate(date);
                 manualCalibrationTime.setTime(time);
 
@@ -204,7 +202,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
                         @Override
                         public void onError(Throwable e) {
-                            ExceptionUtils.exceptionHandling(mTimeSetActivity,e);
+                            ExceptionUtils.exceptionHandling(mTimeSetActivity, e);
                         }
 
                         @Override
@@ -220,5 +218,30 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
             }
 
         }
+    }
+
+
+    /*封装了根据状态1：选中，0不选择设置选中状态*/
+    private void mSetImageResource(ImageView imageView, int enable) {
+        if (enable == 1) {
+            imageView.setImageResource(mIvSelectId);
+        } else {
+            imageView.setImageResource(mIvNoSelectId);
+        }
+    }
+
+    private void initSelectImage() {
+        //设置是否选择了 自动校时
+        mSetImageResource(mIvAutomaticCorrectionWhen, autoCalibrationTimeEnable);
+
+        //设置是否选择了 GPS时间
+        mSetImageResource(mIvGpsTime, calibrationTimeThroughGPS);
+
+        //设置是否选择了 网络时间
+        mSetImageResource(mIvNetworkTime, calibrationTimeThroughNet);
+
+        //设置是否选择了手动设置时间
+
+        mSetImageResource(mIvWhenManualCalibration, manualCalibrationTimeEnable);
     }
 }

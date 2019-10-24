@@ -43,15 +43,15 @@
 
     <string name="manual_calibration">手动校准</string>
 
-    <string name="coefficient_of_the_pulse">脉冲系数</string>
+    <string name="coefficient_of_the_pulse">脉冲系数（0-100）</string>
 
     <string name="automatic_calibration">自动校准</string>
 
     <string name="error_value">允许误差值(0–20%)</string>
 
-    <string name="sub">-</string>
+    <string name="sub">—</string>
 
-    <string name="add">+</string>
+    <string name="add">＋</string>
 
     <string name="default_number">1</string>
 

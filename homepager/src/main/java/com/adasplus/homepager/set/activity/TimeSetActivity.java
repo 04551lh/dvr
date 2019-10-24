@@ -2,10 +2,8 @@ package com.adasplus.homepager.set.activity;
 
 
 import android.os.Bundle;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
@@ -18,12 +16,10 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
 
 
     private ImageView mIvBack;
-    private LinearLayout mLlNetworkTime;
-    private CheckBox mCbNetworkTime;
-    private LinearLayout mLlGpsTime;
-    private CheckBox mCbGpsTime;
-    private LinearLayout mLlWhenManualCalibration;
-    private CheckBox mCbWhenManualCalibration;
+    private ImageView mIvAutomaticCorrectionWhen;
+    private ImageView mIvNetworkTime;
+    private ImageView mIvGpsTime;
+    private ImageView mIvWhenManualCalibration;
     private EditText mEtYear;
     private EditText mEtMonth;
     private EditText mEtDay;
@@ -46,55 +42,43 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mLlNetworkTime = (LinearLayout) findViewById(R.id.ll_network_time);
-        mCbNetworkTime = (CheckBox) findViewById(R.id.cb_network_time);
-        mLlGpsTime = (LinearLayout) findViewById(R.id.ll_gps_time);
-        mCbGpsTime = (CheckBox) findViewById(R.id.cb_gps_time);
-        mLlWhenManualCalibration = (LinearLayout) findViewById(R.id.ll_when_manual_calibration);
-        mCbWhenManualCalibration = (CheckBox) findViewById(R.id.cb_when_manual_calibration);
-        mEtYear = (EditText) findViewById(R.id.et_year);
-        mEtMonth = (EditText) findViewById(R.id.et_month);
-        mEtDay = (EditText) findViewById(R.id.et_day);
-        mEtHours = (EditText) findViewById(R.id.et_hours);
-        mEtMinutes = (EditText) findViewById(R.id.et_minutes);
-        mEtSeconds = (EditText) findViewById(R.id.et_seconds);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack = findViewById(R.id.iv_back);
+        mIvAutomaticCorrectionWhen = findViewById(R.id.iv_automatic_correction_when);
+        mIvNetworkTime = findViewById(R.id.iv_network_time);
+        mIvGpsTime = findViewById(R.id.iv_gps_time);
+        mIvWhenManualCalibration = findViewById(R.id.iv_when_manual_calibration);
+        mEtYear = findViewById(R.id.et_year);
+        mEtMonth = findViewById(R.id.et_month);
+        mEtDay = findViewById(R.id.et_day);
+        mEtHours = findViewById(R.id.et_hours);
+        mEtMinutes = findViewById(R.id.et_minutes);
+        mEtSeconds = findViewById(R.id.et_seconds);
+        mTvSave =  findViewById(R.id.tv_save);
     }
 
     @Override
     public ImageView getIvBack() {
         return mIvBack;
     }
-
+    
     @Override
-    public LinearLayout getLlNetworkTime() {
-        return mLlNetworkTime;
+    public ImageView getIvNetworkTime() {
+        return mIvNetworkTime;
     }
 
     @Override
-    public CheckBox getCbNetworkTime() {
-        return mCbNetworkTime;
+    public ImageView getIvAutomaticCorrectionWhen() {
+        return mIvAutomaticCorrectionWhen;
     }
 
     @Override
-    public LinearLayout getLlGpsTime() {
-        return mLlGpsTime;
+    public ImageView getIvGpsTime() {
+        return mIvGpsTime;
     }
-
+    
     @Override
-    public CheckBox getCbGpsTime() {
-        return mCbGpsTime;
-    }
-
-    @Override
-    public LinearLayout getLlWhenManualCalibration() {
-        return mLlWhenManualCalibration;
-    }
-
-    @Override
-    public CheckBox getCbWhenManualCalibration() {
-        return mCbWhenManualCalibration;
+    public ImageView getIvWhenManualCalibration() {
+        return mIvWhenManualCalibration;
     }
 
     @Override

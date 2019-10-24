@@ -1,7 +1,7 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.adasplus.base.view.SignSeekBar;
 import com.adasplus.base.view.SlideSwitchView;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -18,25 +20,24 @@ import com.adasplus.base.view.SlideSwitchView;
 public interface ISpeedSetContract {
     interface Model {
     }
-
     interface View {
         ImageView getIvback();
 
-        LinearLayout getLlPulseSpeed();
+        ImageView getIvPulseSpeed();
 
-        CheckBox getCbPulseSpeed();
+        SwipeRefreshLayout getSwipeContainer();
 
         TextView getTvManualCalibration();
+
+        ImageView getIvManualCalibration();
 
         TextView getTvCoefficientOfThePulse();
 
         EditText getEtCoefficientOfThePulseValue();
 
-        TextView getTvProportionValue();
-
         TextView getTvAutomaticCalibration();
 
-        SlideSwitchView getSsvAutomaticCalibrationSwitch();
+        ImageView getIvAutomaticCalibration();
 
         TextView getTvErrorValue();
 
@@ -46,13 +47,11 @@ public interface ISpeedSetContract {
 
         Button getBtnAdd();
 
-        TextView getTvPercent();
-
-        LinearLayout getLlSimulationSpeed();
-
-        CheckBox getCbSimulationSpeedStatus();
+        ImageView getIvSimulationSpeedStatus();
 
         SignSeekBar getSsbSpeedValue();
+
+        TextView getTvCurrentSpeed();
 
         TextView getTvSave();
     }

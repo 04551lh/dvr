@@ -23,4 +23,10 @@
     <color name="font_color_666">#666666</color>
 
     <color name="connected">#ff4ddb6e</color>
+
+    <color name="font_color_999">#999999</color>
+
+    <color name="connection_state_tv_color">#ff4ddb6e</color>
+
+    <color name="video_set_font_color">#F7F7F7</color>
 </resources>

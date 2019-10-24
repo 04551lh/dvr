@@ -3,7 +3,7 @@ package com.adasplus.homepager.set.mvp.presenter;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.activity.ADASWarningActivity;
@@ -34,12 +34,12 @@ public class WarningsSetPresenter implements IWarningsSetContract.Presenter, Vie
     @Override
     public void initListener() {
         ImageView ivBack = mWarningsSetView.getIvBack();
-        TextView tvAdas = mWarningsSetView.getTvAdas();
-        TextView tvDms = mWarningsSetView.getTvDms();
+        LinearLayout llAdas = mWarningsSetView.getLlAdas();
+        LinearLayout llDms = mWarningsSetView.getLlDms();
 
         ivBack.setOnClickListener(this);
-        tvAdas.setOnClickListener(this);
-        tvDms.setOnClickListener(this);
+        llAdas.setOnClickListener(this);
+        llDms.setOnClickListener(this);
     }
 
     @Override
@@ -47,9 +47,9 @@ public class WarningsSetPresenter implements IWarningsSetContract.Presenter, Vie
         int id = v.getId();
         if (id == R.id.iv_back) {
             mWarningsSetActivity.finish();
-        } else if (id == R.id.tv_adas) {
+        } else if (id == R.id.ll_adas) {
             mWarningsSetActivity.startActivity(new Intent(mWarningsSetActivity, ADASWarningActivity.class));
-        } else if (id == R.id.tv_dms) {
+        } else if (id == R.id.ll_dms) {
             mWarningsSetActivity.startActivity(new Intent(mWarningsSetActivity, DMSWarningActivity.class));
         }
     }

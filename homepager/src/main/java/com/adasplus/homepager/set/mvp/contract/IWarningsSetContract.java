@@ -1,7 +1,7 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 /**
  * Author:刘净辉
@@ -15,9 +15,9 @@ public interface IWarningsSetContract {
     interface View {
         ImageView getIvBack();
 
-        TextView getTvAdas();
+        LinearLayout getLlAdas();
 
-        TextView getTvDms();
+        LinearLayout getLlDms();
 
     }
 

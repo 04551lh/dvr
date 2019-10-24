@@ -3,11 +3,8 @@ package com.adasplus.homepager.set.mvp.presenter;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +21,7 @@ import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -31,7 +29,7 @@ import rx.Subscriber;
  * Date : 2019/9/26 19:34
  * Description :
  */
-public class CalibrationSetPresenter implements ICalibrationSetContract.Presenter, View.OnClickListener {
+public class CalibrationSetPresenter implements ICalibrationSetContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String UP = "up";
     private static final String LEFT = "left";
@@ -40,22 +38,24 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
     private ICalibrationSetContract.View mCalibrationSetView;
     private CalibrationSetActivity mCalibrationSetActivity;
-    private CheckBox mCbAutoCalibration;
-    private CheckBox mCbManualCalibrate;
-    private EditText mEtCameraHigh;
-    private Button mBtnUp;
-    private Button mBtnLeft;
-    private Button mBtnRight;
-    private Button mBtnDown;
+
+    private SwipeRefreshLayout mSwipeContainer;
+    private ImageView mIvAutoCalibration;
+    private ImageView mIvManualCalibrate;
+    private TextView mTvCameraHeight;
+    private EditText mEtCameraHeight;
+    private ImageView mIvUp;
+    private ImageView mIvLeft;
+    private ImageView mIvRight;
+    private ImageView mIvDown;
     private TextView mTvSave;
-    private LinearLayout mLlAutoCalibrate;
-    private LinearLayout mLlManualCalibrate;
     private CalibrationSetModel mCalibrationSetModel;
     private BasicDialog mDialog;
     // 判断是否点击了返回按钮， true 代表了点击返回按钮，如果有未保存的数据我们进行弹框提示，点击弹
     // 框的是我们保存并退出当前的界面，否则，直接退出当前的界面; false 代表了选择了手动标定，在点击
     // 了上下左右标定按钮，并实时的保存标定的设置数据
-    private boolean isClickBack = false;
+    private boolean mIsClickBack = false;
+    private int mAutoReferenceLineEnable;
 
     public CalibrationSetPresenter(ICalibrationSetContract.View view) {
         mCalibrationSetView = view;
@@ -64,18 +64,23 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
     @Override
     public void initData() {
-        mCbAutoCalibration = mCalibrationSetView.getCbAutoCalibration();
-        mCbManualCalibrate = mCalibrationSetView.getCbManualCalibrate();
-        mEtCameraHigh = mCalibrationSetView.getEtCameraHigh();
-        mBtnUp = mCalibrationSetView.getBtnUp();
-        mBtnLeft = mCalibrationSetView.getBtnLeft();
-        mBtnRight = mCalibrationSetView.getBtnRight();
-        mBtnDown = mCalibrationSetView.getBtnDown();
+        mSwipeContainer = mCalibrationSetActivity.getSwipeContainer();
+        mIvAutoCalibration = mCalibrationSetView.getIvAutoCalibration();
+        mIvManualCalibrate = mCalibrationSetView.getIvManualCalibrate();
+        mTvCameraHeight = mCalibrationSetActivity.getTvCameraHeight();
+        mEtCameraHeight = mCalibrationSetView.getEtCameraHeight();
+        mIvUp = mCalibrationSetView.getIvUp();
+        mIvLeft = mCalibrationSetView.getIvLeft();
+        mIvRight = mCalibrationSetView.getIvRight();
+        mIvDown = mCalibrationSetView.getIvDown();
         mTvSave = mCalibrationSetView.getTvSave();
-        mLlAutoCalibrate = mCalibrationSetView.getLlAutoCalibrate();
-        mLlManualCalibrate = mCalibrationSetView.getLlManualCalibrate();
 
-        //获取设备的标定设置的数据
+        getNetworkData();
+
+    }
+
+    //获取设备的标定设置的数据
+    private void getNetworkData() {
         HomeWrapper.getInstance().getCalibrationSet().subscribe(new Subscriber<CalibrationSetModel>() {
             @Override
             public void onCompleted() {
@@ -85,59 +90,70 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mCalibrationSetActivity, e);
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
+
             }
 
             @Override
             public void onNext(CalibrationSetModel calibrationSetModel) {
                 mCalibrationSetModel = calibrationSetModel;
-                int autoReferenceLineEnable = calibrationSetModel.getAutoReferenceLineEnable();
-                int cameraHigh = calibrationSetModel.getCameraHight();
-
+                mAutoReferenceLineEnable = calibrationSetModel.getAutoReferenceLineEnable();
                 //判断是否是自动标定
-                if (autoReferenceLineEnable == 1) {
+                if (mAutoReferenceLineEnable == 1) {
                     isAutoCalibration(true);
                 } else {
                     isAutoCalibration(false);
                 }
                 //设置镜头高度
-                mEtCameraHigh.setText(String.valueOf(cameraHigh));
+                int cameraHigh = calibrationSetModel.getCameraHight();
+                mEtCameraHeight.setText(String.valueOf(cameraHigh));
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
             }
         });
+
     }
 
     private void isAutoCalibration(boolean isAutoCalibration) {
         if (isAutoCalibration) {
-            mCbAutoCalibration.setChecked(true);
-            mCbManualCalibrate.setChecked(false);
-            mEtCameraHigh.setEnabled(false);
-            mEtCameraHigh.setClickable(false);
-            mBtnUp.setClickable(false);
-            mBtnUp.setEnabled(false);
-            mBtnLeft.setEnabled(false);
-            mBtnLeft.setClickable(false);
-            mBtnRight.setEnabled(false);
-            mBtnRight.setClickable(false);
-            mBtnDown.setClickable(false);
-            mBtnDown.setEnabled(false);
-            mBtnUp.setClickable(false);
-            mBtnUp.setEnabled(false);
-            mTvSave.setVisibility(View.VISIBLE);
+            mIvAutoCalibration.setImageResource(R.mipmap.switch_open_icon);
+            mIvManualCalibrate.setImageResource(R.mipmap.switch_close_icon);
+            mEtCameraHeight.setEnabled(false);
+            mEtCameraHeight.setClickable(false);
+            mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
+            mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
+            mIvUp.setClickable(false);
+            mIvUp.setEnabled(false);
+            mIvUp.setImageResource(R.mipmap.manual_calibrate_no_select_up);
+            mIvLeft.setEnabled(false);
+            mIvLeft.setClickable(false);
+            mIvLeft.setImageResource(R.mipmap.manual_calibrate_no_select_left);
+            mIvRight.setEnabled(false);
+            mIvRight.setClickable(false);
+            mIvRight.setImageResource(R.mipmap.manual_calibrate_no_select_right);
+            mIvDown.setClickable(false);
+            mIvDown.setEnabled(false);
+            mIvDown.setImageResource(R.mipmap.manual_calibrate_no_select_down);
         } else {
-            mCbAutoCalibration.setChecked(false);
-            mCbManualCalibrate.setChecked(true);
-            mEtCameraHigh.setEnabled(true);
-            mEtCameraHigh.setClickable(true);
-            mBtnUp.setClickable(true);
-            mBtnUp.setEnabled(true);
-            mBtnLeft.setEnabled(true);
-            mBtnLeft.setClickable(true);
-            mBtnRight.setEnabled(true);
-            mBtnRight.setClickable(true);
-            mBtnDown.setClickable(true);
-            mBtnDown.setEnabled(true);
-            mBtnUp.setClickable(true);
-            mBtnUp.setEnabled(true);
-            mTvSave.setVisibility(View.GONE);
+            mIvAutoCalibration.setImageResource(R.mipmap.switch_close_icon);
+            mIvManualCalibrate.setImageResource(R.mipmap.switch_open_icon);
+            mEtCameraHeight.setEnabled(true);
+            mEtCameraHeight.setClickable(true);
+            mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
+            mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
+            mIvUp.setClickable(true);
+            mIvUp.setEnabled(true);
+            mIvUp.setImageResource(R.mipmap.manual_calibrate_select_up);
+            mIvLeft.setEnabled(true);
+            mIvLeft.setClickable(true);
+            mIvLeft.setImageResource(R.mipmap.manual_calibrate_select_left);
+            mIvRight.setEnabled(true);
+            mIvRight.setClickable(true);
+            mIvRight.setImageResource(R.mipmap.manual_calibrate_select_right);
+            mIvDown.setClickable(true);
+            mIvDown.setEnabled(true);
+            mIvDown.setImageResource(R.mipmap.manual_calibrate_select_down);
         }
     }
 
@@ -145,33 +161,27 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     public void initListener() {
         ImageView ivBack = mCalibrationSetView.getIvBack();
         ivBack.setOnClickListener(this);
-        mCbAutoCalibration.setOnClickListener(this);
-        mCbManualCalibrate.setOnClickListener(this);
-        mLlAutoCalibrate.setOnClickListener(this);
-        mLlManualCalibrate.setOnClickListener(this);
+        mSwipeContainer.setOnRefreshListener(this);
+        mIvAutoCalibration.setOnClickListener(this);
+        mIvManualCalibrate.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
-        mBtnUp.setOnClickListener(this);
-        mBtnDown.setOnClickListener(this);
-        mBtnLeft.setOnClickListener(this);
-        mBtnRight.setOnClickListener(this);
+        mIvUp.setOnClickListener(this);
+        mIvDown.setOnClickListener(this);
+        mIvLeft.setOnClickListener(this);
+        mIvRight.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        boolean autoCalibrationChecked = mCbAutoCalibration.isChecked();
-        int autoCalibrationValue = autoCalibrationChecked ? 1 : 0;
-
         if (id == R.id.iv_back) { //返回按钮
-            isClickBack = true;
+            mIsClickBack = true;
             if (mCalibrationSetModel != null) {
                 // 判断是否有更改的标定设置未保存，如果有未保存的进行弹出对话框提示
-                if (autoCalibrationChecked) {
-                    if (autoCalibrationValue == mCalibrationSetModel.getAutoReferenceLineEnable()) {
-                        mCalibrationSetActivity.finish();
-                    } else {
-                        showSaveCalibrationSetDialog();
-                    }
+                if (mAutoReferenceLineEnable == mCalibrationSetModel.getAutoReferenceLineEnable()) {
+                    mCalibrationSetActivity.finish();
+                } else {
+                    showSaveCalibrationSetDialog();
                 }
             }
         } else if (id == R.id.tv_cancel) { //取消保存
@@ -179,23 +189,34 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 mDialog.dismiss();
             }
             mCalibrationSetActivity.finish();
-        } else if (id == R.id.ll_auto_calibrate || id == R.id.cb_auto_calibration) { //选择自动标定
+        } else if (id == R.id.iv_auto_calibration) { //选择自动标定
+            mAutoReferenceLineEnable = 1;
             isAutoCalibration(true);
-        } else if (id == R.id.ll_manual_calibrate || id == R.id.cb_manual_calibrate) { //选择手动标定
+        } else if (id == R.id.iv_manual_calibrate) { //选择手动标定
+            mAutoReferenceLineEnable = 0;
             isAutoCalibration(false);
-        } else if (id == R.id.btn_up) { //手动标定:上
-            updateCalibrationSet(autoCalibrationChecked, UP);
-        } else if (id == R.id.btn_left) { //手动标定：左
-            updateCalibrationSet(autoCalibrationChecked, LEFT);
-        } else if (id == R.id.btn_right) {//手动标定 : 右
-            updateCalibrationSet(autoCalibrationChecked, RIGHT);
-        } else if (id == R.id.btn_down) { //手动标定:下
-            updateCalibrationSet(autoCalibrationChecked, DOWN);
+        } else if (id == R.id.iv_up) { //手动标定:上
+            if (mAutoReferenceLineEnable == 0) {
+                updateCalibrationSet(UP);
+            }
+
+        } else if (id == R.id.iv_left) { //手动标定：左
+            if (mAutoReferenceLineEnable == 0) {
+                updateCalibrationSet(LEFT);
+            }
+        } else if (id == R.id.iv_right) {//手动标定 : 右
+            if (mAutoReferenceLineEnable == 0) {
+                updateCalibrationSet(RIGHT);
+            }
+        } else if (id == R.id.iv_down) { //手动标定:下
+            if (mAutoReferenceLineEnable == 0) {
+                updateCalibrationSet(DOWN);
+            }
         } else if (id == R.id.tv_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
-            updateCalibrationSet(autoCalibrationChecked, " ");
+            updateCalibrationSet(" ");
         }
     }
 
@@ -232,10 +253,10 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         tv_confirm.setOnClickListener(this);
     }
 
-    private void updateCalibrationSet(boolean autoCalibrationChecked, String cmd) {
-        String cameraHigh = mEtCameraHigh.getText().toString();
+    private void updateCalibrationSet(String cmd) {
+        String cameraHigh = mEtCameraHeight.getText().toString();
         if (mCalibrationSetModel != null) {
-            if (autoCalibrationChecked) {
+            if (mAutoReferenceLineEnable == 1) {
                 mCalibrationSetModel.setAutoReferenceLineEnable(1);
                 mCalibrationSetModel.setCameraHight(0);
                 mCalibrationSetModel.setManualReferenceLineEnable(0);
@@ -246,6 +267,8 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 mCalibrationSetModel.setManualReferenceLineEnable(1);
                 mCalibrationSetModel.setCmd(cmd);
             }
+        }
+
 
             String json = GsonUtils.getInstance().toJson(mCalibrationSetModel);
             try {
@@ -264,8 +287,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                     @Override
                     public void onNext(CalibrationSetModel calibrationSetModel) {
                         Toast.makeText(mCalibrationSetActivity, R.string.targets_set_save_success, Toast.LENGTH_SHORT).show();
-
-                        if (isClickBack) {
+                        if (mIsClickBack) {
                             mCalibrationSetActivity.finish();
                         }
                     }
@@ -276,5 +298,8 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
         }
 
+    @Override
+    public void onRefresh() {
+        getNetworkData();
     }
 }

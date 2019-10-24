@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adasplus.base.popup.CommonPopupWindow;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.GsonUtils;
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.set.activity.VideoSetActivity;
@@ -57,14 +56,14 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private TextView mTvSelectChannelsNumber;
     private TextView mTvMainStreamSet;
     private TextView mTvSubStreamSet;
-    private SlideSwitchView mSsvStreamTotalSwitch;
+    private ImageView mIvStreamTotalSwitch;
     private TextView mTvVideoFrameRate;
     private TextView mTvResolutionRatio;
-    private SlideSwitchView mSsvDateTime;
-    private SlideSwitchView mSsvLicensePlateNumber;
-    private SlideSwitchView mSsvChannelName;
-    private SlideSwitchView mSsvGpsSignal;
-    private SlideSwitchView mSsvSpeed;
+    private ImageView mIvDateTime;
+    private ImageView mIvLicensePlateNumber;
+    private ImageView mIvChannelName;
+    private ImageView mIvGpsSignal;
+    private ImageView mIvSpeed;
     private TextView mTvSave;
     private VideoChannelsSetAdapter mVideoChannelsSetAdapter;
     private Button mBtnSub;
@@ -82,6 +81,9 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private CommonPopupWindow mResolutionRatioPopupWindow;
     private VideoSetModel mVideoSetModel;
 
+    private int mIvSelectId;
+    private int mIvNoSelectId;
+
     public VideoSetPresenter(IVideoSetContract.View view) {
         mVideoSetView = view;
         mVideoSetActivity = (VideoSetActivity) view;
@@ -93,14 +95,14 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mTvSelectChannelsNumber = mVideoSetView.getTvSelectChannelsNumber();
         mTvMainStreamSet = mVideoSetView.getTvMainStreamSet();
         mTvSubStreamSet = mVideoSetView.getTvSubStreamSet();
-        mSsvStreamTotalSwitch = mVideoSetView.getSsvStreamTotalSwitch();
+        mIvStreamTotalSwitch = mVideoSetView.getIvStreamTotalSwitch();
         mTvVideoFrameRate = mVideoSetView.getTvVideoFrameRate();
         mTvResolutionRatio = mVideoSetView.getTvResolutionRatio();
-        mSsvDateTime = mVideoSetView.getSsvDateTime();
-        mSsvLicensePlateNumber = mVideoSetView.getSsvLicensePlateNumber();
-        mSsvChannelName = mVideoSetView.getSsvChannelName();
-        mSsvGpsSignal = mVideoSetView.getSsvGpsSignal();
-        mSsvSpeed = mVideoSetView.getSsvSpeed();
+        mIvDateTime = mVideoSetView.getIvDateTime();
+        mIvLicensePlateNumber = mVideoSetView.getIvLicensePlateNumber();
+        mIvChannelName = mVideoSetView.getIvChannelName();
+        mIvGpsSignal = mVideoSetView.getIvGpsSignal();
+        mIvSpeed = mVideoSetView.getIvSpeed();
         mTvSave = mVideoSetView.getTvSave();
         mBtnSub = mVideoSetView.getBtnSub();
         mEtErrorNumber = mVideoSetView.getEtErrorNumber();
@@ -131,6 +133,9 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         //设置默认选择的通道号
         String channels = mVideoSetActivity.getString(R.string.channels);
         mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(channelNumber)));
+
+        mIvSelectId = R.mipmap.switch_open_icon;
+        mIvNoSelectId = R.mipmap.switch_close_icon;
     }
 
     private void showResolutionRatioPopup() {
@@ -206,9 +211,9 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private void widgetStatus(int enable, int videoFrameRate, int pictureQuality, int resolutionRate, int dateEnable, int plateNumberEnable, int channelNameEnable, int localtionSignleEnable, int speedEnable) {
         //设置主码流的总开关
         if (enable == 1) {
-            mSsvStreamTotalSwitch.setOpen(true);
+            mIvStreamTotalSwitch.setImageResource(mIvSelectId);
         } else {
-            mSsvStreamTotalSwitch.setOpen(false);
+            mIvStreamTotalSwitch.setImageResource(mIvNoSelectId);
         }
         //设置视频码率
         mTvVideoFrameRate.setText(String.valueOf(videoFrameRate));
@@ -223,37 +228,37 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
         //设置日期时间开关
         if (dateEnable == 1) {
-            mSsvDateTime.setOpen(true);
+            mIvDateTime.setImageResource(mIvSelectId);
         } else {
-            mSsvDateTime.setOpen(false);
+            mIvDateTime.setImageResource(mIvNoSelectId);
         }
 
         //设置车牌号开关
         if (plateNumberEnable == 1) {
-            mSsvLicensePlateNumber.setOpen(true);
+            mIvLicensePlateNumber.setImageResource(mIvSelectId);
         } else {
-            mSsvLicensePlateNumber.setOpen(false);
+            mIvLicensePlateNumber.setImageResource(mIvNoSelectId);
         }
 
         //设置通道名称开关
         if (channelNameEnable == 1) {
-            mSsvChannelName.setOpen(true);
+            mIvChannelName.setImageResource(mIvSelectId);
         } else {
-            mSsvChannelName.setOpen(false);
+            mIvChannelName.setImageResource(mIvNoSelectId);
         }
 
         //设置定位信号开关
         if (localtionSignleEnable == 1) {
-            mSsvGpsSignal.setOpen(true);
+            mIvGpsSignal.setImageResource(mIvSelectId);
         } else {
-            mSsvGpsSignal.setOpen(false);
+            mIvGpsSignal.setImageResource(mIvNoSelectId);
         }
 
         //设置速度开关
         if (speedEnable == 1) {
-            mSsvSpeed.setOpen(true);
+            mIvSpeed.setImageResource(mIvSelectId);
         } else {
-            mSsvSpeed.setOpen(false);
+            mIvSpeed.setImageResource(mIvNoSelectId);
         }
     }
 
@@ -270,53 +275,53 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mBtnSub.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
 
-        //设置总开关的逻辑处理
-        mSsvStreamTotalSwitch.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                switchTotalStatus(status);
-            }
-        });
-
-        //日期时间开关
-        mSsvDateTime.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                dateTimeSwitchStatus(status);
-            }
-        });
-
-        //车牌号开关状态
-        mSsvLicensePlateNumber.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                plateNumberStatus(status);
-            }
-        });
-
-        //通道名称的开关状态监听
-        mSsvChannelName.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                channelNumberStatus(status);
-            }
-        });
-
-        //设置定位开关状态监听
-        mSsvGpsSignal.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                locationSignalStatus(status);
-            }
-        });
-
-        //设置速度开关状态监听
-        mSsvSpeed.setOnSwitchStatusChangeListener(new SlideSwitchView.OnSwitchStatusChangeListener() {
-            @Override
-            public void onSwitchStatus(boolean status) {
-                carSpeedStatus(status);
-            }
-        });
+//        //设置总开关的逻辑处理
+//        mIvStreamTotalSwitch.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                switchTotalStatus(status);
+//            }
+//        });
+//
+//        //日期时间开关
+//        mIvDateTime.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                dateTimeSwitchStatus(status);
+//            }
+//        });
+//
+//        //车牌号开关状态
+//        mIvLicensePlateNumber.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                plateNumberStatus(status);
+//            }
+//        });
+//
+//        //通道名称的开关状态监听
+//        mIvChannelName.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                channelNumberStatus(status);
+//            }
+//        });
+//
+//        //设置定位开关状态监听
+//        mIvGpsSignal.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                locationSignalStatus(status);
+//            }
+//        });
+//
+//        //设置速度开关状态监听
+//        mIvSpeed.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
+//            @Override
+//            public void onSwitchStatus(boolean status) {
+//                carSpeedStatus(status);
+//            }
+//        });
     }
 
     private void carSpeedStatus(boolean status) {

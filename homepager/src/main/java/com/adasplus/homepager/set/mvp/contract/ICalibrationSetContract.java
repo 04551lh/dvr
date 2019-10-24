@@ -1,11 +1,11 @@
 package com.adasplus.homepager.set.mvp.contract;
 
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -20,25 +20,26 @@ public interface ICalibrationSetContract {
 
         ImageView getIvBack();
 
-        CheckBox getCbAutoCalibration();
+        SwipeRefreshLayout getSwipeContainer();
 
-        CheckBox getCbManualCalibrate();
+        ImageView getIvAutoCalibration();
 
-        EditText getEtCameraHigh();
+        ImageView getIvManualCalibrate();
 
-        Button getBtnUp();
+        TextView getTvCameraHeight();
 
-        Button getBtnLeft();
+        EditText getEtCameraHeight();
 
-        Button getBtnRight();
+        ImageView getIvUp();
 
-        Button getBtnDown();
+        ImageView getIvLeft();
+
+        ImageView getIvRight();
+
+        ImageView getIvDown();
 
         TextView getTvSave();
 
-        LinearLayout getLlAutoCalibrate();
-
-        LinearLayout getLlManualCalibrate();
     }
 
     interface Presenter {

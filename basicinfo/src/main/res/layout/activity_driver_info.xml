@@ -35,10 +35,13 @@
         android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tv_no_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:gravity="center"
             android:text="@string/no_data"
+            android:textSize="@dimen/sp_18"
+            android:background="@color/app_background"
+            android:textColor="@color/font_color_666"
             android:visibility="gone"/>
 
         <LinearLayout
@@ -50,17 +53,14 @@
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/driver_name"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 
                 <TextView
                     android:id="@+id/tv_driver_name"
@@ -74,16 +74,14 @@
             
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/driver_sex"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/font_color_333"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_driver_sex"
                     android:layout_width="wrap_content"
@@ -95,16 +93,14 @@
             <View style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/driver_id_card"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_driver_id_card"
                     android:layout_width="wrap_content"
@@ -116,16 +112,14 @@
                 style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/driver_is_license"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_driver_is_license"
                     android:layout_width="wrap_content"
@@ -137,16 +131,14 @@
                 style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/validity_of_driver_is_license"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_validity_of_driver_is_license"
                     android:layout_width="wrap_content"
@@ -158,16 +150,14 @@
                 style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/driver_nvq"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/font_color_333"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"/>
                 <TextView
                     android:id="@+id/tv_driver_nvq"
                     android:layout_width="wrap_content"
@@ -179,11 +169,13 @@
                 style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/certification_authority"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
                 <TextView
                     android:id="@+id/tv_certification_authority"
@@ -196,11 +188,13 @@
                 style="@style/UnderLineStyle"/>
             <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/bind_vehicle"
                     android:textSize="@dimen/sp_14"
-                    android:paddingStart="@dimen/dp_2"
+                    android:layout_marginStart="@dimen/dp_2"
                     android:textColor="@color/font_color_333"/>
                 <TextView
                     android:id="@+id/tv_bind_vehicle"

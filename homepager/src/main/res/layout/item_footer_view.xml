@@ -8,21 +8,31 @@
         android:id="@+id/tv_restore_the_default_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_5"
-        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
         android:gravity="right"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        android:paddingEnd="@dimen/dp_16"
         android:text="@string/restore_the_default_settings"
         android:textColor="@color/system_navigation_bar_color" />
 
     <TextView
         android:id="@+id/tv_save"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:layout_margin="@dimen/dp_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_gravity="center"
         android:background="@drawable/btn_shape_style"
-        android:gravity="center"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_7"
+        android:paddingLeft="@dimen/dp_62"
+        android:paddingRight="@dimen/dp_62"
         android:text="@string/save"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/save_font_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_20"
+        android:background="@color/app_background"/>
 </LinearLayout>

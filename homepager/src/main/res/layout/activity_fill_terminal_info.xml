@@ -215,15 +215,15 @@
 
         <TextView
             android:id="@+id/tv_save_terminal_info"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_100"
             android:layout_marginTop="@dimen/dp_40"
-            android:layout_marginEnd="@dimen/dp_100"
+            android:layout_gravity="center"
             android:background="@drawable/btn_shape_style"
-            android:gravity="center"
             android:paddingTop="@dimen/dp_8"
             android:paddingBottom="@dimen/dp_7"
+            android:paddingLeft="@dimen/dp_62"
+            android:paddingRight="@dimen/dp_62"
             android:text="@string/save"
             android:textColor="@color/save_font_color" />
     </LinearLayout>

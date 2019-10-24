@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    tools:context=".activity.SoundsActivity">
+    tools:context=".set.activity.SoundsActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"

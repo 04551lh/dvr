@@ -32,162 +32,185 @@
             android:text="@string/calibration_set"
             android:textColor="@color/font_color_333"
             android:textSize="@dimen/sp_18" />
-
-
     </LinearLayout>
 
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ll_auto_calibrate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/dp_16"
-        android:background="@android:color/white">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/auto_calibration"
-            android:textSize="@dimen/sp_16"
-            android:gravity="center_vertical"
-            android:textColor="@color/font_color_333"/>
-        <CheckBox
-            android:id="@+id/cb_auto_calibration"
-            android:layout_width="@dimen/dp_25"
-            android:visibility="gone"
-            android:layout_height="@dimen/dp_25"
-            android:button="@drawable/cb_box_selector"
-            android:checked="true"/>
-
-        <Switch
-            android:id="@+id/sw_auto_calibration"
-            android:visibility="visible"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            />
-    </LinearLayout>
-
-    <View
-       style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:id="@+id/ll_manual_calibrate"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/manual_calibrate"
-            android:textSize="@dimen/sp_15"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/black"/>
-        <CheckBox
-            android:id="@+id/cb_manual_calibrate"
-            android:layout_width="@dimen/dp_25"
-            android:layout_height="@dimen/dp_25"
-            android:button="@drawable/cb_box_selector"
-           />
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/cameraHigh"
-            android:textSize="@dimen/sp_15"
-            android:gravity="center_vertical"
-            android:textColor="@android:color/black"/>
-
-        <EditText
-            android:id="@+id/et_camera_high"
-            android:layout_width="@dimen/dp_85"
-            android:layout_height="@dimen/dp_35"
-            android:gravity="center"
-            android:hint="@string/please_enter"
-            android:textSize="@dimen/sp_15"
-            android:layout_gravity="center"
-            android:textColor="@android:color/black"
-            android:background="@drawable/et_bg_border"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_10"
-            android:text="@string/unit"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="@dimen/dp_200">
-        <Button
-            android:id="@+id/btn_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="上"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/btn_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="左"
-                android:layout_marginEnd="@dimen/dp_30"
-                android:layout_centerHorizontal="true"/>
-            <Button
-                android:id="@+id/btn_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="右"
-                android:layout_marginLeft="@dimen/dp_30"
-                android:layout_centerHorizontal="true"/>
-        </LinearLayout>
-        <Button
-            android:id="@+id/btn_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下"
-            android:layout_marginTop="@dimen/dp_10"
-            android:gravity="center"
-            android:layout_gravity="center"/>
-
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:text="@string/calibration_video_description"/>
-    </LinearLayout>
+            android:fillViewport="true"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
 
-    <View
-        style="@style/DividerLineStyle"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_16"
+                    android:background="@android:color/white">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/auto_calibration"
+                        android:textSize="@dimen/sp_16"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_333"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iv_auto_calibration"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_open_icon"/>
 
-    <TextView
-        android:id="@+id/tv_save"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:layout_margin="@dimen/dp_20"
-        android:background="@drawable/btn_shape_style"
-        android:gravity="center"
-        android:text="@string/save"
-        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@color/split_line_color"/>
+
+                <LinearLayout
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@android:color/white">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_2"
+                        android:background="@color/split_line_color"/>
+                    <LinearLayout
+                        style="@style/LinearLayoutDisplayDataStyle">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/manual_calibrate"
+                            android:textSize="@dimen/sp_16"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/font_color_333"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/iv_manual_calibrate"
+                            android:visibility="visible"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/switch_close_icon"/>
+                    </LinearLayout>
+                    <View
+                        style="@style/DividerLineStyle"/>
+
+                    <LinearLayout style="@style/LinearLayoutDisplayDataStyle"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/tv_camera_height"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/cameraHigh"
+                            android:textSize="@dimen/sp_15"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/font_color_333"/>
+
+                        <EditText
+                            android:id="@+id/et_camera_height"
+                            android:layout_width="@dimen/dp_85"
+                            android:layout_height="@dimen/dp_35"
+                            android:gravity="center"
+                            android:hint="@string/please_enter"
+                            android:textSize="@dimen/sp_15"
+                            android:layout_gravity="center"
+                            android:textColor="@android:color/black"
+                            android:background="@null"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:text="@string/unit"/>
+                    </LinearLayout>
+                    <View
+                        style="@style/DividerLineStyle"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/iv_up"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/manual_calibrate_no_select_up"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_gravity="center">
+                            <ImageView
+                                android:id="@+id/iv_left"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/manual_calibrate_no_select_left"
+                                android:layout_marginEnd="@dimen/dp_30" />
+                            <ImageView
+                                android:id="@+id/iv_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/manual_calibrate_no_select_right"
+                                android:layout_marginStart="@dimen/dp_30" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/iv_down"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/manual_calibrate_no_select_down"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:gravity="center"
+                            android:textSize="@dimen/sp_14"
+                            android:textColor="@color/under_line_color"
+                            android:paddingBottom="@dimen/dp_30"
+                            android:text="@string/calibration_video_description"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_save"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_20"
+                        android:background="@drawable/btn_shape_style"
+                        android:layout_gravity="center"
+                        android:paddingTop="@dimen/dp_8"
+                        android:paddingBottom="@dimen/dp_7"
+                        android:paddingLeft="@dimen/dp_62"
+                        android:paddingRight="@dimen/dp_62"
+                        android:text="@string/save"
+                        android:textColor="@color/save_font_color" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
 
 </LinearLayout>

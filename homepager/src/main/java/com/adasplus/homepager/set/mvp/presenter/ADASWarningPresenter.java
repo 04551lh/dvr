@@ -14,7 +14,6 @@ import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.GsonUtils;
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.set.activity.ADASWarningActivity;
@@ -38,11 +37,11 @@ import rx.Subscriber;
  * Date : 2019/9/26 18:12
  * Description :
  */
-public class ADASWarningPresenter implements IADASWarningContract.Presenter, View.OnClickListener, ISwitchItemClickListener, SlideSwitchView.OnSwitchStatusChangeListener {
+public class ADASWarningPresenter implements IADASWarningContract.Presenter, View.OnClickListener, ISwitchItemClickListener {
 
     private IADASWarningContract.View mADASWarningView;
     private ADASWarningActivity mAdasWarningActivity;
-    private SlideSwitchView mSsvAdasTotalSwitch;
+    private ImageView mIvAdasTotalSwitch;
     private RecyclerView mRvAdasList;
     private List<ConvertWarningsModel> mConvertWarningsList = new ArrayList<>();
     private WarningsAdapter mWarningsAdapter;
@@ -52,6 +51,8 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     private int mCloseWarningCount = 0;
     private int mCloseTotalCount;
     private BasicDialog mDialog;
+
+    private  int mAdasEnable;
 
     public ADASWarningPresenter(IADASWarningContract.View view) {
         mADASWarningView = view;
@@ -65,14 +66,13 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         View headerView = View.inflate(mAdasWarningActivity, R.layout.item_head_view, null);
         View footerView = View.inflate(mAdasWarningActivity, R.layout.item_footer_view, null);
 
-        mSsvAdasTotalSwitch = headerView.findViewById(R.id.ssv_adas_total_switch);
+        mIvAdasTotalSwitch = headerView.findViewById(R.id.iv_adas_total_switch);
         TextView tv_warning_type = headerView.findViewById(R.id.tv_warning_type);
         tv_warning_type.setText(R.string.adas);
         mTvSave = footerView.findViewById(R.id.tv_save);
         mTvRestoreTheDefaultSettings = footerView.findViewById(R.id.tv_restore_the_default_settings);
 
-        float dp_45 = mAdasWarningActivity.getResources().getDimension(R.dimen.dp_45);
-        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) dp_45));
+        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT));
         footerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         mWarningsAdapter = new WarningsAdapter();
@@ -105,12 +105,12 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 if (!mConvertWarningsList.isEmpty()) {
                     mConvertWarningsList.clear();
                 }
-                int adasEnable = adasWarningModel.getAdasEnable();
+               mAdasEnable = adasWarningModel.getAdasEnable();
                 //判断 ADAS 开关是开着 1:代表着打开 0:代表着关闭
-                if (adasEnable == 1) {
-                    mSsvAdasTotalSwitch.setOpen(true);
+                if (mAdasEnable == 1) {
+                    mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 } else {
-                    mSsvAdasTotalSwitch.setOpen(false);
+                    mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
                 }
 
                 //前车碰撞报警
@@ -160,7 +160,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         mTvSave.setOnClickListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mWarningsAdapter.setOnSwitchClickListener(this);
-        mSsvAdasTotalSwitch.setOnSwitchStatusChangeListener(this);
+        mIvAdasTotalSwitch.setOnClickListener(this);
     }
 
     @Override
@@ -233,6 +233,25 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             } else {
                 mAdasWarningActivity.finish();
             }
+        } else if (id == R.id.iv_adas_total_switch) {
+            if(mAdasEnable == 1){
+                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                mAdasEnable = 0;
+                mCloseWarningCount = mCloseTotalCount;
+                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                    convertWarningsModel.setEnable(0);
+                }
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }else{
+                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                mAdasEnable = 1;
+                getADASDefaultSet();
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }
         } else if (id == R.id.tv_cancel) {
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
@@ -264,8 +283,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 }
 
                 //设置 ADAS 总开关状态
-                int adasTotalSwitch = mSsvAdasTotalSwitch.isOpen() ? 1 : 0;
-                mAdasWarningModel.setAdasEnable(adasTotalSwitch);
+                mAdasWarningModel.setAdasEnable(mAdasEnable);
 
                 for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
                     int warningNameResId = convertWarningsModel.getWarningNameResId();
@@ -384,41 +402,17 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         // 关闭。当有其中一个报警进行打开，总开关的按钮同样也要进行打开
         if (status) {
             mCloseWarningCount--;
-            mSsvAdasTotalSwitch.setOpen(true);
+            mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
             convertWarningsModel.setEnable(1);
         } else {
             mCloseWarningCount++;
             if (mCloseTotalCount == mCloseWarningCount) {
-                mSsvAdasTotalSwitch.setOpen(false);
+                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
             }
             convertWarningsModel.setEnable(0);
         }
         if (mWarningsAdapter != null) {
             mWarningsAdapter.notifyItemChanged(position);
-        }
-    }
-
-    /**
-     * ADAS 报警总开关的监听方法
-     *
-     * @param status
-     */
-    @Override
-    public void onSwitchStatus(boolean status) {
-        //status 状态值: true 代表ADAS开关是打开的  false 代表的ADAS开关是关闭的。如果开关是打开的，
-        // 通过获取设备的默认数据，来重新进行展示开关等相关数据的展示；否则，总开关是关闭的，
-        // 将所有的报警状态设置为关闭
-        if (status) {
-            getADASDefaultSet();
-        } else {
-            mCloseWarningCount = mCloseTotalCount;
-            for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                convertWarningsModel.setEnable(0);
-            }
-        }
-
-        if (mWarningsAdapter != null) {
-            mWarningsAdapter.notifyDataSetChanged();
         }
     }
 }

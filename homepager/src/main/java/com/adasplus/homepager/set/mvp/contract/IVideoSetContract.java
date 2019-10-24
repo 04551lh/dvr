@@ -5,8 +5,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.adasplus.base.view.SlideSwitchView;
-
 /**
  * Author:刘净辉
  * Date : 2019/10/15 16:44
@@ -25,21 +23,21 @@ public interface IVideoSetContract {
 
         TextView getTvSubStreamSet();
 
-        SlideSwitchView getSsvStreamTotalSwitch();
+        ImageView getIvStreamTotalSwitch();
 
         TextView getTvVideoFrameRate();
 
         TextView getTvResolutionRatio();
 
-        SlideSwitchView getSsvDateTime();
+        ImageView getIvDateTime();
 
-        SlideSwitchView getSsvLicensePlateNumber();
+        ImageView getIvLicensePlateNumber();
 
-        SlideSwitchView getSsvChannelName();
+        ImageView getIvChannelName();
 
-        SlideSwitchView getSsvGpsSignal();
+        ImageView getIvGpsSignal();
 
-        SlideSwitchView getSsvSpeed();
+        ImageView getIvSpeed();
 
         TextView getTvSave();
 

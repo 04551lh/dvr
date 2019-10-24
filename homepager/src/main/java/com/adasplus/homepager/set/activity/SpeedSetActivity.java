@@ -3,38 +3,36 @@ package com.adasplus.homepager.set.activity;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.base.view.SignSeekBar;
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ISpeedSetContract;
 import com.adasplus.homepager.set.mvp.presenter.SpeedSetPresenter;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.View {
 
     private ImageView mIvback;
-    private LinearLayout mLlPulseSpeed;
-    private CheckBox mCbPulseSpeed;
+    private SwipeRefreshLayout mSwipeContainer;
+    private ImageView mIvPulseSpeed;
     private TextView mTvManualCalibration;
+    private ImageView mIvManualCalibration;
     private TextView mTvCoefficientOfThePulse;
     private EditText mEtCoefficientOfThePulseValue;
-    private TextView mTvProportionValue;
     private TextView mTvAutomaticCalibration;
-    private SlideSwitchView mSsvAutomaticCalibrationSwitch;
+    private ImageView mIvAutomaticCalibration;
     private TextView mTvErrorValue;
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
-    private TextView mTvPercent;
-    private LinearLayout mLlSimulationSpeed;
-    private CheckBox mCbSimulationSpeedStatus;
+    private ImageView mIvSimulationSpeedStatus;
     private SignSeekBar mSsbSpeedValue;
+    private TextView mTvCurrentSpeed;
     private TextView mTvSave;
 
     @Override
@@ -51,44 +49,47 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
 
     @Override
     protected void initWidget() {
-        mIvback = (ImageView) findViewById(R.id.iv_back);
-        mLlPulseSpeed = (LinearLayout) findViewById(R.id.ll_pulse_speed);
-        mCbPulseSpeed = (CheckBox) findViewById(R.id.cb_pulse_speed);
-        mTvManualCalibration = (TextView) findViewById(R.id.tv_manual_calibration);
-        mTvCoefficientOfThePulse = (TextView) findViewById(R.id.tv_coefficient_of_the_pulse);
-        mEtCoefficientOfThePulseValue = (EditText) findViewById(R.id.et_coefficient_of_the_pulse_value);
-        mTvProportionValue = (TextView) findViewById(R.id.tv_proportion_value);
-        mTvAutomaticCalibration = (TextView) findViewById(R.id.tv_automatic_calibration);
-        mSsvAutomaticCalibrationSwitch = (SlideSwitchView) findViewById(R.id.ssv_automatic_calibration_switch);
-        mTvErrorValue = (TextView) findViewById(R.id.tv_error_value);
-        mBtnSub = (Button) findViewById(R.id.btn_sub);
-        mEtErrorNumber = (EditText) findViewById(R.id.et_error_number);
-        mBtnAdd = (Button) findViewById(R.id.btn_add);
-        mTvPercent = (TextView) findViewById(R.id.tv_percent);
-        mLlSimulationSpeed = (LinearLayout) findViewById(R.id.ll_simulation_speed);
-        mCbSimulationSpeedStatus = (CheckBox) findViewById(R.id.cb_simulation_speed_status);
-        mSsbSpeedValue = (SignSeekBar) findViewById(R.id.ssb_speed_value);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvback = findViewById(R.id.iv_back);
+        mIvPulseSpeed =  findViewById(R.id.iv_pulse_speed);
+        mSwipeContainer = findViewById(R.id.swipe_container);
+        mTvManualCalibration =  findViewById(R.id.tv_manual_calibration);
+        mIvManualCalibration =  findViewById(R.id.iv_manual_calibration);
+        mTvCoefficientOfThePulse =  findViewById(R.id.tv_coefficient_of_the_pulse);
+        mEtCoefficientOfThePulseValue =  findViewById(R.id.et_coefficient_of_the_pulse_value);
+        mTvAutomaticCalibration =  findViewById(R.id.tv_automatic_calibration);
+        mIvAutomaticCalibration =  findViewById(R.id.iv_automatic_calibration);
+        mTvErrorValue =  findViewById(R.id.tv_error_value);
+        mBtnSub =  findViewById(R.id.btn_sub);
+        mEtErrorNumber =  findViewById(R.id.et_error_number);
+        mBtnAdd =  findViewById(R.id.btn_add);
+        mIvSimulationSpeedStatus =  findViewById(R.id.iv_simulation_speed_status);
+        mSsbSpeedValue =  findViewById(R.id.ssb_speed_value);
+        mTvCurrentSpeed =  findViewById(R.id.tv_current_speed);
+        mTvSave =  findViewById(R.id.tv_save);
     }
 
     @Override
     public ImageView getIvback() {
         return mIvback;
     }
-
     @Override
-    public LinearLayout getLlPulseSpeed() {
-        return mLlPulseSpeed;
+    public ImageView getIvPulseSpeed() {
+        return mIvPulseSpeed;
     }
 
     @Override
-    public CheckBox getCbPulseSpeed() {
-        return mCbPulseSpeed;
+    public SwipeRefreshLayout getSwipeContainer() {
+        return mSwipeContainer;
     }
 
     @Override
     public TextView getTvManualCalibration() {
         return mTvManualCalibration;
+    }
+
+    @Override
+    public ImageView getIvManualCalibration() {
+        return mIvManualCalibration;
     }
 
     @Override
@@ -102,19 +103,15 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
-    public TextView getTvProportionValue() {
-        return mTvProportionValue;
-    }
-
-    @Override
     public TextView getTvAutomaticCalibration() {
         return mTvAutomaticCalibration;
     }
 
     @Override
-    public SlideSwitchView getSsvAutomaticCalibrationSwitch() {
-        return mSsvAutomaticCalibrationSwitch;
+    public ImageView getIvAutomaticCalibration() {
+        return mIvAutomaticCalibration;
     }
+
 
     @Override
     public TextView getTvErrorValue() {
@@ -137,23 +134,18 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
-    public TextView getTvPercent() {
-        return mTvPercent;
-    }
-
-    @Override
-    public LinearLayout getLlSimulationSpeed() {
-        return mLlSimulationSpeed;
-    }
-
-    @Override
-    public CheckBox getCbSimulationSpeedStatus() {
-        return mCbSimulationSpeedStatus;
+    public ImageView getIvSimulationSpeedStatus() {
+        return mIvSimulationSpeedStatus;
     }
 
     @Override
     public SignSeekBar getSsbSpeedValue() {
         return mSsbSpeedValue;
+    }
+
+    @Override
+    public TextView getTvCurrentSpeed() {
+        return mTvCurrentSpeed;
     }
 
     @Override
