@@ -261,9 +261,9 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 if (gpsSignalLevel == 0){
                     mTvGpsSignal.setText(R.string.no_signal);
                 }else if (gpsSignalLevel == 1){
-                    mTvGpsSignal.setText(R.string.weak);
+                    mTvGpsSignal.setText(R.string.signal_weak);
                 }else if (gpsSignalLevel == 2){
-                    mTvGpsSignal.setText(R.string.strong);
+                    mTvGpsSignal.setText(R.string.signal_strong);
                 }
 
                 mTvLatitudeAndLongitude.setText(String.format("%s,%s",String.valueOf(longitude),String.valueOf(latitude)));
@@ -283,9 +283,9 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 if (fourGSignalLevel == 0){
                     mTvFourGSignal.setText(R.string.no_signal);
                 }else if (fourGSignalLevel == 1){
-                    mTvFourGSignal.setText(R.string.weak);
+                    mTvFourGSignal.setText(R.string.signal_weak);
                 }else if (fourGSignalLevel == 2){
-                    mTvFourGSignal.setText(R.string.strong);
+                    mTvFourGSignal.setText(R.string.signal_strong);
                 }
 
                 mTvSimCardNumber.setText(simNumber);

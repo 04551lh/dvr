@@ -1,39 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:clipChildren="false"
+
     tools:context=".activity.MainActivity">
-    <include
-        layout="@layout/include_top_slide_layout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <FrameLayout
-            android:id="@+id/fl_frame_layout"
+        android:clipChildren="false"
+        app:srlAccentColor="@android:color/white">
+        <com.scwang.smartrefresh.layout.header.TwoLevelHeader
+            android:id="@+id/tlh_header_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:background="@mipmap/slide_screen_bg">
 
-        <androidx.cardview.widget.CardView
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:id="@+id/ch_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:background="@mipmap/slide_screen_bg"/>
+
+            <FrameLayout
+                android:id="@+id/fl_plate_info_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:orientation="vertical">
+                <include
+                    layout="@layout/include_top_slide_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
+        </com.scwang.smartrefresh.layout.header.TwoLevelHeader>
+
+        <LinearLayout
+            android:id="@+id/ll_main_content"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_60"
-            app:cardBackgroundColor="@android:color/white"
-            app:cardElevation="@dimen/dp_3"
-            app:cardCornerRadius="0dp"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/fl_frame_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@android:color/white"
+                android:layout_weight="1"/>
+            <View
+                style="@style/MainLineStyle"/>
+
             <LinearLayout
                 android:id="@+id/ll_home_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/dp_60"
+                android:background="@android:color/white"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
@@ -100,9 +124,6 @@
                         android:layout_marginTop="@dimen/dp_5"/>
                 </LinearLayout>
             </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
-
-
-</LinearLayout>
+        </LinearLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</FrameLayout>

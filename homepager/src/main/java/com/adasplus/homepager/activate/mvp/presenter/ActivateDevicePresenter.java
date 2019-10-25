@@ -51,7 +51,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private ActivateDeviceActivity mActivateDeviceActivity;
     private RecyclerView mRvActivatedPlatforms;
     private TextView mTvNoData;
-    private TextView mTvAddNewPlatforms;
     private TextView mTvPhoneNumber;
     private TextView mTvLicensePlateNumber;
     private TextView mTvChassisNumber;
@@ -108,7 +107,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
         mRvActivatedPlatforms = mActivateDeviceView.getRvActivatedPlatforms();
         mTvNoData = mActivateDeviceView.getTvNoData();
-        mTvAddNewPlatforms = mActivateDeviceView.getTvAddNewPlatforms();
         mTvPhoneNumber = mActivateDeviceView.getTvPhoneNumber();
         mTvLicensePlateNumber = mActivateDeviceView.getTvLicensePlateNumber();
         mTvChassisNumber = mActivateDeviceView.getTvChassisNumber();
@@ -233,7 +231,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                     //已连接平台的总数量
                     mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
                     mIvActionBarAddPlatforms.setVisibility(View.GONE);
-                    mTvAddNewPlatforms.setVisibility(View.GONE);
                 } else {
                     dismissConnectedPlatforms();
                     showAddNewPlatformBtn();
@@ -254,16 +251,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     }
 
     private void showAddNewPlatformBtn() {
-        //通过类型进行来判断是否是 填写信息 或者 添加新平台，通过这个类型进行来
-        // 显示不同的添加新平台的按钮
         mType = mActivateDeviceView.getType();
-        if (mType.equals(ActivityPathConstant.FILL_TERMINAL_INFO)) {
-            mIvActionBarAddPlatforms.setVisibility(View.GONE);
-            mTvAddNewPlatforms.setVisibility(View.VISIBLE);
-        } else if (mType.equals(ActivityPathConstant.ADD_NEW_PLATFORMS)) {
-            mIvActionBarAddPlatforms.setVisibility(View.VISIBLE);
-            mTvAddNewPlatforms.setVisibility(View.GONE);
-        }
+        mIvActionBarAddPlatforms.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -292,7 +281,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         ImageView ivBack = mActivateDeviceView.getIvBack();
         ivBack.setOnClickListener(this);
         mIvActionBarAddPlatforms.setOnClickListener(this);
-        mTvAddNewPlatforms.setOnClickListener(this);
         mTvEditBasicInfo.setOnClickListener(this);
     }
 
@@ -301,7 +289,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         int id = view.getId();
         if (id == R.id.iv_back) {
             mActivateDeviceActivity.finish();
-        } else if (id == R.id.tv_add_new_platforms || id == R.id.iv_add_new_platform) { //添加新平台
+        } else if (id == R.id.iv_add_new_platform) { //添加新平台
             mActivateDeviceActivity.startActivity(new Intent(mActivateDeviceActivity, AddNewPlatformsActivity.class));
         } else if (id == R.id.tv_edit_basic_info) {
             startFillOrUpdateCarInfo();

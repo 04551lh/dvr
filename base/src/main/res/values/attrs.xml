@@ -60,4 +60,5 @@
         <!--无法使用文本颜色 ，默认：Color.GRAY -->
         <attr name="ssb_unusable_color" format="color|reference" />
     </declare-styleable>
+
 </resources>

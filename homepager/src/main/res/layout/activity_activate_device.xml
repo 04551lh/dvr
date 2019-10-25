@@ -91,16 +91,6 @@
                         android:visibility="gone"/>
                 </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_add_new_platforms"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_45"
-                    android:layout_margin="@dimen/dp_20"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@drawable/btn_shape_style"
-                    android:gravity="center"
-                    android:text="@string/add_new_platforms"
-                    android:textColor="@android:color/white" />
             </LinearLayout>
 
         </ScrollView>

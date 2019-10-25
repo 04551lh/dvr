@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.adasplus.dvr_controller.R;
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.dvr_controller.mvp.contract.IMainContract;
 import com.adasplus.dvr_controller.mvp.presenter.MainPresenter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.header.TwoLevelHeader;
 
 
 public class MainActivity extends BaseActivity implements IMainContract.View {
@@ -40,12 +43,21 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
     private ImageView mIvTargetsPlatformStatus;
     private TextView mTvTargetsPlatformStatus;
     private ImageView mIvCloseMenu;
+    private SmartRefreshLayout mSrlRefreshLayout;
+    private TwoLevelHeader mTlhHeaderView;
+    private LinearLayout mLlCloseMenu;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         mMainPresenter = new MainPresenter(this);
-        mMainPresenter.initData();
+        mMainPresenter.initWidget();
         mMainPresenter.initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMainPresenter.initData();
     }
 
     @Override
@@ -81,6 +93,9 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         mIvTargetsPlatformStatus = findViewById(R.id.iv_targets_platform_status);
         mTvTargetsPlatformStatus = findViewById(R.id.tv_targets_platform_status);
         mIvCloseMenu = findViewById(R.id.iv_close_menu);
+        mSrlRefreshLayout = findViewById(R.id.srl_refresh_layout);
+        mTlhHeaderView = findViewById(R.id.tlh_header_view);
+        mLlCloseMenu = findViewById(R.id.ll_close_menu);
     }
 
     @Override
@@ -128,4 +143,103 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         return mTvFileExportPager;
     }
 
+    @Override
+    public ImageView getIvFourGSignalStatus() {
+        return mIvFourGSignalStatus;
+    }
+
+    @Override
+    public TextView getTvFourGSignalLevel() {
+        return mTvFourGSignalLevel;
+    }
+
+    @Override
+    public ImageView getIvLocationStatus() {
+        return mIvLocationStatus;
+    }
+
+    @Override
+    public TextView getTvLocationStatus() {
+        return mTvLocationStatus;
+    }
+
+    @Override
+    public ImageView getIvFarLightStatus() {
+        return mIvFarLightStatus;
+    }
+
+    @Override
+    public TextView getTvFarLightStatus() {
+        return mTvFarLightStatus;
+    }
+
+    @Override
+    public ImageView getIvNearLightStatus() {
+        return mIvNearLightStatus;
+    }
+
+    @Override
+    public TextView getTvNearLightStatus() {
+        return mTvNearLightStatus;
+    }
+
+    @Override
+    public ImageView getIvLeftTurnStatus() {
+        return mIvLeftTurnStatus;
+    }
+
+    @Override
+    public TextView getTvLeftTurnStatus() {
+        return mTvLeftTurnStatus;
+    }
+
+    @Override
+    public ImageView getIvRightTurnStatus() {
+        return mIvRightTurnStatus;
+    }
+
+    @Override
+    public TextView getTvRightTurnStatus() {
+        return mTvRightTurnStatus;
+    }
+
+    @Override
+    public ImageView getIvBrakeStatus() {
+        return mIvBrakeStatus;
+    }
+
+    @Override
+    public TextView getTvBrakeStatus() {
+        return mTvBrakeStatus;
+    }
+
+    @Override
+    public ImageView getIvTargetsPlatformStatus() {
+        return mIvTargetsPlatformStatus;
+    }
+
+    @Override
+    public TextView getTvTargetsPlatformStatus() {
+        return mTvTargetsPlatformStatus;
+    }
+
+    @Override
+    public ImageView getIvCloseMenu() {
+        return mIvCloseMenu;
+    }
+
+    @Override
+    public SmartRefreshLayout getSrlRefreshLayout() {
+        return mSrlRefreshLayout;
+    }
+
+    @Override
+    public TwoLevelHeader getTlhHeaderView() {
+        return mTlhHeaderView;
+    }
+
+    @Override
+    public LinearLayout getLlCloseMenu() {
+        return mLlCloseMenu;
+    }
 }

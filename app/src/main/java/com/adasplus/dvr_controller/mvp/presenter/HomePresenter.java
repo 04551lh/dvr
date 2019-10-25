@@ -29,11 +29,21 @@ import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.DisplayUtils;
 import com.adasplus.base.utils.ExceptionUtils;
+import com.adasplus.base.utils.StatusBarUtil;
 import com.adasplus.base.utils.WifiHelper;
 import com.adasplus.base.view.SwipeRefreshView;
 import com.adasplus.dvr_controller.R;
+import com.adasplus.dvr_controller.activity.MainActivity;
 import com.adasplus.dvr_controller.mvp.contract.IHomeContract;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -77,6 +87,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private  boolean isStartActivity = false;
     private SwipeRefreshView mSrlHomeRefreshData;
 
+
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
         mHomeView = view;
@@ -84,133 +95,113 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     }
 
     @Override
-    public void initData() {
-        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-        String ssid = wifiInfo.getSSID();
-        if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)){
-            //获取系统信息，来展示车辆信息状态
-            BaseWrapper.getInstance().getSystemInfo().subscribe(new Subscriber<SystemInfoModel>() {
-                @Override
-                public void onCompleted() {
+    public void initData(SystemInfoModel systemInfoModel) {
+        SystemInfoModel.GpsBean gps = systemInfoModel.getGps();
+        double longitude = gps.getLongitude();
+        double latitude = gps.getLatitude();
+        List<SystemInfoModel.PlatformStatusArrayBean> platformStatusArray = systemInfoModel.getPlatformStatusArray();
+        SystemInfoModel.VehicleStatusInfoBean vehicleStatusInfo = systemInfoModel.getVehicleStatusInfo();
+        int nearTurnLightStatus = vehicleStatusInfo.getNearTurnLightStatus();
+        int farTurnLightStatus = vehicleStatusInfo.getFarTurnLightStatus();
+        int leftTurnLightStatus = vehicleStatusInfo.getLeftTurnLightStatus();
+        int rightTurnLightStatus = vehicleStatusInfo.getRightTurnLightStatus();
+        int brakeStatus = vehicleStatusInfo.getBrakeStatus();
+        int speed = vehicleStatusInfo.getSpeed();
+        SystemInfoModel.FourGBean fourG = systemInfoModel.getFourG();
+        int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6 ;
 
-                }
+        //定位状态
+        int gpsValid = gps.getGpsValid();
+        if (ONE ==  gpsValid){
+            mIvLocationStatus.setImageResource(R.drawable.location_signal_checked_icon);
+        }else if (ZERO == gpsValid){
+            mIvLocationStatus.setImageResource(R.drawable.location_signal_unchecked_icon);
+        }
 
-                @Override
-                public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mActivity,e);
-                }
+        //近光灯状态 0:已接入，未开启 1: 已接入，打开 2: 已接入，关闭
+        if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus){
+            mIvNearLightStatus.setImageResource(R.drawable.near_light_unchecked_icon);
+        }else if (ONE == nearTurnLightStatus){
+            mIvNearLightStatus.setImageResource(R.drawable.near_light_checked_icon);
+        }
 
-                @Override
-                public void onNext(SystemInfoModel systemInfoModel) {
-                    SystemInfoModel.GpsBean gps = systemInfoModel.getGps();
-                    double longitude = gps.getLongitude();
-                    double latitude = gps.getLatitude();
-                    List<SystemInfoModel.PlatformStatusArrayBean> platformStatusArray = systemInfoModel.getPlatformStatusArray();
-                    SystemInfoModel.VehicleStatusInfoBean vehicleStatusInfo = systemInfoModel.getVehicleStatusInfo();
-                    int nearTurnLightStatus = vehicleStatusInfo.getNearTurnLightStatus();
-                    int farTurnLightStatus = vehicleStatusInfo.getFarTurnLightStatus();
-                    int leftTurnLightStatus = vehicleStatusInfo.getLeftTurnLightStatus();
-                    int rightTurnLightStatus = vehicleStatusInfo.getRightTurnLightStatus();
-                    int brakeStatus = vehicleStatusInfo.getBrakeStatus();
-                    int speed = vehicleStatusInfo.getSpeed();
-                    SystemInfoModel.FourGBean fourG = systemInfoModel.getFourG();
-                    int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6 ;
+        //远光灯状态
+        if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus){
+            mIvFarLightStatus.setImageResource(R.drawable.far_light_unchecked_icon);
+        }else if (ONE == farTurnLightStatus){
+            mIvFarLightStatus.setImageResource(R.drawable.far_light_checked_icon);
+        }
 
-                    //定位状态
-                    int gpsValid = gps.getGpsValid();
-                    if (ONE ==  gpsValid){
-                        mIvLocationStatus.setImageResource(R.drawable.location_signal_checked_icon);
-                    }else if (ZERO == gpsValid){
-                        mIvLocationStatus.setImageResource(R.drawable.location_signal_unchecked_icon);
-                    }
+        //左转向灯状态
+        if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus){
+            mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_unchecked_icon);
+        }else if (ONE == leftTurnLightStatus){
+            mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_checked_icon);
+        }
 
-                    //近光灯状态 0:已接入，未开启 1: 已接入，打开 2: 已接入，关闭
-                    if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus){
-                        mIvNearLightStatus.setImageResource(R.drawable.near_light_unchecked_icon);
-                    }else if (ONE == nearTurnLightStatus){
-                        mIvNearLightStatus.setImageResource(R.drawable.near_light_checked_icon);
-                    }
+        //右转向灯状态
+        if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus){
+            mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_unchecked_icon);
+        }else if (ONE == rightTurnLightStatus){
+            mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_checked_icon);
+        }
 
-                    //远光灯状态
-                    if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus){
-                        mIvFarLightStatus.setImageResource(R.drawable.far_light_unchecked_icon);
-                    }else if (ONE == farTurnLightStatus){
-                        mIvFarLightStatus.setImageResource(R.drawable.far_light_checked_icon);
-                    }
+        //刹车状态
+        if (ONE == brakeStatus){
+            mIvBrakeStatus.setImageResource(R.drawable.brake_checked_icon);
+        }else if (0 == brakeStatus){
+            mIvBrakeStatus.setImageResource(R.drawable.brake_unchecked_icon);
+        }
 
-                    //左转向灯状态
-                    if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus){
-                        mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_unchecked_icon);
-                    }else if (ONE == leftTurnLightStatus){
-                        mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_checked_icon);
-                    }
+        //部标平台是否有连接的状态
+        boolean isConnectTargetsPlatforms = false;
+        for (int i = 0 ; i < platformStatusArray.size();i++){
+            SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
+            int connectStatus = platformStatusArrayBean.getConnectStatus();
+            if (connectStatus == 1){
+                isConnectTargetsPlatforms = true;
+                break;
+            }
+        }
 
-                    //右转向灯状态
-                    if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus){
-                        mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_unchecked_icon);
-                    }else if (ONE == rightTurnLightStatus){
-                        mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_checked_icon);
-                    }
+        if (isConnectTargetsPlatforms){
+            mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_checked_icon);
+        }else {
+            mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_unchecked_icon);
+        }
 
-                    //刹车状态
-                    if (ONE == brakeStatus){
-                        mIvBrakeStatus.setImageResource(R.drawable.brake_checked_icon);
-                    }else if (0 == brakeStatus){
-                        mIvBrakeStatus.setImageResource(R.drawable.brake_unchecked_icon);
-                    }
+        //经纬度信息的展示
+        if ( ZERO == longitude && ZERO == latitude){
+            mTvLocationInfo.setText(R.string.no_car_info);
+        }else {
+            mTvLocationInfo.setText(String.format("%s°N,%s°E",String.valueOf((int)latitude),String.valueOf((int)longitude)));
+        }
 
-                    //部标平台是否有连接的状态
-                    boolean isConnectTargetsPlatforms = false;
-                    for (int i = 0 ; i < platformStatusArray.size();i++){
-                        SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
-                        int connectStatus = platformStatusArrayBean.getConnectStatus();
-                        if (connectStatus == 1){
-                            isConnectTargetsPlatforms = true;
-                            break;
-                        }
-                    }
+        //车辆速度的
+        if (speed > 0){
+            mTvCarSpeed.setText(String.format("%s Km/h",String.valueOf(speed)));
+        }else {
+            mTvCarSpeed.setText(R.string.no_car_info);
+        }
 
-                    if (isConnectTargetsPlatforms){
-                        mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_checked_icon);
-                    }else {
-                        mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_unchecked_icon);
-                    }
-
-                    //经纬度信息的展示
-                    if ( ZERO == longitude && ZERO == latitude){
-                        mTvLocationInfo.setText(R.string.no_car_info);
-                    }else {
-                        mTvLocationInfo.setText(String.format("%s°N,%s°E",String.valueOf((int)latitude),String.valueOf((int)longitude)));
-                    }
-
-                    //车辆速度的
-                    if (speed > 0){
-                        mTvCarSpeed.setText(String.format("%s Km/h",String.valueOf(speed)));
-                    }else {
-                        mTvCarSpeed.setText(R.string.no_car_info);
-                    }
-
-                    if (ZERO == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_no_signal);
-                    }else if (ONE == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_1);
-                    }else if (TWO == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_2);
-                    }else if (THREE == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_3);
-                    }else if (FOUR == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_4);
-                    }else if (FIVE == fourGLSignalLevel){
-                        mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_full_icon);
-                    }
-                }
-            });
+        if (ZERO == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_no_signal);
+        }else if (ONE == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_1);
+        }else if (TWO == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_2);
+        }else if (THREE == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_3);
+        }else if (FOUR == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_4);
+        }else if (FIVE == fourGLSignalLevel){
+            mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_full_icon);
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void findViewById(View view) {
+    public void findViewById(final View view) {
         mTvCarSpeed = view.findViewById(R.id.tv_car_speed);
         mTvLocationInfo = view.findViewById(R.id.tv_location_info);
         mLlDeviceConnect = view.findViewById(R.id.ll_device_connect);
@@ -225,48 +216,8 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mIvRightTurnStatus = view.findViewById(R.id.iv_right_turn_status);
         mIvBrakeStatus = view.findViewById(R.id.iv_brake_status);
         mIvTargetsPlatformStatus = view.findViewById(R.id.iv_targets_platform_status);
-        mSrlHomeRefreshData = view.findViewById(R.id.srl_refresh_home_data);
         mLlHomePager = view.findViewById(R.id.ll_home_pager);
-
-
-        mSrlHomeRefreshData.setOnRefreshListener(this);
-        mSrlHomeRefreshData.setEnabled(false);
         mLlHomePager.setFocusable(true);
-
-        mLlHomePager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int startY = 0;
-                int endY;
-                int screenHeight = DisplayUtils.getScreenHeight(mActivity) / 3;
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        startY = (int) event.getY();
-                        if (startY < screenHeight){
-                            mSrlHomeRefreshData.setEnabled(false);
-                        }
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        endY = (int) event.getY();
-                        if (endY > screenHeight){
-                            if (endY - startY > 50){
-                                mSrlHomeRefreshData.setEnabled(true);
-                            }
-                        }else {
-                            mSrlHomeRefreshData.setEnabled(false);
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
-
-
-        mSrlHomeRefreshData.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSrlHomeRefreshData.setProgressBackgroundColorSchemeResource(android.R.color.white);
-
         CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
         cr_platforms_basic_info.bringToFront();
     }
@@ -283,7 +234,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     public void onResume() {
         if (isStartActivity){
             isStartActivity = false;
-            initData();
         }
     }
 
@@ -371,7 +321,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mHomeHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                initData();
                 mSrlHomeRefreshData.setRefreshing(false);
             }
         },HttpConstant.SWIPE_REFRESH_DELAYED);

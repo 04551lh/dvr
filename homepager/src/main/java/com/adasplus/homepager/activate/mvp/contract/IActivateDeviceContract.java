@@ -24,8 +24,6 @@ public interface IActivateDeviceContract {
 
         TextView getTvNoData();
 
-        TextView getTvAddNewPlatforms();
-
         TextView getTvPhoneNumber();
 
         TextView getTvLicensePlateNumber();

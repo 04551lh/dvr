@@ -1,5 +1,8 @@
 package com.adasplus.base.network.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -9,7 +12,7 @@ import java.util.List;
  * Date : 2019/10/15 11:38
  * Description :
  */
-public class SystemInfoModel {
+public class SystemInfoModel implements Parcelable {
 
     @SerializedName("4g")
     private FourGBean fourG;
@@ -19,6 +22,25 @@ public class SystemInfoModel {
     private VehicleStatusInfoBean vehicleStatusInfo;
     private List<StorageArrayBean> storageArray;
     private List<PlatformStatusArrayBean> platformStatusArray;
+
+    private SystemInfoModel(Parcel in) {
+    }
+
+    public SystemInfoModel(){
+
+    }
+
+    public static final Creator<SystemInfoModel> CREATOR = new Creator<SystemInfoModel>() {
+        @Override
+        public SystemInfoModel createFromParcel(Parcel in) {
+            return new SystemInfoModel(in);
+        }
+
+        @Override
+        public SystemInfoModel[] newArray(int size) {
+            return new SystemInfoModel[size];
+        }
+    };
 
     public FourGBean getFourG() {
         return fourG;
@@ -89,7 +111,16 @@ public class SystemInfoModel {
                 '}';
     }
 
-    public static class FourGBean {
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    }
+
+    public static class FourGBean implements Parcelable{
 
         @SerializedName("g4Model")
         private String fourGModel; // 4g 模块
@@ -99,6 +130,40 @@ public class SystemInfoModel {
         private int fourGSignalLevel; // 4g 信号强度
         private String simNumber;
         private String IMEI;
+
+        FourGBean(Parcel in) {
+            fourGModel = in.readString();
+            fourGStatus = in.readString();
+            fourGSignalLevel = in.readInt();
+            simNumber = in.readString();
+            IMEI = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(fourGModel);
+            dest.writeString(fourGStatus);
+            dest.writeInt(fourGSignalLevel);
+            dest.writeString(simNumber);
+            dest.writeString(IMEI);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<FourGBean> CREATOR = new Creator<FourGBean>() {
+            @Override
+            public FourGBean createFromParcel(Parcel in) {
+                return new FourGBean(in);
+            }
+
+            @Override
+            public FourGBean[] newArray(int size) {
+                return new FourGBean[size];
+            }
+        };
 
         public String getFourGModel() {
             return fourGModel;
@@ -152,12 +217,31 @@ public class SystemInfoModel {
         }
     }
 
-    public static class TerminalInfoBean {
+    public static class TerminalInfoBean implements Parcelable{
 
         private String terminalId;
         private String softWareVersion;
         private String hardWareVersion;
         private String MCUVersion;
+
+        TerminalInfoBean(Parcel in) {
+            terminalId = in.readString();
+            softWareVersion = in.readString();
+            hardWareVersion = in.readString();
+            MCUVersion = in.readString();
+        }
+
+        public static final Creator<TerminalInfoBean> CREATOR = new Creator<TerminalInfoBean>() {
+            @Override
+            public TerminalInfoBean createFromParcel(Parcel in) {
+                return new TerminalInfoBean(in);
+            }
+
+            @Override
+            public TerminalInfoBean[] newArray(int size) {
+                return new TerminalInfoBean[size];
+            }
+        };
 
         public String getTerminalId() {
             return terminalId;
@@ -199,6 +283,19 @@ public class SystemInfoModel {
                     ", hardWareVersion='" + hardWareVersion + '\'' +
                     ", MCUVersion='" + MCUVersion + '\'' +
                     '}';
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(terminalId);
+            dest.writeString(softWareVersion);
+            dest.writeString(hardWareVersion);
+            dest.writeString(MCUVersion);
         }
     }
 

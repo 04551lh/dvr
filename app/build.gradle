@@ -54,4 +54,5 @@ dependencies {
     implementation project(path: ':wheelview')
 
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
+    implementation project(path: ':refreshLayout')
 }

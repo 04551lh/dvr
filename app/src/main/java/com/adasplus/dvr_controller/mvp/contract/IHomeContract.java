@@ -1,6 +1,8 @@
 package com.adasplus.dvr_controller.mvp.contract;
 
 
+import com.adasplus.base.network.model.SystemInfoModel;
+
 /**
  * Author:刘净辉
  * Date : 2019/10/18 11:36
@@ -11,14 +13,11 @@ public interface IHomeContract {
     }
 
     interface View {
-        void initData();
-
-
     }
 
     interface Presenter {
 
-        void initData();
+        void initData(SystemInfoModel systemInfoModel);
 
         void findViewById(android.view.View view);
 

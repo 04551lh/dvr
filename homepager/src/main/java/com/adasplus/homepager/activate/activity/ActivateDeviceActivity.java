@@ -23,7 +23,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private ImageView mIvBack;
     private RecyclerView mRvActivatedPlatforms;
     private TextView mTvNoData;
-    private TextView mTvAddNewPlatforms;
     private TextView mTvPhoneNumber;
     private TextView mTvLicensePlateNumber;
     private TextView mTvChassisNumber;
@@ -62,7 +61,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mIvBack = findViewById(R.id.iv_back);
         mRvActivatedPlatforms = (RecyclerView) findViewById(R.id.rv_activated_platforms);
         mTvNoData = (TextView) findViewById(R.id.tv_no_data);
-        mTvAddNewPlatforms = (TextView) findViewById(R.id.tv_add_new_platforms);
         mTvPhoneNumber = (TextView) findViewById(R.id.tv_phone_number);
         mTvLicensePlateNumber = (TextView) findViewById(R.id.tv_license_plate_number);
         mTvChassisNumber = (TextView) findViewById(R.id.tv_chassis_number);
@@ -89,11 +87,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     @Override
     public TextView getTvNoData() {
         return mTvNoData;
-    }
-
-    @Override
-    public TextView getTvAddNewPlatforms() {
-        return mTvAddNewPlatforms;
     }
 
     @Override

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@mipmap/slide_screen_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -212,6 +213,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_close_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -233,6 +235,7 @@
             android:textColor="@android:color/white"
             android:layout_marginTop="@dimen/sp_16"
             android:text="@string/app_name"
-            android:textSize="@dimen/sp_16"/>
+            android:textSize="@dimen/sp_16"
+            android:layout_marginBottom="@dimen/dp_22"/>
     </LinearLayout>
 </RelativeLayout>

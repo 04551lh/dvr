@@ -107,9 +107,9 @@
 
     <string name="no_signal">无信号</string>
 
-    <string name="weak">弱</string>
+    <string name="signal_weak">弱</string>
 
-    <string name="strong">强</string>
+    <string name="signal_strong">强</string>
 
     <string name="no_access">未接入</string>
 
