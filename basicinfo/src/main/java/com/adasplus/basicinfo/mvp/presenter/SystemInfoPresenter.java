@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.model.SystemInfoModel;
@@ -30,13 +31,10 @@ import rx.Subscriber;
  * Date : 2019/10/14 18:18
  * Description :
  */
-public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.OnClickListener {
+public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    public static final int WHAT = 1;
-    public static final int DELAY_MILLIS = 1000;
     private ISystemInfoContract.View mSystemInfoView;
     private SystemInfoActivity mSystemInfoActivity;
-    private static SystemInfoHandler mSystemInfoHandler;
     private ImageView mIvBack;
     private TextView mTvSoftwareVersion;
     private TextView mTvHardwareVersion;
@@ -55,7 +53,6 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
     private TextView mTvFourGSignal;
     private TextView mTvSimCardNumber;
     private TextView mTvCenterConnectStatus;
-    private RecyclerView mRvTargetsList;
     private TextView mTvDns;
     private TextView mTvIntercomSerialId;
     private TextView mTvImeiNumber;
@@ -83,6 +80,8 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
     private String mNormal;
     private String mException;
     private StorageAdapter mStorageAdapter;
+    private TextView mTvTargetPlatforms;
+    private SwipeRefreshLayout mSrlRefreshSystemInfo;
 
     @Override
     public void onClick(View v) {
@@ -92,32 +91,9 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
         }
     }
 
-    private static class SystemInfoHandler extends Handler {
-
-        private WeakReference<SystemInfoActivity> mSystemInfoWeak;
-
-        private SystemInfoHandler(SystemInfoActivity systemInfoActivity) {
-            mSystemInfoWeak = new WeakReference<>(systemInfoActivity);
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            SystemInfoActivity systemInfoActivity = mSystemInfoWeak.get();
-            int what = msg.what;
-            if (what ==  WHAT){
-                if (systemInfoActivity != null){
-                    systemInfoActivity.initData();
-                }
-                mSystemInfoHandler.sendEmptyMessageDelayed(WHAT, DELAY_MILLIS);
-            }
-        }
-    }
-
     public SystemInfoPresenter(ISystemInfoContract.View view) {
         mSystemInfoView = view;
         mSystemInfoActivity = (SystemInfoActivity) view;
-        mSystemInfoHandler = new SystemInfoHandler(mSystemInfoActivity);
     }
 
     @Override
@@ -140,7 +116,6 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
         mTvFourGSignal = mSystemInfoView.getTvFourGSignal();
         mTvSimCardNumber = mSystemInfoView.getTvSimCardNumber();
         mTvCenterConnectStatus = mSystemInfoView.getTvCenterConnectStatus();
-        mRvTargetsList = mSystemInfoView.getRvTargetsList();
         mTvDns = mSystemInfoView.getTvDns();
         mTvIntercomSerialId = mSystemInfoView.getTvIntercomSerialId();
         mTvImeiNumber = mSystemInfoView.getTvImeiNumber();
@@ -161,6 +136,13 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
         mTvBatteryStatus = mSystemInfoView.getTvBatteryStatus();
         mTvMchSerial = mSystemInfoView.getTvMchSerial();
         mTvSerialDevice = mSystemInfoView.getTvSerialDevice();
+        mTvTargetPlatforms = mSystemInfoView.getTvTargetPlatforms();
+        mSrlRefreshSystemInfo = mSystemInfoView.getSrlRefreshSystemInfo();
+        mSrlRefreshSystemInfo.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSrlRefreshSystemInfo.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSrlRefreshSystemInfo.setOnRefreshListener(this);
 
         mNoAccess = mSystemInfoActivity.getResources().getString(R.string.no_access);
         mHaveAccess = mSystemInfoActivity.getResources().getString(R.string.have_access);
@@ -185,11 +167,13 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
 
             @Override
             public void onError(Throwable e) {
+                mSrlRefreshSystemInfo.setRefreshing(false);
                 ExceptionUtils.exceptionHandling(mSystemInfoActivity,e);
             }
 
             @Override
             public void onNext(SystemInfoModel systemInfoModel) {
+                mSrlRefreshSystemInfo.setRefreshing(false);
 
                 /*------------------------------ 终端信息 -----------------------------*/
                 SystemInfoModel.TerminalInfoBean terminalInfo = systemInfoModel.getTerminalInfo();
@@ -233,9 +217,10 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 mTvStateOfTheSpeaker.setText(isNormal(speackerStatus));
                 mTvStateOfThePrinter.setText(isNormal(printerStatus));
 
-                mTvCameraStatus.setText(String.format(" 1 %s; 2 %s; 3 %s; 4 %s; 5 %s; 6 %s",
-                        isNormal(cameraStatus1),isNormal(cameraStatus2),isNormal(cameraStatus3),
-                        isNormal(cameraStatus4),isNormal(cameraStatus5),isNormal(cameraStatus6)));
+                String camera = mSystemInfoActivity.getString(R.string.camera);
+                mTvCameraStatus.setText(String.format(" %s1 ( %s ) ; %s2 ( %s ); \n %s3 ( %s ) ; %s4 ( %s ) ;\n %s5 ( %s ) ; %s6 ( %s ) ;",
+                        camera,isNormal(cameraStatus1), camera,isNormal(cameraStatus2), camera,isNormal(cameraStatus3),
+                        camera,isNormal(cameraStatus4), camera,isNormal(cameraStatus5), camera,isNormal(cameraStatus6)));
 
                 /*--------------------------------- GPS 模块设置-----------------------------------------*/
 
@@ -327,7 +312,24 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 mStorageAdapter.setData(storageArray);
                 mRvStorageList.setAdapter(mStorageAdapter);
 
-                mSystemInfoHandler.sendEmptyMessageDelayed(WHAT, DELAY_MILLIS);
+                /*-----------------------------------部标平台---------------------------------------*/
+                List<SystemInfoModel.PlatformStatusArrayBean> platformStatusArray = systemInfoModel.getPlatformStatusArray();
+                StringBuilder platformsBuilder = new StringBuilder();
+                String ministerial_platform = mSystemInfoActivity.getString(R.string.ministerial_platform);
+                String connected = mSystemInfoActivity.getString(R.string.connected);
+                String no_connect = mSystemInfoActivity.getString(R.string.no_connect);
+                for (int i = 0 ; i < platformStatusArray.size();i++){
+                    SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
+                    int connectStatus = platformStatusArrayBean.getConnectStatus();
+                    platformsBuilder.append(String.format("%s%s ",ministerial_platform,String.valueOf((i+1))));
+                    if (connectStatus == 1){
+                        platformsBuilder.append(String.format("( %s )  ",connected));
+                    }else if (connectStatus == 0){
+                        platformsBuilder.append(String.format("( %s )  ",no_connect));
+                    }
+                }
+
+                mTvTargetPlatforms.setText(platformsBuilder.toString());
             }
         });
     }
@@ -352,7 +354,7 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
     }
 
     @Override
-    public void onStop() {
-        mSystemInfoHandler.removeCallbacksAndMessages(null);
+    public void onRefresh() {
+        initData();
     }
 }

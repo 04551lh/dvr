@@ -1,6 +1,7 @@
 package com.adasplus.homepager.activate.mvp.contract;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,8 @@ public interface IActivateDeviceContract {
         TextView getTvPlatformList();
 
         SwipeRefreshLayout getSrlActivatePlatformData();
+
+        LinearLayout getLlAddNewPlatform();
     }
 
     interface Presenter {

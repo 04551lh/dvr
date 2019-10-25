@@ -5,6 +5,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.homepager.R;
@@ -20,11 +22,14 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
     private EditText mEtLeftWheelDistance;
     private EditText mEtRightWheelDistance;
     private EditText mEtFrontWheelDistance;
-    private TextView mTvSave;
+    private TextView mTvSaveParamsSetInfo;
+    private TextView mTvRestoreTheDefaultParams;
+    private SwipeRefreshLayout mSrlRefreshParamsFill;
 
     @Override
     protected void init(Bundle savedInstanceState) {
         ParamsSetPresenter paramsSetPresenter = new ParamsSetPresenter(this);
+        paramsSetPresenter.initWidget();
         paramsSetPresenter.initData();
         paramsSetPresenter.initListener();
     }
@@ -36,12 +41,14 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mEtBumperDistance = (EditText) findViewById(R.id.et_bumper_distance);
-        mEtLeftWheelDistance = (EditText) findViewById(R.id.et_left_wheel_distance);
-        mEtRightWheelDistance = (EditText) findViewById(R.id.et_right_wheel_distance);
-        mEtFrontWheelDistance = (EditText) findViewById(R.id.et_front_wheel_distance);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack = findViewById(R.id.iv_back);
+        mEtBumperDistance = findViewById(R.id.et_bumper_distance);
+        mEtLeftWheelDistance = findViewById(R.id.et_left_wheel_distance);
+        mEtRightWheelDistance = findViewById(R.id.et_right_wheel_distance);
+        mEtFrontWheelDistance = findViewById(R.id.et_front_wheel_distance);
+        mTvSaveParamsSetInfo = findViewById(R.id.tv_save_params_set_info);
+        mTvRestoreTheDefaultParams = findViewById(R.id.tv_restore_the_default_params);
+        mSrlRefreshParamsFill = findViewById(R.id.srl_refresh_params_fill);
     }
 
     @Override
@@ -70,7 +77,17 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvSaveParamsSet() {
+        return mTvSaveParamsSetInfo;
+    }
+
+    @Override
+    public TextView getTvRestoreTheDefaultParams() {
+        return mTvRestoreTheDefaultParams;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSrlRefreshParamsFill() {
+        return mSrlRefreshParamsFill;
     }
 }

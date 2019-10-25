@@ -7,6 +7,7 @@ import com.adasplus.homepager.activate.mvp.model.GetPlatformInfoModel;
 import com.adasplus.homepager.activate.mvp.model.LogoutPlatformsModel;
 import com.adasplus.homepager.activate.mvp.model.UpdateDeviceConnectStatus;
 import com.adasplus.homepager.params.mvp.model.ParamsSetModel;
+import com.adasplus.homepager.params.mvp.model.RestoreDefaultParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
 import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
@@ -215,4 +216,7 @@ public interface IHomeService {
 
     @POST(HttpConstant.UPDATE_DEVICE_CONNECT_STATUS)
     Observable<BaseResponse<UpdateDeviceConnectStatus>> updateDeviceConnectStatus(@Body RequestBody requestBody);
+
+    @POST(HttpConstant.RESTORE_DEFAULT_PARAMS_SET)
+    Observable<BaseResponse<RestoreDefaultParamsSetModel>> restoreDefaultParamsSet();
 }

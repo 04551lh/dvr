@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.base.network.ActivityPathConstant;
@@ -34,7 +35,7 @@ public class SystemInfoActivity extends BaseActivity implements ISystemInfoContr
     private TextView mTvFourGSignal; // 4G 信号强度
     private TextView mTvSimCardNumber; // SIM 卡号
     private TextView mTvCenterConnectStatus; // 中心连接状态
-    private RecyclerView mRvTargetsList; //部标平台列表
+    private TextView mTvTargetPlatforms; //部标平台列表
     private TextView mTvDns; //DNS
     private TextView mTvIntercomSerialId; //对讲串口id
     private TextView mTvImeiNumber; // IMEI 号
@@ -55,6 +56,7 @@ public class SystemInfoActivity extends BaseActivity implements ISystemInfoContr
     private TextView mTvBatteryStatus; // 电池状态
     private TextView mTvMchSerial; // MCH 串口
     private TextView mTvSerialDevice; // 串口设备
+    private SwipeRefreshLayout mSrlRefreshSystemInfo;
     private SystemInfoPresenter mSystemInfoPresenter;
 
     public SystemInfoActivity() {
@@ -74,57 +76,52 @@ public class SystemInfoActivity extends BaseActivity implements ISystemInfoContr
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        mSystemInfoPresenter.onStop();
-    }
-
-    @Override
     protected int getLayoutId() {
         return R.layout.activity_system_info;
     }
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvSoftwareVersion = (TextView) findViewById(R.id.tv_software_version);
-        mTvHardwareVersion = (TextView) findViewById(R.id.tv_hardware_version);
-        mTvMcuVersion = (TextView) findViewById(R.id.tv_mcu_version);
-        mTvDiskTemperature = (TextView) findViewById(R.id.tv_disk_temperature);
-        mTvExternalTemperature = (TextView) findViewById(R.id.tv_external_temperature);
-        mTvVehicleMileage = (TextView) findViewById(R.id.tv_vehicle_mileage);
-        mTvSpeed = (TextView) findViewById(R.id.tv_speed);
-        mTvPulseNumber = (TextView) findViewById(R.id.tv_pulse_number);
-        mTvGpsModel = (TextView) findViewById(R.id.tv_gps_model);
-        mTvDirectionalAntenna = (TextView) findViewById(R.id.tv_directional_antenna);
-        mTvGpsSignal = (TextView) findViewById(R.id.tv_gps_signal);
-        mTvLatitudeAndLongitude = (TextView) findViewById(R.id.tv_latitude_and_longitude);
-        mTvFourGModel = (TextView) findViewById(R.id.tv_four_g_model);
-        mTvFourGStatus = (TextView) findViewById(R.id.tv_four_g_status);
-        mTvFourGSignal = (TextView) findViewById(R.id.tv_four_g_signal);
-        mTvSimCardNumber = (TextView) findViewById(R.id.tv_sim_card_number);
-        mTvCenterConnectStatus = (TextView) findViewById(R.id.tv_center_connect_status);
-        mRvTargetsList = (RecyclerView) findViewById(R.id.rv_targets_list);
-        mTvDns = (TextView) findViewById(R.id.tv_dns);
-        mTvIntercomSerialId = (TextView) findViewById(R.id.tv_intercom_serial_id);
-        mTvImeiNumber = (TextView) findViewById(R.id.tv_imei_number);
-        mTvSerialNumber = (TextView) findViewById(R.id.tv_serial_number);
-        mTvCameraStatus = (TextView) findViewById(R.id.tv_camera_status);
-        mTvMainPowerSupplyState = (TextView) findViewById(R.id.tv_main_power_supply_state);
-        mTvLeftTurnSignalState = (TextView) findViewById(R.id.tv_left_turn_signal_state);
-        mTvRightTurnSignalState = (TextView) findViewById(R.id.tv_right_turn_signal_state);
-        mTvDippedHeadlightState = (TextView) findViewById(R.id.tv_dipped_headlight_state);
-        mTvHighBeamState = (TextView) findViewById(R.id.tv_high_beam_state);
-        mTvStateOfTheBrake = (TextView) findViewById(R.id.tv_state_of_the_brake);
-        mTvStateOfTheMicrophone = (TextView) findViewById(R.id.tv_state_of_the_microphone);
-        mTvStateOfTheSpeaker = (TextView) findViewById(R.id.tv_state_of_the_speaker);
-        mTvStateOfThePrinter = (TextView) findViewById(R.id.tv_state_of_the_printer);
-        mTvAllInterfaceState = (TextView) findViewById(R.id.tv_all_interface_state);
-        mRvStorageList = (RecyclerView) findViewById(R.id.rv_storage_list);
-        mTvBatteryVoltage = (TextView) findViewById(R.id.tv_battery_voltage);
-        mTvBatteryStatus = (TextView) findViewById(R.id.tv_battery_status);
-        mTvMchSerial = (TextView) findViewById(R.id.tv_mch_serial);
-        mTvSerialDevice = (TextView) findViewById(R.id.tv_serial_device);
+        mIvBack = findViewById(R.id.iv_back);
+        mTvSoftwareVersion = findViewById(R.id.tv_software_version);
+        mTvHardwareVersion = findViewById(R.id.tv_hardware_version);
+        mTvMcuVersion = findViewById(R.id.tv_mcu_version);
+        mTvDiskTemperature = findViewById(R.id.tv_disk_temperature);
+        mTvExternalTemperature = findViewById(R.id.tv_external_temperature);
+        mTvVehicleMileage = findViewById(R.id.tv_vehicle_mileage);
+        mTvSpeed = findViewById(R.id.tv_speed);
+        mTvPulseNumber = findViewById(R.id.tv_pulse_number);
+        mTvGpsModel = findViewById(R.id.tv_gps_model);
+        mTvDirectionalAntenna = findViewById(R.id.tv_directional_antenna);
+        mTvGpsSignal = findViewById(R.id.tv_gps_signal);
+        mTvLatitudeAndLongitude = findViewById(R.id.tv_latitude_and_longitude);
+        mTvFourGModel = findViewById(R.id.tv_four_g_model);
+        mTvFourGStatus = findViewById(R.id.tv_four_g_status);
+        mTvFourGSignal = findViewById(R.id.tv_four_g_signal);
+        mTvSimCardNumber = findViewById(R.id.tv_sim_card_number);
+        mTvCenterConnectStatus = findViewById(R.id.tv_center_connect_status);
+        mTvTargetPlatforms = findViewById(R.id.tv_target_platforms);
+        mTvDns = findViewById(R.id.tv_dns);
+        mTvIntercomSerialId = findViewById(R.id.tv_intercom_serial_id);
+        mTvImeiNumber = findViewById(R.id.tv_imei_number);
+        mTvSerialNumber = findViewById(R.id.tv_serial_number);
+        mTvCameraStatus = findViewById(R.id.tv_camera_status);
+        mTvMainPowerSupplyState = findViewById(R.id.tv_main_power_supply_state);
+        mTvLeftTurnSignalState = findViewById(R.id.tv_left_turn_signal_state);
+        mTvRightTurnSignalState = findViewById(R.id.tv_right_turn_signal_state);
+        mTvDippedHeadlightState = findViewById(R.id.tv_dipped_headlight_state);
+        mTvHighBeamState = findViewById(R.id.tv_high_beam_state);
+        mTvStateOfTheBrake = findViewById(R.id.tv_state_of_the_brake);
+        mTvStateOfTheMicrophone = findViewById(R.id.tv_state_of_the_microphone);
+        mTvStateOfTheSpeaker = findViewById(R.id.tv_state_of_the_speaker);
+        mTvStateOfThePrinter = findViewById(R.id.tv_state_of_the_printer);
+        mTvAllInterfaceState = findViewById(R.id.tv_all_interface_state);
+        mRvStorageList = findViewById(R.id.rv_storage_list);
+        mTvBatteryVoltage = findViewById(R.id.tv_battery_voltage);
+        mTvBatteryStatus = findViewById(R.id.tv_battery_status);
+        mTvMchSerial = findViewById(R.id.tv_mch_serial);
+        mTvSerialDevice = findViewById(R.id.tv_serial_device);
+        mSrlRefreshSystemInfo = findViewById(R.id.srl_refresh_system_info);
     }
 
     @Override
@@ -218,8 +215,8 @@ public class SystemInfoActivity extends BaseActivity implements ISystemInfoContr
     }
 
     @Override
-    public RecyclerView getRvTargetsList() {
-        return mRvTargetsList;
+    public TextView getTvTargetPlatforms() {
+        return mTvTargetPlatforms;
     }
 
     @Override
@@ -325,5 +322,10 @@ public class SystemInfoActivity extends BaseActivity implements ISystemInfoContr
     @Override
     public void initData() {
         mSystemInfoPresenter.initData();
+    }
+
+    @Override
+    public SwipeRefreshLayout getSrlRefreshSystemInfo() {
+        return mSrlRefreshSystemInfo;
     }
 }

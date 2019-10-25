@@ -7,6 +7,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -279,9 +280,11 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     @Override
     public void initListener() {
         ImageView ivBack = mActivateDeviceView.getIvBack();
+        LinearLayout llAddNewPlatform = mActivateDeviceView.getLlAddNewPlatform();
         ivBack.setOnClickListener(this);
         mIvActionBarAddPlatforms.setOnClickListener(this);
         mTvEditBasicInfo.setOnClickListener(this);
+        llAddNewPlatform.setOnClickListener(this);
     }
 
     @Override
@@ -289,7 +292,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         int id = view.getId();
         if (id == R.id.iv_back) {
             mActivateDeviceActivity.finish();
-        } else if (id == R.id.iv_add_new_platform) { //添加新平台
+        } else if (id == R.id.iv_add_new_platform || id == R.id.ll_add_new_platform) { //添加新平台
             mActivateDeviceActivity.startActivity(new Intent(mActivateDeviceActivity, AddNewPlatformsActivity.class));
         } else if (id == R.id.tv_edit_basic_info) {
             startFillOrUpdateCarInfo();

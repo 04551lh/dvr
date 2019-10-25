@@ -61,9 +61,9 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.StorageV
             holder.mTvStorageType.setText(backup_disk);
         }
 
-        holder.mTvCapacityStorage.setText(String.format("%sG",String.valueOf(capacityStorage)));
-        holder.mTvUsedStorage.setText(String.format("%sG",String.valueOf(usedStorage)));
-        holder.mTvFreeStorage.setText(String.format("%sG",String.valueOf(freeStorage)));
+        holder.mTvCapacityStorage.setText(String.format("%sG;",String.valueOf(capacityStorage)));
+        holder.mTvUsedStorage.setText(String.format("%sG;",String.valueOf(usedStorage)));
+        holder.mTvFreeStorage.setText(String.format("%sG;",String.valueOf(freeStorage)));
 
         if (usedStorage < capacityStorage){
             holder.mTvDiskStatus.setText(R.string.disk_status_used);
@@ -71,7 +71,7 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.StorageV
             holder.mTvDiskStatus.setText(R.string.disk_status_no);
         }
 
-        holder.mTvSpecialVideo.setText(String.format("%sM",String.valueOf(specialVideoSize)));
+        holder.mTvSpecialVideo.setText(String.format("%sM;",String.valueOf(specialVideoSize)));
     }
 
     @Override

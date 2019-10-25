@@ -4,6 +4,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 /**
  * Author:刘净辉
  * Date : 2019/9/29 18:46
@@ -25,10 +27,16 @@ public interface IParamsSetContract {
 
         EditText getEtFrontWheelDistance();
 
-        TextView getTvSave();
+        TextView getTvSaveParamsSet();
+
+        TextView getTvRestoreTheDefaultParams();
+
+        SwipeRefreshLayout getSrlRefreshParamsFill();
     }
 
     interface Presenter {
+
+        void initWidget();
 
         void initData();
 

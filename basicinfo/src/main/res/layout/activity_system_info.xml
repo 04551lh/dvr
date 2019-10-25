@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     android:orientation="vertical"
-    android:background="@android:color/white"
     tools:context=".activity.SystemInfoActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@color/system_navigation_bar_color">
+        android:layout_height="@dimen/dp_50">
 
         <ImageView
             android:id="@+id/iv_back"
@@ -18,643 +18,837 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_10"
-            android:src="@drawable/icon_back"
+            android:src="@drawable/common_left_back_icon"
             android:textColor="@android:color/white" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
             android:text="@string/system_info"
-            android:textColor="@android:color/white" />
+            android:textColor="@color/font_color_333"
+            android:textSize="@dimen/sp_18" />
     </LinearLayout>
-
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_system_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="@dimen/dp_20">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/software_version"/>
-                <TextView
-                    android:id="@+id/tv_software_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/hardware_version"/>
-                <TextView
-                    android:id="@+id/tv_hardware_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:fillViewport="true">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/mcu_version"/>
-                <TextView
-                    android:id="@+id/tv_mcu_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                android:layout_marginBottom="@dimen/dp_20"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/disk_temperature"/>
-                <TextView
-                    android:id="@+id/tv_disk_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/external_temperature"/>
-                <TextView
-                    android:id="@+id/tv_external_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/software_version"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/vehicle_mileage"/>
-                <TextView
-                    android:id="@+id/tv_vehicle_mileage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_software_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/speed"/>
-                <TextView
-                    android:id="@+id/tv_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <View style="@style/DividerLineStyle" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/pulse_number"/>
-                <TextView
-                    android:id="@+id/tv_pulse_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/gps_model"/>
-                <TextView
-                    android:id="@+id/tv_gps_model"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/hardware_version"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/directional_antenna"/>
-                <TextView
-                    android:id="@+id/tv_directional_antenna"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_hardware_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/gps_signal"/>
-                <TextView
-                    android:id="@+id/tv_gps_signal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/latitude_and_longitude"/>
-                <TextView
-                    android:id="@+id/tv_latitude_and_longitude"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <View style="@style/DividerLineStyle" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/four_g_model"/>
-                <TextView
-                    android:id="@+id/tv_four_g_model"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/four_g_status"/>
-                <TextView
-                    android:id="@+id/tv_four_g_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/four_g_signal"/>
-                <TextView
-                    android:id="@+id/tv_four_g_signal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/sim_card_number"/>
-                <TextView
-                    android:id="@+id/tv_sim_card_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/center_connect_status"/>
-                <TextView
-                    android:id="@+id/tv_center_connect_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/targets"/>
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_targets_list"
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/mcu_version"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_mcu_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/disk_temperature"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+
+                    <TextView
+                        android:id="@+id/tv_disk_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_14" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/external_temperature"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_external_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/vehicle_mileage"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_vehicle_mileage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/speed"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+                <View style="@style/DividerLineStyle" />
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/pulse_number"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_pulse_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/app_background"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/dns"/>
-                <TextView
-                    android:id="@+id/tv_dns"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/intercom_serial_id"/>
-                <TextView
-                    android:id="@+id/tv_intercom_serial_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/imei_number"/>
-                <TextView
-                    android:id="@+id/tv_imei_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/serial_number"/>
-                <TextView
-                    android:id="@+id/tv_serial_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/camera_status"/>
-                <TextView
-                    android:id="@+id/tv_camera_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/main_power_supply_state"/>
-                <TextView
-                    android:id="@+id/tv_main_power_supply_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/left_turn_signal_state"/>
-                <TextView
-                    android:id="@+id/tv_left_turn_signal_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/right_turn_signal_state"/>
-                <TextView
-                    android:id="@+id/tv_right_turn_signal_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/dipped_headlight_state"/>
-                <TextView
-                    android:id="@+id/tv_dipped_headlight_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/high_beam_state"/>
-                <TextView
-                    android:id="@+id/tv_high_beam_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/state_of_the_brake"/>
-                <TextView
-                    android:id="@+id/tv_state_of_the_brake"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/state_of_the_microphone"/>
-                <TextView
-                    android:id="@+id/tv_state_of_the_microphone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/gps_model"
+                        android:textColor="@color/font_color_333" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/state_of_the_speaker"/>
-                <TextView
-                    android:id="@+id/tv_state_of_the_speaker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_gps_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/state_of_the_printer"/>
-                <TextView
-                    android:id="@+id/tv_state_of_the_printer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <View style="@style/DividerLineStyle" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/all_interface_state"/>
-                <TextView
-                    android:id="@+id/tv_all_interface_state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_storage_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/directional_antenna"
+                        android:textColor="@color/font_color_333" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/battery_voltage"/>
-                <TextView
-                    android:id="@+id/tv_battery_voltage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/battery_status"/>
-                <TextView
-                    android:id="@+id/tv_battery_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_directional_antenna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/mch_serial"/>
-                <TextView
-                    android:id="@+id/tv_mch_serial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
-            </LinearLayout>
+                <View style="@style/DividerLineStyle" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp_10">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="@string/serial_device"/>
-                <TextView
-                    android:id="@+id/tv_serial_device"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="@dimen/dp_10"/>
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/gps_signal"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_gps_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/latitude_and_longitude"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_latitude_and_longitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/four_g_model"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_four_g_model"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/four_g_status"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_four_g_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/four_g_signal"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_four_g_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/sim_card_number"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_sim_card_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/app_background"/>
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/center_connect_status"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_center_connect_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/targets"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_target_platforms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:lineSpacingExtra="@dimen/dp_3"
+                        android:lineSpacingMultiplier="1.3"
+                        android:singleLine="false"
+                        android:ellipsize="none"
+                        />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/dns"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_dns"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/intercom_serial_id"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_intercom_serial_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/imei_number"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_imei_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/serial_number"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_serial_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/camera_status"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_camera_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.4"
+                        android:lineSpacingExtra="@dimen/dp_3"
+                        android:lineSpacingMultiplier="1.3"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/main_power_supply_state"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_main_power_supply_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/left_turn_signal_state"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_left_turn_signal_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/right_turn_signal_state"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_right_turn_signal_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/dipped_headlight_state"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_dipped_headlight_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/high_beam_state"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_high_beam_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/state_of_the_brake"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_state_of_the_brake"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/state_of_the_microphone"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_state_of_the_microphone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/state_of_the_speaker"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_state_of_the_speaker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/state_of_the_printer"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_state_of_the_printer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/all_interface_state"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_all_interface_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/app_background"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_storage_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/app_background"/>
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/battery_voltage"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_battery_voltage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/battery_status"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_battery_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/mch_serial"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_mch_serial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View style="@style/DividerLineStyle" />
+
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/sp_14"
+                        android:text="@string/serial_device"
+                        android:textColor="@color/font_color_333" />
+
+                    <TextView
+                        android:id="@+id/tv_serial_device"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/font_color_333" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/app_background"/>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </LinearLayout>

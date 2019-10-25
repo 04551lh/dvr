@@ -4,6 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -52,7 +53,7 @@ public interface ISystemInfoContract {
 
         TextView getTvCenterConnectStatus();
 
-        RecyclerView getRvTargetsList();
+        TextView getTvTargetPlatforms();
 
         TextView getTvDns();
 
@@ -95,6 +96,8 @@ public interface ISystemInfoContract {
         TextView getTvSerialDevice();
 
         void initData();
+
+        SwipeRefreshLayout getSrlRefreshSystemInfo();
     }
 
     interface Presenter {
@@ -105,6 +108,5 @@ public interface ISystemInfoContract {
 
         void initListener();
 
-        void onStop();
     }
 }

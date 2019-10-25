@@ -46,6 +46,8 @@ public class HttpConstant {
 
     public static final String UPDATE_PARAMS_DATA = "/paramsConfig";
 
+    public static final String RESTORE_DEFAULT_PARAMS_SET= "/paramsDefaultConfig";
+
     public static final String GET_ADAS_SET = "/adasAlarmRequest";
 
     public static final String UPDATE_ADAS_SET = "/adasAlarmConfig";

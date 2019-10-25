@@ -2,6 +2,7 @@ package com.adasplus.homepager.activate.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +34,7 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private ImageView mIvAddNewPlatform;
     private TextView mTvEditBasicInfo;
     private TextView mTvPlatformList;
+    private LinearLayout mLlAddNewPlatform;
     private SwipeRefreshLayout mSrlActivatePlatformData;
 
     @Autowired(name = "type")
@@ -59,18 +61,19 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
-        mRvActivatedPlatforms = (RecyclerView) findViewById(R.id.rv_activated_platforms);
-        mTvNoData = (TextView) findViewById(R.id.tv_no_data);
-        mTvPhoneNumber = (TextView) findViewById(R.id.tv_phone_number);
-        mTvLicensePlateNumber = (TextView) findViewById(R.id.tv_license_plate_number);
-        mTvChassisNumber = (TextView) findViewById(R.id.tv_chassis_number);
-        mTvLicensePlateColor = (TextView) findViewById(R.id.tv_license_plate_color);
-        mTvTerminalId = (TextView) findViewById(R.id.tv_terminal_id);
-        mTvProvincialDomainId = (TextView) findViewById(R.id.tv_provincial_domain_id);
-        mTvCityAndCountyId = (TextView) findViewById(R.id.tv_city_and_county_id);
-        mIvAddNewPlatform =(ImageView) findViewById(R.id.iv_add_new_platform);
-        mTvEditBasicInfo = (TextView)findViewById(R.id.tv_edit_basic_info);
-        mTvPlatformList = (TextView) findViewById(R.id.tv_platform_list);
+        mRvActivatedPlatforms = findViewById(R.id.rv_activated_platforms);
+        mTvNoData = findViewById(R.id.tv_no_data);
+        mTvPhoneNumber = findViewById(R.id.tv_phone_number);
+        mTvLicensePlateNumber = findViewById(R.id.tv_license_plate_number);
+        mTvChassisNumber = findViewById(R.id.tv_chassis_number);
+        mTvLicensePlateColor = findViewById(R.id.tv_license_plate_color);
+        mTvTerminalId = findViewById(R.id.tv_terminal_id);
+        mTvProvincialDomainId = findViewById(R.id.tv_provincial_domain_id);
+        mTvCityAndCountyId = findViewById(R.id.tv_city_and_county_id);
+        mIvAddNewPlatform = findViewById(R.id.iv_add_new_platform);
+        mTvEditBasicInfo = findViewById(R.id.tv_edit_basic_info);
+        mTvPlatformList = findViewById(R.id.tv_platform_list);
+        mLlAddNewPlatform =  findViewById(R.id.ll_add_new_platform);
         mSrlActivatePlatformData =  findViewById(R.id.srl_activate_platform_data);
     }
 
@@ -147,6 +150,11 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     @Override
     public SwipeRefreshLayout getSrlActivatePlatformData() {
         return mSrlActivatePlatformData;
+    }
+
+    @Override
+    public LinearLayout getLlAddNewPlatform() {
+        return mLlAddNewPlatform;
     }
 
     @Override

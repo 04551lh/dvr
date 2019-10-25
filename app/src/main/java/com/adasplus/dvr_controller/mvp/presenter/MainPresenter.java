@@ -180,15 +180,21 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                initData();
+                WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+                String ssid = wifiInfo.getSSID();
+                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)){
+                    initData();
+                }else {
+                    mSrlRefreshLayout.finishRefresh();
+                }
             }
 
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
                 if (oldState == RefreshState.TwoLevelReleased) {
-                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(1).setDuration(1000);
+                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(1).setDuration(300);
                 }else if (oldState == RefreshState.TwoLevel){
-                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(0).setDuration(1000);
+                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(0).setDuration(300);
                 }
 
             }

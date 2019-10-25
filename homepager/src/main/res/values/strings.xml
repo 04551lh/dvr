@@ -269,8 +269,6 @@
 
     <string name="add_new_platforms">添加新平台</string>
 
-    <string name="ministerial_platform">部标平台</string>
-
     <string name="platform_ip_address">部标平台地址</string>
 
     <string name="platform_port">部标端口</string>
@@ -331,4 +329,8 @@
     <string name="cancellation">注销</string>
 
     <string name="please_choose_provincial_id">请先选择省域ID</string>
+
+    <string name="restore_the_default_params">恢复默认参数</string>
+
+    <string name="restore_default_params_set_success">默认参数设置已经恢复成功!</string>
 </resources>

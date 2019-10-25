@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.model.FileExportModel;
@@ -46,7 +47,7 @@ import rx.Subscriber;
  * Date : 2019/10/18 16:44
  * Description :
  */
-public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener {
+public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener, SwipeRefreshLayout.OnRefreshListener {
     
     private IFileExportContract.View mFileExportView;
     private Activity mActivity;
@@ -76,6 +77,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private CommonPopupWindow mStreamTypePopupWindow;
     private ChannelNumbersModel mCurrentChannelNumbersModel;
     private int mSelectFileType  = 0;
+    private SwipeRefreshLayout mSrlRefreshFileExportData;
 
     public FileExportPresenter(Activity activity, IFileExportContract.View view){
         mFileExportView = view;
@@ -107,11 +109,13 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
             @Override
             public void onError(Throwable e) {
+                mSrlRefreshFileExportData.setRefreshing(false);
                 ExceptionUtils.exceptionHandling(mActivity, e);
             }
 
             @Override
             public void onNext(FileExportModel fileExportModel) {
+                mSrlRefreshFileExportData.setRefreshing(false);
                 int channelCount = fileExportModel.getChannelCount();
                 for (int i = 0; i < channelCount; i++) {
                     if (i == 0) {
@@ -164,6 +168,12 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mTvExportFile = view.findViewById(R.id.tv_export_file);
         mTvChannelValue = view.findViewById(R.id.tv_channel_value);
         mTvStreamTypeValue = view.findViewById(R.id.tv_stream_type_value);
+        mSrlRefreshFileExportData = view.findViewById(R.id.srl_refresh_file_export_data);
+        mSrlRefreshFileExportData.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSrlRefreshFileExportData.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSrlRefreshFileExportData.setOnRefreshListener(this);
 
         mChannelsNumberAdapter = new ChannelsNumberAdapter();
         mStreamTypeAdapter = new StreamTypeAdapter();
@@ -450,5 +460,10 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         if (mStreamTypePopupWindow != null && mStreamTypePopupWindow.isShowing()) {
             mStreamTypePopupWindow.dismiss();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        initData();
     }
 }

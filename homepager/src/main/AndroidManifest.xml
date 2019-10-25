@@ -2,7 +2,8 @@
     package="com.adasplus.homepager" >
     <application>
         <activity android:name=".connect.activity.ConnectDeviceActivity"/>
-        <activity android:name=".params.activity.ParamsSetActivity"/>
+        <activity android:name=".params.activity.ParamsSetActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".set.activity.ADASWarningActivity"/>
         <activity android:name=".set.activity.CalibrationSetActivity"/>
         <activity android:name=".set.activity.CANSetActivity"/>
