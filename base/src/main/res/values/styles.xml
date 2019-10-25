@@ -86,6 +86,16 @@
         <item name="android:layout_marginRight">@dimen/dp_12</item>
     </style>
 
+    <style name="LinearLayoutEditStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
+    </style>
+
     <style name="LinearLayoutFillDataStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_45</item>

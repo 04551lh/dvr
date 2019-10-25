@@ -2,10 +2,10 @@ package com.adasplus.homepager.set.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
+import com.adasplus.base.view.SignSeekBar;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ISoundsContract;
 import com.adasplus.homepager.set.mvp.presenter.SoundsPresenter;
@@ -13,9 +13,10 @@ import com.adasplus.homepager.set.mvp.presenter.SoundsPresenter;
 public class SoundsActivity extends BaseActivity implements ISoundsContract.View {
 
     private ImageView mIvBack;
-    private ImageView mIvMuteIcon;
-    private SeekBar mSbSoundsSize;
-    private ImageView mIvSoundsIcon;
+    private ImageView mIvSoundsReduce;
+    private ImageView mIvSoundsAdd;
+    private SignSeekBar mSsbSoundsValue;
+    private TextView mTvCurrentSounds;
     private TextView mTvSave;
 
     @Override
@@ -32,11 +33,12 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mIvMuteIcon = (ImageView) findViewById(R.id.iv_mute_icon);
-        mSbSoundsSize = (SeekBar) findViewById(R.id.sb_sounds_size);
-        mIvSoundsIcon = (ImageView) findViewById(R.id.iv_sounds_icon);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack = findViewById(R.id.iv_back);
+        mIvSoundsReduce = findViewById(R.id.iv_sounds_reduce);
+        mIvSoundsAdd = findViewById(R.id.iv_sounds_add);
+        mSsbSoundsValue = findViewById(R.id.ssb_sounds_value);
+        mTvCurrentSounds = findViewById(R.id.tv_current_sounds);
+        mTvSave = findViewById(R.id.tv_save);
     }
 
     @Override
@@ -45,10 +47,24 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
     }
 
     @Override
-    public SeekBar getSbSoundsSize() {
-        return mSbSoundsSize;
+    public ImageView getIvSoundsReduce() {
+        return mIvSoundsReduce;
     }
 
+    @Override
+    public ImageView getIvSoundsAdd() {
+        return mIvSoundsAdd;
+    }
+
+    @Override
+    public SignSeekBar getSsbSoundsValue() {
+        return mSsbSoundsValue;
+    }
+
+    @Override
+    public TextView getTvCurrentSounds() {
+        return mTvCurrentSounds;
+    }
     @Override
     public TextView getTvSave() {
         return mTvSave;

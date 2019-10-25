@@ -37,16 +37,16 @@ public class NetworkSetActivity extends BaseActivity implements INetworkSetContr
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mEtWirelessIpAddress = (EditText) findViewById(R.id.et_wireless_ip_address);
-        mEtWirelessMaskCode = (EditText) findViewById(R.id.et_wireless_mask_code);
-        mEtWirelessGateway = (EditText) findViewById(R.id.et_wireless_gateway);
-        mEtWirelessMacAddress = (EditText) findViewById(R.id.et_wireless_mac_address);
-        mEtWiredIpAddress = (EditText) findViewById(R.id.et_wired_ip_address);
-        mEtWiredMaskCode = (EditText) findViewById(R.id.et_wired_mask_code);
-        mEtWiredGateway = (EditText) findViewById(R.id.et_wired_gateway);
-        mEtWiredMacAddress = (EditText) findViewById(R.id.et_wired_mac_address);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack =  findViewById(R.id.iv_back);
+        mEtWirelessIpAddress =  findViewById(R.id.et_wireless_ip_address);
+        mEtWirelessMaskCode =  findViewById(R.id.et_wireless_mask_code);
+        mEtWirelessGateway =  findViewById(R.id.et_wireless_gateway);
+        mEtWirelessMacAddress =  findViewById(R.id.et_wireless_mac_address);
+        mEtWiredIpAddress =  findViewById(R.id.et_wired_ip_address);
+        mEtWiredMaskCode =  findViewById(R.id.et_wired_mask_code);
+        mEtWiredGateway =  findViewById(R.id.et_wired_gateway);
+        mEtWiredMacAddress =  findViewById(R.id.et_wired_mac_address);
+        mTvSave =  findViewById(R.id.tv_save);
     }
 
     @Override

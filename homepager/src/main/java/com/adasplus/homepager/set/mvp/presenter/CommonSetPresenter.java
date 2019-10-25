@@ -138,7 +138,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
      * 重启设备
      */
     private void rebootDevice() {
-        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_20);
+        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_25);
         CommonDialog.init()
                 .setLayoutId(R.layout.dialog_reboot_device)
                 .setConvertListener(new ViewConvertListener() {
@@ -163,7 +163,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
                 })
                 .setMargin(margin)
                 .setOutCancel(false)
-                .setDimAmount(0.8f)
+                .setDimAmount(0.3f)
                 .setAnimStyle(R.style.BottomAnimStyle)
                 .show(mCommonSetActivity.getSupportFragmentManager());
 

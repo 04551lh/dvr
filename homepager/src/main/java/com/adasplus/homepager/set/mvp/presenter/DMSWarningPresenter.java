@@ -170,7 +170,27 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
             } else {
                 mDmsWarningActivity.finish();
             }
-        } else if (id == R.id.tv_restore_the_default_settings) { //恢复默认设置的监听
+        } else if (id == R.id.iv_adas_total_switch) {
+            if(mDmsEnable == 1){
+                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                mDmsEnable = 0;
+                mCloseWarningCount = mCloseTotalCount;
+                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                    convertWarningsModel.setEnable(0);
+                }
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }else{
+                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                mDmsEnable = 1;
+                getDMSDefaultSet();
+                if (mWarningsAdapter != null) {
+                    mWarningsAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+        else if (id == R.id.tv_restore_the_default_settings) { //恢复默认设置的监听
             //恢复报警的默认设置
             HomeWrapper.getInstance().dmsRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
                 @Override
@@ -189,12 +209,14 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     getDMSDefaultSet();
                 }
             });
-        } else if (id == R.id.tv_cancel) { // 不保存更改的配置
+        }
+        else if (id == R.id.tv_cancel) { // 不保存更改的配置
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
             mDmsWarningActivity.finish();
-        } else if (id == R.id.tv_save || id == R.id.tv_confirm) { //保存更改的设置 和 确认保存设置
+        }
+        else if (id == R.id.tv_save || id == R.id.tv_confirm) { //保存更改的设置 和 确认保存设置
             if (mDmsWarningModel != null){
                 if (mDialog != null && mDialog.isAdded()){
                     mDialog.dismiss();
@@ -273,25 +295,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-            }
-        }else if (id == R.id.iv_adas_total_switch) {
-            if(mDmsEnable == 1){
-                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
-                mDmsEnable = 0;
-                mCloseWarningCount = mCloseTotalCount;
-                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                    convertWarningsModel.setEnable(0);
-                }
-                if (mWarningsAdapter != null) {
-                    mWarningsAdapter.notifyDataSetChanged();
-                }
-            }else{
-                mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
-                mDmsEnable = 1;
-                getDMSDefaultSet();
-                if (mWarningsAdapter != null) {
-                    mWarningsAdapter.notifyDataSetChanged();
                 }
             }
         }

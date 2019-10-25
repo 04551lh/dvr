@@ -35,10 +35,10 @@ public class CANSetActivity extends BaseActivity implements ICANSetContract.View
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvSelectChannelNumber = (TextView) findViewById(R.id.tv_select_channel_number);
-        mEtRateValue = (EditText) findViewById(R.id.et_rate_value);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack = findViewById(R.id.iv_back);
+        mTvSelectChannelNumber =  findViewById(R.id.tv_select_channel_number);
+        mEtRateValue =  findViewById(R.id.et_rate_value);
+        mTvSave =  findViewById(R.id.tv_save);
     }
 
     @Override

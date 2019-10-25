@@ -146,11 +146,10 @@
         <View style="@style/UnderLineStyle"/>
         <LinearLayout
             style="@style/LinearLayoutDisplayDataStyle"
+            android:visibility="gone"
             android:id="@+id/ll_can_set">
             <TextView
-
                 android:text="@string/can_settings"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
@@ -165,8 +164,10 @@
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
-        <View style="@style/UnderLineStyle"/>
+        <View style="@style/UnderLineStyle"
+            android:visibility="gone"/>
         <LinearLayout
+            android:visibility="gone"
             style="@style/LinearLayoutDisplayDataStyle"
             android:id="@+id/ll_network_set">
             <TextView

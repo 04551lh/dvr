@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
@@ -18,6 +19,8 @@ public class DormancySetActivity extends BaseActivity implements IDormancySetCon
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
+    private ImageView mIvCloseHintMessage;
+    private RelativeLayout mRlHintMessage;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -33,11 +36,13 @@ public class DormancySetActivity extends BaseActivity implements IDormancySetCon
 
     @Override
     protected void initWidget() {
-        mBtnSub = (Button) findViewById(R.id.btn_sub);
-        mEtErrorNumber = (EditText) findViewById(R.id.et_error_number);
-        mBtnAdd = (Button) findViewById(R.id.btn_add);
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mBtnSub =  findViewById(R.id.btn_sub);
+        mEtErrorNumber =  findViewById(R.id.et_error_number);
+        mBtnAdd =  findViewById(R.id.btn_add);
+        mIvBack =  findViewById(R.id.iv_back);
+        mTvSave =  findViewById(R.id.tv_save);
+        mRlHintMessage = findViewById(R.id.rl_hint_message);
+        mIvCloseHintMessage = findViewById(R.id.iv_close_hint_message);
     }
 
     @Override
@@ -64,4 +69,15 @@ public class DormancySetActivity extends BaseActivity implements IDormancySetCon
     public Button getBtnAdd() {
         return mBtnAdd;
     }
+
+    @Override
+    public ImageView getIvCloseHintMessage() {
+        return mIvCloseHintMessage;
+    }
+
+    @Override
+    public RelativeLayout getRlHintMessage() {
+        return mRlHintMessage;
+    }
+
 }

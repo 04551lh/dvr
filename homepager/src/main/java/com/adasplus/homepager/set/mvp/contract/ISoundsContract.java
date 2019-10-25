@@ -1,8 +1,9 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.adasplus.base.view.SignSeekBar;
 
 /**
  * Author:刘净辉
@@ -17,7 +18,13 @@ public interface ISoundsContract {
 
         ImageView getIvBack();
 
-        SeekBar getSbSoundsSize();
+        ImageView getIvSoundsReduce();
+
+        ImageView getIvSoundsAdd();
+
+        SignSeekBar getSsbSoundsValue();
+
+        TextView getTvCurrentSounds();
 
         TextView getTvSave();
     }

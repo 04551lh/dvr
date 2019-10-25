@@ -3,6 +3,7 @@ package com.adasplus.homepager.set.mvp.contract;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -17,6 +18,10 @@ public interface IDormancySetContract {
     interface View {
 
         ImageView getIvBack();
+
+        ImageView getIvCloseHintMessage();
+
+        RelativeLayout getRlHintMessage();
 
         TextView getTvSave();
 

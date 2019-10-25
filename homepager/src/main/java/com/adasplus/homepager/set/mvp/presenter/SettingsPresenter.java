@@ -83,34 +83,8 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
         } else if (id == R.id.ll_common_set) { //通用设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, CommonSetActivity.class));
         }else if (id == R.id.ll_video_set){ //视频设置
-            JSONObject jobj = new JSONObject();
-            try {
-                jobj.put("channelNumber",0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            HomeWrapper.getInstance().getVideoSetData(jobj).subscribe(new Subscriber<VideoSetModel>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mSettingsActivity,e);
-                }
-
-                @Override
-                public void onNext(VideoSetModel videoSetModel) {
-                    Intent intent = new Intent(mSettingsActivity, VideoSetActivity.class);
-                    intent.putExtra("videoSetModel",videoSetModel);
-                    intent.putExtra("mainStream",videoSetModel.getMainStream());
-                    intent.putExtra("subStream",videoSetModel.getSubStream());
-                    mSettingsActivity.startActivity(intent);
-                }
-            });
-
+            Intent intent = new Intent(mSettingsActivity, VideoSetActivity.class);
+            mSettingsActivity.startActivity(intent);
         }
     }
 }

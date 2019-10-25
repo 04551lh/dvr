@@ -85,7 +85,7 @@
 
     <string name="rate">速率(KPPS)</string>
 
-    <string name="rate_scope_of">(0–1024)</string>
+    <string name="rate_scope_of">请输入(0-1024)</string>
 
     <string name="time_set">时间设置</string>
 
@@ -121,7 +121,7 @@
 
     <string name="timeout_value">超时时长(s)</string>
 
-    <string name="confirm_reboot">确定重启设备</string>
+    <string name="confirm_reboot">确定重启设备？</string>
 
     <string name="reboot_description">设备关闭会导致APP与设备断开连接，需要在设备重启后重新连接。</string>
 
@@ -227,6 +227,8 @@
 
     <string name="main_stream">主码流设置</string>
 
+    <string name="main_stream_settings">主码流设置</string>
+
     <string name="sub_stream">子码流设置</string>
 
     <string name="open_or_close">开关</string>
@@ -323,6 +325,8 @@
     <string name="cancellation_tips">如需再次添加，到添加新平台页面重新输入信息并保存即可。</string>
 
     <string name="platform_hint_message">提示：不同的平台对激活时需要填写的信息有不同 的要求，请根据实际需求填写。</string>
+
+    <string name="dormancy_hint_message">提示：ACC断电超时，终端会自动进入休眠。</string>
 
     <string name="cancellation">注销</string>
 

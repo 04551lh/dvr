@@ -5,264 +5,263 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.NetworkSetActivity">
+    android:background="@color/app_background"
+    tools:context=".set.activity.NetworkSetActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:background="@color/system_navigation_bar_color">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_15">
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_back"
-            android:layout_marginStart="@dimen/dp_10"/>
+            android:layout_marginStart="@dimen/dp_16"
+            android:src="@drawable/common_left_back_icon"
+            android:textColor="@color/font_color_333" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="@string/network_set"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="@dimen/dp_10"
-            android:textSize="@dimen/sp_18"
-            android:layout_gravity="center_vertical"/>
+            android:textColor="@color/font_color_333"
+            android:textSize="@dimen/sp_18" />
     </LinearLayout>
 
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="@dimen/dp_35"
-       android:background="@android:color/white"
-       android:text="@string/wireless_network_set"
-       android:textSize="@dimen/sp_15"
-       android:gravity="center_vertical"
-       android:paddingStart="@dimen/dp_10"
-       android:paddingEnd="@dimen/dp_10"
-       android:textColor="@android:color/black"/>
-    <View
-        style="@style/DividerLineStyle"/>
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="@dimen/dp_50"
-         android:background="@android:color/white"
-         android:paddingStart="@dimen/dp_10"
-         android:paddingEnd="@dimen/dp_10"
-         android:gravity="center_vertical">
-         <TextView
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="@string/ip_address"
-             android:textSize="@dimen/sp_15"
-             android:textColor="@android:color/black"/>
-         <EditText
-             android:id="@+id/et_wireless_ip_address"
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:layout_weight="1"
-             android:layout_marginStart="@dimen/dp_10"
-             android:hint="@string/please_enter"
-             android:gravity="center"
-             android:background="@null"/>
-     </LinearLayout>
-    <View
-       style="@style/DividerLineStyle"/>
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mask_code"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wireless_mask_code"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gateway"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wireless_gateway"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mac_address"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wireless_mac_address"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
-        android:background="@android:color/white"
-        android:text="@string/wired_network_set"
-        android:textSize="@dimen/sp_15"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:textColor="@android:color/black"/>
-    <View
-        style="@style/DividerLineStyle"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wireless_network_set"
+                    android:textSize="@dimen/sp_16"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_16"
+                    android:textColor="@color/font_color_333"/>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ip_address"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wireless_ip_address"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mask_code"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wireless_mask_code"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gateway"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wireless_gateway"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mac_address"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wireless_mac_address"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ip_address"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wired_ip_address"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mask_code"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wired_mask_code"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/gateway"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wired_gateway"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@android:color/white"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/mac_address"
-            android:textSize="@dimen/sp_15"
-            android:textColor="@android:color/black"/>
-        <EditText
-            android:id="@+id/et_wired_mac_address"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginStart="@dimen/dp_10"
-            android:hint="@string/please_enter"
-            android:gravity="center"
-            android:background="@null"/>
-    </LinearLayout>
-    <View
-        style="@style/DividerLineStyle"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@android:color/white"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
 
-    <TextView
-        android:id="@+id/tv_save"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:layout_margin="@dimen/dp_20"
-        android:background="@drawable/btn_shape_style"
-        android:gravity="center"
-        android:text="@string/save"
-        android:textColor="@android:color/white" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wired_network_set"
+                    android:textSize="@dimen/sp_16"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_16"
+                    android:textColor="@color/font_color_333"/>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ip_address"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wired_ip_address"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mask_code"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wired_mask_code"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gateway"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wired_gateway"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+                <LinearLayout style="@style/LinearLayoutEditStyle">
+                    <TextView
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/mac_address"
+                        android:textSize="@dimen/sp_16"
+                        android:textColor="@color/font_color_333"/>
+                    <EditText
+                        android:id="@+id/et_wired_mac_address"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="@string/please_enter"
+                        android:gravity="right|center_vertical"
+                        android:background="@null"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
+                <TextView
+                    android:id="@+id/tv_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_shape_style"
+                    android:paddingTop="@dimen/dp_8"
+                    android:paddingBottom="@dimen/dp_7"
+                    android:paddingLeft="@dimen/dp_62"
+                    android:paddingRight="@dimen/dp_62"
+                    android:text="@string/save"
+                    android:textColor="@color/save_font_color" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_20"
+                    android:background="@color/app_background"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
 
 </LinearLayout>

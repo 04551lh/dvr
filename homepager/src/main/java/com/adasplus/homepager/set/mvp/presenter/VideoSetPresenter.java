@@ -1,7 +1,5 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,6 +48,12 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private static final String P_720_NAME = "720P";
     private static final String P_1080_NAME = "1080P";
 
+    //默认设置通道1，主码流设置
+
+    private int mChannelNumber;
+    private static final int mChannelTotalCount = 6;
+    private int mStreamType;
+
     private IVideoSetContract.View mVideoSetView;
     private VideoSetActivity mVideoSetActivity;
     private ImageView mIvBack;
@@ -69,12 +73,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
-    private boolean isMainStream = true;
-    private int mChannelTotalCount = 0;
-    private int mSelectChannelNumber = 0;
     private CommonPopupWindow mChannelNumberPopupWindow;
-    private VideoSetModel.MainStreamBean mMainStream;
-    private VideoSetModel.SubStreamBean mSubStream;
     private List<String> mResolutionRatioList = new ArrayList<>();
     private ResolutionRatioAdapter mResolutionRatioAdapter;
     private int mWidth;
@@ -84,6 +83,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private int mIvSelectId;
     private int mIvNoSelectId;
 
+
     public VideoSetPresenter(IVideoSetContract.View view) {
         mVideoSetView = view;
         mVideoSetActivity = (VideoSetActivity) view;
@@ -91,6 +91,8 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
     @Override
     public void initData() {
+        mChannelNumber = 1;
+        mStreamType = 1;
         mIvBack = mVideoSetView.getIvBack();
         mTvSelectChannelsNumber = mVideoSetView.getTvSelectChannelsNumber();
         mTvMainStreamSet = mVideoSetView.getTvMainStreamSet();
@@ -112,30 +114,50 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mVideoChannelsSetAdapter = new VideoChannelsSetAdapter();
         mResolutionRatioAdapter = new ResolutionRatioAdapter();
 
-        Intent intent = mVideoSetActivity.getIntent();
-        mVideoSetModel = intent.getParcelableExtra("videoSetModel");
-        mMainStream = intent.getParcelableExtra("mainStream");
-        mSubStream = intent.getParcelableExtra("subStream");
+        JSONObject jobj = new JSONObject();
+        try {
+            jobj.put("channelNumber", mChannelNumber);
+            jobj.put("streamType", mStreamType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        int channelCount = mVideoSetModel.getChannelCount();
-        int channelNumber = mVideoSetModel.getChannelNumber();
-        mChannelTotalCount = channelCount;
-        mSelectChannelNumber = channelNumber;
         //初始化通道号的数据
         initChannelNumberData();
         //初始化分辨率的数据
         initResolutionRatioData();
         //显示分辨率的弹框
         showResolutionRatioPopup();
-        //设置视频开关所有的设置信息
-        showVideoSetData();
+
+        getNetworkData(jobj);
 
         //设置默认选择的通道号
         String channels = mVideoSetActivity.getString(R.string.channels);
-        mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(channelNumber)));
+        mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(mChannelNumber)));
+
 
         mIvSelectId = R.mipmap.switch_open_icon;
         mIvNoSelectId = R.mipmap.switch_close_icon;
+    }
+
+    private void getNetworkData(JSONObject jsonObject) {
+        HomeWrapper.getInstance().getVideoSetData(jsonObject).subscribe(new Subscriber<VideoSetModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mVideoSetActivity, e);
+            }
+
+            @Override
+            public void onNext(VideoSetModel videoSetModel) {
+                mVideoSetModel = videoSetModel;
+                showVideoSetData();
+            }
+        });
     }
 
     private void showResolutionRatioPopup() {
@@ -161,7 +183,6 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mResolutionRatioList.add(P_1080_NAME);
     }
 
-
     private void initChannelNumberData() {
         View view = View.inflate(mVideoSetActivity, R.layout.popup_common_style, null);
         RecyclerView rv_common_style_list = view.findViewById(R.id.rv_common_style_list);
@@ -177,34 +198,19 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     }
 
     private void showVideoSetData() {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                int enable = mMainStream.getEnable();
-                int videoFrameRate = mMainStream.getVideoFrameRate();
-                int pictureQuality = mMainStream.getPictureQuality();
-                int resolutionRate = mMainStream.getResolutionRate();
-                int dateEnable = mMainStream.getDateEnable();
-                int plateNumberEnable = mMainStream.getPlateNumberEnable();
-                int channelNameEnable = mMainStream.getChannalNameEnable();
-                int locationSignalEnable = mMainStream.getLocaltionSignleEnable();
-                int speedEnable = mMainStream.getSpeedEnable();
-                widgetStatus(enable, videoFrameRate, pictureQuality, resolutionRate, dateEnable,
-                        plateNumberEnable, channelNameEnable, locationSignalEnable, speedEnable);
-            }
-        } else {
-            if (mSubStream != null) {
-                int enable = mSubStream.getEnable();
-                int videoFrameRate = mSubStream.getVideoFrameRate();
-                int pictureQuality = mSubStream.getPictureQuality();
-                int resolutionRate = mSubStream.getResolutionRate();
-                int dateEnable = mSubStream.getDateEnable();
-                int plateNumberEnable = mSubStream.getPlateNumberEnable();
-                int channelNameEnable = mSubStream.getChannalNameEnable();
-                int locationSignalEnable = mSubStream.getLocaltionSignleEnable();
-                int speedEnable = mSubStream.getSpeedEnable();
-                widgetStatus(enable, videoFrameRate, pictureQuality, resolutionRate, dateEnable,
-                        plateNumberEnable, channelNameEnable, locationSignalEnable, speedEnable);
-            }
+        if (mVideoSetModel != null) {
+            isMainStream();
+            int enable = mVideoSetModel.getStreamEnable();
+            int videoFrameRate = mVideoSetModel.getVideoFrameRate();
+            int pictureQuality = mVideoSetModel.getPictureQuality();
+            int resolutionRate = mVideoSetModel.getResolutionRate();
+            int dateEnable = mVideoSetModel.getDateEnable();
+            int plateNumberEnable = mVideoSetModel.getPlateNumberEnable();
+            int channelNameEnable = mVideoSetModel.getChannalNameEnable();
+            int locationSignalEnable = mVideoSetModel.getLocaltionSignleEnable();
+            int speedEnable = mVideoSetModel.getSpeedEnable();
+            widgetStatus(enable, videoFrameRate, pictureQuality, resolutionRate, dateEnable,
+                    plateNumberEnable, channelNameEnable, locationSignalEnable, speedEnable);
         }
     }
 
@@ -268,133 +274,53 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mTvSelectChannelsNumber.setOnClickListener(this);
         mTvMainStreamSet.setOnClickListener(this);
         mTvSubStreamSet.setOnClickListener(this);
+        mIvStreamTotalSwitch.setOnClickListener(this);
+        mIvDateTime.setOnClickListener(this);
+        mIvLicensePlateNumber.setOnClickListener(this);
+        mIvChannelName.setOnClickListener(this);
+        mIvGpsSignal.setOnClickListener(this);
+        mIvSpeed.setOnClickListener(this);
+
+
         mVideoChannelsSetAdapter.setOnItemClickListener(this);
         mTvResolutionRatio.setOnClickListener(this);
         mResolutionRatioAdapter.setOnResolutionRatioItemListener(this);
         mBtnAdd.setOnClickListener(this);
         mBtnSub.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
-
-//        //设置总开关的逻辑处理
-//        mIvStreamTotalSwitch.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                switchTotalStatus(status);
-//            }
-//        });
-//
-//        //日期时间开关
-//        mIvDateTime.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                dateTimeSwitchStatus(status);
-//            }
-//        });
-//
-//        //车牌号开关状态
-//        mIvLicensePlateNumber.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                plateNumberStatus(status);
-//            }
-//        });
-//
-//        //通道名称的开关状态监听
-//        mIvChannelName.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                channelNumberStatus(status);
-//            }
-//        });
-//
-//        //设置定位开关状态监听
-//        mIvGpsSignal.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                locationSignalStatus(status);
-//            }
-//        });
-//
-//        //设置速度开关状态监听
-//        mIvSpeed.setOnSwitchStatusChangeListener(new ImageView.OnSwitchStatusChangeListener() {
-//            @Override
-//            public void onSwitchStatus(boolean status) {
-//                carSpeedStatus(status);
-//            }
-//        });
     }
 
-    private void carSpeedStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setEnable(status ? 1 : 0);
-                mMainStream.setSpeedEnable(status ? 1 : 0);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setEnable(status ? 1 : 0);
-                mSubStream.setSpeedEnable(status ? 1 : 0);
-            }
+    private void carSpeedStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setSpeedEnable(enable);
         }
         showVideoSetData();
     }
 
-    private void locationSignalStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setEnable(status ? 1 : 0);
-                mMainStream.setLocaltionSignleEnable(status ? 1 : 0);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setEnable(status ? 1 : 0);
-                mSubStream.setLocaltionSignleEnable(status ? 1 : 0);
-            }
+    private void locationSignalStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setLocaltionSignleEnable(enable);
         }
         showVideoSetData();
     }
 
-    private void channelNumberStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setEnable(status ? 1 : 0);
-                mMainStream.setChannalNameEnable(status ? 1 : 0);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setEnable(status ? 1 : 0);
-                mSubStream.setChannalNameEnable(status ? 1 : 0);
-            }
+    private void channelNumberStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setChannalNameEnable(enable);
         }
         showVideoSetData();
     }
 
-    private void plateNumberStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setEnable(status ? 1 : 0);
-                mMainStream.setPlateNumberEnable(status ? 1 : 0);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setEnable(status ? 1 : 0);
-                mSubStream.setPlateNumberEnable(status ? 1 : 0);
-            }
+    private void plateNumberStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setPlateNumberEnable(enable);
         }
         showVideoSetData();
     }
 
-    private void dateTimeSwitchStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setEnable(status ? 1 : 0);
-                mMainStream.setDateEnable(status ? 1 : 0);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setEnable(status ? 1 : 0);
-                mSubStream.setDateEnable(status ? 1 : 0);
-            }
+    private void dateTimeSwitchStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setDateEnable(enable);
         }
         showVideoSetData();
     }
@@ -402,55 +328,28 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     /**
      * 设置 主码流 或 子码流总开关的状态
      *
-     * @param status
+     * @param enable
      */
-    private void switchTotalStatus(boolean status) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                if (status) {
-                    mainStreamSwitchSet(1);
-                } else {
-                    mainStreamSwitchSet(0);
-                }
-            }
-        } else {
-            if (mSubStream != null) {
-                if (status) {
-                    subStreamSwitchSet(1);
-                } else {
-                    subStreamSwitchSet(0);
-                }
-            }
+    private void switchTotalStatus(int enable) {
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setStreamEnable(enable);
+            mStreamSwitchSet(enable);
         }
         showVideoSetData();
     }
 
     /**
-     * 设置所有的子码流的滑块开关状态
-     * @param value
+     * 设置所有的主，子码流的滑块开关状态
+     *
+     * @param enable
      */
-    private void subStreamSwitchSet(int value) {
-        mSubStream.setEnable(value);
-        mSubStream.setEnable(value);
-        mSubStream.setPlateNumberEnable(value);
-        mSubStream.setChannalNameEnable(value);
-        mSubStream.setLocaltionSignleEnable(value);
-        mSubStream.setSpeedEnable(value);
-        mSubStream.setDateEnable(value);
-    }
-
-    /**
-     * 设置所有的主码流的滑块开关状态
-     * @param value
-     */
-    private void mainStreamSwitchSet(int value) {
-        mMainStream.setEnable(value);
-        mMainStream.setEnable(value);
-        mMainStream.setPlateNumberEnable(value);
-        mMainStream.setChannalNameEnable(value);
-        mMainStream.setLocaltionSignleEnable(value);
-        mMainStream.setSpeedEnable(value);
-        mMainStream.setDateEnable(value);
+    private void mStreamSwitchSet(int enable) {
+        mVideoSetModel.setStreamEnable(enable);
+        mVideoSetModel.setPlateNumberEnable(enable);
+        mVideoSetModel.setChannalNameEnable(enable);
+        mVideoSetModel.setLocaltionSignleEnable(enable);
+        mVideoSetModel.setSpeedEnable(enable);
+        mVideoSetModel.setDateEnable(enable);
     }
 
     @Override
@@ -467,13 +366,81 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
                 mChannelNumberPopupWindow.showAsDropDown(mTvSelectChannelsNumber, 0, 0);
             }
         } else if (id == R.id.tv_main_stream_set) { //切换为主码流
-            isMainStream = true;
-            isMainStream();
-            showVideoSetData();
+            if (mVideoSetModel.getStreamType() == 2) {
+                isMainStream();
+                mStreamType = 1;
+                JSONObject jobj = new JSONObject();
+                try {
+                    jobj.put("channelNumber", mChannelNumber);
+                    jobj.put("streamType", mStreamType);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                requestChannelNumberData(mChannelNumber);
+                getNetworkData(jobj);
+            }
         } else if (id == R.id.tv_sub_stream_set) { //切换为子码流
-            isMainStream = false;
-            isMainStream();
-            showVideoSetData();
+            if (mVideoSetModel.getStreamType() == 1) {
+                mStreamType = 2;
+                isMainStream();
+                JSONObject jobj = new JSONObject();
+                try {
+                    jobj.put("channelNumber", mChannelNumber);
+                    jobj.put("streamType", mStreamType);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getNetworkData(jobj);
+            }
+        } else if (id == R.id.iv_stream_total_switch) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+                switchTotalStatus(0);
+            } else {
+                switchTotalStatus(1);
+            }
+        } else if (id == R.id.iv_date_time) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+                if (mVideoSetModel.getDateEnable() == 1) {
+                    dateTimeSwitchStatus(0);
+                } else {
+                    dateTimeSwitchStatus(1);
+                }
+            }
+        } else if (id == R.id.iv_license_plate_number) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+                if (mVideoSetModel.getPlateNumberEnable() == 1) {
+                    plateNumberStatus(0);
+                } else {
+                    plateNumberStatus(1);
+                }
+            }
+        } else if (id == R.id.iv_channel_name) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+
+                if (mVideoSetModel.getChannalNameEnable() == 1 && mVideoSetModel.getStreamEnable() == 1) {
+                    channelNumberStatus(0);
+                } else {
+                    channelNumberStatus(1);
+                }
+            }
+        } else if (id == R.id.iv_gps_signal) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+
+                if (mVideoSetModel.getLocaltionSignleEnable() == 1 && mVideoSetModel.getStreamEnable() == 1) {
+                    locationSignalStatus(0);
+                } else {
+                    locationSignalStatus(1);
+                }
+            }
+        } else if (id == R.id.iv_speed) {
+            if (mVideoSetModel.getStreamEnable() == 1) {
+
+                if (mVideoSetModel.getSpeedEnable() == 1 && mVideoSetModel.getStreamEnable() == 1) {
+                    carSpeedStatus(0);
+                } else {
+                    carSpeedStatus(1);
+                }
+            }
         } else if (id == R.id.tv_resolution_ratio) {
             if (mResolutionRatioPopupWindow != null) {
                 mResolutionRatioPopupWindow.showAsDropDown(mTvResolutionRatio, 0, 0);
@@ -496,9 +463,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             mEtErrorNumber.setText(String.valueOf(pictureQualityLevel));
         } else if (id == R.id.tv_save) { //保存视频设置的数据
             if (mVideoSetModel != null) {
-                mVideoSetModel.setChannelNumber(mSelectChannelNumber);
-                mVideoSetModel.setMainStream(mMainStream);
-                mVideoSetModel.setSubStream(mSubStream);
+                mVideoSetModel.setStreamType(mStreamType);
                 String json = GsonUtils.getInstance().toJson(mVideoSetModel);
                 try {
                     JSONObject jobj = new JSONObject(json);
@@ -533,38 +498,32 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
      * @param pictureQualityLevel
      */
     private void setPictureQualityLevel(int pictureQualityLevel) {
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setPictureQuality(pictureQualityLevel);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setPictureQuality(pictureQualityLevel);
-            }
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setPictureQuality(pictureQualityLevel);
         }
         showVideoSetData();
     }
 
     private void isMainStream() {
-        if (isMainStream) {
-            mTvMainStreamSet.setBackgroundResource(R.color.system_navigation_bar_color);
-            mTvSubStreamSet.setBackgroundColor(Color.WHITE);
-            mTvMainStreamSet.setTextColor(Color.WHITE);
-            mTvSubStreamSet.setTextColor(Color.BLACK);
+        if (mVideoSetModel.getStreamType() == 1) {
+            mTvMainStreamSet.setBackgroundResource(R.drawable.ll_left_bg_rectangle_style);
+            mTvMainStreamSet.setTextColor(mVideoSetActivity.getResources().getColor(R.color.video_set_font_color));
+            mTvSubStreamSet.setTextColor(mVideoSetActivity.getResources().getColor(R.color.font_color_333));
+            mTvSubStreamSet.setBackgroundResource(R.drawable.ll_right_white_bg_rectangle_style);
         } else {
-            mTvMainStreamSet.setBackgroundColor(Color.WHITE);
-            mTvSubStreamSet.setBackgroundResource(R.color.system_navigation_bar_color);
-            mTvMainStreamSet.setTextColor(Color.BLACK);
-            mTvSubStreamSet.setTextColor(Color.WHITE);
+            mTvMainStreamSet.setBackgroundResource(R.drawable.ll_left_white_bg_rectangle_style);
+            mTvSubStreamSet.setBackgroundResource(R.drawable.ll_right_bg_rectangle_style);
+            mTvMainStreamSet.setTextColor(mVideoSetActivity.getResources().getColor(R.color.font_color_333));
+            mTvSubStreamSet.setTextColor(mVideoSetActivity.getResources().getColor(R.color.video_set_font_color));
         }
     }
 
     @Override
     public void onItemClick(int position) {
         int channelNumber = position + 1;
+        mChannelNumber = channelNumber;
         String channels = mVideoSetActivity.getString(R.string.channels);
         mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(channelNumber)));
-        isMainStream = true;
         requestChannelNumberData(channelNumber);
 
         if (mChannelNumberPopupWindow != null && mChannelNumberPopupWindow.isShowing()) {
@@ -574,12 +533,14 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
     /**
      * 切换通道号的时候进行请求数据
+     *
      * @param channelNumber
      */
     private void requestChannelNumberData(int channelNumber) {
         JSONObject jobj = new JSONObject();
         try {
             jobj.put("channelNumber", channelNumber);
+            jobj.put("streamType", mStreamType);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -598,11 +559,8 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             @Override
             public void onNext(VideoSetModel videoSetModel) {
                 //设置当前选择的通道号
-                mSelectChannelNumber = videoSetModel.getChannelNumber();
-                //设置当前选择的主码流
-                mMainStream = videoSetModel.getMainStream();
-                //设置当前选择的子码流
-                mSubStream = videoSetModel.getSubStream();
+                mChannelNumber = videoSetModel.getChannelNumber();
+
                 showVideoSetData();
             }
         });
@@ -614,14 +572,8 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         String resolutionRatioName = mResolutionRatioList.get(position);
         mTvResolutionRatio.setText(resolutionRatioName);
         //判断当前选择的是主码流还是子码流
-        if (isMainStream) {
-            if (mMainStream != null) {
-                mMainStream.setResolutionRate(position);
-            }
-        } else {
-            if (mSubStream != null) {
-                mSubStream.setResolutionRate(position);
-            }
+        if (mVideoSetModel != null) {
+            mVideoSetModel.setResolutionRate(position);
         }
 
         if (mResolutionRatioPopupWindow != null && mResolutionRatioPopupWindow.isShowing()) {

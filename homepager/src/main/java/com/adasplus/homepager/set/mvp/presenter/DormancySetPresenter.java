@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
     private DormancySetActivity mDormancySetActivity;
     private EditText mEtErrorNumber;
     private DormancySetModel mDormancySetModel;
+    private RelativeLayout mRlHintMessage;
 
     public DormancySetPresenter(IDormancySetContract.View view) {
         mDormancySetView = view;
@@ -40,8 +42,8 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
 
     @Override
     public void initData() {
-
         mEtErrorNumber = mDormancySetView.getEtErrorNumber();
+        mRlHintMessage = mDormancySetView.getRlHintMessage();
         //获取设备中默认设置的休眠时间
         HomeWrapper.getInstance().getSleepSet().subscribe(new Subscriber<DormancySetModel>() {
             @Override
@@ -68,10 +70,12 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
     @Override
     public void initListener() {
         ImageView ivBack = mDormancySetView.getIvBack();
+        ImageView ivCloseHintMessage = mDormancySetView.getIvCloseHintMessage();
         TextView tvSave = mDormancySetView.getTvSave();
         Button btnAdd = mDormancySetView.getBtnAdd();
         Button btnSub = mDormancySetView.getBtnSub();
 
+        ivCloseHintMessage.setOnClickListener(this);
         ivBack.setOnClickListener(this);
         tvSave.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
@@ -87,7 +91,9 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
         int mMaxSleepValue = 600;
         if (id == R.id.iv_back) { //返回
             mDormancySetActivity.finish();
-        } else if (id == R.id.btn_add) {
+        }else if(id == R.id.iv_close_hint_message) {
+            mRlHintMessage.setVisibility(View.GONE);
+        }else if (id == R.id.btn_add) {
             //获取当前的休眠值
             String sleep = mEtErrorNumber.getText().toString().trim();
             int currentSleepValue = Integer.parseInt(sleep);

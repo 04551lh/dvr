@@ -3,16 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:layout_marginStart="@dimen/dp_20"
-    android:layout_marginEnd="@dimen/dp_20"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="wrap_content"
         android:text="@string/confirm_reboot"
+        android:lineSpacingExtra ="@dimen/dp_22"
         android:gravity="center"
-        android:textSize="@dimen/sp_15"
-        android:textColor="@android:color/black"/>
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/font_color_333"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

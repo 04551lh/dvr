@@ -94,31 +94,25 @@
                     android:layout_height="wrap_content">
                     <TextView
                         android:id="@+id/tv_main_stream_set"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_110"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:background="@drawable/ll_left_bg_rectangle_style"
                         android:textSize="@dimen/sp_14"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/video_set_font_color"
                         android:paddingTop="@dimen/dp_6"
-                        android:paddingLeft="@dimen/dp_20"
-                        android:paddingRight="@dimen/dp_19"
+                        android:paddingStart="@dimen/dp_20"
+                        android:paddingEnd="@dimen/dp_19"
                         android:paddingBottom="@dimen/dp_5"
-                        android:text="@string/main_stream"/>
-                    <View
-                        android:layout_width="@dimen/dp_1"
-                        android:layout_height="match_parent"
-                        android:background="@color/font_color_999"/>
+                        android:text="@string/main_stream_settings"/>
                     <TextView
                         android:id="@+id/tv_sub_stream_set"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dp_110"
                         android:layout_height="match_parent"
                         android:paddingTop="@dimen/dp_6"
-                        android:paddingLeft="@dimen/dp_20"
-                        android:paddingRight="@dimen/dp_19"
+                        android:paddingStart="@dimen/dp_20"
+                        android:paddingEnd="@dimen/dp_19"
                         android:paddingBottom="@dimen/dp_5"
-                        android:layout_weight="1"
                         android:textSize="@dimen/sp_14"
                         android:layout_gravity="center_vertical"
                         android:textColor="@color/font_color_333"
