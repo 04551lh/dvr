@@ -3,13 +3,9 @@ package com.adasplus.homepager.set.mvp.contract;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.view.SignSeekBar;
-import com.adasplus.base.view.SlideSwitchView;
-
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**

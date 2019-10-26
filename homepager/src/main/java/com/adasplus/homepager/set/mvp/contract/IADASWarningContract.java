@@ -1,11 +1,7 @@
 package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.adasplus.base.view.SlideSwitchView;
 
 /**
  * Author:刘净辉

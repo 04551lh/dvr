@@ -1,6 +1,7 @@
 package com.adasplus.base.network;
 
 import com.adasplus.base.network.model.FileExportModel;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 
@@ -61,5 +62,14 @@ public class BaseWrapper extends RetrofitHelper {
     public Observable<SystemInfoModel> getSystemInfo(){
         IBaseService baseService = createServiceFrom(IBaseService.class);
         return baseService.getSystemInfo().compose(this.<SystemInfoModel>applySchedulers());
+    }
+
+    /**
+     * 查询服务的运行状态
+     * @return
+     */
+    public Observable<SearchServiceRunStatusModel> searchServiceRunStatus(){
+        IBaseService baseService = createServiceFrom(IBaseService.class);
+        return baseService.searchServiceRunStatus().compose(this.<SearchServiceRunStatusModel>applySchedulers());
     }
 }

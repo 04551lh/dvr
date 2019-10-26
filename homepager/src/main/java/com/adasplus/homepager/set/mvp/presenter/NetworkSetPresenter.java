@@ -167,7 +167,7 @@ public class NetworkSetPresenter implements INetworkSetContract.Presenter, View.
 
                 @Override
                 public void onNext(NetworkSetModel networkSetModel) {
-                    Toast.makeText(mNetworkSetActivity, "保存联网设置成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mNetworkSetActivity, R.string.network_set_save_success, Toast.LENGTH_SHORT).show();
                     mNetworkSetActivity.finish();
                 }
             });

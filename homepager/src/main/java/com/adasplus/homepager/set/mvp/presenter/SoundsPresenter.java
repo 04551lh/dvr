@@ -2,7 +2,6 @@ package com.adasplus.homepager.set.mvp.presenter;
 
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,7 +66,6 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
                 mSoundsModel = soundsModel;
                 //获取声音值，并设置声音值
                 mSoundValue = soundsModel.getSoundValue();
-//                setCurrentSounds(mSoundValue);
                 mSsbSoundsValue.setProgress(mSoundValue);
             }
         });
@@ -113,7 +111,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
                         @Override
                         public void onNext(SoundsModel soundsModel) {
-                            Toast.makeText(mSoundsActivity, "声音设置保存完成", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mSoundsActivity, R.string.sounds_set_save_success, Toast.LENGTH_SHORT).show();
                             mSoundsActivity.finish();
                         }
                     });

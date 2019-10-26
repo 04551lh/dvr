@@ -1,8 +1,6 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,7 +32,7 @@ import rx.Subscriber;
 public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnClickListener, SignSeekBar.OnProgressChangedListener, SwipeRefreshLayout.OnRefreshListener {
     private ISpeedSetContract.View mSpeedSetView;
     private SpeedSetActivity mSpeedSetActivity;
-    private ImageView mIvback;
+    private ImageView mIvBack;
     private SwipeRefreshLayout mSwipeContainer;
     private ImageView mIvPulseSpeed;
     private TextView mTvManualCalibration;
@@ -72,7 +70,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
 
     @Override
     public void initData() {
-        mIvback = mSpeedSetView.getIvback();
+        mIvBack = mSpeedSetView.getIvback();
         mIvPulseSpeed = mSpeedSetView.getIvPulseSpeed();
         mSwipeContainer = mSpeedSetActivity.getSwipeContainer();
         mSwipeContainer.setColorSchemeResources(R.color.video_set_font_color,
@@ -187,7 +185,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
 
     @Override
     public void initListener() {
-        mIvback.setOnClickListener(this);
+        mIvBack.setOnClickListener(this);
         mIvPulseSpeed.setOnClickListener(this);
         mSwipeContainer.setOnRefreshListener(this);
         mIvManualCalibration.setOnClickListener(this);
@@ -225,9 +223,9 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
             }
         }else if (id == R.id.btn_add) {
             if(mEnable == 1 && mAutoCalibration == 1){
-                int mMaxErrorVaule = 20;
-                if (mCurrentErrorValue == mMaxErrorVaule) {
-                    Toast.makeText(mSpeedSetActivity, "已经是最大的误差值", Toast.LENGTH_SHORT).show();
+                int maxErrorValue = 20;
+                if (mCurrentErrorValue == maxErrorValue) {
+                    Toast.makeText(mSpeedSetActivity, R.string.speed_have_been_max_value, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mCurrentErrorValue++;
@@ -235,9 +233,9 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
             }
         } else if (id == R.id.btn_sub) {
             if(mEnable == 1 && mAutoCalibration == 1) {
-                int mMinErrorVaule = 0;
-                if (mCurrentErrorValue == mMinErrorVaule) {
-                    Toast.makeText(mSpeedSetActivity, "已经是最小的误差值", Toast.LENGTH_SHORT).show();
+                int minErrorValue = 0;
+                if (mCurrentErrorValue == minErrorValue) {
+                    Toast.makeText(mSpeedSetActivity, R.string.speed_have_been_min_value, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mCurrentErrorValue--;

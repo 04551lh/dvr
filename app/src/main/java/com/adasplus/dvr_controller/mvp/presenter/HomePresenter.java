@@ -2,29 +2,22 @@ package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
 import android.net.wifi.WifiInfo;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.core.view.MotionEventCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.HttpConstant;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.DisplayUtils;
@@ -275,7 +268,8 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                     Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
+
+                BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                     @Override
                     public void onCompleted() {
 
@@ -283,30 +277,56 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mActivity,e);
+
                     }
 
                     @Override
-                    public void onNext(TerminalInfoModel terminalInfoModel) {
-                        String phoneNumber = terminalInfoModel.getPhoneNumber();
-                        if (TextUtils.isEmpty(phoneNumber)){
-                            isStartActivity = true;
-                            ARouter.getInstance()
-                                    .build(ActivityPathConstant.FILL_TERMINAL_INFO_PATH)
-                                    .withString("type",ActivityPathConstant.FILL_TERMINAL_INFO)
-                                    .withBoolean("isFillTerminalInfo",true)
-                                    .navigation();
-                        }else {
-                            isStartActivity = true;
-                            ARouter.getInstance()
-                                    .build(ActivityPathConstant.ACTIVATE_DEVICE_PATH)
-                                    .withString("type",ActivityPathConstant.ADD_NEW_PLATFORMS)
-                                    .navigation();
+                    public void onNext(SearchServiceRunStatusModel searchServiceRunStatusModel) {
+                        //查询当前 808 服务的运行状态，如果808服务未启动的话，
+                        // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
+                        int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
+                        if (jt808ServiceStatus == 0){
+                            Toast.makeText(mActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
+                            return;
                         }
+                        getVehicleInfo();
                     }
                 });
                 break;
         }
+    }
+
+    private void getVehicleInfo() {
+        BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mActivity,e);
+            }
+
+            @Override
+            public void onNext(TerminalInfoModel terminalInfoModel) {
+                String phoneNumber = terminalInfoModel.getPhoneNumber();
+                if (TextUtils.isEmpty(phoneNumber)){
+                    isStartActivity = true;
+                    ARouter.getInstance()
+                            .build(ActivityPathConstant.FILL_TERMINAL_INFO_PATH)
+                            .withString("type",ActivityPathConstant.FILL_TERMINAL_INFO)
+                            .withBoolean("isFillTerminalInfo",true)
+                            .navigation();
+                }else {
+                    isStartActivity = true;
+                    ARouter.getInstance()
+                            .build(ActivityPathConstant.ACTIVATE_DEVICE_PATH)
+                            .withString("type",ActivityPathConstant.ADD_NEW_PLATFORMS)
+                            .navigation();
+                }
+            }
+        });
     }
 
     private void startActivity(String path){

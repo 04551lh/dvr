@@ -333,4 +333,16 @@
     <string name="restore_the_default_params">恢复默认参数</string>
 
     <string name="restore_default_params_set_success">默认参数设置已经恢复成功!</string>
+
+    <string name="restart_device_success">重启设备成功</string>
+
+    <string name="restore_the_factory_set_success">恢复出厂设置成功</string>
+
+    <string name="network_set_save_success">网络设置保存成功</string>
+
+    <string name="sounds_set_save_success">声音设置保存成功</string>
+
+    <string name="speed_have_been_max_value">自动校准的误差已经达到最大设置范围</string>
+
+    <string name="speed_have_been_min_value">自动校准的误差已经达到最小设置范围</string>
 </resources>

@@ -1,15 +1,12 @@
 package com.adasplus.homepager.activate.mvp.presenter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,11 +35,6 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +47,6 @@ import rx.Subscriber;
  * Description :
  */
 public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Presenter, View.OnClickListener {
-    private static final String TAG = "ActivateNewPlatformsPresenter";
     private static final int WHAT = 1;
 
     private IFillTerminalInfoContract.View mFillTerminalInfoView;

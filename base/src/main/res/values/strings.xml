@@ -84,4 +84,6 @@
     <string name="municipal_districts">市辖区</string>
 
     <string name="ministerial_platform">部标平台</string>
+
+    <string name="jt_808_service_status">808服务异常,请检查服务是否开启!</string>
 </resources>

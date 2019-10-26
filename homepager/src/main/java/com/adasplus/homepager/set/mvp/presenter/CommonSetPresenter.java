@@ -129,7 +129,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
 
             @Override
             public void onNext(ResetFactoryModel resetFactoryModel) {
-                Toast.makeText(mCommonSetActivity, "恢复出厂设置成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mCommonSetActivity, R.string.restore_the_factory_set_success, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -183,7 +183,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
 
             @Override
             public void onNext(RestartDeviceModel restartDeviceModel) {
-                Toast.makeText(mCommonSetActivity, "重启设备成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mCommonSetActivity, R.string.restart_device_success, Toast.LENGTH_SHORT).show();
             }
         });
     }

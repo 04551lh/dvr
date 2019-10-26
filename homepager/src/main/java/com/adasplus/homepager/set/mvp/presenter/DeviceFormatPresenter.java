@@ -63,8 +63,7 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
 
             @Override
             public void onNext(DeviceFormatModel deviceFormatModel) {
-                List<DeviceFormatModel.ArrayBean> array = deviceFormatModel.getArray();
-                mArray = array;
+                mArray = deviceFormatModel.getArray();
                 mDeviceFormatAdapter.setData(mArray);
                 mRvDeviceFormatList.setAdapter(mDeviceFormatAdapter);
             }

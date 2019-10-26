@@ -1,7 +1,5 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,7 +13,6 @@ import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.GsonUtils;
-import com.adasplus.base.view.SlideSwitchView;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.set.activity.DMSWarningActivity;
@@ -110,7 +107,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                             convertWarningsModel.getLowestSpeed() != longTimeDriveAlarm.getLowestSpeed()
                             || convertWarningsModel.getSensitivityLevel() != longTimeDriveAlarm.getSensitivityLevel()) {
                         isSaveSet = true;
-                        Log.e("dmsWarningModel", "isSaveSet---******----" + isSaveSet);
                         break;
                     }
                 } else if (warningNameResId == R.string.call_phone) {
@@ -120,7 +116,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                             convertWarningsModel.getLowestSpeed() != takePhoneAlarm.getLowestSpeed()
                             || convertWarningsModel.getSensitivityLevel() != takePhoneAlarm.getSensitivityLevel()) {
                         isSaveSet = true;
-                        Log.e("dmsWarningModel", "isSaveSet-------" + isSaveSet);
                         break;
                     }
                 } else if (warningNameResId == R.string.smoking_warning) {
@@ -130,7 +125,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                             convertWarningsModel.getLowestSpeed() != smokingAlarm.getLowestSpeed()
                             || convertWarningsModel.getSensitivityLevel() != smokingAlarm.getSensitivityLevel()) {
                         isSaveSet = true;
-                        Log.e("dmsWarningModel", "isSaveSet-------" + isSaveSet);
                         break;
                     }
                 } else if (warningNameResId == R.string.distracted_warning) {
@@ -140,7 +134,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                             convertWarningsModel.getLowestSpeed() != distractAlarm.getLowestSpeed()
                             || convertWarningsModel.getSensitivityLevel() != distractAlarm.getSensitivityLevel()) {
                         isSaveSet = true;
-                        Log.e("dmsWarningModel", "isSaveSet-------" + isSaveSet);
                         break;
                     }
                 } else if (warningNameResId == R.string.driver_abnormal) {
@@ -150,7 +143,6 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                             convertWarningsModel.getLowestSpeed() != driverErrorAlarm.getLowestSpeed()
                             || convertWarningsModel.getSensitivityLevel() != driverErrorAlarm.getSensitivityLevel()) {
                         isSaveSet = true;
-                        Log.e("dmsWarningModel", "isSaveSet-------" + isSaveSet);
                         break;
                     }
                 } else if (warningNameResId == R.string.driver_change) {

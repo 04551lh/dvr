@@ -4,7 +4,6 @@ package com.adasplus.homepager.activate.activity;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 

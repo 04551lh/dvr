@@ -1,6 +1,7 @@
 package com.adasplus.base.network;
 
 import com.adasplus.base.network.model.FileExportModel;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 
@@ -31,4 +32,6 @@ public interface IBaseService {
     @POST(HttpConstant.GET_SYSTEM_INFO)
     Observable<BaseResponse<SystemInfoModel>> getSystemInfo();
 
+    @POST(HttpConstant.SEARCH_SERVICE_RUN_STATUS)
+    Observable<BaseResponse<SearchServiceRunStatusModel>> searchServiceRunStatus();
 }
