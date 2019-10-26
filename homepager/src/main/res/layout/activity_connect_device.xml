@@ -4,31 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/app_background"
     tools:context="com.adasplus.homepager.connect.activity.ConnectDeviceActivity"
     android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:background="@color/system_navigation_bar_color">
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_15">
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/icon_back"
-            android:layout_marginStart="@dimen/dp_10"/>
-
+            android:layout_marginStart="@dimen/dp_16"
+            android:src="@drawable/common_left_back_icon"
+            android:textColor="@color/font_color_333" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_10"
             android:text="@string/connect_device"
-            android:textSize="@dimen/sp_18"
-            android:textColor="@android:color/white"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_gravity="center_vertical"/>
+            android:textColor="@color/font_color_333"
+            android:textSize="@dimen/sp_18" />
     </LinearLayout>
-
+    <View android:layout_height="@dimen/dp_1"
+        android:layout_width="match_parent"
+        android:background="@color/under_line_color"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,71 +42,70 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <View android:layout_height="@dimen/dp_1"
+                android:layout_width="match_parent"
+                android:background="@color/under_line_color"/>
             <LinearLayout
                 android:id="@+id/ll_connected_wifi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/dp_16"
+                    android:paddingBottom="@dimen/dp_16"
+                    android:text="@string/connected"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:paddingStart="@dimen/dp_16"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/font_color_333" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingLeft="@dimen/dp_10"
-                    android:paddingRight="@dimen/dp_10">
+                    android:background="@android:color/white"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
                     <LinearLayout
                         android:layout_width="match_parent"
+                        android:paddingTop="@dimen/dp_16"
+                        android:paddingBottom="@dimen/dp_16"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
                         android:orientation="horizontal">
-
                         <TextView
                             android:id="@+id/tv_wifi_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
-
+                            android:textColor="@color/system_navigation_bar_color"
+                            android:textSize="@dimen/sp_16" />
                         <ImageView
-                            android:id="@+id/iv_is_encrypt"
+                            android:id="@+id/iv_wifi_signal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginEnd="@dimen/dp_10"
-                            android:src="@mipmap/wifi_wps_icon" />
-
-                        <ImageView
-                            android:id="@+id/iv_wifi_signal"
-                            android:layout_width="@dimen/dp_20"
-                            android:layout_height="@dimen/dp_20"
-                            android:layout_gravity="center_vertical"
-                            android:src="@mipmap/wifi_signal_4" />
+                            android:src="@mipmap/wifi_with_iocn" />
                     </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_5"
-                        android:text="@string/connected"
-                        android:textColor="@android:color/darker_gray" />
-
                 </LinearLayout>
 
-                <View
-                    style="@style/DividerLineStyle"
-                    android:layout_marginTop="@dimen/dp_5"/>
+                <View android:layout_height="@dimen/dp_1"
+                    android:layout_width="match_parent"
+                    android:background="@color/under_line_color"/>
             </LinearLayout>
-
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_30"
-                android:layout_marginTop="@dimen/dp_5"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_16"
                 android:text="@string/select_connect_network"
-                android:paddingEnd="@dimen/dp_10"
-                android:paddingStart="@dimen/dp_10"
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingStart="@dimen/dp_16"
                 android:gravity="center_vertical"
-                android:textColor="@color/system_navigation_bar_color" />
+                android:textColor="@color/font_color_333" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_wifi_hotspot"
                 android:layout_width="match_parent"
@@ -114,6 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_available_device"
+            android:textColor="@color/font_color_666"
+            android:textSize="@dimen/sp_16"
             android:layout_centerInParent="true"
             android:visibility="gone"/>
     </RelativeLayout>

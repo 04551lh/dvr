@@ -73,8 +73,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_2"
-                    android:background="@color/split_line_color"/>
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
 
                 <LinearLayout
                     android:layout_marginTop="@dimen/dp_10"
@@ -84,8 +84,8 @@
                     android:background="@android:color/white">
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_2"
-                        android:background="@color/split_line_color"/>
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@color/under_line_color"/>
                     <LinearLayout
                         style="@style/LinearLayoutDisplayDataStyle">
                         <TextView

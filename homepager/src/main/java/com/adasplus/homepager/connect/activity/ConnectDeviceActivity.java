@@ -28,7 +28,6 @@ public class ConnectDeviceActivity extends BaseActivity implements IConnectDevic
     private LinearLayout mLlShowWifiList;
     private LinearLayout mLlConnectedWifi;
     private TextView mTvWifiName;
-    private ImageView mIvIsEncrypt;
     private ImageView mIvWifiSignal;
 
     private ConnectDevicePresenter mConnectDevicePresenter;
@@ -61,11 +60,10 @@ public class ConnectDeviceActivity extends BaseActivity implements IConnectDevic
         mIvBack = findViewById(R.id.iv_back);
         mRvWifiHotSpots = findViewById(R.id.rv_wifi_hotspot);
         mTvNoAvailableDevice = findViewById(R.id.tv_no_available_device);
-        mLlShowWifiList = (LinearLayout) findViewById(R.id.ll_show_wifi_list);
-        mLlConnectedWifi = (LinearLayout) findViewById(R.id.ll_connected_wifi);
-        mTvWifiName = (TextView) findViewById(R.id.tv_wifi_name);
-        mIvIsEncrypt = (ImageView) findViewById(R.id.iv_is_encrypt);
-        mIvWifiSignal = (ImageView) findViewById(R.id.iv_wifi_signal);
+        mLlShowWifiList =  findViewById(R.id.ll_show_wifi_list);
+        mLlConnectedWifi =  findViewById(R.id.ll_connected_wifi);
+        mTvWifiName =  findViewById(R.id.tv_wifi_name);
+        mIvWifiSignal =  findViewById(R.id.iv_wifi_signal);
     }
 
     @Override
@@ -108,11 +106,6 @@ public class ConnectDeviceActivity extends BaseActivity implements IConnectDevic
     @Override
     public TextView getTvWifiName() {
         return mTvWifiName;
-    }
-
-    @Override
-    public ImageView getIvIsEncrypt() {
-        return mIvIsEncrypt;
     }
 
     @Override

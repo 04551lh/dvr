@@ -88,7 +88,6 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     private LinearLayout mLlShowWifiList;
     private LinearLayout mLlConnectedWifi;
     private TextView mTvWifiName;
-    private ImageView mIvIsEncrypt;
     private ImageView mIvWifiSignal;
     private EditText mEtInputWifiPwd;
     private BasicDialog mInputWifiPwdDialog;
@@ -114,7 +113,6 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
         mLlShowWifiList = mConnectDeviceView.getLlShowWifiList();
         mLlConnectedWifi = mConnectDeviceView.getLlConnectedWifi();
         mTvWifiName = mConnectDeviceView.getTvWifiName();
-        mIvIsEncrypt = mConnectDeviceView.getIvIsEncrypt();
         mIvWifiSignal = mConnectDeviceView.getIvWifiSignal();
 
         mRvWifiHotSpots.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
@@ -261,8 +259,8 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
             mConnectDeviceActivity.onBackPressed();
         }else if (id == R.id.ll_connected_wifi){
             String wifiName = mTvWifiName.getText().toString().trim();
-            boolean givenWifiConnected = WifiHelper.getInstance().isGivenWifiConnected(wifiName);
-            if (givenWifiConnected){
+            WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+            if (wifiName.equals(wifiInfo.getSSID())) {
                 showDisconnectWifiDialog(wifiName);
             }
         }else if (id == R.id.tv_cancel){ // 取消输入WiFi密码的对话框
@@ -391,23 +389,23 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
             if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
                 mLlConnectedWifi.setVisibility(View.VISIBLE);
             }
-            mTvWifiName.setText(scanResult.SSID);
+            mTvWifiName.setText("\""+scanResult.SSID+"\"");
             int level = WifiHelper.getInstance().getLevel(scanResult.level);
             //显示WiFi信号值大小
-            if (2 == level){
-                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_2);
-            }else if (3 ==  level){
-                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_3);
-            }else if (4 == level){
-                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_4);
-            }
+//            if (2 == level){
+//                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_2);
+//            }else if (3 ==  level){
+//                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_3);
+//            }else if (4 == level){
+//                mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_4);
+//            }
 
             //判断当前是否有密码进行加密
             WifiHelper.WifiCipherType wifiCipherWay = WifiHelper.getInstance().getWifiCipherWay(scanResult.capabilities);
             if (wifiCipherWay ==  WifiHelper.WifiCipherType.WIFICIPHER_INVALID || wifiCipherWay == WifiHelper.WifiCipherType.WIFICIPHER_NOPASS){
-                mIvIsEncrypt.setVisibility(View.GONE);
+
             }else if (wifiCipherWay ==  WifiHelper.WifiCipherType.WIFICIPHER_WEP || wifiCipherWay == WifiHelper.WifiCipherType.WIFICIPHER_WPA){
-                mIvIsEncrypt.setVisibility(View.VISIBLE);
+
             }
         }
     }

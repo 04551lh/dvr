@@ -31,7 +31,6 @@ public interface IConnectDeviceContract {
 
         TextView getTvWifiName();
 
-        ImageView getIvIsEncrypt();
 
         ImageView getIvWifiSignal();
     }

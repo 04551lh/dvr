@@ -31,9 +31,9 @@ public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatC
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mRvDeviceFormatList = (RecyclerView) findViewById(R.id.rv_device_format_list);
-        mTvDeviceFormatData = (TextView) findViewById(R.id.tv_device_format_data);
+        mIvBack =  findViewById(R.id.iv_back);
+        mRvDeviceFormatList =  findViewById(R.id.rv_device_format_list);
+        mTvDeviceFormatData =  findViewById(R.id.tv_device_format_data);
     }
 
     @Override

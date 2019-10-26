@@ -60,9 +60,9 @@ public class DeviceFormatAdapter extends RecyclerView.Adapter<DeviceFormatAdapte
 
 
         if (selectEnable == 1){
-            holder.mIvSelectFormatStorage.setVisibility(View.VISIBLE);
+            holder.mIvSelectFormatStorage.setImageResource(R.mipmap.switch_open_icon);
         }else {
-            holder.mIvSelectFormatStorage.setVisibility(View.GONE);
+            holder.mIvSelectFormatStorage.setImageResource(R.mipmap.switch_close_icon);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,13 +87,13 @@ public class DeviceFormatAdapter extends RecyclerView.Adapter<DeviceFormatAdapte
         private TextView mTvAvailableSpace;
         private ImageView mIvSelectFormatStorage;
 
-        public DeviceFormatViewHolder(@NonNull View itemView) {
+        private DeviceFormatViewHolder(@NonNull View itemView) {
             super(itemView);
-            mTvStorageName = (TextView) itemView.findViewById(R.id.tv_storage_name);
-            mTvTotalCapacity = (TextView) itemView.findViewById(R.id.tv_total_capacity);
-            mTvUsedSpace = (TextView) itemView.findViewById(R.id.tv_used_space);
-            mTvAvailableSpace = (TextView) itemView.findViewById(R.id.tv_available_space);
-            mIvSelectFormatStorage = (ImageView) itemView.findViewById(R.id.iv_select_format_storage);
+            mTvStorageName =  itemView.findViewById(R.id.tv_storage_name);
+            mTvTotalCapacity =  itemView.findViewById(R.id.tv_total_capacity);
+            mTvUsedSpace =  itemView.findViewById(R.id.tv_used_space);
+            mTvAvailableSpace =  itemView.findViewById(R.id.tv_available_space);
+            mIvSelectFormatStorage =  itemView.findViewById(R.id.iv_select_format_storage);
 
         }
     }

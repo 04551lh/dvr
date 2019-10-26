@@ -87,7 +87,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
      * 恢复出厂设置
      */
     private void resetFactoryData() {
-        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_20);
+        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_12);
         CommonDialog.init()
                 .setLayoutId(R.layout.dialog_factory_data_reset)
                 .setConvertListener(new ViewConvertListener() {
@@ -138,7 +138,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
      * 重启设备
      */
     private void rebootDevice() {
-        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_25);
+        float margin = mCommonSetActivity.getResources().getDimension(R.dimen.dp_12);
         CommonDialog.init()
                 .setLayoutId(R.layout.dialog_reboot_device)
                 .setConvertListener(new ViewConvertListener() {

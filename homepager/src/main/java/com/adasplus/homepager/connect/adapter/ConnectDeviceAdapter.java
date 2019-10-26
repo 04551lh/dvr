@@ -51,19 +51,19 @@ public class ConnectDeviceAdapter extends RecyclerView.Adapter<ConnectDeviceAdap
         //判断当前是否有密码进行加密
         WifiHelper.WifiCipherType wifiCipherWay = WifiHelper.getInstance().getWifiCipherWay(scanResult.capabilities);
         if (wifiCipherWay ==  WifiHelper.WifiCipherType.WIFICIPHER_INVALID || wifiCipherWay == WifiHelper.WifiCipherType.WIFICIPHER_NOPASS){
-            holder.mIvIsEncrypt.setVisibility(View.GONE);
+//            holder.mIvIsEncrypt.setVisibility(View.GONE);
         }else if (wifiCipherWay ==  WifiHelper.WifiCipherType.WIFICIPHER_WEP || wifiCipherWay == WifiHelper.WifiCipherType.WIFICIPHER_WPA){
-            holder.mIvIsEncrypt.setVisibility(View.VISIBLE);
+//            holder.mIvIsEncrypt.setVisibility(View.VISIBLE);
         }
 
         //显示WiFi信号值大小
-        if (2 == level){
-            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_2);
-        }else if (3 ==  level){
-            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_3);
-        }else if (4 == level){
-            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_4);
-        }
+//        if (2 == level){
+//            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_2);
+//        }else if (3 ==  level){
+//            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_3);
+//        }else if (4 == level){
+//            holder.mIvWifiSignal.setImageResource(R.mipmap.wifi_signal_4);
+//        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +84,11 @@ public class ConnectDeviceAdapter extends RecyclerView.Adapter<ConnectDeviceAdap
 
         TextView mTvWifiName;
         ImageView mIvWifiSignal;
-        ImageView mIvIsEncrypt;
 
         ConnectDeviceViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvWifiName = itemView.findViewById(R.id.tv_wifi_name);
             mIvWifiSignal = itemView.findViewById(R.id.iv_wifi_signal);
-            mIvIsEncrypt = itemView.findViewById(R.id.iv_is_encrypt);
         }
     }
 }

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_50"
+    android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
     android:background="@android:color/white"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-   >
+    android:gravity="center_vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_10">
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_16">
         <LinearLayout
             android:layout_width="match_parent"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
@@ -22,25 +22,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/sp_15" />
-
-            <ImageView
-                android:id="@+id/iv_is_encrypt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/dp_10"
-                android:src="@mipmap/wifi_wps_icon" />
-
+                android:gravity="left"
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_16" />
             <ImageView
                 android:id="@+id/iv_wifi_signal"
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/wifi_signal_4" />
+                android:src="@mipmap/network_settings_icon" />
         </LinearLayout>
 
+        <View style="@style/UnderLineStyle"/>
     </LinearLayout>
 
 </LinearLayout>
