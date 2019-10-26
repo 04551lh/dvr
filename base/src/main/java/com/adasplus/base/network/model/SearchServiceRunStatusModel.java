@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class SearchServiceRunStatusModel {
 
 
-    @SerializedName("808Service")
+    @SerializedName("service808")
     private int jt808Service;
 
     public int getJt808Service() {

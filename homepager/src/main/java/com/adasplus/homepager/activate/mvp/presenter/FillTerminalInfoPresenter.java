@@ -3,6 +3,7 @@ package com.adasplus.homepager.activate.mvp.presenter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.GsonUtils;
@@ -129,9 +131,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             tvTitle.setText(platform_connect);
         } else {
             tvTitle.setText(update_terminal_info);
-
-            //获取终端的车辆信息
-            BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
+            BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                 @Override
                 public void onCompleted() {
 
@@ -139,43 +139,23 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
                 @Override
                 public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mActivateNewPlatformsActivity, e);
+
                 }
 
                 @Override
-                public void onNext(TerminalInfoModel terminalInfoModel) {
-                    String phoneNumber = terminalInfoModel.getPhoneNumber();
-                    String plateNumber = terminalInfoModel.getPlateNumber();
-                    String vin = terminalInfoModel.getVin();
-                    String plateColor = terminalInfoModel.getPlateColor();
-                    String provincialDomain = terminalInfoModel.getProvincialDomain();
-                    String cityDomain = terminalInfoModel.getCityDomain();
-                    String terminalId = terminalInfoModel.getTerminalId();
-
-                    //设置车牌颜色的初始值 :
-                    mLicensePlateColor = Integer.parseInt(plateColor);
-                    //设置省域初始值
-                    mProvincialDomainId = provincialDomain;
-                    //设置市县域初始值
-                    mAreaId = cityDomain;
-
-                    //设置手机号
-                    mEtPlatformPhoneNumber.setText(phoneNumber);
-                    mEtPlatformPhoneNumber.setSelection(phoneNumber.length());
-
-                    //设置车牌号
-                    mEtLicensePlateNumber.setText(plateNumber);
-                    mEtLicensePlateNumber.setSelection(plateNumber.length());
-
-                    //设置 终端id
-                    mEtTerminalId.setText(terminalId);
-                    mEtTerminalId.setSelection(terminalId.length());
-
-                    //设置车架号
-                    mEtChassisNumber.setText(vin);
-                    mEtChassisNumber.setSelection(vin.length());
+                public void onNext(SearchServiceRunStatusModel searchServiceRunStatusModel) {
+                    //查询当前 808 服务的运行状态，如果808服务未启动的话，
+                    // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
+                    int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
+                    if (jt808ServiceStatus == 0){
+                        Toast.makeText(mActivateNewPlatformsActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    getVehicleInfo();
                 }
             });
+
+
         }
 
         ThreadPoolUtils.execute(new Runnable() {
@@ -198,6 +178,55 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             }
         });
 
+    }
+
+    private void getVehicleInfo() {
+        //获取终端的车辆信息
+        BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mActivateNewPlatformsActivity, e);
+            }
+
+            @Override
+            public void onNext(TerminalInfoModel terminalInfoModel) {
+                String phoneNumber = terminalInfoModel.getPhoneNumber();
+                String plateNumber = terminalInfoModel.getPlateNumber();
+                String vin = terminalInfoModel.getVin();
+                String plateColor = terminalInfoModel.getPlateColor();
+                String provincialDomain = terminalInfoModel.getProvincialDomain();
+                String cityDomain = terminalInfoModel.getCityDomain();
+                String terminalId = terminalInfoModel.getTerminalId();
+
+                //设置车牌颜色的初始值 :
+                mLicensePlateColor = Integer.parseInt(plateColor);
+                //设置省域初始值
+                mProvincialDomainId = provincialDomain;
+                //设置市县域初始值
+                mAreaId = cityDomain;
+
+                //设置手机号
+                mEtPlatformPhoneNumber.setText(phoneNumber);
+                mEtPlatformPhoneNumber.setSelection(phoneNumber.length());
+
+                //设置车牌号
+                mEtLicensePlateNumber.setText(plateNumber);
+                mEtLicensePlateNumber.setSelection(plateNumber.length());
+
+                //设置 终端id
+                mEtTerminalId.setText(terminalId);
+                mEtTerminalId.setSelection(terminalId.length());
+
+                //设置车架号
+                mEtChassisNumber.setText(vin);
+                mEtChassisNumber.setSelection(vin.length());
+            }
+        });
     }
 
     //这个是市县域 ID，根据 GB2260 协议 中的行政区域代码进行定义，行政区域代码的后四位代表的是市县域Id

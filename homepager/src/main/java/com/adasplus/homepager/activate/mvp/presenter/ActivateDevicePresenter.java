@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.HttpConstant;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.utils.GsonUtils;
 import com.adasplus.base.utils.ThreadPoolUtils;
 import com.adasplus.base.view.RecyclerViewDivider;
@@ -161,7 +163,76 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
         mPlatformList = mActivateDeviceActivity.getResources().getString(R.string.platform_list);
 
-        //TODO 频繁的一下子请求两个接口，会造成接收不到返回的内容,所以中间加了一个休眠的时间。这个需要进行优化
+        BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(SearchServiceRunStatusModel searchServiceRunStatusModel) {
+                //查询当前 808 服务的运行状态，如果808服务未启动的话，
+                // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
+                int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
+                if (jt808ServiceStatus == 0){
+                    Toast.makeText(mActivateDeviceActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //TODO 频繁的一下子请求两个接口，会造成接收不到返回的内容,所以中间加了一个休眠的时间。这个需要进行优化
+                getVehicleInfo();
+                SystemClock.sleep(50);
+                getPlatformInfoModel();
+            }
+        });
+
+
+
+    }
+
+    private void getPlatformInfoModel() {
+        // 获取已经连接的部标平台
+        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+            }
+
+            @Override
+            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                mPlatformInfoArray = getPlatformInfoModel.getArray();
+
+                int size = mPlatformInfoArray.size();
+                // 判断是否有已连接的平台，如果有，进行显示已连接的WiFi 的列表，否则显示暂无数据
+                if (size > 0) {
+                    showConnectedPlatforms();
+                    mActivatedPlatformsAdapter.setData(mPlatformInfoArray, mActivateDeviceActivity);
+                    if (!mActivatedPlatformsAdapter.hasObservers()) {
+                        mRvActivatedPlatforms.setAdapter(mActivatedPlatformsAdapter);
+                    } else {
+                        mActivatedPlatformsAdapter.notifyDataSetChanged();
+                    }
+                    //已连接平台的总数量
+                    mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
+                    mIvActionBarAddPlatforms.setVisibility(View.GONE);
+                } else {
+                    dismissConnectedPlatforms();
+                    showAddNewPlatformBtn();
+                }
+            }
+        });
+    }
+
+    private void getVehicleInfo() {
         //获取终端的基本信息
         BaseWrapper.getInstance().getVehicleInfo().subscribe(new Subscriber<TerminalInfoModel>() {
             @Override
@@ -198,44 +269,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 //车架号
                 mTvChassisNumber.setText(vin);
 
-            }
-        });
-
-        SystemClock.sleep(50);
-
-        // 获取已经连接的部标平台
-        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
-            }
-
-            @Override
-            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
-                mPlatformInfoArray = getPlatformInfoModel.getArray();
-
-                int size = mPlatformInfoArray.size();
-                // 判断是否有已连接的平台，如果有，进行显示已连接的WiFi 的列表，否则显示暂无数据
-                if (size > 0) {
-                    showConnectedPlatforms();
-                    mActivatedPlatformsAdapter.setData(mPlatformInfoArray, mActivateDeviceActivity);
-                    if (!mActivatedPlatformsAdapter.hasObservers()) {
-                        mRvActivatedPlatforms.setAdapter(mActivatedPlatformsAdapter);
-                    } else {
-                        mActivatedPlatformsAdapter.notifyDataSetChanged();
-                    }
-                    //已连接平台的总数量
-                    mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
-                    mIvActionBarAddPlatforms.setVisibility(View.GONE);
-                } else {
-                    dismissConnectedPlatforms();
-                    showAddNewPlatformBtn();
-                }
             }
         });
     }

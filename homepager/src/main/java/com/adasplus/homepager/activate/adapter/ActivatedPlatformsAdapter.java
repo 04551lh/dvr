@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
+import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.popup.CommonPopupWindow;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.homepager.R;
@@ -111,43 +114,68 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void platformMoreOperation(ImageView ivPlatformsMoreOperation, int position) {
-        final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
-        int connectStatus = arrayBean.getConnectStatus();
-        View view = View.inflate(mActivateDeviceActivity, R.layout.item_platforms_more_operation, null);
-        TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
-        TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
-
-        if (connectStatus == 1 ){
-            tv_update_connect_status.setText(mDisconnect);
-        }else if (connectStatus == 0){
-            tv_update_connect_status.setText(mRetryConnect);
-        }
-
-        int width = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_100);
-        int height = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_90);
-        final CommonPopupWindow commonPopupWindow = new CommonPopupWindow.Builder(mActivateDeviceActivity)
-                .setWidthAndHeight(width, height)
-                .setOutsideTouchable(true)
-                .setView(view)
-                .create();
-        commonPopupWindow.showAsDropDown(ivPlatformsMoreOperation,0,20, Gravity.RIGHT);
-
-        tv_logout_platform.setOnClickListener(new View.OnClickListener() {
+    private void platformMoreOperation(final ImageView ivPlatformsMoreOperation, final int position) {
+        BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
             @Override
-            public void onClick(View v) {
-                showLogoutDialog(arrayBean);
-                commonPopupWindow.dismiss();
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(SearchServiceRunStatusModel searchServiceRunStatusModel) {
+                //查询当前 808 服务的运行状态，如果808服务未启动的话，
+                // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
+                int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
+                if (jt808ServiceStatus == 0){
+                    Toast.makeText(mActivateDeviceActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
+                int connectStatus = arrayBean.getConnectStatus();
+                View view = View.inflate(mActivateDeviceActivity, R.layout.item_platforms_more_operation, null);
+                TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
+                TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
+
+                if (connectStatus == 1 ){
+                    tv_update_connect_status.setText(mDisconnect);
+                }else if (connectStatus == 0){
+                    tv_update_connect_status.setText(mRetryConnect);
+                }
+
+                int width = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_100);
+                int height = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_90);
+                final CommonPopupWindow commonPopupWindow = new CommonPopupWindow.Builder(mActivateDeviceActivity)
+                        .setWidthAndHeight(width, height)
+                        .setOutsideTouchable(true)
+                        .setView(view)
+                        .create();
+                commonPopupWindow.showAsDropDown(ivPlatformsMoreOperation,0,20, Gravity.RIGHT);
+
+                tv_logout_platform.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showLogoutDialog(arrayBean);
+                        commonPopupWindow.dismiss();
+                    }
+                });
+
+                tv_update_connect_status.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        updateDeviceConnectStatus(arrayBean);
+                        commonPopupWindow.dismiss();
+                    }
+                });
             }
         });
 
-        tv_update_connect_status.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateDeviceConnectStatus(arrayBean);
-                commonPopupWindow.dismiss();
-            }
-        });
+
     }
 
     private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean){
