@@ -140,37 +140,44 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
         int id = v.getId();
         if (id == R.id.iv_back) {
             mTimeSetActivity.finish();
-        } else if (id == R.id.iv_automatic_correction_when) {
-            initSelectImage();
-        } else if (id == R.id.iv_network_time) {
-            //选择联网时间
+        }
+//        else if (id == R.id.iv_automatic_correction_when) {
+//        }
 
+        else if (id == R.id.iv_network_time) {
+            //选择联网时间
+            mAutoCalibrationTimeEnable = 1;
             initSelectImage();
         } else if (id == R.id.iv_gps_time) {
             //选择 gps 时间
+            mAutoCalibrationTimeEnable = 0;
             initSelectImage();
-        } else if (id == R.id.iv_when_manual_calibration) {
-            //设置是否选择了手动设置时间
-            if(mManualCalibrationTimeEnable == 1){
-                mManualCalibrationTimeEnable = 0;
-            }else{
-                mManualCalibrationTimeEnable = 1;
-            }
-            mSetImageResource(mIvAutomaticCorrectionWhen,mManualCalibrationTimeEnable);
-        } else if (id == R.id.tv_save) {
+        }
+
+//        else if (id == R.id.iv_when_manual_calibration) {
+//            //设置是否选择了手动设置时间
+//            if(mManualCalibrationTimeEnable == 1){
+//                mManualCalibrationTimeEnable = 0;
+//            }else{
+//                mManualCalibrationTimeEnable = 1;
+//            }
+//            mSetImageResource(mIvAutomaticCorrectionWhen,mManualCalibrationTimeEnable);
+//        }
+
+        else if (id == R.id.tv_save) {
             String year = mEtYear.getText().toString().trim();
             judgeTime(splitDate[0],year);
             String months = mEtMonth.getText().toString().trim();
-            judgeTime(splitDate[0],months);
+            judgeTime(splitDate[1],months);
             String days = mEtDay.getText().toString().trim();
-            judgeTime(splitDate[0],days);
+            judgeTime(splitDate[2],days);
 
             String hours = mEtHours.getText().toString().trim();
-            judgeTime(splitDate[0],hours);
+            judgeTime(splitTime[0],hours);
             String minutes = mEtMinutes.getText().toString().trim();
-            judgeTime(splitDate[0],minutes);
+            judgeTime(splitTime[1],minutes);
             String seconds = mEtSeconds.getText().toString().trim();
-            judgeTime(splitDate[0],seconds);
+            judgeTime(splitTime[2],seconds);
 
 
             String date = year + "-" + months + "-" + days;
@@ -187,10 +194,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
                     e.printStackTrace();
                 }
 
-                String requestParams = GsonUtils.getInstance().toJson(jobj);
-                try {
-                    JSONObject jsonObject = new JSONObject(requestParams);
-                    HomeWrapper.getInstance().updateTimeSet(jsonObject).subscribe(new Subscriber<TimeSetModel>() {
+                    HomeWrapper.getInstance().updateTimeSet(jobj).subscribe(new Subscriber<TimeSetModel>() {
                         @Override
                         public void onCompleted() {
 
@@ -207,9 +211,6 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
                             mTimeSetActivity.finish();
                         }
                     });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
             }
 
@@ -233,8 +234,10 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
         if (mAutoCalibrationTimeEnable == 1) {
             mIvNetworkTime.setImageResource(mIvSelectId);
-        } else {
             mIvGpsTime.setImageResource(mIvNoSelectId);
+        } else {
+            mIvGpsTime.setImageResource(mIvSelectId);
+            mIvNetworkTime.setImageResource(mIvNoSelectId);
         }
 //        //设置是否选择了 自动校时
 //        mSetImageResource(mIvAutomaticCorrectionWhen, mAutoCalibrationTimeEnable);

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="system_navigation_bar_color">#5677FC</color>
+
+    <color name="under_line_color">#DEDEDE</color>
+
+    <color name="item_press_color">#f0f0f0</color>
+
+    <color name="split_line_color">#D3D3D3</color>
+
+    <color name="swipe_bg_progress_color">#505677fc</color>
+
+    <color name="switch_close_color">#D0D0D0</color>
+
+    <color name="app_background">#EEEEEE</color>
+
+    <color name="font_color_333">#333333</color>
+
+    <color name="font_color_666">#666666</color>
+
+    <color name="connected">#ff4ddb6e</color>
+
+    <color name="font_color_999">#999999</color>
+
+    <color name="connection_state_tv_color">#ff4ddb6e</color>
+
+    <color name="video_set_font_color">#F7F7F7</color>
+</resources>

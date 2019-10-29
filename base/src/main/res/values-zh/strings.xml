@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">base</string>
+
+    <string name="connect_device">设备连接</string>
+
+    <string name="connect_platform">平台连接</string>
+
+    <string name="files_export">文件导出</string>
+
+    <string name="service_exception">服务器异常,请稍后重试</string>
+
+    <string name="please_check_network_is_available">请检查当前的网络是否可用</string>
+
+    <string name="service_connect_timeout">请求超时</string>
+
+    <string name="service_back_data_parse_error">json数据解析异常</string>
+
+    <string name="please_enter">请输入</string>
+
+    <string name="save">保存</string>
+
+    <string name="params_write">参数填写</string>
+
+    <string name="settings">设置</string>
+
+    <string name="simulation_speed">模拟速度</string>
+
+    <string name="cancel">取消</string>
+
+    <string name="confirm">确认</string>
+
+    <string name="bumper_distance">保险杠距离</string>
+
+    <string name="left_wheel_distance">左车轮距离</string>
+
+    <string name="right_wheel_distance">右车轮距离</string>
+
+    <string name="front_wheel_distance">前车轮距离</string>
+
+    <string name="unit">mm</string>
+
+    <string name="basic_info">基本信息</string>
+
+    <string name="phone_number">手机号</string>
+
+    <string name="license_plate_number">车牌号</string>
+
+    <string name="license_plate_color">车辆颜色</string>
+
+    <string name="terminal_id">终端ID</string>
+
+    <string name="provincial_domain_id">省域ID</string>
+
+    <string name="city_and_county_id">市县域ID</string>
+
+    <string name="chassis_number">车架号</string>
+
+    <string name="no_data">暂无数据</string>
+
+    <string name="no_export_file">没有可导出的文件，请重新选择!</string>
+
+    <string name="params_no_completed">数据有必填参数未填写!</string>
+
+    <string name="invalid_data">无效数据</string>
+
+    <string name="invalid_request">无效请求</string>
+
+    <string name="platform_connect_fail">平台连接失败</string>
+
+    <string name="car_registered">连接失败,车辆已被注册</string>
+
+    <string name="db_no_car">连接失败,数据库无该车辆</string>
+
+    <string name="terminal_registered">连接失败，终端已被注册</string>
+
+    <string name="db_no_terminal">连接失败,数据库中无该终端</string>
+
+    <string name="loading">正在加载…</string>
+
+    <string name="platforms_connect">平台连接</string>
+
+    <string name="edit_platform">编辑</string>
+
+    <string name="municipal_districts">市辖区</string>
+
+    <string name="ministerial_platform">部标平台</string>
+
+    <string name="jt_808_service_status">808服务异常,请检查服务是否开启!</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="wifi_pwd_bg_border_color">#ff999999</color>
+
+    <color name="required_color">#E51C23</color>
+    <color name="hint_font_color">#ffffd7af</color>
+    <color name="save_font_color">#fff7f7f7</color>
+
+    <color name="font_color_333">#333333</color>
+</resources>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="BasicDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="LeftAnimStyle">
+        <item name="android:windowEnterAnimation">@anim/left_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/left_exit_anim</item>
+    </style>
+
+    <style name="RightAnimStyle">
+        <item name="android:windowEnterAnimation">@anim/right_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/right_exit_anim</item>
+    </style>
+
+    <style name="TopAnimStyle">
+        <item name="android:windowEnterAnimation">@anim/top_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/top_exit_anim</item>
+    </style>
+
+    <style name="BottomAnimStyle">
+        <item name="android:windowEnterAnimation">@anim/bottom_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/bottom_exit_anim</item>
+    </style>
+
+    <style name="DividerLineStyle">
+        <item name="android:background">@color/split_line_color</item>
+        <item name="android:layout_marginStart">@dimen/dp_16</item>
+        <item name="android:layout_marginEnd">@dimen/dp_16</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+    </style>
+
+    <style name="MainLineStyle">
+        <item name="android:background">@color/split_line_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_1</item>
+    </style>
+
+
+    <style name="tvTextShow">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingStart">@dimen/dp_10</item>
+        <item name="android:paddingEnd">@dimen/dp_10</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="LinearLayoutDisplayDataStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/dp_16</item>
+        <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_16</item>
+    </style>
+
+    <style name="LinearLayoutImageDisplayDataStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/dp_16</item>
+        <item name="android:layout_marginBottom">@dimen/dp_16</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_12</item>
+    </style>
+
+    <style name="LinearLayoutEditStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:focusable">true</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:paddingStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
+    </style>
+
+    <style name="LinearLayoutFillDataStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_45</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="UnderLineStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/dp_16</item>
+        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:layout_height">@dimen/dp_0.5</item>
+        <item name="android:background">@color/under_line_color</item>
+    </style>
+
+
+</resources>
