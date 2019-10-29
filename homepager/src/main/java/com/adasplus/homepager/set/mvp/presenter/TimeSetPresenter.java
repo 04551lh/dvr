@@ -7,7 +7,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adasplus.base.utils.ExceptionUtils;
-import com.adasplus.base.utils.GsonUtils;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.set.activity.TimeSetActivity;
@@ -28,7 +27,7 @@ import rx.Subscriber;
 public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ITimeSetContract.View mTimeSetView;
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutTimeSet;
     private TimeSetActivity mTimeSetActivity;
     private ImageView mIvNetworkTime;
     private ImageView mIvAutomaticCorrectionWhen;
@@ -57,7 +56,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
     @Override
     public void initData() {
         mIvNetworkTime = mTimeSetView.getIvNetworkTime();
-        mSwipeContainer = mTimeSetActivity.getSwipeContainer();
+        mSwipeRefreshLayoutTimeSet = mTimeSetActivity.getSwipeRefreshLayoutTimeSet();
         mIvAutomaticCorrectionWhen = mTimeSetView.getIvAutomaticCorrectionWhen();
         mIvGpsTime = mTimeSetView.getIvGpsTime();
         mIvWhenManualCalibration = mTimeSetView.getIvWhenManualCalibration();
@@ -83,32 +82,26 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mTimeSetActivity, e);
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
+                mSwipeRefreshLayoutTimeSet.setRefreshing(false); // close refresh animator
             }
 
             @Override
             public void onNext(TimeSetModel timeSetModel) {
+                mSwipeRefreshLayoutTimeSet.setRefreshing(false); // close refresh animator
                 mTimeSetModel = timeSetModel;
-
                 mAutoCalibrationTimeEnable = mTimeSetModel.getTimeCalibration();
                 String date = mTimeSetModel.getDate();
                 String time = mTimeSetModel.getTime();
                 splitDate = date.split("-");
                 splitTime = time.split(":");
-
                 initSelectImage();
-
                 mEtYear.setText(splitDate[0]);
                 mEtMonth.setText(splitDate[1]);
                 mEtDay.setText(splitDate[2]);
-
                 mEtHours.setText(splitTime[0]);
                 mEtMinutes.setText(splitTime[1]);
                 mEtSeconds.setText(splitTime[2]);
 
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
             }
         });
     }
@@ -117,10 +110,9 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
     public void initListener() {
         ImageView ivBack = mTimeSetView.getIvBack();
         TextView tvSave = mTimeSetView.getTvSave();
-
         ivBack.setOnClickListener(this);
         tvSave.setOnClickListener(this);
-        mSwipeContainer.setOnRefreshListener(this);
+        mSwipeRefreshLayoutTimeSet.setOnRefreshListener(this);
         mIvAutomaticCorrectionWhen.setOnClickListener(this);
         mIvNetworkTime.setOnClickListener(this);
         mIvGpsTime.setOnClickListener(this);
@@ -213,7 +205,6 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
                     });
 
             }
-
         }
     }
 

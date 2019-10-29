@@ -21,8 +21,7 @@ public interface ITimeSetContract {
 
         ImageView getIvBack();
 
-        SwipeRefreshLayout getSwipeContainer();
-
+        SwipeRefreshLayout getSwipeRefreshLayoutTimeSet();
 
         ImageView getIvNetworkTime();
         

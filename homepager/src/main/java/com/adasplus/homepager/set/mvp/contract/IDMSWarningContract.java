@@ -4,6 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -17,6 +18,8 @@ public interface IDMSWarningContract {
     interface View {
 
         ImageView getIvBack();
+
+        SwipeRefreshLayout getSwipeRefreshLayoutDMSSet();
 
         RecyclerView getRvDmsList();
     }

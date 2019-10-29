@@ -19,7 +19,7 @@ public interface IVideoSetContract {
     interface View {
         ImageView getIvBack();
 
-        SwipeRefreshLayout getSwipeContainer();
+        SwipeRefreshLayout getSwipeRefreshLayoutVideoSet();
 
         TextView getTvSelectChannelsNumber();
 

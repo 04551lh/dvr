@@ -17,8 +17,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.View {
 
-    private ImageView mIvBack;
-    private SwipeRefreshLayout mSwipeContainer;
+    private ImageView mIvSpeedBack;
+    private SwipeRefreshLayout mSwipeRefreshLayoutSpeedSet;
     private ImageView mIvPulseSpeed;
     private TextView mTvManualCalibration;
     private ImageView mIvManualCalibration;
@@ -33,7 +33,7 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     private ImageView mIvSimulationSpeedStatus;
     private SignSeekBar mSsbSpeedValue;
     private TextView mTvCurrentSpeed;
-    private TextView mTvSave;
+    private TextView mTvSpeedSave;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -49,9 +49,9 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
+        mIvSpeedBack = findViewById(R.id.iv_speed_back);
         mIvPulseSpeed =  findViewById(R.id.iv_pulse_speed);
-        mSwipeContainer = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayoutSpeedSet = findViewById(R.id.swipeRefreshLayout_speed_set);
         mTvManualCalibration =  findViewById(R.id.tv_manual_calibration);
         mIvManualCalibration =  findViewById(R.id.iv_manual_calibration);
         mTvCoefficientOfThePulse =  findViewById(R.id.tv_coefficient_of_the_pulse);
@@ -65,12 +65,12 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
         mIvSimulationSpeedStatus =  findViewById(R.id.iv_simulation_speed_status);
         mSsbSpeedValue =  findViewById(R.id.ssb_speed_value);
         mTvCurrentSpeed =  findViewById(R.id.tv_current_speed);
-        mTvSave =  findViewById(R.id.tv_save);
+        mTvSpeedSave =  findViewById(R.id.tv_speed_save);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvSpeedBack() {
+        return mIvSpeedBack;
     }
     @Override
     public ImageView getIvPulseSpeed() {
@@ -78,8 +78,8 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
-    public SwipeRefreshLayout getSwipeContainer() {
-        return mSwipeContainer;
+    public SwipeRefreshLayout getSwipeRefreshLayoutSpeedSet() {
+        return mSwipeRefreshLayoutSpeedSet;
     }
 
     @Override
@@ -149,7 +149,7 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvSpeedSave() {
+        return mTvSpeedSave;
     }
 }

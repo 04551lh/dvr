@@ -39,7 +39,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private ICalibrationSetContract.View mCalibrationSetView;
     private CalibrationSetActivity mCalibrationSetActivity;
 
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutCalibrationSet;
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
     private TextView mTvCameraHeight;
@@ -64,7 +64,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
     @Override
     public void initData() {
-        mSwipeContainer = mCalibrationSetActivity.getSwipeContainer();
+        mSwipeRefreshLayoutCalibrationSet = mCalibrationSetActivity.getSwipeRefreshLayoutCalibrationSet();
         mIvAutoCalibration = mCalibrationSetView.getIvAutoCalibration();
         mIvManualCalibrate = mCalibrationSetView.getIvManualCalibrate();
         mTvCameraHeight = mCalibrationSetActivity.getTvCameraHeight();
@@ -90,13 +90,13 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mCalibrationSetActivity, e);
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
+                mSwipeRefreshLayoutCalibrationSet.setRefreshing(false); // close refresh animator
 
             }
 
             @Override
             public void onNext(CalibrationSetModel calibrationSetModel) {
+                mSwipeRefreshLayoutCalibrationSet.setRefreshing(false); // close refresh animator
                 mCalibrationSetModel = calibrationSetModel;
                 mAutoReferenceLineEnable = calibrationSetModel.getAutoReferenceLineEnable();
                 //判断是否是自动标定
@@ -108,8 +108,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 //设置镜头高度
                 int cameraHigh = calibrationSetModel.getCameraHight();
                 mEtCameraHeight.setText(String.valueOf(cameraHigh));
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
             }
         });
 
@@ -161,7 +159,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     public void initListener() {
         ImageView ivBack = mCalibrationSetView.getIvBack();
         ivBack.setOnClickListener(this);
-        mSwipeContainer.setOnRefreshListener(this);
+        mSwipeRefreshLayoutCalibrationSet.setOnRefreshListener(this);
         mIvAutoCalibration.setOnClickListener(this);
         mIvManualCalibrate.setOnClickListener(this);
         mTvSave.setOnClickListener(this);

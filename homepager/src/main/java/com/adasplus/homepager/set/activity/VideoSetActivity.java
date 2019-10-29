@@ -17,7 +17,7 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
 
     private ImageView mIvBack;
     private TextView mTvSelectChannelsNumber;
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutVideoSet;
     private TextView mTvMainStreamSet;
     private TextView mTvSubStreamSet;
     private ImageView mIvStreamTotalSwitch;
@@ -48,7 +48,7 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
-        mSwipeContainer = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayoutVideoSet = findViewById(R.id.swipeRefreshLayout_video_set);
         mTvSelectChannelsNumber = findViewById(R.id.tv_select_channels_number);
         mTvMainStreamSet = findViewById(R.id.tv_main_stream_set);
         mTvSubStreamSet =  findViewById(R.id.tv_sub_stream_set);
@@ -73,8 +73,8 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public SwipeRefreshLayout getSwipeContainer() {
-        return mSwipeContainer;
+    public SwipeRefreshLayout getSwipeRefreshLayoutVideoSet() {
+        return mSwipeRefreshLayoutVideoSet;
     }
 
     @Override

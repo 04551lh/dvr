@@ -17,11 +17,11 @@ public interface ISpeedSetContract {
     interface Model {
     }
     interface View {
-        ImageView getIvBack();
+        ImageView getIvSpeedBack();
 
         ImageView getIvPulseSpeed();
 
-        SwipeRefreshLayout getSwipeContainer();
+        SwipeRefreshLayout getSwipeRefreshLayoutSpeedSet();
 
         TextView getTvManualCalibration();
 
@@ -49,7 +49,7 @@ public interface ISpeedSetContract {
 
         TextView getTvCurrentSpeed();
 
-        TextView getTvSave();
+        TextView getTvSpeedSave();
     }
 
     interface Presenter {

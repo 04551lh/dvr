@@ -20,7 +20,7 @@ public interface ICalibrationSetContract {
 
         ImageView getIvBack();
 
-        SwipeRefreshLayout getSwipeContainer();
+        SwipeRefreshLayout getSwipeRefreshLayoutCalibrationSet();
 
         ImageView getIvAutoCalibration();
 

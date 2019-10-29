@@ -30,8 +30,8 @@ import rx.Subscriber;
 public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnClickListener, SignSeekBar.OnProgressChangedListener, SwipeRefreshLayout.OnRefreshListener {
     private ISpeedSetContract.View mSpeedSetView;
     private SpeedSetActivity mSpeedSetActivity;
-    private ImageView mIvBack;
-    private SwipeRefreshLayout mSwipeContainer;
+    private ImageView mIvSpeedBack;
+    private SwipeRefreshLayout mSwipeRefreshLayoutSpeedSet;
     private ImageView mIvPulseSpeed;
     private TextView mTvManualCalibration;
     private ImageView mIvManualCalibration;
@@ -46,7 +46,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     private ImageView mIvSimulationSpeedStatus;
     private SignSeekBar mSsbSpeedValue;
     private TextView mTvCurrentSpeed;
-    private TextView mTvSave;
+    private TextView mTvSpeedSave;
 
     private int mUnClickColor;
     private int mClickColor;
@@ -73,13 +73,13 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
 
     @Override
     public void initData() {
-        mIvBack = mSpeedSetView.getIvBack();
+        mIvSpeedBack = mSpeedSetView.getIvSpeedBack();
         mIvPulseSpeed = mSpeedSetView.getIvPulseSpeed();
-        mSwipeContainer = mSpeedSetActivity.getSwipeContainer();
-        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mSwipeRefreshLayoutSpeedSet = mSpeedSetActivity.getSwipeRefreshLayoutSpeedSet();
+        mSwipeRefreshLayoutSpeedSet.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mSwipeContainer.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayoutSpeedSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
         mTvManualCalibration = mSpeedSetView.getTvManualCalibration();
         mIvManualCalibration = mSpeedSetActivity.getIvManualCalibration();
         mTvCoefficientOfThePulse = mSpeedSetView.getTvCoefficientOfThePulse();
@@ -95,7 +95,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvSimulationSpeedStatus = mSpeedSetView.getIvSimulationSpeedStatus();
         mSsbSpeedValue = mSpeedSetView.getSsbSpeedValue();
         mTvCurrentSpeed = mSpeedSetActivity.getTvCurrentSpeed();
-        mTvSave = mSpeedSetView.getTvSave();
+        mTvSpeedSave = mSpeedSetView.getTvSpeedSave();
 
         mUnClickColor = mSpeedSetActivity.getResources().getColor(R.color.under_line_color);
         mClickColor = mSpeedSetActivity.getResources().getColor(R.color.system_navigation_bar_color);
@@ -106,31 +106,10 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvNoSelectId = R.mipmap.switch_close_icon;
         mIvNoRightSelectId = R.mipmap.switch_close_right_icon;
 
-        setInitData();
         getNetworkData();
 
 
     }
-
-    private void setInitData(){
-        mPulseSpeedEnable = 1;
-        mAutoCalibration = 0;
-        mPulseCoefficient = 1;
-        mAllowErrorValue = 1;
-        mSimulateSpeedEnable = 0;
-        mSpeedValue = 1;
-        //设置模拟速度的大小
-        mSsbSpeedValue.setProgress(mSpeedValue);
-        mTvCurrentSpeed.setText(String.format("%s",mSpeedValue+mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
-
-        //判断是 脉冲速度 或 模拟速度 1: 脉冲速度 0: 模拟速度
-        if (mPulseSpeedEnable == 1) {
-            selectCalibration();
-        } else if(mSimulateSpeedEnable == 1) {
-            simulationSpeed();
-        }
-    }
-
     //获取速度设置，速度设置分为 脉冲速度（分为手动校准和自动校准） 和 模拟速度两种
     private void getNetworkData(){
 
@@ -143,20 +122,18 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
             @Override
             public void onError(Throwable e) {
                 mNetwork = false;
+                mSwipeRefreshLayoutSpeedSet.setRefreshing(false); // close refresh animator
                 mEtCoefficientOfThePulseValue.setClickable(false);
                 mEtCoefficientOfThePulseValue.setEnabled(false);
                 mEtErrorNumber.setEnabled(false);
                 mEtErrorNumber.setClickable(false);
                 ExceptionUtils.exceptionHandling(mSpeedSetActivity, e);
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
             }
 
             @Override
             public void onNext(SpeedSetModel speedSetModel) {
                 mNetwork = true;
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
+                mSwipeRefreshLayoutSpeedSet.setRefreshing(false); // close refresh animator
 
                 SpeedSetModel.PulseSpeedBean pulseSpeed = speedSetModel.getPulseSpeed();
                 mPulseSpeedEnable = pulseSpeed.getEnable();
@@ -177,7 +154,11 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
 
 
                 //判断是 脉冲速度 或 模拟速度 1: 脉冲速度 0: 模拟速度
-                if (mPulseSpeedEnable == 1) {
+                if(mPulseSpeedEnable == 0 && mSimulateSpeedEnable == 0){
+                    simulationSpeedClose();
+                    selectCalibrationClose();
+                }
+                else if (mPulseSpeedEnable == 1) {
                     selectCalibration();
                 } else if(mSimulateSpeedEnable == 1) {
                     simulationSpeed();
@@ -191,18 +172,14 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvAutomaticCalibration.setImageResource(mIvSelectId);
         mTvErrorValue.setTextColor(mClickTextColor);
 
-        mEtCoefficientOfThePulseValue.setClickable(true);
-        mEtCoefficientOfThePulseValue.setEnabled(true);
-        mEtErrorNumber.setEnabled(false);
-        mEtErrorNumber.setClickable(false);
-
         mTvManualCalibration.setTextColor(mUnClickColor);
         mIvManualCalibration.setImageResource(mIvNoSelectId);
         mTvCoefficientOfThePulse.setTextColor(mUnClickColor);
         mEtCoefficientOfThePulseValue.setTextColor(mUnClickColor);
-
-        mEtCoefficientOfThePulseValue.setEnabled(false);
-        mEtCoefficientOfThePulseValue.setClickable(false);
+        mEtCoefficientOfThePulseValue.setEnabled(true);
+        mEtCoefficientOfThePulseValue.setClickable(true);
+        mEtErrorNumber.setEnabled(false);
+        mEtErrorNumber.setClickable(false);
 
     }
 
@@ -221,22 +198,19 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mTvCoefficientOfThePulse.setTextColor(mClickTextColor);
         mEtCoefficientOfThePulseValue.setTextColor(mClickTextColor);
 
-        mEtCoefficientOfThePulseValue.setEnabled(true);
-        mEtCoefficientOfThePulseValue.setClickable(true);
-
     }
 
     @Override
     public void initListener() {
-        mIvBack.setOnClickListener(this);
+        mIvSpeedBack.setOnClickListener(this);
         mIvPulseSpeed.setOnClickListener(this);
-        mSwipeContainer.setOnRefreshListener(this);
+        mSwipeRefreshLayoutSpeedSet.setOnRefreshListener(this);
         mIvManualCalibration.setOnClickListener(this);
         mIvAutomaticCalibration.setOnClickListener(this);
         mBtnAdd.setOnClickListener(this);
         mBtnSub.setOnClickListener(this);
         mIvSimulationSpeedStatus.setOnClickListener(this);
-        mTvSave.setOnClickListener(this);
+        mTvSpeedSave.setOnClickListener(this);
         mSsbSpeedValue.setOnProgressChangedListener(this);
     }
 
@@ -245,10 +219,10 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     public void onClick(View v) {
         int id = v.getId();
         mCurrentErrorValue = Integer.valueOf(mEtErrorNumber.getText().toString());
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_speed_back) {
             mSpeedSetActivity.finish();
         } else if (mNetwork){
-            if( id == R.id.iv_pulse_speed) {
+            if(id == R.id.iv_pulse_speed) {
                 if( mPulseSpeedEnable == 1){
                     mPulseSpeedEnable = 0;
                     selectCalibrationClose();
@@ -297,7 +271,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
                     mCurrentErrorValue--;
                     mEtErrorNumber.setText(mCurrentErrorValue + "");
                 }
-            } else if (id == R.id.tv_save) {
+            } else if (id == R.id.tv_speed_save) {
                 saveSpeedSetData();
             }
         }else{

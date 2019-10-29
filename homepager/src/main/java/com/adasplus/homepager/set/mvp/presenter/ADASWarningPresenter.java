@@ -1,6 +1,7 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,7 +43,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
     private IADASWarningContract.View mADASWarningView;
     private ADASWarningActivity mAdasWarningActivity;
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutADASSet;
     private ImageView mIvAdasTotalSwitch;
     private RecyclerView mRvAdasList;
     private List<ConvertWarningsModel> mConvertWarningsList = new ArrayList<>();
@@ -50,7 +51,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     private TextView mTvSave;
     private TextView mTvRestoreTheDefaultSettings;
     private ADASWarningModel mAdasWarningModel;
-    private int mCloseWarningCount = 0;
+    private int mCloseWarningCount;
     private int mCloseTotalCount;
     private BasicDialog mDialog;
 
@@ -63,11 +64,11 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
     @Override
     public void initData() {
-        mSwipeContainer = mAdasWarningActivity.getSwipeContainer();
-        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mSwipeRefreshLayoutADASSet = mAdasWarningActivity.getSwipeRefreshLayoutADASSet();
+        mSwipeRefreshLayoutADASSet.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        mSwipeContainer.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSwipeRefreshLayoutADASSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
 
         mRvAdasList = mADASWarningView.getRvAdasList();
 
@@ -104,15 +105,13 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
             @Override
             public void onError(Throwable e) {
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
+                mSwipeRefreshLayoutADASSet.setRefreshing(false); // close refresh animator
                 ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
             }
 
             @Override
             public void onNext(ADASWarningModel adasWarningModel) {
-                mSwipeContainer.setVisibility(View.VISIBLE);
-                mSwipeContainer.setRefreshing(false); // close refresh animator
+                mSwipeRefreshLayoutADASSet.setRefreshing(false); // close refresh animator
                 mAdasWarningModel = adasWarningModel;
                 if (!mConvertWarningsList.isEmpty()) {
                     mConvertWarningsList.clear();
@@ -150,10 +149,10 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
                     int enable = convertWarningsModel.getEnable();
                     if (enable == 0) {
-                        mCloseWarningCount += 1;
+                        mCloseWarningCount =mCloseWarningCount + 1;
                     }
                 }
-                mCloseTotalCount = mConvertWarningsList.size() - 1;
+                mCloseTotalCount = mConvertWarningsList.size();
 
                 mWarningsAdapter.setData(mAdasWarningActivity, mConvertWarningsList);
                 if (!mWarningsAdapter.hasObservers()) {
@@ -169,7 +168,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     public void initListener() {
         ImageView ivBack = mADASWarningView.getIvBack();
         ivBack.setOnClickListener(this);
-        mSwipeContainer.setOnRefreshListener(this);
+        mSwipeRefreshLayoutADASSet.setOnRefreshListener(this);
         mTvSave.setOnClickListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mWarningsAdapter.setOnSwitchClickListener(this);
@@ -423,6 +422,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             mCloseWarningCount++;
             if (mCloseTotalCount == mCloseWarningCount) {
                 mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+
             }
             convertWarningsModel.setEnable(0);
         }

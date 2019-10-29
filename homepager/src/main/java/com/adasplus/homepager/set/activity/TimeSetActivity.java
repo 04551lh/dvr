@@ -30,7 +30,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     private EditText mEtSeconds;
     private TextView mTvSave;
 
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutTimeSet;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
-        mSwipeContainer = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayoutTimeSet = findViewById(R.id.swipeRefreshLayout_time_set);
         mIvAutomaticCorrectionWhen = findViewById(R.id.iv_automatic_correction_when);
         mIvNetworkTime = findViewById(R.id.iv_network_time);
         mIvGpsTime = findViewById(R.id.iv_gps_time);
@@ -67,8 +67,8 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     }
 
     @Override
-    public SwipeRefreshLayout getSwipeContainer() {
-        return mSwipeContainer;
+    public SwipeRefreshLayout getSwipeRefreshLayoutTimeSet() {
+        return mSwipeRefreshLayoutTimeSet;
     }
 
     @Override

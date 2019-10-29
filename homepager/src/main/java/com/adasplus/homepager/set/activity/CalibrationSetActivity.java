@@ -14,7 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CalibrationSetActivity extends BaseActivity implements ICalibrationSetContract.View {
     private ImageView mIvBack;
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutCalibrationSet;
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
     private TextView mTvCameraHeight;
@@ -40,7 +40,7 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     @Override
     protected void initWidget() {
         mIvBack =  findViewById(R.id.iv_back);
-        mSwipeContainer = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayoutCalibrationSet = findViewById(R.id.swipeRefreshLayout_calibration_set);
         mIvAutoCalibration =  findViewById(R.id.iv_auto_calibration);
         mIvManualCalibrate =  findViewById(R.id.iv_manual_calibrate);
         mTvCameraHeight= findViewById(R.id.tv_camera_height);
@@ -58,8 +58,8 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     }
 
     @Override
-    public SwipeRefreshLayout getSwipeContainer() {
-        return mSwipeContainer;
+    public SwipeRefreshLayout getSwipeRefreshLayoutCalibrationSet() {
+        return mSwipeRefreshLayoutCalibrationSet;
     }
 
     @Override

@@ -36,7 +36,7 @@
     </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_height="match_parent"
-        android:id="@+id/swipe_container"
+        android:id="@+id/swipeRefreshLayout_ADAS_set"
         android:layout_width="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_adas_list"

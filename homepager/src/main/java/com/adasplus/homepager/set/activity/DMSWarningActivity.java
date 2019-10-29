@@ -15,7 +15,7 @@ public class DMSWarningActivity extends BaseActivity implements IDMSWarningContr
 
 
     private ImageView mIvBack;
-    private SwipeRefreshLayout mSwipeContainer;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDMSSet;
     private RecyclerView mRvDmsList;
 
     @Override
@@ -33,12 +33,18 @@ public class DMSWarningActivity extends BaseActivity implements IDMSWarningContr
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mSwipeRefreshLayoutDMSSet = findViewById(R.id.swipeRefreshLayout_DMS_set);
         mRvDmsList = findViewById(R.id.rv_dms_list);
     }
 
     @Override
     public ImageView getIvBack() {
         return mIvBack;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeRefreshLayoutDMSSet() {
+        return mSwipeRefreshLayoutDMSSet;
     }
 
     @Override

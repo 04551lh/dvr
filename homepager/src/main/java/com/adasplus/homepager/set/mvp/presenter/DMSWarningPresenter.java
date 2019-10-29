@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -36,16 +37,17 @@ import rx.Subscriber;
  * Date : 2019/9/26 19:31
  * Description :
  */
-public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.OnClickListener,ISwitchItemClickListener {
+public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.OnClickListener, ISwitchItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private IDMSWarningContract.View mDMSWarningView;
     private DMSWarningActivity mDmsWarningActivity;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDMSSet;
     private RecyclerView mRvDmsList;
     private WarningsAdapter mWarningsAdapter;
     private ImageView mIvDMSTotalSwitch;
     private TextView mTvSave;
     private TextView mTvRestoreTheDefaultSettings;
-    private int mCloseWarningCount = 0;
+    private int mCloseWarningCount;
     private int mCloseTotalCount;
     private DMSWarningModel mDmsWarningModel;
     private List<ConvertWarningsModel> mConvertWarningsList = new ArrayList<>();
@@ -60,6 +62,13 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
 
     @Override
     public void initData() {
+        mSwipeRefreshLayoutDMSSet = mDMSWarningView.getSwipeRefreshLayoutDMSSet();
+        mSwipeRefreshLayoutDMSSet.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayoutDMSSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
+
+
         mRvDmsList = mDMSWarningView.getRvDmsList();
         View headerView = View.inflate(mDmsWarningActivity, R.layout.item_head_view, null);
         View footerView = View.inflate(mDmsWarningActivity, R.layout.item_footer_view, null);
@@ -85,6 +94,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
     public void initListener() {
         ImageView ivBack = mDMSWarningView.getIvBack();
         ivBack.setOnClickListener(this);
+        mSwipeRefreshLayoutDMSSet.setOnRefreshListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
         mIvDMSTotalSwitch.setOnClickListener(this);
@@ -337,11 +347,13 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
 
             @Override
             public void onError(Throwable e) {
+                mSwipeRefreshLayoutDMSSet.setRefreshing(false); // close refresh animator
                 ExceptionUtils.exceptionHandling(mDmsWarningActivity, e);
             }
 
             @Override
             public void onNext(DMSWarningModel dmsWarningModel) {
+                mSwipeRefreshLayoutDMSSet.setRefreshing(false); // close refresh animator
                 mDmsWarningModel = dmsWarningModel;
                 //清除缓存
                 if (!mConvertWarningsList.isEmpty()) {
@@ -383,7 +395,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     }
                 }
 
-                mCloseTotalCount = mConvertWarningsList.size() - 1;
+                mCloseTotalCount = mConvertWarningsList.size();
                 mWarningsAdapter.setData(mDmsWarningActivity, mConvertWarningsList);
                 if (!mWarningsAdapter.hasObservers()) {
                     mRvDmsList.setAdapter(mWarningsAdapter);
@@ -413,5 +425,10 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         if (mWarningsAdapter != null) {
             mWarningsAdapter.notifyItemChanged(position);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getDMSDefaultSet();
     }
 }
