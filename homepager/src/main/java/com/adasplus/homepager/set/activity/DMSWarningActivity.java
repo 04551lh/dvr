@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.homepager.R;
@@ -14,6 +15,7 @@ public class DMSWarningActivity extends BaseActivity implements IDMSWarningContr
 
 
     private ImageView mIvBack;
+    private SwipeRefreshLayout mSwipeContainer;
     private RecyclerView mRvDmsList;
 
     @Override

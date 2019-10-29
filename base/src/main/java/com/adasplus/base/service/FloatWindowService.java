@@ -10,6 +10,10 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.adasplus.base.R;
 import com.adasplus.base.utils.WindowUtils;
@@ -19,15 +23,30 @@ import com.adasplus.base.utils.WindowUtils;
  * Date : 2019/10/22 18:20
  * Description :
  */
-public class FloatWindowService extends Service {
+public class FloatWindowService extends Service implements View.OnClickListener {
 
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
+    private  View mView;
+
+
+    private ImageView mIvFileExport;
+    private ProgressBar mProgressbarFileExportLeft;
+    private TextView mTvCurrentLeft;
+    private ProgressBar mProgressbarFileExportRight;
+    private TextView mTvCurrentRight;
+    private TextView mTvFileExportTip;
+    private ImageView mIvCloseRight;
+    private int mWidth;
+
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
-        int wh = (int) getResources().getDimension(R.dimen.dp_80);
+        mWidth = (int) getResources().getDimension(R.dimen.dp_238);
+        int h = (int) getResources().getDimension(R.dimen.dp_80);
         int x = (int) getResources().getDimension(R.dimen.dp_280);
         int y = (int) getResources().getDimension(R.dimen.dp_472);
 
@@ -43,8 +62,8 @@ public class FloatWindowService extends Service {
         mLayoutParams.format = PixelFormat.RGBA_8888;
         mLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        mLayoutParams.width = wh;
-        mLayoutParams.height = wh;
+        mLayoutParams.width = mWidth;
+        mLayoutParams.height = h;
         mLayoutParams.x = x;
         mLayoutParams.y = y;
     }
@@ -66,13 +85,49 @@ public class FloatWindowService extends Service {
             Log.e("FloatWindowService","跳转到设置界面");
         }
 
-        View view = View.inflate(this, R.layout.float_window_layout, null);
-        view.setOnTouchListener(new FloatingOnTouchListener());
-        mWindowManager.addView(view,mLayoutParams);
+        mView = View.inflate(this, R.layout.float_window_layout, null);
+        mIvFileExport = mView.findViewById(R.id.iv_file_export);
+        mProgressbarFileExportLeft = mView.findViewById(R.id.progressbar_file_export_left);
+        mTvCurrentLeft = mView.findViewById(R.id.tv_current_left);
+        mProgressbarFileExportRight = mView.findViewById(R.id.progressbar_file_export_right);
+        mTvCurrentRight = mView.findViewById(R.id.tv_current_right );
+        mTvFileExportTip = mView.findViewById(R.id.tv_file_export_tip );
+        mIvCloseRight = mView.findViewById(R.id.iv_close_right );
+        mIvFileExport.setOnClickListener(this);
+        mIvCloseRight.setOnClickListener(this);
+        mView.setOnTouchListener(new FloatingOnTouchListener());
+        mWindowManager.addView(mView,mLayoutParams);
+    }
+
+    @Override
+    public void onClick(View v) {
+       if(v.getId() == R.id.iv_close_right){
+           mProgressbarFileExportLeft.setVisibility(View.VISIBLE);
+           mTvCurrentLeft.setVisibility(View.VISIBLE);
+           mProgressbarFileExportRight.setVisibility(View.GONE);
+           mTvCurrentRight.setVisibility(View.GONE);
+           mTvFileExportTip.setVisibility(View.GONE);
+           mIvCloseRight.setVisibility(View.GONE);
+
+           mWidth = (int) getResources().getDimension(R.dimen.dp_80);
+           mLayoutParams.width = mWidth;
+           mWindowManager.updateViewLayout(mView, mLayoutParams);
+        }else if(v.getId() == R.id.iv_file_export) {
+           mProgressbarFileExportLeft.setVisibility(View.GONE);
+           mTvCurrentLeft.setVisibility(View.GONE);
+           mProgressbarFileExportRight.setVisibility(View.VISIBLE);
+           mTvCurrentRight.setVisibility(View.VISIBLE);
+           mTvFileExportTip.setVisibility(View.VISIBLE);
+           mIvCloseRight.setVisibility(View.VISIBLE);
+
+           mWidth = (int) getResources().getDimension(R.dimen.dp_238);
+           mLayoutParams.width = mWidth;
+           mWindowManager.updateViewLayout(mView, mLayoutParams);
+
+       }
     }
 
     private class FloatingOnTouchListener implements View.OnTouchListener {
-
         private int mX;
         private int mY;
 

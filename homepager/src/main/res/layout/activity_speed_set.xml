@@ -45,7 +45,7 @@
         android:layout_height="match_parent"
         android:id="@+id/swipe_container"
         android:layout_width="match_parent">
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -153,6 +153,7 @@
                                 android:gravity="center"
                                 android:inputType="number"
                                 android:maxLength="3"
+                                android:maxLines="1"
                                 android:paddingTop="@dimen/dp_4"
                                 android:paddingBottom="@dimen/dp_4"
                                 android:text="@string/default_number"
@@ -286,7 +287,7 @@
                             android:gravity="center_vertical"
                             app:ssb_auto_adjust_section_mark="false"
                             app:ssb_is_float_type="false"
-                            app:ssb_thumb_radius="@dimen/dp_10"
+                            app:ssb_thumb_radius="@dimen/dp_16"
                             app:ssb_thumb_radius_on_dragging="@dimen/dp_9"
                             app:ssb_thumb_color="@color/system_navigation_bar_color"
                             app:ssb_show_thumb_shadow="false"
@@ -329,7 +330,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

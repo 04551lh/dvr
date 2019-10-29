@@ -2,6 +2,7 @@ package com.adasplus.homepager.set.mvp.contract;
 
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -15,6 +16,8 @@ public interface IADASWarningContract {
     interface View {
 
         ImageView getIvBack();
+
+        SwipeRefreshLayout getSwipeContainer();
 
         RecyclerView getRvAdasList();
 

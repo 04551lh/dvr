@@ -230,14 +230,20 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
     }
 
     private void initSelectImage() {
-        //设置是否选择了 自动校时
-        mSetImageResource(mIvAutomaticCorrectionWhen, mAutoCalibrationTimeEnable);
-        //设置是否选择了 GPS时间
-        mSetImageResource(mIvGpsTime, mAutoCalibrationTimeEnable);
-        //设置是否选择了 网络时间
-        mSetImageResource(mIvNetworkTime, mAutoCalibrationTimeEnable);
-        //设置是否选择了修改时间
-        mSetImageResource(mIvWhenManualCalibration, mManualCalibrationTimeEnable);
+
+        if (mAutoCalibrationTimeEnable == 1) {
+            mIvNetworkTime.setImageResource(mIvSelectId);
+        } else {
+            mIvGpsTime.setImageResource(mIvNoSelectId);
+        }
+//        //设置是否选择了 自动校时
+//        mSetImageResource(mIvAutomaticCorrectionWhen, mAutoCalibrationTimeEnable);
+//        //设置是否选择了 GPS时间
+//        mSetImageResource(mIvGpsTime, mAutoCalibrationTimeEnable);
+//        //设置是否选择了 网络时间
+//        mSetImageResource(mIvNetworkTime, mAutoCalibrationTimeEnable);
+//        //设置是否选择了修改时间
+//        mSetImageResource(mIvWhenManualCalibration, mManualCalibrationTimeEnable);
     }
 
     @Override

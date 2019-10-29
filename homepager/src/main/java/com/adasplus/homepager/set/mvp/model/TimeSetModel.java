@@ -10,116 +10,47 @@ import com.adasplus.homepager.set.mvp.contract.ITimeSetContract;
  */
 public class TimeSetModel implements ITimeSetContract.Model {
 
-    //自动校时
-    private AutoCalibrationTimeBean autoCalibrationTime;
-    //手动校时
-    private ManualCalibrationTimeBean manualCalibrationTime;
-
-    public AutoCalibrationTimeBean getAutoCalibrationTime() {
-        return autoCalibrationTime;
-    }
-
-    public void setAutoCalibrationTime(AutoCalibrationTimeBean autoCalibrationTime) {
-        this.autoCalibrationTime = autoCalibrationTime;
-    }
-
-    public ManualCalibrationTimeBean getManualCalibrationTime() {
-        return manualCalibrationTime;
-    }
-
-    public void setManualCalibrationTime(ManualCalibrationTimeBean manualCalibrationTime) {
-        this.manualCalibrationTime = manualCalibrationTime;
-    }
 
     @Override
     public String toString() {
         return "TimeSetModel{" +
-                "autoCalibrationTime=" + autoCalibrationTime +
-                ", manualCalibrationTime=" + manualCalibrationTime +
+                "timeCalibration=" + timeCalibration +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 
-    public static class AutoCalibrationTimeBean {
+    /**
+     * timeCalibration : 1
+     * date : 2019-09-24
+     * time : 14:32:14
+     */
 
-        // 是否选择了自动校时的按钮 1 : true 0: false
-        private int enable;
-        //网络校时 1 : true 0:false
-        private int calibrationTimeThroughNet;
-        //gps 校时 1:true 0:false
-        private int calibrationTimeThroughGPS;
+    private int timeCalibration;
+    private String date;
+    private String time;
 
-
-        public int getEnable() {
-            return enable;
-        }
-
-        public void setEnable(int enable) {
-            this.enable = enable;
-        }
-
-        public int getCalibrationTimeThroughNet() {
-            return calibrationTimeThroughNet;
-        }
-
-        public void setCalibrationTimeThroughNet(int calibrationTimeThroughNet) {
-            this.calibrationTimeThroughNet = calibrationTimeThroughNet;
-        }
-
-        public int getCalibrationTimeThroughGPS() {
-            return calibrationTimeThroughGPS;
-        }
-
-        public void setCalibrationTimeThroughGPS(int calibrationTimeThroughGPS) {
-            this.calibrationTimeThroughGPS = calibrationTimeThroughGPS;
-        }
-
-        @Override
-        public String toString() {
-            return "AutoCalibrationTimeBean{" +
-                    "enable=" + enable +
-                    ", calibrationTimeThroughNet=" + calibrationTimeThroughNet +
-                    ", calibrationTimeThroughGPS=" + calibrationTimeThroughGPS +
-                    '}';
-        }
+    public int getTimeCalibration() {
+        return timeCalibration;
     }
 
-    public static class ManualCalibrationTimeBean {
+    public void setTimeCalibration(int timeCalibration) {
+        this.timeCalibration = timeCalibration;
+    }
 
-        private int enable;
-        private String date;
-        private String time;
+    public String getDate() {
+        return date;
+    }
 
-        public int getEnable() {
-            return enable;
-        }
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-        public void setEnable(int enable) {
-            this.enable = enable;
-        }
+    public String getTime() {
+        return time;
+    }
 
-        public String getDate() {
-            return date;
-        }
-
-        public void setDate(String date) {
-            this.date = date;
-        }
-
-        public String getTime() {
-            return time;
-        }
-
-        public void setTime(String time) {
-            this.time = time;
-        }
-
-        @Override
-        public String toString() {
-            return "ManualCalibrationTimeBean{" +
-                    "enable=" + enable +
-                    ", date='" + date + '\'' +
-                    ", time='" + time + '\'' +
-                    '}';
-        }
+    public void setTime(String time) {
+        this.time = time;
     }
 }
