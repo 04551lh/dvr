@@ -47,7 +47,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/phone_number"
                     android:layout_marginStart="@dimen/dp_2"
@@ -69,7 +68,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/license_plate_number"
                     android:layout_marginStart="@dimen/dp_2"
@@ -91,7 +89,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/chassis_number"
                     android:layout_marginStart="@dimen/dp_2"
@@ -112,7 +109,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/license_plate_color"
                     android:layout_marginStart="@dimen/dp_2"
@@ -133,7 +129,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/terminal_id"
                     android:layout_marginStart="@dimen/dp_2"
@@ -155,7 +150,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/provincial_domain_id"
                     android:layout_marginStart="@dimen/dp_2"
@@ -177,7 +171,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:gravity="left"
                     android:layout_height="wrap_content"
                     android:text="@string/city_and_county_id"
                     android:layout_marginStart="@dimen/dp_2"

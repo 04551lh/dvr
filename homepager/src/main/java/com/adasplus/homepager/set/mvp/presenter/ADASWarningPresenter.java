@@ -30,6 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -37,10 +38,11 @@ import rx.Subscriber;
  * Date : 2019/9/26 18:12
  * Description :
  */
-public class ADASWarningPresenter implements IADASWarningContract.Presenter, View.OnClickListener, ISwitchItemClickListener {
+public class ADASWarningPresenter implements IADASWarningContract.Presenter, View.OnClickListener, ISwitchItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private IADASWarningContract.View mADASWarningView;
     private ADASWarningActivity mAdasWarningActivity;
+    private SwipeRefreshLayout mSwipeContainer;
     private ImageView mIvAdasTotalSwitch;
     private RecyclerView mRvAdasList;
     private List<ConvertWarningsModel> mConvertWarningsList = new ArrayList<>();
@@ -61,6 +63,12 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
     @Override
     public void initData() {
+        mSwipeContainer = mAdasWarningActivity.getSwipeContainer();
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeContainer.setProgressBackgroundColorSchemeResource(android.R.color.white);
+
         mRvAdasList = mADASWarningView.getRvAdasList();
 
         View headerView = View.inflate(mAdasWarningActivity, R.layout.item_head_view, null);
@@ -96,11 +104,15 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
             @Override
             public void onError(Throwable e) {
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
                 ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
             }
 
             @Override
             public void onNext(ADASWarningModel adasWarningModel) {
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
                 mAdasWarningModel = adasWarningModel;
                 if (!mConvertWarningsList.isEmpty()) {
                     mConvertWarningsList.clear();
@@ -157,6 +169,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     public void initListener() {
         ImageView ivBack = mADASWarningView.getIvBack();
         ivBack.setOnClickListener(this);
+        mSwipeContainer.setOnRefreshListener(this);
         mTvSave.setOnClickListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mWarningsAdapter.setOnSwitchClickListener(this);
@@ -247,7 +260,9 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             }else{
                 mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mAdasEnable = 1;
-                getADASDefaultSet();
+                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                    convertWarningsModel.setEnable(1);
+                }
                 if (mWarningsAdapter != null) {
                     mWarningsAdapter.notifyDataSetChanged();
                 }
@@ -414,5 +429,10 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         if (mWarningsAdapter != null) {
             mWarningsAdapter.notifyItemChanged(position);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        getADASDefaultSet();
     }
 }

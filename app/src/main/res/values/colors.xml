@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
-
     <color name="status_bar_bg_color">#EEEEEE</color>
     <color name="main_bg_color">#B2B2B2</color>
     <color name="license_plate_number_text_color">#5677FC</color>

@@ -36,302 +36,319 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent">
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:color/white">
-        <LinearLayout
-            style="@style/LinearLayoutDisplayDataStyle">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/automatic_correction_when"
-                android:textSize="@dimen/sp_16"
-                android:gravity="center_vertical"
-                android:textColor="@color/font_color_333"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-            <ImageView
-                android:id="@+id/iv_automatic_correction_when"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/switch_open_icon"
-                android:visibility="visible" />
-
-        </LinearLayout>
-        <View style="@style/UnderLineStyle"/>
-
-       <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/network_time"
-                android:textSize="@dimen/sp_16"
-                android:gravity="center_vertical"
-                android:textColor="@color/font_color_333"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:id="@+id/iv_network_time"
-                android:visibility="visible"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/switch_open_icon"/>
-
-        </LinearLayout>
-        <View style="@style/UnderLineStyle"/>
-
-        <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/gps_time"
-                android:textSize="@dimen/sp_16"
-                android:gravity="center_vertical"
-                android:textColor="@color/font_color_333"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:id="@+id/iv_gps_time"
-                android:visibility="visible"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/switch_close_icon"/>
-
-        </LinearLayout>
-        <View style="@style/UnderLineStyle"/>
-
-    </LinearLayout>
-
-    <View android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
-        android:background="@color/under_line_color"/>
-
-    <View android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_height="@dimen/dp_1"
-        android:background="@color/under_line_color"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:color/white">
-        <LinearLayout
-            style="@style/LinearLayoutDisplayDataStyle">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/when_manual_calibration"
-                android:textSize="@dimen/sp_16"
-                android:gravity="center_vertical"
-                android:textColor="@color/font_color_333"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:id="@+id/iv_when_manual_calibration"
-                android:visibility="visible"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/switch_close_icon"/>
-        </LinearLayout>
-        <View android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/under_line_color"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/dp_16"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:orientation="vertical"
                 android:background="@android:color/white">
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/automatic_correction_when"
+                        android:textSize="@dimen/sp_16"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_333"/>
 
-                <EditText
-                    android:id="@+id/et_year"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                    <ImageView
+                        android:id="@+id/iv_automatic_correction_when"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_open_icon"
+                        android:visibility="visible" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:text="@string/year"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
 
-                <EditText
-                    android:id="@+id/et_month"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/network_time"
+                        android:textSize="@dimen/sp_16"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_333"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iv_network_time"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_open_icon"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:text="@string/month"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
 
-                <EditText
-                    android:id="@+id/et_day"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                <LinearLayout style="@style/LinearLayoutDisplayDataStyle">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/gps_time"
+                        android:textSize="@dimen/sp_16"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_333"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iv_gps_time"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_close_icon"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:text="@string/day"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/sp_15" />
+                </LinearLayout>
+                <View style="@style/UnderLineStyle"/>
+
             </LinearLayout>
 
+            <View android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/under_line_color"/>
+
+            <View android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/under_line_color"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:gravity="center"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:orientation="vertical"
                 android:background="@android:color/white">
-
-                <EditText
-                    android:id="@+id/et_hours"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    style="@style/LinearLayoutDisplayDataStyle">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="@string/when_manual_calibration"
+                        android:textSize="@dimen/sp_16"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_333"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/iv_when_manual_calibration"
+                        android:visibility="visible"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_close_icon"/>
+                </LinearLayout>
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                    android:background="@android:color/white"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/dp_16"
+                    >
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:background="@android:color/white">
+
+                        <EditText
+                            android:id="@+id/et_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="4"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:text="@string/year"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/et_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:text="@string/month"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/et_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:text="@string/day"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/sp_15" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:gravity="center"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:background="@android:color/white">
+
+                        <EditText
+                            android:id="@+id/et_hours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:text="@string/hours"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/et_minutes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:layout_marginEnd="@dimen/dp_10"
+                            android:text="@string/minutes"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <EditText
+                            android:id="@+id/et_seconds"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/dp_13"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:background="@drawable/et_bg_border"
+                            android:gravity="center"
+                            android:hint="@string/please_enter"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_10"
+                            android:text="@string/seconds"
+                            android:textColor="@color/font_color_333"
+                            android:textSize="@dimen/sp_16" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tv_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:text="@string/hours"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:layout_gravity="center"
+                    android:background="@drawable/btn_shape_style"
+                    android:paddingTop="@dimen/dp_8"
+                    android:paddingBottom="@dimen/dp_7"
+                    android:paddingStart="@dimen/dp_62"
+                    android:paddingEnd="@dimen/dp_62"
+                    android:text="@string/save"
+                    android:textColor="@color/save_font_color" />
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color"/>
 
-                <EditText
-                    android:id="@+id/et_minutes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:layout_marginEnd="@dimen/dp_10"
-                    android:text="@string/minutes"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
-
-                <EditText
-                    android:id="@+id/et_seconds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/dp_13"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_9"
-                    android:paddingBottom="@dimen/dp_9"
-                    android:background="@drawable/et_bg_border"
-                    android:gravity="center"
-                    android:hint="@string/please_enter"
-                    android:inputType="number"
-                    android:maxLength="2"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_10"
-                    android:text="@string/seconds"
-                    android:textColor="@color/font_color_333"
-                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_30"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:layout_gravity="center"
-            android:background="@drawable/btn_shape_style"
-            android:paddingTop="@dimen/dp_8"
-            android:paddingBottom="@dimen/dp_7"
-            android:paddingStart="@dimen/dp_62"
-            android:paddingEnd="@dimen/dp_62"
-            android:text="@string/save"
-            android:textColor="@color/save_font_color" />
-        <View android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/under_line_color"/>
-
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 

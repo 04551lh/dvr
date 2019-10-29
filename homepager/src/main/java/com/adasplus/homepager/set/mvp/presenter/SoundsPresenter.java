@@ -93,7 +93,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
         } else if (id == R.id.tv_save) {
             if (mSoundsModel != null) {
                 //将 SeekBar 中滑动的最新的进度进行设置到 SoundsModel
-                mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress());
+                mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress()/10);
                 String json = GsonUtils.getInstance().toJson(mSoundsModel);
                 try {
                     //更新设备的的声音大小设置
@@ -125,30 +125,26 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
     @Override
     public void onProgressChanged(SignSeekBar signSeekBar, int progress, float progressFloat, boolean fromUser) {
-        String s = String.format(Locale.CHINA, "%d", progress);
         setCurrentSounds(progress);
     }
 
     @Override
     public void getProgressOnActionUp(SignSeekBar signSeekBar, int progress, float progressFloat) {
-        String s = String.format(Locale.CHINA, "%d", progress);
         setCurrentSounds(progress);
     }
 
     @Override
     public void getProgressOnFinally(SignSeekBar signSeekBar, int progress, float progressFloat, boolean fromUser) {
-        String s = String.format(Locale.CHINA, "%d", progress);
         setCurrentSounds(progress);
     }
 
 
     private void setCurrentSounds(int progress){
-        if(progress >=50){
+        if(progress >=70){
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_max_icon);
         }else{
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_middle_icon);
         }
-        String s = String.format(Locale.CHINA, "%d", progress);
-        mTvCurrentSounds.setText(s + "%");
+        mTvCurrentSounds.setText(String.format("%s%%",String.valueOf(progress)));
     }
 }

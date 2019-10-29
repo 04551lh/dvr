@@ -1,5 +1,8 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -37,7 +41,7 @@ import rx.Subscriber;
  * Date : 2019/10/15 16:44
  * Description :
  */
-public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnClickListener, OnChannelItemClickListener, OnResolutionRatioListener {
+public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnClickListener, OnChannelItemClickListener, OnResolutionRatioListener, SwipeRefreshLayout.OnRefreshListener {
 
     //视频分辨率的名称
     private static final String QCIF_NAME = "QCIF";
@@ -57,11 +61,12 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     private IVideoSetContract.View mVideoSetView;
     private VideoSetActivity mVideoSetActivity;
     private ImageView mIvBack;
+    private SwipeRefreshLayout mSwipeContainer;
     private TextView mTvSelectChannelsNumber;
     private TextView mTvMainStreamSet;
     private TextView mTvSubStreamSet;
     private ImageView mIvStreamTotalSwitch;
-    private TextView mTvVideoFrameRate;
+    private EditText mEtVideoFrameRate;
     private TextView mTvResolutionRatio;
     private ImageView mIvDateTime;
     private ImageView mIvLicensePlateNumber;
@@ -94,11 +99,16 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mChannelNumber = 1;
         mStreamType = 1;
         mIvBack = mVideoSetView.getIvBack();
+        mSwipeContainer = mVideoSetActivity.getSwipeContainer();
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeContainer.setProgressBackgroundColorSchemeResource(android.R.color.white);
         mTvSelectChannelsNumber = mVideoSetView.getTvSelectChannelsNumber();
         mTvMainStreamSet = mVideoSetView.getTvMainStreamSet();
         mTvSubStreamSet = mVideoSetView.getTvSubStreamSet();
         mIvStreamTotalSwitch = mVideoSetView.getIvStreamTotalSwitch();
-        mTvVideoFrameRate = mVideoSetView.getTvVideoFrameRate();
+        mEtVideoFrameRate = mVideoSetView.getEtVideoFrameRate();
         mTvResolutionRatio = mVideoSetView.getTvResolutionRatio();
         mIvDateTime = mVideoSetView.getIvDateTime();
         mIvLicensePlateNumber = mVideoSetView.getIvLicensePlateNumber();
@@ -149,11 +159,15 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
             @Override
             public void onError(Throwable e) {
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
                 ExceptionUtils.exceptionHandling(mVideoSetActivity, e);
             }
 
             @Override
             public void onNext(VideoSetModel videoSetModel) {
+                mSwipeContainer.setVisibility(View.VISIBLE);
+                mSwipeContainer.setRefreshing(false); // close refresh animator
                 mVideoSetModel = videoSetModel;
                 showVideoSetData();
             }
@@ -222,7 +236,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             mIvStreamTotalSwitch.setImageResource(mIvNoSelectId);
         }
         //设置视频码率
-        mTvVideoFrameRate.setText(String.valueOf(videoFrameRate));
+        mEtVideoFrameRate.setText(String.valueOf(videoFrameRate));
         //设置画质
         mEtErrorNumber.setText(String.valueOf(pictureQuality));
 
@@ -271,6 +285,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
     @Override
     public void initListener() {
         mIvBack.setOnClickListener(this);
+        mSwipeContainer.setOnRefreshListener(this);
         mTvSelectChannelsNumber.setOnClickListener(this);
         mTvMainStreamSet.setOnClickListener(this);
         mTvSubStreamSet.setOnClickListener(this);
@@ -280,8 +295,6 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         mIvChannelName.setOnClickListener(this);
         mIvGpsSignal.setOnClickListener(this);
         mIvSpeed.setOnClickListener(this);
-
-
         mVideoChannelsSetAdapter.setOnItemClickListener(this);
         mTvResolutionRatio.setOnClickListener(this);
         mResolutionRatioAdapter.setOnResolutionRatioItemListener(this);
@@ -463,30 +476,39 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             mEtErrorNumber.setText(String.valueOf(pictureQualityLevel));
         } else if (id == R.id.tv_save) { //保存视频设置的数据
             if (mVideoSetModel != null) {
-                mVideoSetModel.setStreamType(mStreamType);
-                String json = GsonUtils.getInstance().toJson(mVideoSetModel);
-                try {
-                    JSONObject jobj = new JSONObject(json);
-                    HomeWrapper.getInstance().updateVideoSet(jobj).subscribe(new Subscriber<VideoSetModel>() {
-                        @Override
-                        public void onCompleted() {
+                int videoFrameRate = Integer.valueOf(mEtVideoFrameRate.getText().toString());
+                Log.i("videoFrameRate",videoFrameRate+"");
+                if(videoFrameRate <= 0 || videoFrameRate > 25){
+                    Toast.makeText(mVideoSetActivity, R.string.video_frame_rate_hint_message,Toast.LENGTH_SHORT).show();
+                }else{
+                    mVideoSetModel.setStreamType(mStreamType);
+                    mVideoSetModel.setVideoFrameRate(videoFrameRate);
+                    String json = GsonUtils.getInstance().toJson(mVideoSetModel);
+                    try {
+                        JSONObject jobj = new JSONObject(json);
+                        HomeWrapper.getInstance().updateVideoSet(jobj).subscribe(new Subscriber<VideoSetModel>() {
+                            @Override
+                            public void onCompleted() {
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            ExceptionUtils.exceptionHandling(mVideoSetActivity, e);
-                        }
+                            @Override
+                            public void onError(Throwable e) {
+                                ExceptionUtils.exceptionHandling(mVideoSetActivity, e);
+                            }
 
-                        @Override
-                        public void onNext(VideoSetModel videoSetModel) {
-                            Toast.makeText(mVideoSetActivity, R.string.video_set_success, Toast.LENGTH_SHORT).show();
-                            mVideoSetActivity.finish();
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                            @Override
+                            public void onNext(VideoSetModel videoSetModel) {
+                                Toast.makeText(mVideoSetActivity, R.string.video_set_success, Toast.LENGTH_SHORT).show();
+                                mVideoSetActivity.finish();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
 
             }
         }
@@ -559,8 +581,8 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             @Override
             public void onNext(VideoSetModel videoSetModel) {
                 //设置当前选择的通道号
+                mVideoSetModel = videoSetModel;
                 mChannelNumber = videoSetModel.getChannelNumber();
-
                 showVideoSetData();
             }
         });
@@ -579,5 +601,17 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         if (mResolutionRatioPopupWindow != null && mResolutionRatioPopupWindow.isShowing()) {
             mResolutionRatioPopupWindow.dismiss();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        JSONObject jobj = new JSONObject();
+        try {
+            jobj.put("channelNumber", mChannelNumber);
+            jobj.put("streamType", mStreamType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        getNetworkData(jobj);
     }
 }

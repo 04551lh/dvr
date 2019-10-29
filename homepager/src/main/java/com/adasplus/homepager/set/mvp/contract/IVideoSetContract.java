@@ -5,6 +5,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 /**
  * Author:刘净辉
  * Date : 2019/10/15 16:44
@@ -17,6 +19,8 @@ public interface IVideoSetContract {
     interface View {
         ImageView getIvBack();
 
+        SwipeRefreshLayout getSwipeContainer();
+
         TextView getTvSelectChannelsNumber();
 
         TextView getTvMainStreamSet();
@@ -25,7 +29,7 @@ public interface IVideoSetContract {
 
         ImageView getIvStreamTotalSwitch();
 
-        TextView getTvVideoFrameRate();
+        EditText getEtVideoFrameRate();
 
         TextView getTvResolutionRatio();
 

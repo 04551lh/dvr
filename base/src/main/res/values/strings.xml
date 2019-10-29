@@ -30,9 +30,9 @@
     <string name="confirm">确认</string>
 
     <string name="bumper_distance">保险杠距离</string>
-    
+
     <string name="left_wheel_distance">左车轮距离</string>
-    
+
     <string name="right_wheel_distance">右车轮距离</string>
 
     <string name="front_wheel_distance">前车轮距离</string>
@@ -86,4 +86,5 @@
     <string name="ministerial_platform">部标平台</string>
 
     <string name="jt_808_service_status">808服务异常,请检查服务是否开启!</string>
+
 </resources>

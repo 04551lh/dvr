@@ -90,9 +90,9 @@
     <string name="all_interface_state">各接口(外设)状态</string>
 
     <string name="battery_voltage">电池电压</string>
-    
+
     <string name="battery_status">电池状态</string>
-    
+
     <string name="mch_serial">MCH 串口</string>
 
     <string name="serial_device">串口设备</string>
@@ -122,9 +122,9 @@
     <string name="open">打开</string>
 
     <string name="close">关闭</string>
-    
+
     <string name="main_disk">主存储</string>
-    
+
     <string name="iso_disk">镜像盘</string>
 
     <string name="backup_disk">备份盘</string>

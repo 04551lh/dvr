@@ -11,6 +11,8 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ITimeSetContract;
 import com.adasplus.homepager.set.mvp.presenter.TimeSetPresenter;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 public class TimeSetActivity extends BaseActivity implements ITimeSetContract.View {
 
@@ -28,6 +30,8 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     private EditText mEtSeconds;
     private TextView mTvSave;
 
+    private SwipeRefreshLayout mSwipeContainer;
+
     @Override
     protected void init(Bundle savedInstanceState) {
         TimeSetPresenter timeSetPresenter = new TimeSetPresenter(this);
@@ -43,6 +47,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mSwipeContainer = findViewById(R.id.swipe_container);
         mIvAutomaticCorrectionWhen = findViewById(R.id.iv_automatic_correction_when);
         mIvNetworkTime = findViewById(R.id.iv_network_time);
         mIvGpsTime = findViewById(R.id.iv_gps_time);
@@ -60,7 +65,12 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     public ImageView getIvBack() {
         return mIvBack;
     }
-    
+
+    @Override
+    public SwipeRefreshLayout getSwipeContainer() {
+        return mSwipeContainer;
+    }
+
     @Override
     public ImageView getIvNetworkTime() {
         return mIvNetworkTime;

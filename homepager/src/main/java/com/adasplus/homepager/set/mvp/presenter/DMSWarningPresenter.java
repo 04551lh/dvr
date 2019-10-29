@@ -176,7 +176,10 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
             }else{
                 mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mDmsEnable = 1;
-                getDMSDefaultSet();
+//                getDMSDefaultSet();
+                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                    convertWarningsModel.setEnable(1);
+                }
                 if (mWarningsAdapter != null) {
                     mWarningsAdapter.notifyDataSetChanged();
                 }

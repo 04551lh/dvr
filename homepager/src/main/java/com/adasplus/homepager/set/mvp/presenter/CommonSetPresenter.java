@@ -111,7 +111,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
                 }).setMargin(margin)
                 .setOutCancel(false)
                 .setAnimStyle(R.style.BottomAnimStyle)
-                .setDimAmount(0.8f)
+                .setDimAmount(0.3f)
                 .show(mCommonSetActivity.getSupportFragmentManager());
     }
 

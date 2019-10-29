@@ -11,15 +11,17 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.IVideoSetContract;
 import com.adasplus.homepager.set.mvp.presenter.VideoSetPresenter;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class VideoSetActivity extends BaseActivity implements IVideoSetContract.View {
 
     private ImageView mIvBack;
     private TextView mTvSelectChannelsNumber;
+    private SwipeRefreshLayout mSwipeContainer;
     private TextView mTvMainStreamSet;
     private TextView mTvSubStreamSet;
-
     private ImageView mIvStreamTotalSwitch;
-    private TextView mTvVideoFrameRate;
+    private EditText mEtVideoFrameRate;
     private TextView mTvResolutionRatio;
     private ImageView mIvDateTime;
     private ImageView mIvLicensePlateNumber;
@@ -46,11 +48,12 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mSwipeContainer = findViewById(R.id.swipe_container);
         mTvSelectChannelsNumber = findViewById(R.id.tv_select_channels_number);
         mTvMainStreamSet = findViewById(R.id.tv_main_stream_set);
         mTvSubStreamSet =  findViewById(R.id.tv_sub_stream_set);
         mIvStreamTotalSwitch = findViewById(R.id.iv_stream_total_switch);
-        mTvVideoFrameRate =  findViewById(R.id.tv_video_frame_rate);
+        mEtVideoFrameRate =  findViewById(R.id.et_video_frame_rate);
         mTvResolutionRatio = findViewById(R.id.tv_resolution_ratio);
         mIvDateTime =  findViewById(R.id.iv_date_time);
         mIvLicensePlateNumber =  findViewById(R.id.iv_license_plate_number);
@@ -67,6 +70,11 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     @Override
     public ImageView getIvBack() {
         return mIvBack;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeContainer() {
+        return mSwipeContainer;
     }
 
     @Override
@@ -90,8 +98,8 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public TextView getTvVideoFrameRate() {
-        return mTvVideoFrameRate;
+    public EditText getEtVideoFrameRate() {
+        return mEtVideoFrameRate;
     }
 
     @Override

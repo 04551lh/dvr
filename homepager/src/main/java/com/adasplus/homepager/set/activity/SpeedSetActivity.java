@@ -17,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.View {
 
-    private ImageView mIvback;
+    private ImageView mIvBack;
     private SwipeRefreshLayout mSwipeContainer;
     private ImageView mIvPulseSpeed;
     private TextView mTvManualCalibration;
@@ -49,7 +49,7 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
 
     @Override
     protected void initWidget() {
-        mIvback = findViewById(R.id.iv_back);
+        mIvBack = findViewById(R.id.iv_back);
         mIvPulseSpeed =  findViewById(R.id.iv_pulse_speed);
         mSwipeContainer = findViewById(R.id.swipe_container);
         mTvManualCalibration =  findViewById(R.id.tv_manual_calibration);
@@ -69,8 +69,8 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
-    public ImageView getIvback() {
-        return mIvback;
+    public ImageView getIvBack() {
+        return mIvBack;
     }
     @Override
     public ImageView getIvPulseSpeed() {

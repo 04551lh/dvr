@@ -103,7 +103,7 @@
 
     <string name="gps_time">GPS时间</string>
 
-    <string name="when_manual_calibration">手动校时</string>
+    <string name="when_manual_calibration">时间修改</string>
 
     <string name="year">年</string>
 
@@ -345,4 +345,12 @@
     <string name="speed_have_been_max_value">自动校准的误差已经达到最大设置范围</string>
 
     <string name="speed_have_been_min_value">自动校准的误差已经达到最小设置范围</string>
+
+    <string name="set_speed_unit">km/h</string>
+
+    <string name="wifi_want_cancel_head">确定要取消</string>
+
+    <string name="wifi_want_cancel_tail">连接吗?</string>
+
+    <string name="video_frame_rate_hint_message">视频帧率在1–25之间~</string>
 </resources>

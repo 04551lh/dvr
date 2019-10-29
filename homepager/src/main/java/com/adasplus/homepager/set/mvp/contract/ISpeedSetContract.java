@@ -17,7 +17,7 @@ public interface ISpeedSetContract {
     interface Model {
     }
     interface View {
-        ImageView getIvback();
+        ImageView getIvBack();
 
         ImageView getIvPulseSpeed();
 

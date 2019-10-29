@@ -88,7 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:src="@mipmap/wifi_with_iocn" />
+                            android:src="@mipmap/wifi_with_icon" />
                     </LinearLayout>
                 </LinearLayout>
 

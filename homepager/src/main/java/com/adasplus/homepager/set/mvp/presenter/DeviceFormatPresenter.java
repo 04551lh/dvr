@@ -1,5 +1,6 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -87,24 +88,22 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
             mDeviceFormatActivity.finish();
         } else if (id == R.id.tv_device_format_data) {
             if (mArray != null && mArray.size() > 0) {
-
                 JSONObject storageDeviceArray = new JSONObject();
                 JSONArray jsonArray = new JSONArray();
+
                 try {
-                    if (mArray != null){
-                        for (int i = 0; i < mArray.size();i++){
-                            DeviceFormatModel.ArrayBean arrayBean = mArray.get(i);
-                            String storageName = arrayBean.getStorageName();
+                    for (int i = 0; i < mArray.size(); i++) {
+                        if (mArray.get(i).getSelectEnable() == 1) {
+                            String storageName = mArray.get(i).getStorageName();
                             JSONObject jsonObject = new JSONObject();
-                            jsonObject.put("storageName",storageName);
-                            jsonArray.put(i,jsonArray);
+                            jsonObject.put("storageName", storageName);
+                            jsonArray.put(i, jsonObject);
+                            storageDeviceArray.put("storageDeviceArray", jsonArray);
                         }
                     }
-                    storageDeviceArray.put("storageDeviceArray", jsonArray);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 //开始格式化磁盘的接口请求
                 HomeWrapper.getInstance().updateStorageFormatList(storageDeviceArray).subscribe(new Subscriber<DeviceFormatModel>() {
                     @Override

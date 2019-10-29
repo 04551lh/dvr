@@ -38,7 +38,12 @@
     <View android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:background="@color/under_line_color"/>
-    <ScrollView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_height="match_parent"
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent">
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -141,24 +146,23 @@
                 <View style="@style/UnderLineStyle"/>
 
                 <LinearLayout style="@style/LinearLayoutImageDisplayDataStyle">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="@string/video_frame_rate"
-                        android:textSize="@dimen/sp_16"
-                        android:textColor="@color/font_color_333" />
 
                     <TextView
-                        android:id="@+id/tv_video_frame_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp_16"
-                        android:paddingRight="@dimen/dp_4"
-                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/font_color_333"
+                        android:text="@string/video_frame_rate" />
+
+                    <EditText
+                        android:id="@+id/et_video_frame_rate"
+                        style="@style/EtInputText"
+                        android:hint="@string/please_enter"
+                        android:paddingEnd="@dimen/dp_4"
                         android:drawableRight="@mipmap/right_arrow"
                         android:drawablePadding="@dimen/dp_12"
-                        android:textColor="@color/font_color_333" />
+                        android:maxLength="2"
+                        android:inputType="number" />
                 </LinearLayout>
 
                 <View style="@style/UnderLineStyle"/>
@@ -339,6 +343,7 @@
                 android:background="@color/app_background"/>
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

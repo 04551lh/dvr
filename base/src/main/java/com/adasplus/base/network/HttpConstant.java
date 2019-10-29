@@ -6,7 +6,10 @@ package com.adasplus.base.network;
  */
 public class HttpConstant {
 
+
     static String BASE_URL = "http://192.168.1.1:8000";
+
+//    static String BASE_URL = "http://192.168.42.254:8000";
 
     public static final String GET_PLATFORM_INFO = "/platformInfoRequest";
 
