@@ -120,8 +120,10 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 //判断 ADAS 开关是开着 1:代表着打开 0:代表着关闭
                 if (mAdasEnable == 1) {
                     mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                    mCloseWarningCount = 0;
                 } else {
                     mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                    mCloseWarningCount = mConvertWarningsList.size();
                 }
 
                 //前车碰撞报警
@@ -259,6 +261,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             }else{
                 mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mAdasEnable = 1;
+                mCloseWarningCount = 0;
                 for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
                     convertWarningsModel.setEnable(1);
                 }

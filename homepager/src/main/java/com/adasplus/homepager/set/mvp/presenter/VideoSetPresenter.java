@@ -1,7 +1,5 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -384,6 +382,11 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
      * @param enable
      */
     private void switchTotalStatus(int enable) {
+        if(enable == 1){
+            mCloseSwitchCount = 0;
+        }else{
+            mCloseSwitchCount = mTotalSwitchCount;
+        }
         if (mVideoSetModel != null) {
             mVideoSetModel.setStreamEnable(enable);
             mStreamSwitchSet(enable);

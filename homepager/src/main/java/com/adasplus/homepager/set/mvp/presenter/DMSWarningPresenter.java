@@ -184,6 +184,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     mWarningsAdapter.notifyDataSetChanged();
                 }
             }else{
+                mCloseWarningCount = 0;
                 mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mDmsEnable = 1;
 //                getDMSDefaultSet();
@@ -363,8 +364,10 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                mDmsEnable = dmsWarningModel.getDmsEnable();
                 if (mDmsEnable == 1){
                     mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                    mCloseWarningCount = 0;
                 }else {
                     mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                    mCloseWarningCount = mConvertWarningsList.size();
                 }
 
                 //疲劳驾驶报警
