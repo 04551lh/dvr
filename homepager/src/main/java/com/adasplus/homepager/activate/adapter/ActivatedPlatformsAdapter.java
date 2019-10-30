@@ -123,7 +123,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
             @Override
             public void onError(Throwable e) {
-
+                ExceptionUtils.exceptionHandling(mActivateDeviceActivity,e);
             }
 
             @Override

@@ -54,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/hint_font_color"
-                android:paddingLeft="@dimen/dp_19"
+                android:paddingStart="@dimen/dp_19"
                 android:paddingTop="@dimen/dp_10"
-                android:paddingRight="@dimen/dp_33"
+                android:paddingEnd="@dimen/dp_33"
                 android:paddingBottom="@dimen/dp_10"
                 android:text="@string/dormancy_hint_message"
                 android:textColor="@color/font_color_333"
@@ -111,8 +111,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@color/under_line_color"/>
-
-
     </LinearLayout>
 
 </LinearLayout>

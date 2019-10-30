@@ -1,10 +1,12 @@
 package com.adasplus.base.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.adasplus.base.R;
+import com.adasplus.base.network.HttpConstant;
 import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
@@ -35,6 +37,8 @@ public class ExceptionUtils {
     private static final int TERMINAL_REGISTERED = -10;
     private static final int DB_NO_TERMINAL = -11;
 
+    private static final String TERMINAL_SERVICE_EXCEPTION = "Failed to connect to /" + HttpConstant.WIFI_SERVER_IP_ADDRESS;
+
 
     public static void exceptionHandling(Context context
             , Throwable e) {
@@ -43,8 +47,20 @@ public class ExceptionUtils {
             onException(context, ExceptionReason.BAD_NETWORK);
         } else if (e instanceof UnknownHostException
                  || e instanceof SocketException) {
-            //联网异常 或 不是正确的主机名
-            onException(context, ExceptionReason.CONNECT_ERROR);
+            String message = e.getMessage();
+            if (TextUtils.isEmpty(message)){
+                //联网异常 或 不是正确的主机名
+                onException(context, ExceptionReason.CONNECT_ERROR);
+            }else {
+                if (message.contains(TERMINAL_SERVICE_EXCEPTION)){
+                    //联网异常 或 不是正确的主机名
+                    onException(context, ExceptionReason.BAD_NETWORK);
+                }else {
+                    //联网异常 或 不是正确的主机名
+                    onException(context, ExceptionReason.CONNECT_ERROR);
+                }
+            }
+
         } else if (e instanceof InterruptedIOException) {
             //网络请求超时
             onException(context, ExceptionReason.CONNECT_TIMEOUT);
@@ -86,7 +102,7 @@ public class ExceptionUtils {
     private static void onException(Context context, ExceptionReason reason) {
         switch (reason) {
             case BAD_NETWORK:
-                Toast.makeText(context, R.string.service_exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.terminal_communication_services_disconnect, Toast.LENGTH_SHORT).show();
                 break;
             case CONNECT_ERROR:
                 Toast.makeText(context, R.string.please_check_network_is_available, Toast.LENGTH_SHORT).show();

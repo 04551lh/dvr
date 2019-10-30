@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.adasplus.homepager" >
     <application>
-        <activity android:name=".connect.activity.ConnectDeviceActivity"/>
+        <activity android:name=".connect.activity.ConnectDeviceActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".params.activity.ParamsSetActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".set.activity.ADASWarningActivity"/>

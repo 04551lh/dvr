@@ -3,7 +3,6 @@ package com.adasplus.homepager.activate.mvp.presenter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -139,7 +138,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
                 @Override
                 public void onError(Throwable e) {
-
+                    ExceptionUtils.exceptionHandling(mActivateNewPlatformsActivity,e);
                 }
 
                 @Override

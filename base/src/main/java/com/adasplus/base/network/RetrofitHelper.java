@@ -54,7 +54,7 @@ public class RetrofitHelper {
     private static final Charset GBK = Charset.forName("GBK");
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl(HttpConstant.BASE_URL_WIFI)
+            .baseUrl(HttpConstant.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(new Gson()))
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
             .client(getOkHttpClient());

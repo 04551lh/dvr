@@ -47,7 +47,7 @@ import rx.Subscriber;
  * Date : 2019/10/18 11:36
  * Description :
  */
-public class HomePresenter implements IHomeContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class HomePresenter implements IHomeContract.Presenter, View.OnClickListener {
 
     private static final int ZERO = 0;
     private static final int ONE = 1;
@@ -72,19 +72,11 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private ImageView mIvRightTurnStatus;
     private ImageView mIvBrakeStatus;
     private ImageView mIvTargetsPlatformStatus;
-    private LinearLayout mLlHomePager;
-    private Handler mHomeHandler;
-//    private  static HomeHandler mHomeHandler;
-    //用于进行来判断是否跳转了Activity,跳转了平台会暂停每一秒的进行更新状态。
-    //重新回到了当前的界面后，继续每间隔一秒的更新车辆信息状态
     private  boolean isStartActivity = false;
-    private SwipeRefreshView mSrlHomeRefreshData;
-
 
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
         mHomeView = view;
-        mHomeHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -209,8 +201,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mIvRightTurnStatus = view.findViewById(R.id.iv_right_turn_status);
         mIvBrakeStatus = view.findViewById(R.id.iv_brake_status);
         mIvTargetsPlatformStatus = view.findViewById(R.id.iv_targets_platform_status);
-        mLlHomePager = view.findViewById(R.id.ll_home_pager);
-        mLlHomePager.setFocusable(true);
         CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
         cr_platforms_basic_info.bringToFront();
     }
@@ -277,7 +267,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-
+                        ExceptionUtils.exceptionHandling(mActivity,e);
                     }
 
                     @Override
@@ -336,13 +326,4 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                 .navigation();
     }
 
-    @Override
-    public void onRefresh() {
-        mHomeHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mSrlHomeRefreshData.setRefreshing(false);
-            }
-        },HttpConstant.SWIPE_REFRESH_DELAYED);
-    }
 }

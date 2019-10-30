@@ -1,6 +1,7 @@
 package com.adasplus.homepager.params.mvp.presenter;
 
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -121,11 +122,16 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        String bumperDistanceStr = mEtBumperDistance.getText().toString();
+        String leftWheelDistanceStr = mEtLeftWheelDistance.getText().toString();
+        String rightWheelDistanceStr = mEtRightWheelDistance.getText().toString();
+        String frontWheelDistanceStr = mEtFrontWheelDistance.getText().toString();
+
         //获取 保险杠距离、左车轮距离、右车轮距离和前车轮距离
-        int bumperDistance = Integer.parseInt(mEtBumperDistance.getText().toString());
-        int leftWheelDistance = Integer.parseInt(mEtLeftWheelDistance.getText().toString());
-        int rightWheelDistance = Integer.parseInt(mEtRightWheelDistance.getText().toString());
-        int frontWheelDistance = Integer.parseInt(mEtFrontWheelDistance.getText().toString());
+        int bumperDistance = TextUtils.isEmpty(bumperDistanceStr) ? 0 : Integer.parseInt(bumperDistanceStr);
+        int leftWheelDistance = TextUtils.isEmpty(leftWheelDistanceStr) ? 0 : Integer.parseInt(leftWheelDistanceStr);
+        int rightWheelDistance =  TextUtils.isEmpty(rightWheelDistanceStr) ? 0 : Integer.parseInt(rightWheelDistanceStr);
+        int frontWheelDistance = TextUtils.isEmpty(frontWheelDistanceStr) ? 0 : Integer.parseInt(frontWheelDistanceStr);
 
         if (id == R.id.iv_back) {
             //点击返回的时候，进行来判断当前更改的数据是否进行保存。如果是保存了，我们直接进行退出
@@ -165,41 +171,42 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
             }
             mParamsSetActivity.finish();
         } else if (id == R.id.tv_save_params_set_info || id == R.id.tv_confirm) {
-            if (mParamsSetModel != null) {
-                if (mDialog != null && mDialog.isAdded()){
-                    mDialog.dismiss();
-                }
-                mParamsSetModel.setBumperDistance(bumperDistance);
-                mParamsSetModel.setLeftWheelDistance(leftWheelDistance);
-                mParamsSetModel.setRightWheelDistance(rightWheelDistance);
-                mParamsSetModel.setFrontWheelDistance(frontWheelDistance);
-                String json = GsonUtils.getInstance().toJson(mParamsSetModel);
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    //更改参数填写
-                    HomeWrapper.getInstance().updateParamsSet(jsonObject).subscribe(new Subscriber<ParamsSetModel>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            ExceptionUtils.exceptionHandling(mParamsSetActivity, e);
-                        }
-
-                        @Override
-                        public void onNext(ParamsSetModel paramsSetModel) {
-                            Toast.makeText(mParamsSetActivity, R.string.save_params_write_success, Toast.LENGTH_SHORT).show();
-                            mParamsSetActivity.finish();
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+            if (mParamsSetModel == null) {
+                mParamsSetModel = new ParamsSetModel();
             }
+
+            if (mDialog != null && mDialog.isAdded()){
+                mDialog.dismiss();
+            }
+            mParamsSetModel.setBumperDistance(bumperDistance);
+            mParamsSetModel.setLeftWheelDistance(leftWheelDistance);
+            mParamsSetModel.setRightWheelDistance(rightWheelDistance);
+            mParamsSetModel.setFrontWheelDistance(frontWheelDistance);
+            String json = GsonUtils.getInstance().toJson(mParamsSetModel);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                //更改参数填写
+                HomeWrapper.getInstance().updateParamsSet(jsonObject).subscribe(new Subscriber<ParamsSetModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mParamsSetActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(ParamsSetModel paramsSetModel) {
+                        Toast.makeText(mParamsSetActivity, R.string.save_params_write_success, Toast.LENGTH_SHORT).show();
+                        mParamsSetActivity.finish();
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
