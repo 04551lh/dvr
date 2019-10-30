@@ -67,6 +67,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
                 //获取声音值，并设置声音值
                 mSoundValue = soundsModel.getSoundValue();
                 mSsbSoundsValue.setProgress(mSoundValue);
+                mTvCurrentSounds.setText((String.format("%s%%",String.valueOf(mSoundValue*10))));
             }
         });
     }
@@ -93,7 +94,8 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
         } else if (id == R.id.tv_save) {
             if (mSoundsModel != null) {
                 //将 SeekBar 中滑动的最新的进度进行设置到 SoundsModel
-                mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress()/10);
+                mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress());
+
                 String json = GsonUtils.getInstance().toJson(mSoundsModel);
                 try {
                     //更新设备的的声音大小设置
@@ -140,11 +142,11 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
 
     private void setCurrentSounds(int progress){
-        if(progress >=70){
+        if(progress >= 0b1000110){
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_max_icon);
         }else{
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_middle_icon);
         }
-        mTvCurrentSounds.setText(String.format("%s%%",String.valueOf(progress)));
+        mTvCurrentSounds.setText(String.format("%s%%",String.valueOf(progress*10)));
     }
 }

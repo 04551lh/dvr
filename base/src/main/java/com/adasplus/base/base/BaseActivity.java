@@ -1,9 +1,11 @@
 package com.adasplus.base.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,25 +42,25 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initWidget();
 
-    private void initDialog(){
+    private void initDialog() {
         mLoadView = View.inflate(this, R.layout.dialog_load_progress, null);
         mTvSetLoadContent = mLoadView.findViewById(R.id.tv_text_content);
     }
 
-    public void setText(String content){
-        if (mTvSetLoadContent != null){
+    public void setText(String content) {
+        if (mTvSetLoadContent != null) {
             mTvSetLoadContent.setText(content);
         }
     }
 
-    public void setText(int resId){
-        if (mTvSetLoadContent != null){
+    public void setText(int resId) {
+        if (mTvSetLoadContent != null) {
             mTvSetLoadContent.setText(resId);
         }
     }
 
-    public void showNetRequestDialog(){
-        int wh = (int)getResources().getDimension(R.dimen.dp_65);
+    public void showNetRequestDialog() {
+        int wh = (int) getResources().getDimension(R.dimen.dp_65);
         mNetRequestDialog = CommonDialog.init()
                 .setView(mLoadView)
                 .setWidth(wh)
@@ -67,9 +69,19 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .show(getSupportFragmentManager());
     }
 
-    public void dismissNetRequestDialog(){
-        if (mNetRequestDialog != null && mNetRequestDialog.isAdded()){
+    public void dismissNetRequestDialog() {
+        if (mNetRequestDialog != null && mNetRequestDialog.isAdded()) {
             mNetRequestDialog.dismiss();
         }
     }
+
+    public void showToast(Context context,int msg) {
+        if (context!=null){
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        }
+    }
+   public void showToast(int msg) {
+            Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

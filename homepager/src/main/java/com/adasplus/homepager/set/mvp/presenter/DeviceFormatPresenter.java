@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -46,6 +47,7 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
 
     @Override
     public void initData() {
+        mArray = new ArrayList<>();
         mDeviceFormatAdapter = new DeviceFormatAdapter();
         mRvDeviceFormatList = mDeviceFormatView.getRvDeviceFormatList();
         mRvDeviceFormatList.setLayoutManager(new LinearLayoutManager(mDeviceFormatActivity, RecyclerView.VERTICAL, false));
@@ -64,6 +66,9 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
 
             @Override
             public void onNext(DeviceFormatModel deviceFormatModel) {
+                if(mArray != null){
+                    mArray.clear();
+                }
                 mArray = deviceFormatModel.getArray();
                 mDeviceFormatAdapter.setData(mArray);
                 mRvDeviceFormatList.setAdapter(mDeviceFormatAdapter);
@@ -90,10 +95,10 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
             if (mArray != null && mArray.size() > 0) {
                 JSONObject storageDeviceArray = new JSONObject();
                 JSONArray jsonArray = new JSONArray();
-
                 try {
                     for (int i = 0; i < mArray.size(); i++) {
-                        if (mArray.get(i).getSelectEnable() == 1) {
+                        if (mArray.get(i).getSelectEnable()==1) {
+                            Log.i("tag","SelectEnable-------------->"+mArray.get(i).getSelectEnable());
                             String storageName = mArray.get(i).getStorageName();
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put("storageName", storageName);

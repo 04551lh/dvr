@@ -353,4 +353,6 @@
     <string name="wifi_want_cancel_tail">连接吗?</string>
 
     <string name="video_frame_rate_hint_message">视频帧率在1–25之间~</string>
+
+    <string name="disconnect_from_terminal_equipment">与终端设备断开连接~</string>
 </resources>

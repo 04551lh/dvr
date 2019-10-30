@@ -1,11 +1,8 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
-
-import android.app.Activity;
 import android.graphics.Color;
-
 import android.net.wifi.WifiInfo;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.SystemInfoModel;
-import com.adasplus.base.utils.DisplayUtils;
+
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.StatusBarUtil;
 import com.adasplus.base.utils.WifiHelper;
@@ -36,7 +33,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.constant.RefreshState;
 import com.scwang.smartrefresh.layout.header.TwoLevelHeader;
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -92,6 +88,9 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
     private SmartRefreshLayout mSrlRefreshLayout;
     private TwoLevelHeader mTlhHeaderView;
     private LinearLayout mLlCloseMenu;
+
+    //判断是否USB
+    private boolean mUSB = true;
 
     public MainPresenter(IMainContract.View view) {
         mMainView = view;
@@ -182,9 +181,9 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
                 String ssid = wifiInfo.getSSID();
-                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)){
+                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
                     initData();
-                }else {
+                } else {
                     mSrlRefreshLayout.finishRefresh();
                 }
             }
@@ -193,21 +192,21 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
                 if (oldState == RefreshState.TwoLevelReleased) {
                     mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(1).setDuration(300);
-                }else if (oldState == RefreshState.TwoLevel){
+                } else if (oldState == RefreshState.TwoLevel) {
                     mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(0).setDuration(300);
                 }
 
             }
         });
 
-        StatusBarUtil.setMargin(mMainActivity,  mMainActivity.findViewById(R.id.ch_header));
+        StatusBarUtil.setMargin(mMainActivity, mMainActivity.findViewById(R.id.ch_header));
     }
 
     private Fragment getCurrentFragment() {
         List<Fragment> fragments = mMainActivity.getSupportFragmentManager().getFragments();
-        for(int i = 0; i < fragments.size(); i++) {
+        for (int i = 0; i < fragments.size(); i++) {
             Fragment fragment = fragments.get(i);
-            if(fragment!=null && fragment.isAdded()) {
+            if (fragment != null && fragment.isAdded()) {
                 return fragment;
             }
         }
@@ -217,10 +216,10 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
     @Override
     public void initData() {
         Fragment currentFragment = getCurrentFragment();
-        if (currentFragment instanceof HomeFragment){
+        if (currentFragment instanceof HomeFragment) {
             WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
             String ssid = wifiInfo.getSSID();
-            if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)){
+            if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
                 BaseWrapper.getInstance().getSystemInfo().subscribe(new Subscriber<SystemInfoModel>() {
                     @Override
                     public void onCompleted() {
@@ -230,7 +229,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     @Override
                     public void onError(Throwable e) {
                         mSrlRefreshLayout.finishRefresh();
-                        ExceptionUtils.exceptionHandling(mMainActivity,e);
+                        ExceptionUtils.exceptionHandling(mMainActivity, e);
                     }
 
                     @Override
@@ -254,101 +253,101 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
         int rightTurnLightStatus = vehicleStatusInfo.getRightTurnLightStatus();
         int brakeStatus = vehicleStatusInfo.getBrakeStatus();
         SystemInfoModel.FourGBean fourG = systemInfoModel.getFourG();
-        int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6 ;
+        int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6;
 
         //定位状态
         int gpsValid = gps.getGpsValid();
-        if (ONE ==  gpsValid){
+        if (ONE == gpsValid) {
             mTvLocationStatus.setText(R.string.have_location);
             mIvLocationStatus.setImageResource(R.drawable.location_signal_checked_icon);
-        }else if (ZERO == gpsValid){
+        } else if (ZERO == gpsValid) {
             mTvLocationStatus.setText(R.string.no_location);
             mIvLocationStatus.setImageResource(R.drawable.location_signal_unchecked_icon);
         }
 
         //近光灯状态 0:已接入，未开启 1: 已接入，打开 2: 已接入，关闭
-        if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus){
+        if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus) {
             mIvNearLightStatus.setImageResource(R.drawable.near_light_unchecked_icon);
             mTvNearLightStatus.setText(R.string.close);
-        }else if (ONE == nearTurnLightStatus){
+        } else if (ONE == nearTurnLightStatus) {
             mTvNearLightStatus.setText(R.string.open);
             mIvNearLightStatus.setImageResource(R.drawable.near_light_checked_icon);
         }
 
         //远光灯状态
-        if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus){
+        if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus) {
             mIvFarLightStatus.setImageResource(R.drawable.far_light_unchecked_icon);
             mTvFarLightStatus.setText(R.string.close);
-        }else if (ONE == farTurnLightStatus){
+        } else if (ONE == farTurnLightStatus) {
             mTvFarLightStatus.setText(R.string.open);
             mIvFarLightStatus.setImageResource(R.drawable.far_light_checked_icon);
         }
 
         //左转向灯状态
-        if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus){
+        if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus) {
             mTvLeftTurnStatus.setText(R.string.close);
             mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_unchecked_icon);
-        }else if (ONE == leftTurnLightStatus){
+        } else if (ONE == leftTurnLightStatus) {
             mTvLeftTurnStatus.setText(R.string.open);
             mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_checked_icon);
         }
 
         //右转向灯状态
-        if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus){
+        if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus) {
             mTvRightTurnStatus.setText(R.string.close);
             mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_unchecked_icon);
-        }else if (ONE == rightTurnLightStatus){
+        } else if (ONE == rightTurnLightStatus) {
             mTvRightTurnStatus.setText(R.string.open);
             mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_checked_icon);
         }
 
         //刹车状态
-        if (ONE == brakeStatus){
+        if (ONE == brakeStatus) {
             mTvBrakeStatus.setText(R.string.open);
             mIvBrakeStatus.setImageResource(R.drawable.brake_checked_icon);
-        }else if (0 == brakeStatus){
+        } else if (0 == brakeStatus) {
             mTvBrakeStatus.setText(R.string.close);
             mIvBrakeStatus.setImageResource(R.drawable.brake_unchecked_icon);
         }
 
         //部标平台是否有连接的状态
         boolean isConnectTargetsPlatforms = false;
-        for (int i = 0 ; i < platformStatusArray.size();i++){
+        for (int i = 0; i < platformStatusArray.size(); i++) {
             SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
             int connectStatus = platformStatusArrayBean.getConnectStatus();
-            if (connectStatus == 1){
+            if (connectStatus == 1) {
                 isConnectTargetsPlatforms = true;
                 break;
             }
         }
 
-        if (isConnectTargetsPlatforms){
+        if (isConnectTargetsPlatforms) {
             mTvTargetsPlatformStatus.setText(R.string.open);
             mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_checked_icon);
-        }else {
+        } else {
             mTvTargetsPlatformStatus.setText(R.string.close);
             mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_unchecked_icon);
         }
 
-        if (ZERO == fourGLSignalLevel){
+        if (ZERO == fourGLSignalLevel) {
             mTvFourGSignalLevel.setText(R.string.no_signal);
-        }else if (fourGLSignalLevel <=TWO){
+        } else if (fourGLSignalLevel <= TWO) {
             mTvFourGSignalLevel.setText(R.string.signal_weak);
-        }else if (fourGLSignalLevel <= FIVE){
+        } else if (fourGLSignalLevel <= FIVE) {
             mTvFourGSignalLevel.setText(R.string.signal_strong);
         }
 
-        if (ZERO == fourGLSignalLevel){
+        if (ZERO == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_no_signal);
-        }else if (ONE == fourGLSignalLevel){
+        } else if (ONE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_1);
-        }else if (TWO == fourGLSignalLevel){
+        } else if (TWO == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_2);
-        }else if (THREE == fourGLSignalLevel){
+        } else if (THREE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_3);
-        }else if (FOUR == fourGLSignalLevel){
+        } else if (FOUR == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_4);
-        }else if (FIVE == fourGLSignalLevel){
+        } else if (FIVE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_full_icon);
         }
     }
@@ -386,13 +385,11 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
         clickTab(mHomeFragment);
     }
 
-
     private void hideAllFragment(FragmentTransaction fragmentTransaction) {
         fragmentTransaction.hide(mHomeFragment);
         fragmentTransaction.hide(mBasicInfoFragment);
         fragmentTransaction.hide(mFileExportFragment);
     }
-
 
     private void clickTab(Fragment fragment) {
         clearSelected();
@@ -404,7 +401,6 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
         changeTabStyle(fragment);
     }
-
 
     private void changeTabStyle(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
@@ -422,7 +418,6 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
             mTvFileExportPager.setTextColor(Color.parseColor("#5677FC"));
         }
     }
-
 
     private void clearSelected() {
         if (!mHomeFragment.isHidden()) {

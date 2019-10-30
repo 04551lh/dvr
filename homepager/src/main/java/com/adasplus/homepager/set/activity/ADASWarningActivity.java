@@ -50,4 +50,5 @@ public class ADASWarningActivity extends BaseActivity implements IADASWarningCon
         return mRvAdasList;
     }
 
+
 }

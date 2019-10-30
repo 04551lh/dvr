@@ -70,4 +70,5 @@
     <string name="end_time_default_value">23:59:00</string>
 
     <string name="look_plate_status">下滑查看车辆状态</string>
+    <string name="please_open_usb_network_share">请打开USB网络共享~</string>
 </resources>

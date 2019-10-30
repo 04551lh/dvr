@@ -275,7 +275,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
                 saveSpeedSetData();
             }
         }else{
-            Toast.makeText(mSpeedSetActivity, "与终端设备断开连接~", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mSpeedSetActivity, R.string.disconnect_from_terminal_equipment, Toast.LENGTH_SHORT).show();
         }
     }
 

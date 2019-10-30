@@ -1,12 +1,10 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +53,9 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     private int mCloseTotalCount;
     private BasicDialog mDialog;
 
-    private  int mAdasEnable;
+    private int mAdasEnable;
+
+    private boolean mNetwork = false;
 
     public ADASWarningPresenter(IADASWarningContract.View view) {
         mADASWarningView = view;
@@ -81,7 +81,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         mTvSave = footerView.findViewById(R.id.tv_save);
         mTvRestoreTheDefaultSettings = footerView.findViewById(R.id.tv_restore_the_default_settings);
 
-        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT));
+        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         footerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         mWarningsAdapter = new WarningsAdapter();
@@ -105,18 +105,20 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
             @Override
             public void onError(Throwable e) {
+                mNetwork = false;
                 mSwipeRefreshLayoutADASSet.setRefreshing(false); // close refresh animator
                 ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
             }
 
             @Override
             public void onNext(ADASWarningModel adasWarningModel) {
+                mNetwork = true;
                 mSwipeRefreshLayoutADASSet.setRefreshing(false); // close refresh animator
                 mAdasWarningModel = adasWarningModel;
                 if (!mConvertWarningsList.isEmpty()) {
                     mConvertWarningsList.clear();
                 }
-               mAdasEnable = adasWarningModel.getAdasEnable();
+                mAdasEnable = adasWarningModel.getAdasEnable();
                 //判断 ADAS 开关是开着 1:代表着打开 0:代表着关闭
                 if (mAdasEnable == 1) {
                     mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
@@ -151,7 +153,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
                     int enable = convertWarningsModel.getEnable();
                     if (enable == 0) {
-                        mCloseWarningCount =mCloseWarningCount + 1;
+                        mCloseWarningCount = mCloseWarningCount + 1;
                     }
                 }
                 mCloseTotalCount = mConvertWarningsList.size();
@@ -247,132 +249,136 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             } else {
                 mAdasWarningActivity.finish();
             }
-        } else if (id == R.id.iv_adas_total_switch) {
-            if(mAdasEnable == 1){
-                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
-                mAdasEnable = 0;
-                mCloseWarningCount = mCloseTotalCount;
-                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                    convertWarningsModel.setEnable(0);
+        } else if (mNetwork) {
+            if (id == R.id.iv_adas_total_switch) {
+                if (mAdasEnable == 1) {
+                    mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+                    mAdasEnable = 0;
+                    mCloseWarningCount = mCloseTotalCount;
+                    for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                        convertWarningsModel.setEnable(0);
+                    }
+                    if (mWarningsAdapter != null) {
+                        mWarningsAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                    mAdasEnable = 1;
+                    mCloseWarningCount = 0;
+                    for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                        convertWarningsModel.setEnable(1);
+                    }
+                    if (mWarningsAdapter != null) {
+                        mWarningsAdapter.notifyDataSetChanged();
+                    }
                 }
-                if (mWarningsAdapter != null) {
-                    mWarningsAdapter.notifyDataSetChanged();
-                }
-            }else{
-                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
-                mAdasEnable = 1;
-                mCloseWarningCount = 0;
-                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                    convertWarningsModel.setEnable(1);
-                }
-                if (mWarningsAdapter != null) {
-                    mWarningsAdapter.notifyDataSetChanged();
-                }
-            }
-        } else if (id == R.id.tv_cancel) {
-            if (mDialog != null && mDialog.isAdded()) {
-                mDialog.dismiss();
-            }
-            mAdasWarningActivity.finish();
-        } else if (id == R.id.tv_restore_the_default_settings) {
-            //恢复 adas 报警默认设置
-            HomeWrapper.getInstance().adasRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
-                }
-
-                @Override
-                public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
-                    Toast.makeText(mAdasWarningActivity, R.string.restore_default_set_tips, Toast.LENGTH_SHORT).show();
-                    getADASDefaultSet();
-                }
-            });
-        } else if (id == R.id.tv_save || id == R.id.tv_confirm) {
-            if (mAdasWarningModel != null) {
+            } else if (id == R.id.tv_cancel) {
                 if (mDialog != null && mDialog.isAdded()) {
                     mDialog.dismiss();
                 }
+                mAdasWarningActivity.finish();
+            } else if (id == R.id.tv_restore_the_default_settings) {
+                //恢复 adas 报警默认设置
+                HomeWrapper.getInstance().adasRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
+                    @Override
+                    public void onCompleted() {
 
-                //设置 ADAS 总开关状态
-                mAdasWarningModel.setAdasEnable(mAdasEnable);
+                    }
 
-                for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
-                    int warningNameResId = convertWarningsModel.getWarningNameResId();
-                    if (warningNameResId == R.string.vehicle_collision_warning) {
-                        //前车碰撞报警
-                        ADASWarningModel.FrontCarCollisionAlarmBean frontCarCollisionAlarm = mAdasWarningModel.getFrontCarCollisionAlarm();
-                        frontCarCollisionAlarm.setEnable(convertWarningsModel.getEnable());
-                        frontCarCollisionAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        frontCarCollisionAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setFrontCarCollisionAlarm(frontCarCollisionAlarm);
-                    } else if (warningNameResId == R.string.distance_too_close) {
-                        //车距过近报警
-                        ADASWarningModel.NearDistanceAlarmBean nearDistanceAlarm = mAdasWarningModel.getNearDistanceAlarm();
-                        nearDistanceAlarm.setEnable(convertWarningsModel.getEnable());
-                        nearDistanceAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        nearDistanceAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setNearDistanceAlarm(nearDistanceAlarm);
-                    } else if (warningNameResId == R.string.safety_alarm) {
-                        //行人碰撞报警
-                        ADASWarningModel.PedestrianCollisionAlarmBean pedestrianCollisionAlarm = mAdasWarningModel.getPedestrianCollisionAlarm();
-                        pedestrianCollisionAlarm.setEnable(convertWarningsModel.getEnable());
-                        pedestrianCollisionAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        pedestrianCollisionAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setPedestrianCollisionAlarm(pedestrianCollisionAlarm);
-                    } else if (warningNameResId == R.string.lane_departure_warning) {
-                        //车道偏离报警
-                        ADASWarningModel.VehicleLaneDeviateAlarmBean vehicleLaneDeviateAlarm = mAdasWarningModel.getVehicleLaneDeviateAlarm();
-                        vehicleLaneDeviateAlarm.setEnable(convertWarningsModel.getEnable());
-                        vehicleLaneDeviateAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        vehicleLaneDeviateAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setVehicleLaneDeviateAlarm(vehicleLaneDeviateAlarm);
-                    } else if (warningNameResId == R.string.frequently_change_lanes) {
-                        //频繁变道报警
-                        ADASWarningModel.FrequentlyChangeLaneAlarmBean frequentlyChangeLaneAlarm = mAdasWarningModel.getFrequentlyChangeLaneAlarm();
-                        frequentlyChangeLaneAlarm.setEnable(convertWarningsModel.getEnable());
-                        frequentlyChangeLaneAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        frequentlyChangeLaneAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setFrequentlyChangeLaneAlarm(frequentlyChangeLaneAlarm);
-                    } else if (warningNameResId == R.string.road_marking) {
-                        //道路标识报警
-                        ADASWarningModel.LaneFlagDistinguishBean laneFlagDistinguish = mAdasWarningModel.getLaneFlagDistinguish();
-                        laneFlagDistinguish.setEnable(convertWarningsModel.getEnable());
-                        laneFlagDistinguish.setLowestSpeed(convertWarningsModel.getLowestSpeed());
-                        laneFlagDistinguish.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
-                        mAdasWarningModel.setLaneFlagDistinguish(laneFlagDistinguish);
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
+                        mAdasWarningActivity.showToast(R.string.restore_default_set_tips);
+                        getADASDefaultSet();
+                    }
+                });
+            } else if (id == R.id.tv_save || id == R.id.tv_confirm) {
+                if (mAdasWarningModel != null) {
+                    if (mDialog != null && mDialog.isAdded()) {
+                        mDialog.dismiss();
+                    }
+
+                    //设置 ADAS 总开关状态
+                    mAdasWarningModel.setAdasEnable(mAdasEnable);
+
+                    for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {
+                        int warningNameResId = convertWarningsModel.getWarningNameResId();
+                        if (warningNameResId == R.string.vehicle_collision_warning) {
+                            //前车碰撞报警
+                            ADASWarningModel.FrontCarCollisionAlarmBean frontCarCollisionAlarm = mAdasWarningModel.getFrontCarCollisionAlarm();
+                            frontCarCollisionAlarm.setEnable(convertWarningsModel.getEnable());
+                            frontCarCollisionAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            frontCarCollisionAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setFrontCarCollisionAlarm(frontCarCollisionAlarm);
+                        } else if (warningNameResId == R.string.distance_too_close) {
+                            //车距过近报警
+                            ADASWarningModel.NearDistanceAlarmBean nearDistanceAlarm = mAdasWarningModel.getNearDistanceAlarm();
+                            nearDistanceAlarm.setEnable(convertWarningsModel.getEnable());
+                            nearDistanceAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            nearDistanceAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setNearDistanceAlarm(nearDistanceAlarm);
+                        } else if (warningNameResId == R.string.safety_alarm) {
+                            //行人碰撞报警
+                            ADASWarningModel.PedestrianCollisionAlarmBean pedestrianCollisionAlarm = mAdasWarningModel.getPedestrianCollisionAlarm();
+                            pedestrianCollisionAlarm.setEnable(convertWarningsModel.getEnable());
+                            pedestrianCollisionAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            pedestrianCollisionAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setPedestrianCollisionAlarm(pedestrianCollisionAlarm);
+                        } else if (warningNameResId == R.string.lane_departure_warning) {
+                            //车道偏离报警
+                            ADASWarningModel.VehicleLaneDeviateAlarmBean vehicleLaneDeviateAlarm = mAdasWarningModel.getVehicleLaneDeviateAlarm();
+                            vehicleLaneDeviateAlarm.setEnable(convertWarningsModel.getEnable());
+                            vehicleLaneDeviateAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            vehicleLaneDeviateAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setVehicleLaneDeviateAlarm(vehicleLaneDeviateAlarm);
+                        } else if (warningNameResId == R.string.frequently_change_lanes) {
+                            //频繁变道报警
+                            ADASWarningModel.FrequentlyChangeLaneAlarmBean frequentlyChangeLaneAlarm = mAdasWarningModel.getFrequentlyChangeLaneAlarm();
+                            frequentlyChangeLaneAlarm.setEnable(convertWarningsModel.getEnable());
+                            frequentlyChangeLaneAlarm.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            frequentlyChangeLaneAlarm.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setFrequentlyChangeLaneAlarm(frequentlyChangeLaneAlarm);
+                        } else if (warningNameResId == R.string.road_marking) {
+                            //道路标识报警
+                            ADASWarningModel.LaneFlagDistinguishBean laneFlagDistinguish = mAdasWarningModel.getLaneFlagDistinguish();
+                            laneFlagDistinguish.setEnable(convertWarningsModel.getEnable());
+                            laneFlagDistinguish.setLowestSpeed(convertWarningsModel.getLowestSpeed());
+                            laneFlagDistinguish.setSensitivityLevel(convertWarningsModel.getSensitivityLevel());
+                            mAdasWarningModel.setLaneFlagDistinguish(laneFlagDistinguish);
+                        }
+                    }
+
+                    String json = GsonUtils.getInstance().toJson(mAdasWarningModel);
+                    try {
+                        JSONObject jsonObject = new JSONObject(json);
+                        HomeWrapper.getInstance().updateADASSet(jsonObject).subscribe(new Subscriber<ADASWarningModel>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
+                            }
+
+                            @Override
+                            public void onNext(ADASWarningModel adasWarningModel) {
+                                mAdasWarningActivity.showToast(R.string.warnings_set_save_success);
+                                mAdasWarningActivity.finish();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-
-                String json = GsonUtils.getInstance().toJson(mAdasWarningModel);
-                try {
-                    JSONObject jsonObject = new JSONObject(json);
-                    HomeWrapper.getInstance().updateADASSet(jsonObject).subscribe(new Subscriber<ADASWarningModel>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
-                        }
-
-                        @Override
-                        public void onNext(ADASWarningModel adasWarningModel) {
-                            Toast.makeText(mAdasWarningActivity, R.string.warnings_set_save_success, Toast.LENGTH_SHORT).show();
-                            mAdasWarningActivity.finish();
-                        }
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
             }
+        }else{
+            mAdasWarningActivity.showToast(R.string.disconnect_from_terminal_equipment);
         }
     }
 
