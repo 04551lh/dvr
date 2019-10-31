@@ -1,18 +1,15 @@
 package com.adasplus.homepager.set.activity;
 
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.base.view.SignSeekBar;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ISpeedSetContract;
 import com.adasplus.homepager.set.mvp.presenter.SpeedSetPresenter;
-
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.View {
@@ -111,7 +108,6 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     public ImageView getIvAutomaticCalibration() {
         return mIvAutomaticCalibration;
     }
-
 
     @Override
     public TextView getTvErrorValue() {

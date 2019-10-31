@@ -218,7 +218,7 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 mTvStateOfThePrinter.setText(isNormal(printerStatus));
 
                 String camera = mSystemInfoActivity.getString(R.string.camera);
-                mTvCameraStatus.setText(String.format(" %s1 ( %s ) ; %s2 ( %s ); \n %s3 ( %s ) ; %s4 ( %s ) ;\n %s5 ( %s ) ; %s6 ( %s ) ;",
+                mTvCameraStatus.setText(String.format(" %s1 ( %s ) ; %s2 ( %s ); \n %s3 ( %s ) ; %s4 ( %s );\n %s5 ( %s ) ; %s6 ( %s ) ;",
                         camera,isNormal(cameraStatus1), camera,isNormal(cameraStatus2), camera,isNormal(cameraStatus3),
                         camera,isNormal(cameraStatus4), camera,isNormal(cameraStatus5), camera,isNormal(cameraStatus6)));
 
@@ -300,9 +300,9 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 turnSignalState(mTvHighBeamState,farTurnLightStatus);
 
                 if (brakeStatus ==  0){
-                    mTvStateOfTheBrake.setText(String.format("%s;%s",mHaveAccess,mNormal));
+                    mTvStateOfTheBrake.setText(String.format("%s;%s",mHaveAccess,mClose));
                 }else if (brakeStatus == 1){
-                    mTvStateOfTheBrake.setText(String.format("%s;%s",mHaveAccess,mException));
+                    mTvStateOfTheBrake.setText(String.format("%s;%s",mHaveAccess,mOpen));
                 }else if (brakeStatus == 2){
                     mTvStateOfTheBrake.setText(mNoAccess);
                 }

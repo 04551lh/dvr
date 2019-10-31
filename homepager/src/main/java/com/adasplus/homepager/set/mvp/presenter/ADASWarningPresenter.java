@@ -272,12 +272,14 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                         mWarningsAdapter.notifyDataSetChanged();
                     }
                 }
-            } else if (id == R.id.tv_cancel) {
+            }
+            else if (id == R.id.tv_cancel) {
                 if (mDialog != null && mDialog.isAdded()) {
                     mDialog.dismiss();
                 }
                 mAdasWarningActivity.finish();
-            } else if (id == R.id.tv_restore_the_default_settings) {
+            }
+            else if (id == R.id.tv_restore_the_default_settings) {
                 //恢复 adas 报警默认设置
                 HomeWrapper.getInstance().adasRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
                     @Override
@@ -296,7 +298,8 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                         getADASDefaultSet();
                     }
                 });
-            } else if (id == R.id.tv_save || id == R.id.tv_confirm) {
+            }
+            else if (id == R.id.tv_save || id == R.id.tv_confirm) {
                 if (mAdasWarningModel != null) {
                     if (mDialog != null && mDialog.isAdded()) {
                         mDialog.dismiss();
@@ -396,13 +399,17 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         String no = mAdasWarningActivity.getString(R.string.no);
         String yes = mAdasWarningActivity.getString(R.string.yes);
 
-        float margin = mAdasWarningActivity.getResources().getDimension(R.dimen.dp_20);
-        int padding = (int) margin;
+        float margin = mAdasWarningActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mAdasWarningActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int)mAdasWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int)mAdasWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int)mAdasWarningActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
-        tv_dialog_description.setTextColor(Color.BLACK);
-        tv_dialog_description.setPadding(padding, padding, padding, padding);
+        tv_dialog_description.setTextColor(mAdasWarningActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
 

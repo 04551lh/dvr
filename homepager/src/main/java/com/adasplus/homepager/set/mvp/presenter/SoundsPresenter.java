@@ -142,7 +142,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
 
     private void setCurrentSounds(int progress){
-        if(progress >= 0b1000110){
+        if(progress == R.string.sounds_set_max){
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_max_icon);
         }else{
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_middle_icon);

@@ -15,7 +15,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 @Route(path = "/device/settings")
 public class SettingsActivity extends BaseActivity implements ISettingsContract.View {
 
-    ImageView mIvBack;
+    ImageView mIvSetsBack;
     LinearLayout mLlSpeedSet;
     LinearLayout mLlNetworkSet;
     LinearLayout mLlCanSet;
@@ -38,7 +38,7 @@ public class SettingsActivity extends BaseActivity implements ISettingsContract.
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
+        mIvSetsBack = findViewById(R.id.iv_sets_back);
         mLlSpeedSet = findViewById(R.id.ll_speed_set);
         mLlNetworkSet = findViewById(R.id.ll_network_set);
         mLlCanSet = findViewById(R.id.ll_can_set);
@@ -49,8 +49,8 @@ public class SettingsActivity extends BaseActivity implements ISettingsContract.
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvSetsBack() {
+        return mIvSetsBack;
     }
 
     @Override

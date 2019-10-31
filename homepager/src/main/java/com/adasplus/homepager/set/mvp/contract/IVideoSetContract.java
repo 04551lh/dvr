@@ -17,7 +17,7 @@ public interface IVideoSetContract {
     }
 
     interface View {
-        ImageView getIvBack();
+        ImageView getIvVideoBack();
 
         SwipeRefreshLayout getSwipeRefreshLayoutVideoSet();
 
@@ -43,7 +43,7 @@ public interface IVideoSetContract {
 
         ImageView getIvSpeed();
 
-        TextView getTvSave();
+        TextView getTvVideoSave();
 
         Button getBtnSub();
 

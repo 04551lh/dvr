@@ -52,20 +52,22 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:paddingStart="@dimen/dp_16"
-                    android:paddingTop="@dimen/dp_30"
-                    android:paddingEnd="@dimen/dp_12"
-                    android:paddingBottom="@dimen/dp_8">
+                    android:paddingEnd="@dimen/dp_12">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:paddingTop="@dimen/dp_30"
+                        android:paddingBottom="@dimen/dp_8"
                         android:text="@string/pulse_speed"
                         android:textColor="@color/font_color_333"
                         android:textSize="@dimen/sp_16" />
 
                     <ImageView
+                        android:paddingStart="@dimen/dp_16"
+                        android:paddingTop="@dimen/dp_30"
+                        android:paddingBottom="@dimen/dp_8"
                         android:id="@+id/iv_pulse_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,9 +94,9 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/dp_12"
                             android:paddingStart="@dimen/dp_16"
                             android:paddingEnd="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_12"
                             android:paddingBottom="@dimen/dp_12">
 
                             <TextView
@@ -268,7 +270,6 @@
                         android:layout_marginTop="@dimen/dp_9"
                         android:background="@android:color/white"
                         android:orientation="vertical">
-
                         <com.adasplus.base.view.SignSeekBar
                             android:id="@+id/ssb_speed_value"
                             android:layout_width="match_parent"
@@ -277,13 +278,16 @@
                             android:layout_marginLeft="@dimen/dp_48"
                             android:layout_marginRight="@dimen/dp_48"
                             android:gravity="center_vertical"
+                            android:thumb="@mipmap/signseekbar_icon"
                             app:ssb_auto_adjust_section_mark="false"
                             app:ssb_is_float_type="false"
-                            app:ssb_thumb_radius="@dimen/dp_16"
-                            app:ssb_thumb_radius_on_dragging="@dimen/dp_9"
-                            app:ssb_thumb_color="@color/system_navigation_bar_color"
-                            app:ssb_show_thumb_shadow="false"
                             app:ssb_second_track_color="@color/system_navigation_bar_color"
+                            app:ssb_show_thumb_shadow="false"
+                            app:ssb_sign_show_border="true"
+                            app:ssb_thumb_radius_on_dragging="@dimen/dp_9"
+                            app:ssb_thumb_radius="@dimen/dp_16"
+                            app:ssb_sign_border_size="@dimen/dp_1"
+                            app:ssb_sign_border_color="@color/under_line_color"
                             app:ssb_track_color="@color/under_line_color" />
 
                         <TextView

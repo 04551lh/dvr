@@ -13,7 +13,7 @@ public interface ISettingsContract {
     }
 
     interface View {
-        ImageView getIvBack();
+        ImageView getIvSetsBack();
 
         LinearLayout getLlSpeedSet();
 

@@ -355,4 +355,11 @@
     <string name="video_frame_rate_hint_message">视频帧率在1–25之间~</string>
 
     <string name="disconnect_from_terminal_equipment">与终端设备断开连接~</string>
+
+    <string name="please_fill_in_the_video_frame_rate">请填写视频帧率~</string>
+
+    <string name="please_fill_in_coefficient_of_the_pulse">请填写脉冲系数~</string>
+
+    <string name="sounds_set_max">10</string>
+
 </resources>

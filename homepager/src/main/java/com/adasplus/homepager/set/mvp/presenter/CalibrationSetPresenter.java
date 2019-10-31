@@ -229,13 +229,17 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         String no = mCalibrationSetActivity.getString(R.string.no);
         String yes = mCalibrationSetActivity.getString(R.string.yes);
 
-        float margin = mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_20);
-        int padding = (int) margin;
+        float margin = mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
-        tv_dialog_description.setTextColor(Color.BLACK);
-        tv_dialog_description.setPadding(padding, padding, padding, padding);
+        tv_dialog_description.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
 

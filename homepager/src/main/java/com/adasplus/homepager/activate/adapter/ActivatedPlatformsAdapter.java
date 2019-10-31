@@ -62,7 +62,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         mCancellationTextDescription = mActivateDeviceActivity.getResources().getString(R.string.cancellation_text_description);
         mCancel = mActivateDeviceActivity.getResources().getString(R.string.cancel);
         mConfirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
-        mMargin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_20);
+        mMargin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_12);
         mDisconnect = mActivateDeviceActivity.getString(R.string.disconnect);
         mRetryConnect =  mActivateDeviceActivity.getString(R.string.retry_connect);
     }

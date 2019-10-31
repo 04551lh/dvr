@@ -1,6 +1,7 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -47,13 +48,10 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     private SignSeekBar mSsbSpeedValue;
     private TextView mTvCurrentSpeed;
     private TextView mTvSpeedSave;
-
     private int mUnClickColor;
     private int mClickColor;
     private int mClickTextColor;
-
     private int mCurrentErrorValue;
-
     private int mIvSelectId;
     private int mIvNoSelectId;
     private int mIvNoRightSelectId;
@@ -105,14 +103,11 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvSelectId = R.mipmap.switch_open_icon;
         mIvNoSelectId = R.mipmap.switch_close_icon;
         mIvNoRightSelectId = R.mipmap.switch_close_right_icon;
-
         getNetworkData();
-
-
     }
-    //获取速度设置，速度设置分为 脉冲速度（分为手动校准和自动校准） 和 模拟速度两种
-    private void getNetworkData(){
 
+    //获取速度设置，速度设置分为 脉冲速度（分为手动校准和自动校准） 和 模拟速度两种
+    private void getNetworkData() {
         HomeWrapper.getInstance().getDefaultBySpeedSet().subscribe(new Subscriber<SpeedSetModel>() {
             @Override
             public void onCompleted() {
@@ -134,10 +129,8 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
             public void onNext(SpeedSetModel speedSetModel) {
                 mNetwork = true;
                 mSwipeRefreshLayoutSpeedSet.setRefreshing(false); // close refresh animator
-
                 SpeedSetModel.PulseSpeedBean pulseSpeed = speedSetModel.getPulseSpeed();
                 mPulseSpeedEnable = pulseSpeed.getEnable();
-
                 mAutoCalibration = pulseSpeed.getAutoCalibration();
                 mPulseCoefficient = pulseSpeed.getPulseCoefficient();
                 mAllowErrorValue = pulseSpeed.getAllowErrorValue();
@@ -150,17 +143,15 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
                 mSpeedValue = simulateSpeed.getValue();
                 //设置模拟速度的大小
                 mSsbSpeedValue.setProgress(mSpeedValue);
-                mTvCurrentSpeed.setText(String.format("%s",mSpeedValue+mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
-
+                mTvCurrentSpeed.setText(String.format("%s", mSpeedValue + mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
 
                 //判断是 脉冲速度 或 模拟速度 1: 脉冲速度 0: 模拟速度
-                if(mPulseSpeedEnable == 0 && mSimulateSpeedEnable == 0){
+                if (mPulseSpeedEnable == 0 && mSimulateSpeedEnable == 0) {
                     simulationSpeedClose();
                     selectCalibrationClose();
-                }
-                else if (mPulseSpeedEnable == 1) {
+                } else if (mPulseSpeedEnable == 1) {
                     selectCalibration();
-                } else if(mSimulateSpeedEnable == 1) {
+                } else if (mSimulateSpeedEnable == 1) {
                     simulationSpeed();
                 }
             }
@@ -168,7 +159,10 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     }
 
     private void startAutomaticCalibration() {
-        mTvAutomaticCalibration.setTextColor(  mClickTextColor);
+        if(mPulseCoefficient != 0){
+            mTvAutomaticCalibration.setText(mSpeedSetActivity.getString(R.string.automatic_calibration) + "（" + (mPulseCoefficient) + "）");
+        }
+        mTvAutomaticCalibration.setTextColor(mClickTextColor);
         mIvAutomaticCalibration.setImageResource(mIvSelectId);
         mTvErrorValue.setTextColor(mClickTextColor);
 
@@ -176,22 +170,23 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvManualCalibration.setImageResource(mIvNoSelectId);
         mTvCoefficientOfThePulse.setTextColor(mUnClickColor);
         mEtCoefficientOfThePulseValue.setTextColor(mUnClickColor);
-        mEtCoefficientOfThePulseValue.setEnabled(true);
-        mEtCoefficientOfThePulseValue.setClickable(true);
-        mEtErrorNumber.setEnabled(false);
-        mEtErrorNumber.setClickable(false);
+        mEtCoefficientOfThePulseValue.setEnabled(false);
+        mEtCoefficientOfThePulseValue.setClickable(false);
+        mEtErrorNumber.setEnabled(true);
+        mEtErrorNumber.setClickable(true);
 
     }
 
     private void stopAutomaticCalibration() {
+        mTvAutomaticCalibration.setText(R.string.automatic_calibration);
         mTvAutomaticCalibration.setTextColor(mUnClickColor);
         mIvAutomaticCalibration.setImageResource(mIvNoSelectId);
         mTvErrorValue.setTextColor(mUnClickColor);
 
-        mEtCoefficientOfThePulseValue.setClickable(false);
-        mEtCoefficientOfThePulseValue.setEnabled(false);
-        mEtErrorNumber.setEnabled(true);
-        mEtErrorNumber.setClickable(true);
+        mEtCoefficientOfThePulseValue.setClickable(true);
+        mEtCoefficientOfThePulseValue.setEnabled(true);
+        mEtErrorNumber.setEnabled(false);
+        mEtErrorNumber.setClickable(false);
 
         mTvManualCalibration.setTextColor(mClickTextColor);
         mIvManualCalibration.setImageResource(mIvSelectId);
@@ -221,51 +216,51 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mCurrentErrorValue = Integer.valueOf(mEtErrorNumber.getText().toString());
         if (id == R.id.iv_speed_back) {
             mSpeedSetActivity.finish();
-        } else if (mNetwork){
-            if(id == R.id.iv_pulse_speed) {
-                if( mPulseSpeedEnable == 1){
+        } else if (mNetwork) {
+            if (id == R.id.iv_pulse_speed) {
+                if (mPulseSpeedEnable == 1) {
                     mPulseSpeedEnable = 0;
                     selectCalibrationClose();
-                }else{
+                } else {
                     mPulseSpeedEnable = 1;
                     mSimulateSpeedEnable = 0;
                     selectCalibration();
                 }
-            } else if ( id == R.id.iv_simulation_speed_status) {
-                if(mSimulateSpeedEnable == 1){
+            } else if (id == R.id.iv_simulation_speed_status) {
+                if (mSimulateSpeedEnable == 1) {
                     mSimulateSpeedEnable = 0;
                     simulationSpeedClose();
-                }else{
+                } else {
                     mSimulateSpeedEnable = 1;
                     mPulseSpeedEnable = 0;
                     simulationSpeed();
                 }
-            }else if(id == R.id.iv_manual_calibration) {
-                if(mPulseSpeedEnable == 1){
-                    mAutoCalibration =0;
+            } else if (id == R.id.iv_manual_calibration) {
+                if (mPulseSpeedEnable == 1) {
+                    mAutoCalibration = 0;
                     stopAutomaticCalibration();
                 }
 
-            }else if(id == R.id.iv_automatic_calibration) {
-                if(mPulseSpeedEnable == 1){
-                    mAutoCalibration =1;
+            } else if (id == R.id.iv_automatic_calibration) {
+                if (mPulseSpeedEnable == 1) {
+                    mAutoCalibration = 1;
                     startAutomaticCalibration();
                 }
-            }else if (id == R.id.btn_add) {
-                if(mPulseSpeedEnable == 1 && mAutoCalibration == 1){
+            } else if (id == R.id.btn_add) {
+                if (mPulseSpeedEnable == 1 && mAutoCalibration == 1) {
                     int maxErrorValue = 20;
                     if (mCurrentErrorValue == maxErrorValue) {
-                        Toast.makeText(mSpeedSetActivity, R.string.speed_have_been_max_value, Toast.LENGTH_SHORT).show();
+                        mSpeedSetActivity.showToast(R.string.speed_have_been_max_value);
                         return;
                     }
                     mCurrentErrorValue++;
                     mEtErrorNumber.setText(mCurrentErrorValue + "");
                 }
             } else if (id == R.id.btn_sub) {
-                if(mPulseSpeedEnable == 1 && mAutoCalibration == 1) {
+                if (mPulseSpeedEnable == 1 && mAutoCalibration == 1) {
                     int minErrorValue = 0;
                     if (mCurrentErrorValue == minErrorValue) {
-                        Toast.makeText(mSpeedSetActivity, R.string.speed_have_been_min_value, Toast.LENGTH_SHORT).show();
+                        mSpeedSetActivity.showToast(R.string.speed_have_been_min_value);
                         return;
                     }
                     mCurrentErrorValue--;
@@ -274,17 +269,21 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
             } else if (id == R.id.tv_speed_save) {
                 saveSpeedSetData();
             }
-        }else{
-            Toast.makeText(mSpeedSetActivity, R.string.disconnect_from_terminal_equipment, Toast.LENGTH_SHORT).show();
+        } else {
+            mSpeedSetActivity.showToast( R.string.disconnect_from_terminal_equipment);
         }
     }
 
     private void saveSpeedSetData() {
-        int pulseSpeedValue =  Integer.valueOf(mEtCoefficientOfThePulseValue.getText().toString());
+        if (TextUtils.isEmpty(mEtCoefficientOfThePulseValue.getText())) {
+            mSpeedSetActivity.showToast(R.string.please_fill_in_coefficient_of_the_pulse);
+            return;
+        }
+        int pulseSpeedValue = Integer.valueOf(mEtCoefficientOfThePulseValue.getText().toString());
         String allowErrorValue = mEtErrorNumber.getText().toString();
         int currentSpeedProgress = mSsbSpeedValue.getProgress();
-        if(pulseSpeedValue <= 0 || pulseSpeedValue > 100){
-            Toast.makeText(mSpeedSetActivity, R.string.coefficient_of_the_pulse,Toast.LENGTH_SHORT).show();
+        if (pulseSpeedValue < 0 || pulseSpeedValue > 100) {
+            mSpeedSetActivity.showToast(R.string.coefficient_of_the_pulse);
             return;
         }
         JSONObject jsonObject = new JSONObject();
@@ -354,11 +353,11 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
 
 
     private void selectCalibrationClose() {
-       //设置按钮的状态
-        if(mAutoCalibration == 1){
+        //设置按钮的状态
+        if (mAutoCalibration == 1) {
             mIvAutomaticCalibration.setImageResource(mIvNoRightSelectId);
             mIvManualCalibration.setImageResource(mIvNoSelectId);
-        }else{
+        } else {
             mIvAutomaticCalibration.setImageResource(mIvNoSelectId);
             mIvManualCalibration.setImageResource(mIvNoRightSelectId);
         }
@@ -369,6 +368,9 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mTvCoefficientOfThePulse.setTextColor(mUnClickColor);
         mEtCoefficientOfThePulseValue.setEnabled(false);
         mEtCoefficientOfThePulseValue.setClickable(false);
+        mEtErrorNumber.setClickable(false);
+        mEtErrorNumber.setEnabled(false);
+
         mEtCoefficientOfThePulseValue.setTextColor(mUnClickColor);
         mTvErrorValue.setTextColor(mUnClickColor);
     }
@@ -379,42 +381,32 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
         mIvPulseSpeed.setImageResource(mIvSelectId);
 
         //判断是否选择的自动校准 1: 是 0: 否
-        if(mAutoCalibration == 1){
+        if (mAutoCalibration == 1) {
             startAutomaticCalibration();
-        }else{
-          stopAutomaticCalibration();
+        } else {
+            stopAutomaticCalibration();
         }
     }
 
 
     @Override
     public void onProgressChanged(SignSeekBar signSeekBar, int progress, float progressFloat, boolean fromUser) {
-        mTvCurrentSpeed.setText(String.format("%s",progress+mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
+        mTvCurrentSpeed.setText(String.format("%s", progress + mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
     }
 
     @Override
     public void getProgressOnActionUp(SignSeekBar signSeekBar, int progress, float progressFloat) {
-        mTvCurrentSpeed.setText(String.format("%s",progress+mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
+        mTvCurrentSpeed.setText(String.format("%s", progress + mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
     }
 
     @Override
     public void getProgressOnFinally(SignSeekBar signSeekBar, int progress, float progressFloat, boolean fromUser) {
-        mTvCurrentSpeed.setText(String.format("%s",progress+mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
+        mTvCurrentSpeed.setText(String.format("%s", progress + mSpeedSetActivity.getResources().getString(R.string.set_speed_unit)));
     }
-
 
 
     @Override
     public void onRefresh() {
         getNetworkData();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getNetworkData();
-//                mSwipeContainer.setVisibility(View.VISIBLE);
-//                mSwipeContainer.setRefreshing(false); // close refresh animator
-//            }
-//        }, 2000);
-
     }
 }

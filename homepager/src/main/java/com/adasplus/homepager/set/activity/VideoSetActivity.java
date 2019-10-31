@@ -15,7 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class VideoSetActivity extends BaseActivity implements IVideoSetContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvVideoBack;
     private TextView mTvSelectChannelsNumber;
     private SwipeRefreshLayout mSwipeRefreshLayoutVideoSet;
     private TextView mTvMainStreamSet;
@@ -28,7 +28,7 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     private ImageView mIvChannelName;
     private ImageView mIvGpsSignal;
     private ImageView mIvSpeed;
-    private TextView mTvSave;
+    private TextView mTvVideoSave;
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
@@ -47,7 +47,7 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
+        mIvVideoBack = findViewById(R.id.iv_video_back);
         mSwipeRefreshLayoutVideoSet = findViewById(R.id.swipeRefreshLayout_video_set);
         mTvSelectChannelsNumber = findViewById(R.id.tv_select_channels_number);
         mTvMainStreamSet = findViewById(R.id.tv_main_stream_set);
@@ -60,7 +60,7 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
         mIvChannelName =  findViewById(R.id.iv_channel_name);
         mIvGpsSignal =  findViewById(R.id.iv_gps_signal);
         mIvSpeed =  findViewById(R.id.iv_speed);
-        mTvSave =  findViewById(R.id.tv_save);
+        mTvVideoSave =  findViewById(R.id.tv_video_save);
         mBtnSub =  findViewById(R.id.btn_sub);
         mEtErrorNumber =  findViewById(R.id.et_error_number);
         mEtErrorNumber.setFocusable(false);
@@ -68,8 +68,8 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvVideoBack() {
+        return mIvVideoBack;
     }
 
     @Override
@@ -133,8 +133,8 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvVideoSave() {
+        return mTvVideoSave;
     }
 
     @Override
@@ -151,4 +151,5 @@ public class VideoSetActivity extends BaseActivity implements IVideoSetContract.
     public Button getBtnAdd() {
         return mBtnAdd;
     }
+
 }

@@ -317,13 +317,16 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         String no = mDmsWarningActivity.getResources().getString(R.string.no);
         String yes = mDmsWarningActivity.getResources().getString(R.string.yes);
 
-        float margin = mDmsWarningActivity.getResources().getDimension(R.dimen.dp_20);
-        int padding = (int) margin;
+        float margin = mDmsWarningActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mDmsWarningActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int)mDmsWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int)mDmsWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int)mDmsWarningActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
         tv_dialog_description.setTextColor(mDmsWarningActivity.getResources().getColor(R.color.font_color_333));
-        tv_dialog_description.setPadding(padding, padding, padding, padding);
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
 

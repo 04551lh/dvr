@@ -46,7 +46,7 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
 
     @Override
     public void initListener() {
-        ImageView ivBack = mSettingsView.getIvBack();
+        ImageView ivSetsBack = mSettingsView.getIvSetsBack();
         LinearLayout llSpeedSet = mSettingsView.getLlSpeedSet();
         LinearLayout llCanSet = mSettingsView.getLlCanSet();
         LinearLayout llCalibrationSet = mSettingsView.getLlCalibrationSet();
@@ -55,7 +55,7 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
         LinearLayout llNetworkSet = mSettingsView.getLlNetworkSet();
         LinearLayout llVideoSet = mSettingsView.getLlVideoSet();
 
-        ivBack.setOnClickListener(this);
+        ivSetsBack.setOnClickListener(this);
         llSpeedSet.setOnClickListener(this);
         llCanSet.setOnClickListener(this);
         llCalibrationSet.setOnClickListener(this);
@@ -68,7 +68,7 @@ public class SettingsPresenter implements ISettingsContract.Presenter, View.OnCl
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_sets_back) {
             mSettingsActivity.finish();
         } else if (id == R.id.ll_speed_set) { //速度设置
             mSettingsActivity.startActivity(new Intent(mSettingsActivity, SpeedSetActivity.class));

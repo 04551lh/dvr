@@ -97,12 +97,11 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
                 JSONArray jsonArray = new JSONArray();
                 try {
                     for (int i = 0; i < mArray.size(); i++) {
-                        if (mArray.get(i).getSelectEnable()==1) {
-                            Log.i("tag","SelectEnable-------------->"+mArray.get(i).getSelectEnable());
+                        if (mArray.get(i).getSelectEnable() == 1) {
                             String storageName = mArray.get(i).getStorageName();
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put("storageName", storageName);
-                            jsonArray.put(i, jsonObject);
+                            jsonArray.put(jsonObject);
                             storageDeviceArray.put("storageDeviceArray", jsonArray);
                         }
                     }
@@ -128,7 +127,6 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
                     }
                 });
             }
-
         }
     }
 
