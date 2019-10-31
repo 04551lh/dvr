@@ -389,7 +389,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
             if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
                 mLlConnectedWifi.setVisibility(View.VISIBLE);
             }
-            mTvWifiName.setText("\""+scanResult.SSID+"\"");
+            mTvWifiName.setText(String.format("\"%s\"", scanResult.SSID));
             int level = WifiHelper.getInstance().getLevel(scanResult.level);
             //显示WiFi信号值大小
 //            if (2 == level){

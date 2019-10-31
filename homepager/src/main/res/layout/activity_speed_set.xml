@@ -274,7 +274,6 @@
                             android:layout_marginLeft="@dimen/dp_48"
                             android:layout_marginRight="@dimen/dp_48"
                             android:gravity="center_vertical"
-                            android:thumb="@mipmap/signseekbar_icon"
                             app:ssb_auto_adjust_section_mark="false"
                             app:ssb_is_float_type="false"
                             app:ssb_second_track_color="@color/system_navigation_bar_color"

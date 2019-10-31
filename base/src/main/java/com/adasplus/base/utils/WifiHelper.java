@@ -143,7 +143,7 @@ public class WifiHelper {
         List<WifiConfiguration> wifiConfigs = mWifiManager.getConfiguredNetworks();
         for (WifiConfiguration wifiConfig : wifiConfigs) {
             String ssid = wifiConfig.SSID;
-            if (("\"" + targetSsid + "\"").equals(ssid)) {
+            if (targetSsid.equals(ssid)) {
                 disConnectionWifi(wifiConfig.networkId);
                 removeNetWork(wifiConfig.networkId);
             }

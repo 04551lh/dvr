@@ -120,11 +120,12 @@
                             android:id="@+id/et_camera_height"
                             android:layout_width="@dimen/dp_85"
                             android:layout_height="@dimen/dp_35"
-                            android:layout_gravity="center"
                             android:background="@null"
                             android:gravity="center"
                             android:hint="@string/please_enter"
                             android:singleLine="true"
+                            android:inputType="number"
+                            android:layout_gravity="center"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/sp_15" />
 
