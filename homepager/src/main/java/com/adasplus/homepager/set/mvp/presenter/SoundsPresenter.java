@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -26,10 +27,11 @@ import rx.Subscriber;
  * Date : 2019/9/26 15:48
  * Description : 声音设置的 Presenter 类
  */
-public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickListener, SignSeekBar.OnProgressChangedListener {
+public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickListener, SignSeekBar.OnProgressChangedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ISoundsContract.View mSoundsView;
     private SoundsActivity mSoundsActivity;
+    private SwipeRefreshLayout mSwipeRefreshLayoutSoundSet;
     private SoundsModel mSoundsModel;
 
     private SignSeekBar mSsbSoundsValue;
@@ -46,9 +48,18 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
     @Override
     public void initData() {
-
         mSsbSoundsValue = mSoundsView.getSsbSoundsValue();
         mTvCurrentSounds = mSoundsView.getTvCurrentSounds();
+        mSwipeRefreshLayoutSoundSet = mSoundsActivity.getSwipeRefreshLayoutSoundSet();
+        mSwipeRefreshLayoutSoundSet.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayoutSoundSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        getNetwork();
+    }
+
+
+    private void getNetwork(){
         //获取设备中的默认声音大小值
         HomeWrapper.getInstance().getSoundsSet().subscribe(new Subscriber<SoundsModel>() {
             @Override
@@ -58,11 +69,13 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
             @Override
             public void onError(Throwable e) {
+                mSwipeRefreshLayoutSoundSet.setRefreshing(false);
                 ExceptionUtils.exceptionHandling(mSoundsActivity, e);
             }
 
             @Override
             public void onNext(SoundsModel soundsModel) {
+                mSwipeRefreshLayoutSoundSet.setRefreshing(false);
                 mSoundsModel = soundsModel;
                 //获取声音值，并设置声音值
                 mSoundValue = soundsModel.getSoundValue();
@@ -70,28 +83,30 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
                 mTvCurrentSounds.setText((String.format("%s%%",String.valueOf(mSoundValue*10))));
             }
         });
+
     }
 
     @Override
     public void initListener() {
-        ImageView ivBack = mSoundsView.getIvBack();
+        ImageView ivSoundBack = mSoundsView.getIvSoundBack();
         ImageView ivSoundsReduce = mSoundsView.getIvSoundsReduce();
         mIvSoundsAdd = mSoundsView.getIvSoundsAdd();
-        TextView tvSave = mSoundsView.getTvSave();
+        TextView tvSoundSave = mSoundsView.getTvSoundSave();
 
-        ivBack.setOnClickListener(this);
+        ivSoundBack.setOnClickListener(this);
+        mSwipeRefreshLayoutSoundSet.setOnRefreshListener(this);
         ivSoundsReduce.setOnClickListener(this);
         mSsbSoundsValue.setOnProgressChangedListener(this);
         mIvSoundsAdd.setOnClickListener(this);
-        tvSave.setOnClickListener(this);
+        tvSoundSave.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_sound_back) {
             mSoundsActivity.finish();
-        } else if (id == R.id.tv_save) {
+        } else if (id == R.id.tv_sound_save) {
             if (mSoundsModel != null) {
                 //将 SeekBar 中滑动的最新的进度进行设置到 SoundsModel
                 mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress());
@@ -148,5 +163,10 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_middle_icon);
         }
         mTvCurrentSounds.setText(String.format("%s%%",String.valueOf(progress*10)));
+    }
+
+    @Override
+    public void onRefresh() {
+        getNetwork();
     }
 }

@@ -19,7 +19,7 @@ public interface ITimeSetContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvTimeBack();
 
         SwipeRefreshLayout getSwipeRefreshLayoutTimeSet();
 
@@ -43,7 +43,7 @@ public interface ITimeSetContract {
 
         EditText getEtSeconds();
 
-        TextView getTvSave();
+        TextView getTvTimeSave();
 
     }
 

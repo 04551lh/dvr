@@ -48,13 +48,12 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private ImageView mIvLeft;
     private ImageView mIvRight;
     private ImageView mIvDown;
-    private TextView mTvSave;
+    private TextView mTvCalibrationSave;
     private CalibrationSetModel mCalibrationSetModel;
     private BasicDialog mDialog;
     // 判断是否点击了返回按钮， true 代表了点击返回按钮，如果有未保存的数据我们进行弹框提示，点击弹
     // 框的是我们保存并退出当前的界面，否则，直接退出当前的界面; false 代表了选择了手动标定，在点击
     // 了上下左右标定按钮，并实时的保存标定的设置数据
-    private boolean mIsClickBack = false;
     private int mAutoReferenceLineEnable;
 
     public CalibrationSetPresenter(ICalibrationSetContract.View view) {
@@ -73,7 +72,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         mIvLeft = mCalibrationSetView.getIvLeft();
         mIvRight = mCalibrationSetView.getIvRight();
         mIvDown = mCalibrationSetView.getIvDown();
-        mTvSave = mCalibrationSetView.getTvSave();
+        mTvCalibrationSave = mCalibrationSetView.getTvCalibrationSave();
 
         getNetworkData();
 
@@ -157,12 +156,12 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
     @Override
     public void initListener() {
-        ImageView ivBack = mCalibrationSetView.getIvBack();
-        ivBack.setOnClickListener(this);
+        ImageView ivCalibrationBack = mCalibrationSetView.getIvCalibrationBack();
+        ivCalibrationBack.setOnClickListener(this);
         mSwipeRefreshLayoutCalibrationSet.setOnRefreshListener(this);
         mIvAutoCalibration.setOnClickListener(this);
         mIvManualCalibrate.setOnClickListener(this);
-        mTvSave.setOnClickListener(this);
+        mTvCalibrationSave.setOnClickListener(this);
         mIvUp.setOnClickListener(this);
         mIvDown.setOnClickListener(this);
         mIvLeft.setOnClickListener(this);
@@ -172,8 +171,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) { //返回按钮
-            mIsClickBack = true;
+        if (id == R.id.iv_calibration_back) { //返回按钮
             if (mCalibrationSetModel != null) {
                 // 判断是否有更改的标定设置未保存，如果有未保存的进行弹出对话框提示
                 if (mAutoReferenceLineEnable == mCalibrationSetModel.getAutoReferenceLineEnable()) {
@@ -210,7 +208,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             if (mAutoReferenceLineEnable == 0) {
                 updateCalibrationSet(DOWN);
             }
-        } else if (id == R.id.tv_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
+        } else if (id == R.id.tv_calibration_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
@@ -231,9 +229,9 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
         float margin = mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_12);
         int paddingTop = (int) mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_28);
-        int paddingLeft = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
-        int paddingRight = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
-        int paddingBottom = (int)mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mCalibrationSetActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
@@ -272,33 +270,32 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         }
 
 
-            String json = GsonUtils.getInstance().toJson(mCalibrationSetModel);
-            try {
-                JSONObject jsonObject = new JSONObject(json);
-                HomeWrapper.getInstance().updateCalibrationSet(jsonObject).subscribe(new Subscriber<CalibrationSetModel>() {
-                    @Override
-                    public void onCompleted() {
+        String json = GsonUtils.getInstance().toJson(mCalibrationSetModel);
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            HomeWrapper.getInstance().updateCalibrationSet(jsonObject).subscribe(new Subscriber<CalibrationSetModel>() {
+                @Override
+                public void onCompleted() {
 
-                    }
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mCalibrationSetActivity, e);
-                    }
+                @Override
+                public void onError(Throwable e) {
+                    ExceptionUtils.exceptionHandling(mCalibrationSetActivity, e);
+                }
 
-                    @Override
-                    public void onNext(CalibrationSetModel calibrationSetModel) {
-                        Toast.makeText(mCalibrationSetActivity, R.string.targets_set_save_success, Toast.LENGTH_SHORT).show();
-                        if (mIsClickBack) {
-                            mCalibrationSetActivity.finish();
-                        }
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                @Override
+                public void onNext(CalibrationSetModel calibrationSetModel) {
+                    mCalibrationSetActivity.showToast(R.string.targets_set_save_success);
+                    mCalibrationSetActivity.finish();
 
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+    }
 
     @Override
     public void onRefresh() {

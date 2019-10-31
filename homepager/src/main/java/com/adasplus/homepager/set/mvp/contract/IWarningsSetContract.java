@@ -13,7 +13,7 @@ public interface IWarningsSetContract {
     }
 
     interface View {
-        ImageView getIvBack();
+        ImageView getIvWarningsBack();
 
         LinearLayout getLlAdas();
 

@@ -11,7 +11,7 @@ import com.adasplus.homepager.set.mvp.presenter.CommonSetPresenter;
 
 public class CommonSetActivity extends BaseActivity implements ICommonSetContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvCommonBack;
     private LinearLayout mLlTimeSet;
     private LinearLayout mLlSoundSet;
     private LinearLayout mLlDormancySet;
@@ -33,19 +33,19 @@ public class CommonSetActivity extends BaseActivity implements ICommonSetContrac
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mLlTimeSet = (LinearLayout) findViewById(R.id.ll_time_set);
-        mLlSoundSet = (LinearLayout) findViewById(R.id.ll_sound_set);
-        mLlDormancySet = (LinearLayout) findViewById(R.id.ll_dormancy_set);
-        mLlRebootSet = (LinearLayout) findViewById(R.id.ll_reboot_set);
-        mLlFactoryDataReset = (LinearLayout) findViewById(R.id.ll_factory_data_reset);
-        mLlDeviceFormat = (LinearLayout) findViewById(R.id.ll_device_format);
+        mIvCommonBack =  findViewById(R.id.iv_common_back);
+        mLlTimeSet =  findViewById(R.id.ll_time_set);
+        mLlSoundSet =  findViewById(R.id.ll_sound_set);
+        mLlDormancySet =  findViewById(R.id.ll_dormancy_set);
+        mLlRebootSet =  findViewById(R.id.ll_reboot_set);
+        mLlFactoryDataReset =  findViewById(R.id.ll_factory_data_reset);
+        mLlDeviceFormat =  findViewById(R.id.ll_device_format);
     }
 
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvCommonBack() {
+        return mIvCommonBack;
     }
 
     @Override

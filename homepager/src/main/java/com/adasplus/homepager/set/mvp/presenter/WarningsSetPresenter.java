@@ -33,11 +33,11 @@ public class WarningsSetPresenter implements IWarningsSetContract.Presenter, Vie
 
     @Override
     public void initListener() {
-        ImageView ivBack = mWarningsSetView.getIvBack();
+        ImageView ivWarningsBack = mWarningsSetView.getIvWarningsBack();
         LinearLayout llAdas = mWarningsSetView.getLlAdas();
         LinearLayout llDms = mWarningsSetView.getLlDms();
 
-        ivBack.setOnClickListener(this);
+        ivWarningsBack.setOnClickListener(this);
         llAdas.setOnClickListener(this);
         llDms.setOnClickListener(this);
     }
@@ -45,7 +45,7 @@ public class WarningsSetPresenter implements IWarningsSetContract.Presenter, Vie
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_warnings_back) {
             mWarningsSetActivity.finish();
         } else if (id == R.id.ll_adas) {
             mWarningsSetActivity.startActivity(new Intent(mWarningsSetActivity, ADASWarningActivity.class));

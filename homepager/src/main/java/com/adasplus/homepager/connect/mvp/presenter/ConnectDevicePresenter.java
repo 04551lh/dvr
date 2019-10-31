@@ -595,7 +595,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
 
     @Override
     public void afterTextChanged(Editable s) {
-        int length = s.length();
+        int length = s.toString().length();
         if (length > 0){
             mTvConnect.setEnabled(true);
             mTvConnect.setClickable(true);

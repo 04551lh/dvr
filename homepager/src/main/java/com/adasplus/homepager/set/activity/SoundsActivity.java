@@ -10,14 +10,17 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.ISoundsContract;
 import com.adasplus.homepager.set.mvp.presenter.SoundsPresenter;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class SoundsActivity extends BaseActivity implements ISoundsContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvSoundBack;
+    private SwipeRefreshLayout mSwipeRefreshLayoutSoundSet;
     private ImageView mIvSoundsReduce;
     private ImageView mIvSoundsAdd;
     private SignSeekBar mSsbSoundsValue;
     private TextView mTvCurrentSounds;
-    private TextView mTvSave;
+    private TextView mTvSoundSave;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -33,17 +36,23 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
+        mIvSoundBack = findViewById(R.id.iv_sound_back);
+        mSwipeRefreshLayoutSoundSet = findViewById(R.id.swipeRefreshLayout_sound_set);
         mIvSoundsReduce = findViewById(R.id.iv_sounds_reduce);
         mIvSoundsAdd = findViewById(R.id.iv_sounds_add);
         mSsbSoundsValue = findViewById(R.id.ssb_sounds_value);
         mTvCurrentSounds = findViewById(R.id.tv_current_sounds);
-        mTvSave = findViewById(R.id.tv_save);
+        mTvSoundSave = findViewById(R.id.tv_sound_save);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvSoundBack() {
+        return mIvSoundBack;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeRefreshLayoutSoundSet() {
+        return mSwipeRefreshLayoutSoundSet;
     }
 
     @Override
@@ -66,7 +75,7 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
         return mTvCurrentSounds;
     }
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvSoundSave() {
+        return mTvSoundSave;
     }
 }

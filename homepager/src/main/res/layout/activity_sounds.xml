@@ -4,53 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/app_background"
+    android:orientation="vertical"
     tools:context=".set.activity.SoundsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_20"
-        android:paddingBottom="@dimen/dp_15">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/dp_16"
-            android:src="@drawable/common_left_back_icon"
-            android:textColor="@color/font_color_333" />
+            android:id="@+id/iv_sound_back"
+            style="@style/CommonTitleImageBackStyle" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/dp_10"
-            android:text="@string/sound_set"
-            android:textColor="@color/font_color_333"
-            android:textSize="@dimen/sp_18" />
+            style="@style/CommonTitleTvStyle"
+            android:text="@string/sound_set" />
     </LinearLayout>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefreshLayout_sound_set"
+        android:layout_width="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/volume"
-            android:textSize="@dimen/sp_16"
             android:gravity="center_vertical"
             android:padding="@dimen/dp_16"
-            android:textColor="@color/font_color_333"/>
+            android:text="@string/volume"
+            android:textColor="@color/font_color_333"
+            android:textSize="@dimen/sp_16" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
-            android:background="@color/under_line_color"/>
+            android:background="@color/under_line_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,38 +56,41 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="@dimen/dp_33"
-                android:paddingEnd="@dimen/dp_27"
-                android:layout_height="wrap_content">
+                android:paddingEnd="@dimen/dp_27">
+
                 <ImageView
+                    android:id="@+id/iv_sounds_reduce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp_9"
-                    android:id="@+id/iv_sounds_reduce"
-                   android:src="@mipmap/sounds_min_icon"/>
+                    android:src="@mipmap/sounds_min_icon" />
+
                 <com.adasplus.base.view.SignSeekBar
                     android:id="@+id/ssb_sounds_value"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="@dimen/dp_20"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     app:ssb_auto_adjust_section_mark="false"
                     app:ssb_is_float_type="false"
-                    app:ssb_thumb_radius="@dimen/dp_16"
-                    app:ssb_min="0"
                     app:ssb_max="10"
-                    app:ssb_thumb_color="@color/system_navigation_bar_color"
-                    app:ssb_show_thumb_shadow="false"
-                    app:ssb_track_size="@dimen/dp_2"
-                    app:ssb_second_track_size="@dimen/dp_3"
+                    app:ssb_min="0"
                     app:ssb_second_track_color="@color/system_navigation_bar_color"
-                    app:ssb_track_color="@color/under_line_color" />
+                    app:ssb_second_track_size="@dimen/dp_3"
+                    app:ssb_show_thumb_shadow="false"
+                    app:ssb_thumb_color="@color/system_navigation_bar_color"
+                    app:ssb_thumb_radius="@dimen/dp_16"
+                    app:ssb_track_color="@color/under_line_color"
+                    app:ssb_track_size="@dimen/dp_2" />
+
                 <ImageView
+                    android:id="@+id/iv_sounds_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp_9"
-                    android:id="@+id/iv_sounds_add"
-                    android:src="@mipmap/sounds_middle_icon"/>
+                    android:src="@mipmap/sounds_middle_icon" />
             </LinearLayout>
 
             <TextView
@@ -106,24 +104,16 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
-                android:id="@+id/tv_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_30"
-                android:layout_marginBottom="@dimen/dp_20"
-                android:layout_gravity="center"
-                android:background="@drawable/btn_shape_style"
-                android:paddingTop="@dimen/dp_8"
-                android:paddingBottom="@dimen/dp_7"
-                android:paddingLeft="@dimen/dp_62"
-                android:paddingRight="@dimen/dp_62"
-                android:text="@string/save"
-                android:textColor="@color/save_font_color" />
+                android:id="@+id/tv_sound_save"
+                style="@style/CommonSaveBtnStyle" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_1"
-                android:background="@color/under_line_color"/>
+                android:background="@color/under_line_color" />
         </LinearLayout>
     </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </LinearLayout>

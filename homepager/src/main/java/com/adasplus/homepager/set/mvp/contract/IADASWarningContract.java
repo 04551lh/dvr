@@ -15,7 +15,7 @@ public interface IADASWarningContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvADASBack();
 
         SwipeRefreshLayout getSwipeRefreshLayoutADASSet();
 

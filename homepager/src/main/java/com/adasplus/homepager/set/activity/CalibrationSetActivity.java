@@ -13,7 +13,7 @@ import com.adasplus.homepager.set.mvp.presenter.CalibrationSetPresenter;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CalibrationSetActivity extends BaseActivity implements ICalibrationSetContract.View {
-    private ImageView mIvBack;
+    private ImageView mIvCalibrationBack;
     private SwipeRefreshLayout mSwipeRefreshLayoutCalibrationSet;
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
@@ -23,7 +23,7 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     private ImageView mIvLeft;
     private ImageView mIvRight;
     private ImageView mIvDown;
-    private TextView mTvSave;
+    private TextView mTvCalibrationSave;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvCalibrationBack =  findViewById(R.id.iv_calibration_back);
         mSwipeRefreshLayoutCalibrationSet = findViewById(R.id.swipeRefreshLayout_calibration_set);
         mIvAutoCalibration =  findViewById(R.id.iv_auto_calibration);
         mIvManualCalibrate =  findViewById(R.id.iv_manual_calibrate);
@@ -49,12 +49,12 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
         mIvLeft =  findViewById(R.id.iv_left);
         mIvRight =  findViewById(R.id.iv_right);
         mIvDown =  findViewById(R.id.iv_down);
-        mTvSave =  findViewById(R.id.tv_save);
+        mTvCalibrationSave =  findViewById(R.id.tv_calibration_save);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvCalibrationBack() {
+        return mIvCalibrationBack;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvCalibrationSave() {
+        return mTvCalibrationSave;
     }
 
 }

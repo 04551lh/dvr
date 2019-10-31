@@ -31,10 +31,10 @@ public class AddNewPlatformsActivity extends BaseActivity implements IAddNewPlat
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mEtPlatformIpAddress = (EditText) findViewById(R.id.et_platform_ip_address);
-        mEtPlatformPort = (EditText) findViewById(R.id.et_platform_port);
-        mTvSave = (TextView) findViewById(R.id.tv_save);
+        mIvBack =  findViewById(R.id.iv_back);
+        mEtPlatformIpAddress =  findViewById(R.id.et_platform_ip_address);
+        mEtPlatformPort =findViewById(R.id.et_platform_port);
+        mTvSave =  findViewById(R.id.tv_save);
     }
 
     @Override

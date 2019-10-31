@@ -108,10 +108,10 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 
     @Override
     public void initListener() {
-        ImageView ivBack = mTimeSetView.getIvBack();
-        TextView tvSave = mTimeSetView.getTvSave();
-        ivBack.setOnClickListener(this);
-        tvSave.setOnClickListener(this);
+        ImageView ivTimeBack = mTimeSetView.getIvTimeBack();
+        TextView tvTimeSave = mTimeSetView.getTvTimeSave();
+        ivTimeBack.setOnClickListener(this);
+        tvTimeSave.setOnClickListener(this);
         mSwipeRefreshLayoutTimeSet.setOnRefreshListener(this);
         mIvAutomaticCorrectionWhen.setOnClickListener(this);
         mIvNetworkTime.setOnClickListener(this);
@@ -130,7 +130,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
     public void onClick(View v) {
 
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_time_back) {
             mTimeSetActivity.finish();
         }
 //        else if (id == R.id.iv_automatic_correction_when) {
@@ -156,7 +156,7 @@ public class TimeSetPresenter implements ITimeSetContract.Presenter, View.OnClic
 //            mSetImageResource(mIvAutomaticCorrectionWhen,mManualCalibrationTimeEnable);
 //        }
 
-        else if (id == R.id.tv_save) {
+        else if (id == R.id.tv_time_save) {
             String year = mEtYear.getText().toString().trim();
             judgeTime(splitDate[0],year);
             String months = mEtMonth.getText().toString().trim();

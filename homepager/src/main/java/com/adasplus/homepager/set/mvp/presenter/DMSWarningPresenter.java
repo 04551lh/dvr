@@ -92,8 +92,8 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
 
     @Override
     public void initListener() {
-        ImageView ivBack = mDMSWarningView.getIvBack();
-        ivBack.setOnClickListener(this);
+        ImageView ivDMSBack = mDMSWarningView.getIvDMSBack();
+        ivDMSBack.setOnClickListener(this);
         mSwipeRefreshLayoutDMSSet.setOnRefreshListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
         mTvSave.setOnClickListener(this);
@@ -104,7 +104,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) { //点击返回按钮的监听
+        if (id == R.id.iv_dms_back) { //点击返回按钮的监听
             //点击返回按钮判断是否 dms 设置是否有未保存的数据。如果有未保存的设置，进行弹出
             // 对话框来提示，选择是，保存并退出，否的话直接进行退出
             boolean isSaveSet = false;

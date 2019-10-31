@@ -17,7 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class TimeSetActivity extends BaseActivity implements ITimeSetContract.View {
 
 
-    private ImageView mIvBack;
+    private ImageView mIvTimeBack;
     private ImageView mIvAutomaticCorrectionWhen;
     private ImageView mIvNetworkTime;
     private ImageView mIvGpsTime;
@@ -28,7 +28,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     private EditText mEtHours;
     private EditText mEtMinutes;
     private EditText mEtSeconds;
-    private TextView mTvSave;
+    private TextView mTvTimeSave;
 
     private SwipeRefreshLayout mSwipeRefreshLayoutTimeSet;
 
@@ -46,7 +46,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
+        mIvTimeBack = findViewById(R.id.iv_time_back);
         mSwipeRefreshLayoutTimeSet = findViewById(R.id.swipeRefreshLayout_time_set);
         mIvAutomaticCorrectionWhen = findViewById(R.id.iv_automatic_correction_when);
         mIvNetworkTime = findViewById(R.id.iv_network_time);
@@ -58,12 +58,12 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
         mEtHours = findViewById(R.id.et_hours);
         mEtMinutes = findViewById(R.id.et_minutes);
         mEtSeconds = findViewById(R.id.et_seconds);
-        mTvSave =  findViewById(R.id.tv_save);
+        mTvTimeSave =  findViewById(R.id.tv_time_save);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvTimeBack() {
+        return mIvTimeBack;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class TimeSetActivity extends BaseActivity implements ITimeSetContract.Vi
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public TextView getTvTimeSave() {
+        return mTvTimeSave;
     }
 }

@@ -12,7 +12,7 @@ import com.adasplus.homepager.set.mvp.presenter.WarningsSetPresenter;
 
 public class WarningsSetActivity extends BaseActivity implements IWarningsSetContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvWarningsBack;
     private LinearLayout mLlAdas;
     private LinearLayout mLlDms;
 
@@ -30,14 +30,14 @@ public class WarningsSetActivity extends BaseActivity implements IWarningsSetCon
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvWarningsBack =  findViewById(R.id.iv_warnings_back);
         mLlAdas =  findViewById(R.id.ll_adas);
         mLlDms =  findViewById(R.id.ll_dms);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvWarningsBack() {
+        return mIvWarningsBack;
     }
 
     @Override

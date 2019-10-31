@@ -4,6 +4,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 /**
  * Author:刘净辉
@@ -16,7 +17,9 @@ public interface IDeviceFormatContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvDeviceFormatBack();
+
+        SwipeRefreshLayout getSwipeRefreshLayoutDeviceFormatSet();
 
         RecyclerView getRvDeviceFormatList();
 

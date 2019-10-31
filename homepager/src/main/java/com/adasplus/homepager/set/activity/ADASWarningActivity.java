@@ -12,7 +12,7 @@ import com.adasplus.homepager.set.mvp.presenter.ADASWarningPresenter;
 
 public class ADASWarningActivity extends BaseActivity implements IADASWarningContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvADASBack;
     private SwipeRefreshLayout mSwipeRefreshLayoutADASSet;
     private RecyclerView mRvAdasList;
 
@@ -30,14 +30,14 @@ public class ADASWarningActivity extends BaseActivity implements IADASWarningCon
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvADASBack =  findViewById(R.id.iv_adas_back);
         mSwipeRefreshLayoutADASSet = findViewById(R.id.swipeRefreshLayout_ADAS_set);
         mRvAdasList =  findViewById(R.id.rv_adas_list);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvADASBack() {
+        return mIvADASBack;
     }
 
     @Override

@@ -13,7 +13,7 @@ public interface ICommonSetContract {
     }
 
     interface View {
-        ImageView getIvBack();
+        ImageView getIvCommonBack();
 
         LinearLayout getLlTimeSet();
 

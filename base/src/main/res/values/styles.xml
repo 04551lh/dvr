@@ -58,6 +58,30 @@
         <item name="android:src">@drawable/common_left_back_icon</item>
     </style>
 
+    <style name="CommonTitleTvStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/dp_10</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/font_color_333</item>
+    </style>
+
+    <style name="CommonSaveBtnStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/dp_30</item>
+        <item name="android:layout_marginBottom">@dimen/dp_20</item>
+        <item name="android:paddingTop">@dimen/dp_8</item>
+        <item name="android:paddingEnd">@dimen/dp_62</item>
+        <item name="android:paddingBottom">@dimen/dp_7</item>
+        <item name="android:paddingStart">@dimen/dp_62</item>
+        <item name="android:text">@string/save</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/save_btn_color</item>
+        <item name="android:background">@drawable/btn_shape_style</item>
+    </style>
+
     <style name="MainLineStyle">
         <item name="android:background">@color/split_line_color</item>
         <item name="android:layout_width">match_parent</item>
@@ -79,10 +103,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginTop">@dimen/dp_16</item>
-        <item name="android:layout_marginBottom">@dimen/dp_16</item>
-        <item name="android:layout_marginLeft">@dimen/dp_16</item>
-        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:padding">@dimen/dp_16</item>
     </style>
 
     <style name="LinearLayoutImageDisplayDataStyle">

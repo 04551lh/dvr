@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.homepager.R;
@@ -13,7 +14,8 @@ import com.adasplus.homepager.set.mvp.presenter.DeviceFormatPresenter;
 
 public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvDeviceFormatBack;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDeviceFormatSet;
     private RecyclerView mRvDeviceFormatList;
     private TextView mTvDeviceFormatData;
 
@@ -31,14 +33,20 @@ public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatC
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvDeviceFormatBack =  findViewById(R.id.iv_device_format_back);
+        mSwipeRefreshLayoutDeviceFormatSet =  findViewById(R.id.swipeRefreshLayout_device_format_set);
         mRvDeviceFormatList =  findViewById(R.id.rv_device_format_list);
         mTvDeviceFormatData =  findViewById(R.id.tv_device_format_data);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvDeviceFormatBack() {
+        return mIvDeviceFormatBack;
+    }
+
+    @Override
+    public SwipeRefreshLayout getSwipeRefreshLayoutDeviceFormatSet() {
+        return mSwipeRefreshLayoutDeviceFormatSet;
     }
 
     @Override

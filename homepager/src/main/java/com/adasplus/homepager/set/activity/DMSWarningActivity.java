@@ -14,7 +14,7 @@ import com.adasplus.homepager.set.mvp.presenter.DMSWarningPresenter;
 public class DMSWarningActivity extends BaseActivity implements IDMSWarningContract.View {
 
 
-    private ImageView mIvBack;
+    private ImageView mIvDMSBack;
     private SwipeRefreshLayout mSwipeRefreshLayoutDMSSet;
     private RecyclerView mRvDmsList;
 
@@ -32,14 +32,14 @@ public class DMSWarningActivity extends BaseActivity implements IDMSWarningContr
 
     @Override
     protected void initWidget() {
-        mIvBack = findViewById(R.id.iv_back);
-        mSwipeRefreshLayoutDMSSet = findViewById(R.id.swipeRefreshLayout_DMS_set);
+        mIvDMSBack = findViewById(R.id.iv_dms_back);
+        mSwipeRefreshLayoutDMSSet = findViewById(R.id.swipeRefreshLayout_dms_set);
         mRvDmsList = findViewById(R.id.rv_dms_list);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvDMSBack() {
+        return mIvDMSBack;
     }
 
     @Override

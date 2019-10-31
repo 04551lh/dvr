@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 /**
  * Author:刘净辉
  * Date : 2019/9/26 16:02
@@ -17,13 +19,15 @@ public interface IDormancySetContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvDormancyBack();
+
+        SwipeRefreshLayout getSwipeRefreshLayoutDormancySet();
 
         ImageView getIvCloseHintMessage();
 
         RelativeLayout getRlHintMessage();
 
-        TextView getTvSave();
+        TextView getTvDormancySave();
 
         Button getBtnSub();
 

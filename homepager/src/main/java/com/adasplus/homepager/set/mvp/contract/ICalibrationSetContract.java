@@ -18,7 +18,7 @@ public interface ICalibrationSetContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvCalibrationBack();
 
         SwipeRefreshLayout getSwipeRefreshLayoutCalibrationSet();
 
@@ -38,7 +38,7 @@ public interface ICalibrationSetContract {
 
         ImageView getIvDown();
 
-        TextView getTvSave();
+        TextView getTvCalibrationSave();
 
     }
 

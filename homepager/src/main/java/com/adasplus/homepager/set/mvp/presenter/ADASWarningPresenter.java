@@ -170,8 +170,8 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
     @Override
     public void initListener() {
-        ImageView ivBack = mADASWarningView.getIvBack();
-        ivBack.setOnClickListener(this);
+        ImageView ivADASBack = mADASWarningView.getIvADASBack();
+        ivADASBack.setOnClickListener(this);
         mSwipeRefreshLayoutADASSet.setOnRefreshListener(this);
         mTvSave.setOnClickListener(this);
         mTvRestoreTheDefaultSettings.setOnClickListener(this);
@@ -182,7 +182,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_adas_back) {
             // 点击返回判断是否有设置的未保存，如果有，进行弹出对话框进行来提示
             boolean isSaveSet = false;
             for (ConvertWarningsModel convertWarningsModel : mConvertWarningsList) {

@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import rx.Subscriber;
 
 /**
@@ -32,13 +33,14 @@ import rx.Subscriber;
  * Date : 2019/10/12 14:33
  * Description :
  */
-public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, View.OnClickListener, IDeviceFormatItemListener {
+public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, View.OnClickListener, IDeviceFormatItemListener, SwipeRefreshLayout.OnRefreshListener {
 
     private IDeviceFormatContract.View mDeviceFormatView;
     private DeviceFormatActivity mDeviceFormatActivity;
     private RecyclerView mRvDeviceFormatList;
     private DeviceFormatAdapter mDeviceFormatAdapter;
     private List<DeviceFormatModel.ArrayBean> mArray;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDeviceFormatSet;
 
     public DeviceFormatPresenter(IDeviceFormatContract.View view) {
         mDeviceFormatView = view;
@@ -47,41 +49,55 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
 
     @Override
     public void initData() {
+        mSwipeRefreshLayoutDeviceFormatSet = mDeviceFormatActivity.getSwipeRefreshLayoutDeviceFormatSet();
+        mSwipeRefreshLayoutDeviceFormatSet.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSwipeRefreshLayoutDeviceFormatSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
+
         mArray = new ArrayList<>();
         mDeviceFormatAdapter = new DeviceFormatAdapter();
         mRvDeviceFormatList = mDeviceFormatView.getRvDeviceFormatList();
         mRvDeviceFormatList.setLayoutManager(new LinearLayoutManager(mDeviceFormatActivity, RecyclerView.VERTICAL, false));
 
-        //获取存储器的列表
-        HomeWrapper.getInstance().getStorageInfoList().subscribe(new Subscriber<DeviceFormatModel>() {
-            @Override
-            public void onCompleted() {
+        getNetwork();
+     }
 
-            }
+     private void getNetwork(){
+         //获取存储器的列表
+         HomeWrapper.getInstance().getStorageInfoList().subscribe(new Subscriber<DeviceFormatModel>() {
+             @Override
+             public void onCompleted() {
 
-            @Override
-            public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mDeviceFormatActivity, e);
-            }
+             }
 
-            @Override
-            public void onNext(DeviceFormatModel deviceFormatModel) {
-                if(mArray != null){
-                    mArray.clear();
-                }
-                mArray = deviceFormatModel.getArray();
-                mDeviceFormatAdapter.setData(mArray);
-                mRvDeviceFormatList.setAdapter(mDeviceFormatAdapter);
-            }
-        });
-    }
+             @Override
+             public void onError(Throwable e) {
+                 mSwipeRefreshLayoutDeviceFormatSet.setRefreshing(false);
+                 ExceptionUtils.exceptionHandling(mDeviceFormatActivity, e);
+             }
+
+             @Override
+             public void onNext(DeviceFormatModel deviceFormatModel) {
+                 mSwipeRefreshLayoutDeviceFormatSet.setRefreshing(false);
+                 if(mArray != null){
+                     mArray.clear();
+                 }
+                 mArray = deviceFormatModel.getArray();
+                 mDeviceFormatAdapter.setData(mArray);
+                 mRvDeviceFormatList.setAdapter(mDeviceFormatAdapter);
+             }
+         });
+
+     }
 
     @Override
     public void initListener() {
-        ImageView ivBack = mDeviceFormatView.getIvBack();
+        ImageView ivDeviceFormatBack = mDeviceFormatView.getIvDeviceFormatBack();
         TextView tvDeviceFormatData = mDeviceFormatView.getTvDeviceFormatData();
 
-        ivBack.setOnClickListener(this);
+        ivDeviceFormatBack.setOnClickListener(this);
+        mSwipeRefreshLayoutDeviceFormatSet.setOnRefreshListener(this);
         tvDeviceFormatData.setOnClickListener(this);
         mDeviceFormatAdapter.setOnItemClickListener(this);
     }
@@ -89,7 +105,7 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back) {
+        if (id == R.id.iv_device_format_back) {
             mDeviceFormatActivity.finish();
         } else if (id == R.id.tv_device_format_data) {
             if (mArray != null && mArray.size() > 0) {
@@ -140,6 +156,13 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
             if (mDeviceFormatAdapter != null) {
                 mDeviceFormatAdapter.notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        if(mSwipeRefreshLayoutDeviceFormatSet!=null){
+            getNetwork();
         }
     }
 }

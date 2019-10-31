@@ -5,6 +5,8 @@ import android.widget.TextView;
 
 import com.adasplus.base.view.SignSeekBar;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 /**
  * Author:刘净辉
  * Date : 2019/9/26 15:48
@@ -16,7 +18,9 @@ public interface ISoundsContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvSoundBack();
+
+        SwipeRefreshLayout getSwipeRefreshLayoutSoundSet();
 
         ImageView getIvSoundsReduce();
 
@@ -26,7 +30,7 @@ public interface ISoundsContract {
 
         TextView getTvCurrentSounds();
 
-        TextView getTvSave();
+        TextView getTvSoundSave();
     }
 
     interface Presenter {

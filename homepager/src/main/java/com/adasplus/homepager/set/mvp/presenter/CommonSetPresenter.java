@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
@@ -34,7 +33,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
     private ICommonSetContract.View mCommonSetView;
     private CommonSetActivity mCommonSetActivity;
 
-    public CommonSetPresenter(ICommonSetContract.View view){
+    public CommonSetPresenter(ICommonSetContract.View view) {
         mCommonSetView = view;
         mCommonSetActivity = (CommonSetActivity) view;
     }
@@ -46,7 +45,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
 
     @Override
     public void initListener() {
-        ImageView ivBack = mCommonSetView.getIvBack();
+        ImageView ivCommonBack = mCommonSetView.getIvCommonBack();
         LinearLayout llTimeSet = mCommonSetView.getLlTimeSet();
         LinearLayout llSoundSet = mCommonSetView.getLlSoundSet();
         LinearLayout llDormancySet = mCommonSetView.getLlDormancySet();
@@ -54,7 +53,7 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
         LinearLayout llFactoryDataReset = mCommonSetView.getLlFactoryDataReset();
         LinearLayout llDeviceFormat = mCommonSetView.getLlDeviceFormat();
 
-        ivBack.setOnClickListener(this);
+        ivCommonBack.setOnClickListener(this);
         llTimeSet.setOnClickListener(this);
         llSoundSet.setOnClickListener(this);
         llDormancySet.setOnClickListener(this);
@@ -66,19 +65,19 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back){
+        if (id == R.id.iv_common_back) {
             mCommonSetActivity.finish();
-        }else if (id ==  R.id.ll_time_set){ //时间设置
+        } else if (id == R.id.ll_time_set) { //时间设置
             mCommonSetActivity.startActivity(new Intent(mCommonSetActivity, TimeSetActivity.class));
-        }else if (id == R.id.ll_sound_set){ //声音设置
+        } else if (id == R.id.ll_sound_set) { //声音设置
             mCommonSetActivity.startActivity(new Intent(mCommonSetActivity, SoundsActivity.class));
-        }else if (id == R.id.ll_dormancy_set){ //休眠设置
+        } else if (id == R.id.ll_dormancy_set) { //休眠设置
             mCommonSetActivity.startActivity(new Intent(mCommonSetActivity, DormancySetActivity.class));
-        }else if (id == R.id.ll_reboot_set){ //重启设置
+        } else if (id == R.id.ll_reboot_set) { //重启设置
             rebootDevice();
-        }else if (id == R.id.ll_factory_data_reset){ // 恢复出厂设置
+        } else if (id == R.id.ll_factory_data_reset) { // 恢复出厂设置
             resetFactoryData();
-        }else if (id == R.id.ll_device_format){ //设备格式化设置
+        } else if (id == R.id.ll_device_format) { //设备格式化设置
             mCommonSetActivity.startActivity(new Intent(mCommonSetActivity, DeviceFormatActivity.class));
         }
     }
@@ -124,12 +123,12 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mCommonSetActivity,e);
+                ExceptionUtils.exceptionHandling(mCommonSetActivity, e);
             }
 
             @Override
             public void onNext(ResetFactoryModel resetFactoryModel) {
-                Toast.makeText(mCommonSetActivity, R.string.restore_the_factory_set_success, Toast.LENGTH_SHORT).show();
+                mCommonSetActivity.showToast(R.string.restore_the_factory_set_success);
             }
         });
     }
@@ -178,12 +177,12 @@ public class CommonSetPresenter implements ICommonSetContract.Presenter, View.On
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mCommonSetActivity,e);
+                ExceptionUtils.exceptionHandling(mCommonSetActivity, e);
             }
 
             @Override
             public void onNext(RestartDeviceModel restartDeviceModel) {
-                Toast.makeText(mCommonSetActivity, R.string.restart_device_success, Toast.LENGTH_SHORT).show();
+                mCommonSetActivity.showToast(R.string.restart_device_success);
             }
         });
     }

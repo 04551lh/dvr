@@ -1,8 +1,6 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

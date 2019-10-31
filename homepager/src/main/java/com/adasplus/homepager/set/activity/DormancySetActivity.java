@@ -12,10 +12,13 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.IDormancySetContract;
 import com.adasplus.homepager.set.mvp.presenter.DormancySetPresenter;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class DormancySetActivity extends BaseActivity implements IDormancySetContract.View {
 
-    private ImageView mIvBack;
-    private TextView mTvSave;
+    private ImageView mIvDormancyBack;
+    private SwipeRefreshLayout mSwipeRefreshLayoutDormancySet;
+    private TextView mTvDormancySave;
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
@@ -39,20 +42,26 @@ public class DormancySetActivity extends BaseActivity implements IDormancySetCon
         mBtnSub =  findViewById(R.id.btn_sub);
         mEtErrorNumber =  findViewById(R.id.et_error_number);
         mBtnAdd =  findViewById(R.id.btn_add);
-        mIvBack =  findViewById(R.id.iv_back);
-        mTvSave =  findViewById(R.id.tv_save);
+        mIvDormancyBack =  findViewById(R.id.iv_dormancy_back);
+        mSwipeRefreshLayoutDormancySet =  findViewById(R.id.swipeRefreshLayout_dormancy_set);
+        mTvDormancySave =  findViewById(R.id.tv_dormancy_save);
         mRlHintMessage = findViewById(R.id.rl_hint_message);
         mIvCloseHintMessage = findViewById(R.id.iv_close_hint_message);
     }
 
     @Override
-    public ImageView getIvBack() {
-        return mIvBack;
+    public ImageView getIvDormancyBack() {
+        return mIvDormancyBack;
     }
 
     @Override
-    public TextView getTvSave() {
-        return mTvSave;
+    public SwipeRefreshLayout getSwipeRefreshLayoutDormancySet() {
+        return mSwipeRefreshLayoutDormancySet;
+    }
+
+    @Override
+    public TextView getTvDormancySave() {
+        return mTvDormancySave;
     }
 
     @Override

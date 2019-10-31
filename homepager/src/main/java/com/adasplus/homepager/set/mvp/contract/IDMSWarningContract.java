@@ -17,7 +17,7 @@ public interface IDMSWarningContract {
 
     interface View {
 
-        ImageView getIvBack();
+        ImageView getIvDMSBack();
 
         SwipeRefreshLayout getSwipeRefreshLayoutDMSSet();
 

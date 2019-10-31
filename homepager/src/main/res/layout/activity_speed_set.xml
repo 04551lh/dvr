@@ -11,20 +11,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <ImageView
             style="@style/CommonTitleImageBackStyle"
             android:id="@+id/iv_speed_back" />
 
         <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:text="@string/speed_set"
-            android:textColor="@color/font_color_333"
-            android:textSize="@dimen/sp_18" />
+           style="@style/CommonTitleTvStyle"/>
 
     </LinearLayout>
 
@@ -310,18 +306,7 @@
 
                     <TextView
                         android:id="@+id/tv_speed_save"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/dp_30"
-                        android:layout_marginBottom="@dimen/dp_20"
-                        android:background="@drawable/btn_shape_style"
-                        android:paddingLeft="@dimen/dp_62"
-                        android:paddingTop="@dimen/dp_8"
-                        android:paddingRight="@dimen/dp_62"
-                        android:paddingBottom="@dimen/dp_7"
-                        android:text="@string/save"
-                        android:textColor="@color/save_font_color" />
+                        style="@style/CommonSaveBtnStyle"/>
                 </LinearLayout>
 
             </LinearLayout>
