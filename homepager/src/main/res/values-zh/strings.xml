@@ -191,6 +191,8 @@
 
     <string name="save_params_write_dialog_description">当前设置尚未保存，是否保存后再退出？</string>
 
+    <string name="determine_restore_default_parameters">确定恢复默认参数？</string>
+
     <string name="yes">是</string>
 
     <string name="no">否</string>
@@ -353,5 +355,19 @@
     <string name="video_frame_rate_hint_message">视频帧率在1–25之间~</string>
 
     <string name="disconnect_from_terminal_equipment">与终端设备断开连接~</string>
+
     <string name="please_fill_in_the_video_frame_rate">请填写视频帧率~</string>
+
+    <string name="video_show">视频展示</string>
+
+    <string name="video_show_platform">视频展示平台</string>
+
+    <string name="full_screen">全屏</string>
+
+    <string name="channel_number_one_six">通道号1-6</string>
+
+    <string name="hannel_number_set_save_success">通道全屏设置保存成功</string>
+
+    <string name="please_fill_correct_license_plate_number">请填写正确的车牌号</string>
+
 </resources>

@@ -416,13 +416,21 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 Toast.makeText(mContext, R.string.phone_number_is_not_empty, Toast.LENGTH_SHORT).show();
                 return;
             }
-
             //判断输入的手机号是否是 11 位，如果是 11 位的手机号，进行检查输入的手机号的格式是否合法，
-            if (phoneNumber.length() == 11) {
-                if (!PatternUtils.checkPhoneNumber(phoneNumber)) {
-                    Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            if (phoneNumber.length() != 11) {
+                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
+            }
+            if (!PatternUtils.checkPhoneNumber(phoneNumber)) {
+                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(plateNumber.length() != 7){
+                Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!PatternUtils.isVehicleNumber(plateNumber)){
+                Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
+                return;
             }
 
             JSONObject jobj = new JSONObject();

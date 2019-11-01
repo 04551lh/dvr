@@ -1,8 +1,8 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +41,7 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
     private DeviceFormatAdapter mDeviceFormatAdapter;
     private List<DeviceFormatModel.ArrayBean> mArray;
     private SwipeRefreshLayout mSwipeRefreshLayoutDeviceFormatSet;
+    private TextView tvDeviceFormatData;
 
     public DeviceFormatPresenter(IDeviceFormatContract.View view) {
         mDeviceFormatView = view;
@@ -55,8 +56,18 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
                 android.R.color.holo_red_light);
         mSwipeRefreshLayoutDeviceFormatSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
 
+        View headerView = View.inflate(mDeviceFormatActivity, R.layout.item_head_device_format_view, null);
+        View footerView = View.inflate(mDeviceFormatActivity, R.layout.item_footer_device_format_view, null);
+        tvDeviceFormatData = footerView.findViewById(R.id.tv_device_format_data);
+        headerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        footerView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
         mArray = new ArrayList<>();
-        mDeviceFormatAdapter = new DeviceFormatAdapter();
+        mDeviceFormatAdapter = new DeviceFormatAdapter(mDeviceFormatActivity);
+        mDeviceFormatAdapter.addHeaderView(headerView);
+        mDeviceFormatAdapter.addFooterView(footerView);
+
         mRvDeviceFormatList = mDeviceFormatView.getRvDeviceFormatList();
         mRvDeviceFormatList.setLayoutManager(new LinearLayoutManager(mDeviceFormatActivity, RecyclerView.VERTICAL, false));
 
@@ -94,7 +105,6 @@ public class DeviceFormatPresenter implements IDeviceFormatContract.Presenter, V
     @Override
     public void initListener() {
         ImageView ivDeviceFormatBack = mDeviceFormatView.getIvDeviceFormatBack();
-        TextView tvDeviceFormatData = mDeviceFormatView.getTvDeviceFormatData();
 
         ivDeviceFormatBack.setOnClickListener(this);
         mSwipeRefreshLayoutDeviceFormatSet.setOnRefreshListener(this);

@@ -21,6 +21,7 @@ import com.adasplus.homepager.set.mvp.model.SoundsModel;
 import com.adasplus.homepager.set.mvp.model.SpeedSetModel;
 import com.adasplus.homepager.set.mvp.model.TimeSetModel;
 import com.adasplus.homepager.set.mvp.model.VideoSetModel;
+import com.adasplus.homepager.set.mvp.model.VideoShowModel;
 import com.adasplus.homepager.set.mvp.model.WarningsRestoreDefaultSettingsModel;
 
 import org.json.JSONObject;
@@ -200,6 +201,16 @@ public class HomeWrapper extends RetrofitHelper {
         IHomeService homeService = createServiceFrom(IHomeService.class);
         RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
         return homeService.getVideoSetData(requestBody).compose(this.<VideoSetModel>applySchedulers());
+    }
+    public Observable<VideoShowModel> getVideoShowData() {
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.getVideoShowData().compose(this.<VideoShowModel>applySchedulers());
+    }
+
+    public Observable<VideoSetModel> updateVideoShowData(JSONObject jsonObject) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.updateVideoShowData(requestBody).compose(this.<VideoSetModel>applySchedulers());
     }
 
     public Observable<VideoSetModel> updateVideoSet(JSONObject jsonObject) {

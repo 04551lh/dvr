@@ -1,6 +1,5 @@
 package com.adasplus.homepager.params.mvp.presenter;
 
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -130,7 +129,7 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         //获取 保险杠距离、左车轮距离、右车轮距离和前车轮距离
         int bumperDistance = TextUtils.isEmpty(bumperDistanceStr) ? 0 : Integer.parseInt(bumperDistanceStr);
         int leftWheelDistance = TextUtils.isEmpty(leftWheelDistanceStr) ? 0 : Integer.parseInt(leftWheelDistanceStr);
-        int rightWheelDistance =  TextUtils.isEmpty(rightWheelDistanceStr) ? 0 : Integer.parseInt(rightWheelDistanceStr);
+        int rightWheelDistance = TextUtils.isEmpty(rightWheelDistanceStr) ? 0 : Integer.parseInt(rightWheelDistanceStr);
         int frontWheelDistance = TextUtils.isEmpty(frontWheelDistanceStr) ? 0 : Integer.parseInt(frontWheelDistanceStr);
 
         if (id == R.id.iv_back) {
@@ -147,26 +146,10 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
                     showSaveParamsWriteDialog();
                 }
             }
-        }else if (id == R.id.tv_restore_the_default_params){
-            HomeWrapper.getInstance().restoreDefaultParamsSet().subscribe(new Subscriber<RestoreDefaultParamsSetModel>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mParamsSetActivity,e);
-                }
-
-                @Override
-                public void onNext(RestoreDefaultParamsSetModel restoreDefaultParamsSetModel) {
-                    Toast.makeText(mParamsSetActivity, R.string.restore_default_params_set_success, Toast.LENGTH_SHORT).show();
-                    initData();
-                }
-            });
-        }else if (id == R.id.tv_cancel){
-            if (mDialog != null && mDialog.isAdded()){
+        } else if (id == R.id.tv_restore_the_default_params) {
+            showDefaultParamsDialog();
+        } else if (id == R.id.tv_cancel) {
+            if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
             mParamsSetActivity.finish();
@@ -175,7 +158,7 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
                 mParamsSetModel = new ParamsSetModel();
             }
 
-            if (mDialog != null && mDialog.isAdded()){
+            if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
             mParamsSetModel.setBumperDistance(bumperDistance);
@@ -210,6 +193,75 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         }
     }
 
+    private void showDefaultParamsDialog() {
+        View view = View.inflate(mParamsSetActivity, R.layout.dialog_common_styles, null);
+        TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
+        TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+
+        String description = mParamsSetActivity.getString(R.string.determine_restore_default_parameters);
+        String no = mParamsSetActivity.getString(R.string.no);
+        String yes = mParamsSetActivity.getString(R.string.yes);
+
+        float margin = mParamsSetActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_28);
+
+        tv_dialog_title.setVisibility(View.GONE);
+        tv_dialog_description.setText(description);
+        tv_dialog_description.setTextColor(mParamsSetActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
+        tv_cancel.setText(no);
+        tv_confirm.setText(yes);
+
+
+        mDialog = CommonDialog.init()
+                .setView(view)
+                .setMargin(margin)
+                .setOutCancel(false)
+                .setAnimStyle(R.style.BottomAnimStyle)
+                .setDimAmount(0.8f)
+                .show(mParamsSetActivity.getSupportFragmentManager());
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDialog != null && mDialog.isAdded()) {
+                    mDialog.dismiss();
+                }
+            }
+        });
+        tv_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeWrapper.getInstance().restoreDefaultParamsSet().subscribe(new Subscriber<RestoreDefaultParamsSetModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mParamsSetActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(RestoreDefaultParamsSetModel restoreDefaultParamsSetModel) {
+                        Toast.makeText(mParamsSetActivity, R.string.restore_default_params_set_success, Toast.LENGTH_SHORT).show();
+                        initData();
+                        if (mDialog != null && mDialog.isAdded()) {
+                            mDialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     private void showSaveParamsWriteDialog() {
         View view = View.inflate(mParamsSetActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
@@ -221,13 +273,17 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         String no = mParamsSetActivity.getResources().getString(R.string.no);
         String yes = mParamsSetActivity.getResources().getString(R.string.yes);
 
-        float margin = mParamsSetActivity.getResources().getDimension(R.dimen.dp_20);
-        int padding = (int) margin;
+        float margin = mParamsSetActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mParamsSetActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
-        tv_dialog_description.setTextColor(Color.BLACK);
-        tv_dialog_description.setPadding(padding,padding,padding,padding);
+        tv_dialog_description.setTextColor(mParamsSetActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
 

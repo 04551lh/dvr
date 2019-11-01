@@ -23,7 +23,6 @@ public interface IDeviceFormatContract {
 
         RecyclerView getRvDeviceFormatList();
 
-        TextView getTvDeviceFormatData();
     }
 
     interface Presenter {

@@ -62,7 +62,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
     private ActivatedPlatformsAdapter mActivatedPlatformsAdapter;
-    private ImageView mIvActionBarAddPlatforms;
     private TextView mTvPlatformList;
     private TextView mTvEditBasicInfo;
     private String mType;
@@ -117,7 +116,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         mTvTerminalId = mActivateDeviceView.getTvTerminalId();
         mTvProvincialDomainId = mActivateDeviceView.getTvProvincialDomainId();
         mTvCityAndCountyId = mActivateDeviceView.getTvCityAndCountyId();
-        mIvActionBarAddPlatforms = mActivateDeviceView.getIvAddNewPlatform();
         mTvEditBasicInfo = mActivateDeviceView.getTvEditBasicInfo();
         mTvPlatformList = mActivateDeviceView.getTvPlatformList();
         mSrlActivatePlatformData = mActivateDeviceView.getSrlActivatePlatformData();
@@ -223,7 +221,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                     }
                     //已连接平台的总数量
                     mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
-                    mIvActionBarAddPlatforms.setVisibility(View.GONE);
                 } else {
                     dismissConnectedPlatforms();
                     showAddNewPlatformBtn();
@@ -286,7 +283,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     private void showAddNewPlatformBtn() {
         mType = mActivateDeviceView.getType();
-        mIvActionBarAddPlatforms.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -315,7 +311,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         ImageView ivBack = mActivateDeviceView.getIvBack();
         LinearLayout llAddNewPlatform = mActivateDeviceView.getLlAddNewPlatform();
         ivBack.setOnClickListener(this);
-        mIvActionBarAddPlatforms.setOnClickListener(this);
         mTvEditBasicInfo.setOnClickListener(this);
         llAddNewPlatform.setOnClickListener(this);
     }
@@ -325,7 +320,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         int id = view.getId();
         if (id == R.id.iv_back) {
             mActivateDeviceActivity.finish();
-        } else if (id == R.id.iv_add_new_platform || id == R.id.ll_add_new_platform) { //添加新平台
+        } else if (id == R.id.ll_add_new_platform) { //添加新平台
             mActivateDeviceActivity.startActivity(new Intent(mActivateDeviceActivity, AddNewPlatformsActivity.class));
         } else if (id == R.id.tv_edit_basic_info) {
             startFillOrUpdateCarInfo();

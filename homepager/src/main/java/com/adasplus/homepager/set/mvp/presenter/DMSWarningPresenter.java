@@ -198,23 +198,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         }
         else if (id == R.id.tv_restore_the_default_settings) { //恢复默认设置的监听
             //恢复报警的默认设置
-            HomeWrapper.getInstance().dmsRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mDmsWarningActivity, e);
-                }
-
-                @Override
-                public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
-                    Toast.makeText(mDmsWarningActivity, "DMS 报警恢复默认设置成功!", Toast.LENGTH_SHORT).show();
-                    getDMSDefaultSet();
-                }
-            });
+            showDefaultParamsDialog();
         }
         else if (id == R.id.tv_cancel) { // 不保存更改的配置
             if (mDialog != null && mDialog.isAdded()) {
@@ -306,6 +290,76 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         }
     }
 
+    private void showDefaultParamsDialog() {
+        View view = View.inflate(mDmsWarningActivity, R.layout.dialog_common_styles, null);
+        TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
+        TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+
+        String description = mDmsWarningActivity.getString(R.string.determine_restore_default_parameters);
+        String no = mDmsWarningActivity.getString(R.string.no);
+        String yes = mDmsWarningActivity.getString(R.string.yes);
+
+        float margin = mDmsWarningActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mDmsWarningActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mDmsWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mDmsWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mDmsWarningActivity.getResources().getDimension(R.dimen.dp_28);
+
+        tv_dialog_title.setVisibility(View.GONE);
+        tv_dialog_description.setText(description);
+        tv_dialog_description.setTextColor(mDmsWarningActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
+        tv_cancel.setText(no);
+        tv_confirm.setText(yes);
+
+
+        mDialog = CommonDialog.init()
+                .setView(view)
+                .setMargin(margin)
+                .setOutCancel(false)
+                .setAnimStyle(R.style.BottomAnimStyle)
+                .setDimAmount(0.8f)
+                .show(mDmsWarningActivity.getSupportFragmentManager());
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDialog != null && mDialog.isAdded()) {
+                    mDialog.dismiss();
+                }
+            }
+        });
+        tv_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeWrapper.getInstance().dmsRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mDmsWarningActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
+                        Toast.makeText(mDmsWarningActivity, R.string.restore_default_set_tips, Toast.LENGTH_SHORT).show();
+                        getDMSDefaultSet();
+                        if (mDialog != null && mDialog.isAdded()) {
+                            mDialog.dismiss();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    
     private void showSaveDMSSetDialog() {
         View view = View.inflate(mDmsWarningActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);

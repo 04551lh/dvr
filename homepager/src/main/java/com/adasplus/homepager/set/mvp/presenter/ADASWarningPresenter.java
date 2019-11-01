@@ -168,6 +168,77 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
         });
     }
 
+    private void showDefaultParamsDialog() {
+        View view = View.inflate(mAdasWarningActivity, R.layout.dialog_common_styles, null);
+        TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
+        TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+
+        String description = mAdasWarningActivity.getString(R.string.determine_restore_default_parameters);
+        String no = mAdasWarningActivity.getString(R.string.no);
+        String yes = mAdasWarningActivity.getString(R.string.yes);
+
+        float margin = mAdasWarningActivity.getResources().getDimension(R.dimen.dp_12);
+        int paddingTop = (int) mAdasWarningActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mAdasWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mAdasWarningActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mAdasWarningActivity.getResources().getDimension(R.dimen.dp_28);
+
+        tv_dialog_title.setVisibility(View.GONE);
+        tv_dialog_description.setText(description);
+        tv_dialog_description.setTextColor(mAdasWarningActivity.getResources().getColor(R.color.font_color_333));
+        tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
+
+        tv_cancel.setText(no);
+        tv_confirm.setText(yes);
+
+
+        mDialog = CommonDialog.init()
+                .setView(view)
+                .setMargin(margin)
+                .setOutCancel(false)
+                .setAnimStyle(R.style.BottomAnimStyle)
+                .setDimAmount(0.8f)
+                .show(mAdasWarningActivity.getSupportFragmentManager());
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDialog != null && mDialog.isAdded()) {
+                    mDialog.dismiss();
+                }
+            }
+        });
+        tv_confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomeWrapper.getInstance().adasRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
+                        mAdasWarningActivity.showToast(R.string.restore_default_set_tips);
+                        getADASDefaultSet();
+                        if (mDialog != null && mDialog.isAdded()) {
+                            mDialog.dismiss();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
+    
+
     @Override
     public void initListener() {
         ImageView ivADASBack = mADASWarningView.getIvADASBack();
@@ -281,23 +352,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
             }
             else if (id == R.id.tv_restore_the_default_settings) {
                 //恢复 adas 报警默认设置
-                HomeWrapper.getInstance().adasRestoreDefaultSettings().subscribe(new Subscriber<WarningsRestoreDefaultSettingsModel>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mAdasWarningActivity, e);
-                    }
-
-                    @Override
-                    public void onNext(WarningsRestoreDefaultSettingsModel warningsRestoreDefaultSettingsModel) {
-                        mAdasWarningActivity.showToast(R.string.restore_default_set_tips);
-                        getADASDefaultSet();
-                    }
-                });
+                showDefaultParamsDialog();
             }
             else if (id == R.id.tv_save || id == R.id.tv_confirm) {
                 if (mAdasWarningModel != null) {

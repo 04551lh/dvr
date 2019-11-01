@@ -21,6 +21,7 @@ import com.adasplus.homepager.set.mvp.model.SoundsModel;
 import com.adasplus.homepager.set.mvp.model.SpeedSetModel;
 import com.adasplus.homepager.set.mvp.model.TimeSetModel;
 import com.adasplus.homepager.set.mvp.model.VideoSetModel;
+import com.adasplus.homepager.set.mvp.model.VideoShowModel;
 import com.adasplus.homepager.set.mvp.model.WarningsRestoreDefaultSettingsModel;
 
 import okhttp3.RequestBody;
@@ -213,6 +214,12 @@ public interface IHomeService {
 
     @POST(HttpConstant.UPDATE_VIDEO_SET)
     Observable<BaseResponse<VideoSetModel>> updateVideoSet(@Body RequestBody requestBody);
+
+    @POST(HttpConstant.GET_VIDEO_SHOW_DATA)
+    Observable<BaseResponse<VideoShowModel>> getVideoShowData();
+
+    @POST(HttpConstant.UPDATA_VIDEO_SHOW)
+    Observable<BaseResponse<VideoSetModel>>  updateVideoShowData(@Body RequestBody requestBody);
 
     @POST(HttpConstant.UPDATE_DEVICE_CONNECT_STATUS)
     Observable<BaseResponse<UpdateDeviceConnectStatus>> updateDeviceConnectStatus(@Body RequestBody requestBody);

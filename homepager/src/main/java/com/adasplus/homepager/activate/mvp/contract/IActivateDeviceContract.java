@@ -41,8 +41,6 @@ public interface IActivateDeviceContract {
 
         String getType();
 
-        ImageView getIvAddNewPlatform();
-
         TextView getTvEditBasicInfo();
 
         void showDefaultPlateInfo(CarInfoModel carInfoModel);

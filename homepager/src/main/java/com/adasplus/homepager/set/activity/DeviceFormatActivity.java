@@ -17,8 +17,6 @@ public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatC
     private ImageView mIvDeviceFormatBack;
     private SwipeRefreshLayout mSwipeRefreshLayoutDeviceFormatSet;
     private RecyclerView mRvDeviceFormatList;
-    private TextView mTvDeviceFormatData;
-
     @Override
     protected void init(Bundle savedInstanceState) {
         DeviceFormatPresenter deviceFormatPresenter = new DeviceFormatPresenter(this);
@@ -36,7 +34,6 @@ public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatC
         mIvDeviceFormatBack =  findViewById(R.id.iv_device_format_back);
         mSwipeRefreshLayoutDeviceFormatSet =  findViewById(R.id.swipeRefreshLayout_device_format_set);
         mRvDeviceFormatList =  findViewById(R.id.rv_device_format_list);
-        mTvDeviceFormatData =  findViewById(R.id.tv_device_format_data);
     }
 
     @Override
@@ -54,8 +51,4 @@ public class DeviceFormatActivity extends BaseActivity implements IDeviceFormatC
         return mRvDeviceFormatList;
     }
 
-    @Override
-    public TextView getTvDeviceFormatData() {
-        return mTvDeviceFormatData;
-    }
 }

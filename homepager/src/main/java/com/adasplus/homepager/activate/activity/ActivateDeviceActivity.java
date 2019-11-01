@@ -31,7 +31,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private TextView mTvTerminalId;
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
-    private ImageView mIvAddNewPlatform;
     private TextView mTvEditBasicInfo;
     private TextView mTvPlatformList;
     private LinearLayout mLlAddNewPlatform;
@@ -70,7 +69,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mTvTerminalId = findViewById(R.id.tv_terminal_id);
         mTvProvincialDomainId = findViewById(R.id.tv_provincial_domain_id);
         mTvCityAndCountyId = findViewById(R.id.tv_city_and_county_id);
-        mIvAddNewPlatform = findViewById(R.id.iv_add_new_platform);
         mTvEditBasicInfo = findViewById(R.id.tv_edit_basic_info);
         mTvPlatformList = findViewById(R.id.tv_platform_list);
         mLlAddNewPlatform =  findViewById(R.id.ll_add_new_platform);
@@ -130,11 +128,6 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     @Override
     public String getType() {
         return mType;
-    }
-
-    @Override
-    public ImageView getIvAddNewPlatform() {
-        return mIvAddNewPlatform;
     }
 
     @Override

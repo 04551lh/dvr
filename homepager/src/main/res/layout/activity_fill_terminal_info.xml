@@ -82,6 +82,8 @@
                 android:id="@+id/et_platform_phone_number"
                 style="@style/EtInputText"
                 android:layout_marginEnd="@dimen/dp_18"
+                android:inputType="number"
+                android:maxLength="11"
                 android:hint="@string/please_enter" />
         </LinearLayout>
 
@@ -98,6 +100,8 @@
                 android:id="@+id/et_license_plate_number"
                 style="@style/EtInputText"
                 android:layout_marginEnd="@dimen/dp_18"
+                android:inputType="text"
+                android:maxLength="7"
                 android:hint="@string/please_enter" />
         </LinearLayout>
 
@@ -114,6 +118,8 @@
                 android:id="@+id/et_chassis_number"
                 style="@style/EtInputText"
                 android:layout_marginEnd="@dimen/dp_18"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:hint="@string/please_enter" />
         </LinearLayout>
 
@@ -193,6 +199,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/dp_10"
                 android:layout_weight="1"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:drawableRight="@mipmap/right_arrow"
                 android:drawablePadding="@dimen/dp_10"
                 android:gravity="center_vertical|right"

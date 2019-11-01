@@ -54,6 +54,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     // 判断是否点击了返回按钮， true 代表了点击返回按钮，如果有未保存的数据我们进行弹框提示，点击弹
     // 框的是我们保存并退出当前的界面，否则，直接退出当前的界面; false 代表了选择了手动标定，在点击
     // 了上下左右标定按钮，并实时的保存标定的设置数据
+    private boolean mIsClickBack = false;
     private int mAutoReferenceLineEnable;
 
     public CalibrationSetPresenter(ICalibrationSetContract.View view) {
@@ -209,6 +210,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 updateCalibrationSet(DOWN);
             }
         } else if (id == R.id.tv_calibration_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
+            mIsClickBack = true;
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
@@ -287,8 +289,9 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 @Override
                 public void onNext(CalibrationSetModel calibrationSetModel) {
                     mCalibrationSetActivity.showToast(R.string.targets_set_save_success);
-                    mCalibrationSetActivity.finish();
-
+                    if(mIsClickBack){
+                        mCalibrationSetActivity.finish();
+                    }
                 }
             });
         } catch (JSONException e) {

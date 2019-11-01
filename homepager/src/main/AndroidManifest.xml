@@ -1,44 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adasplus.homepager" >
-    <application  >
-        <activity android:name=".connect.activity.ConnectDeviceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".params.activity.ParamsSetActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.ADASWarningActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.CalibrationSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.CANSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.CommonSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.DeviceFormatActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.DMSWarningActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.DormancySetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.NetworkSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.SettingsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.SoundsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.SpeedSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.TimeSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.VideoSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".set.activity.WarningsSetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activate.activity.ActivateDeviceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activate.activity.AddNewPlatformsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activate.activity.FillTerminalInfoActivity"
-            android:screenOrientation="portrait"/>
+    package="com.adasplus.homepager">
+
+    <application>
+        <activity android:name=".set.activity.VideoShowActivity"></activity>
+        <activity
+            android:name=".connect.activity.ConnectDeviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".params.activity.ParamsSetActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".set.activity.ADASWarningActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.CalibrationSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.CANSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.CommonSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.DeviceFormatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.DMSWarningActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.DormancySetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.NetworkSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.SoundsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.SpeedSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.TimeSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.VideoSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".set.activity.WarningsSetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activate.activity.ActivateDeviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activate.activity.AddNewPlatformsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activate.activity.FillTerminalInfoActivity"
+            android:screenOrientation="portrait" />
     </application>
+
 </manifest>
