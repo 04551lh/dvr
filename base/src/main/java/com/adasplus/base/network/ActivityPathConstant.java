@@ -10,6 +10,9 @@ public class ActivityPathConstant {
     //连接设备的Activity
     public static final String CONNECT_DEVICE_PATH = "/connect/connectDevice";
 
+    //视频展示的Activity
+    public static final String VIDEO_SHOW_PATH = "/video/videoShow";
+
     //填写终端信息的Activity
     public static final String FILL_TERMINAL_INFO_PATH = "/platforms/terminalInfo";
 

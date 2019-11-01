@@ -1,5 +1,7 @@
 package com.adasplus.base.utils;
 
+import android.util.Log;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,6 +16,7 @@ public class PatternUtils {
 
     private static final String IP_REGEX = "^([1-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))(\\.([0-9]|([1-9][0-9])|(1[0-9][0-9])|(2[0-4][0-9])|(25[0-5]))){3}$";
 
+    private static final String VEHICLE_NUMBER = "(^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z][A-Z][A-Z0-9]{4}[A-Z0-9挂学警港澳]$)";
 
     public static boolean checkPhoneNumber(String phoneNumber) {
         Pattern pattern = Pattern.compile(PHONE_NUMBER_REG);
@@ -28,9 +31,15 @@ public class PatternUtils {
         return matcher.matches();
     }
 
-    public static String idFormat(String id){
+    public static String idFormat(String id) {
         StringBuilder sb = new StringBuilder(id);
         sb.replace(6, 14, "********");
         return sb.toString();
+    }
+
+    public static boolean isVehicleNumber(String vehicleNumber) {
+        Pattern pattern = Pattern.compile(VEHICLE_NUMBER);
+        Matcher matcher = pattern.matcher(vehicleNumber);
+        return matcher.matches();
     }
 }

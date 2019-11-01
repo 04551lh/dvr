@@ -218,7 +218,7 @@ public interface IHomeService {
     @POST(HttpConstant.GET_VIDEO_SHOW_DATA)
     Observable<BaseResponse<VideoShowModel>> getVideoShowData();
 
-    @POST(HttpConstant.UPDATA_VIDEO_SHOW)
+    @POST(HttpConstant.UPDATE_VIDEO_SHOW)
     Observable<BaseResponse<VideoSetModel>>  updateVideoShowData(@Body RequestBody requestBody);
 
     @POST(HttpConstant.UPDATE_DEVICE_CONNECT_STATUS)

@@ -39,6 +39,8 @@
 
     <string name="unit">mm</string>
 
+    <string name="storage_unit">MB</string>
+
     <string name="basic_info">基本信息</string>
 
     <string name="phone_number">手机号</string>
@@ -58,6 +60,8 @@
     <string name="no_data">暂无数据</string>
 
     <string name="no_export_file">没有可导出的文件，请重新选择!</string>
+
+    <string name="formatting_not_supported">该设备为重要分区不支持格式化</string>
 
     <string name="params_no_completed">数据有必填参数未填写!</string>
 

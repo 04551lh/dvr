@@ -87,6 +87,10 @@ public class HttpConstant {
 
     public static final String GET_VIDEO_SET_DATA = "/videoRequest";
 
+    public static final String GET_VIDEO_SHOW_DATA = "/videoSwitchShowRequest";
+
+    public static final String UPDATE_VIDEO_SHOW = "/videoSwitchShowConfig";
+
     public static final String UPDATE_VIDEO_SET = "/videoConfig";
 
     public static final String UPDATE_DEVICE_CONNECT_STATUS = "/platformInfoConnectConfig";
