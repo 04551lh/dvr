@@ -27,6 +27,7 @@ import retrofit2.adapter.rxjava.HttpException;
 public class ExceptionUtils {
 
     private static final int JSON_FORMAT_EXCEPTION = -1;
+    private static final int FORMATTING_NOT_SUPPORTED = -2;
     private static final int FILE_IS_NOT_EXISTS = -3;
     private static final int PARAMS_NO_COMPLETED = -4;
     private static final int INVALID_DATA = -5;
@@ -37,7 +38,7 @@ public class ExceptionUtils {
     private static final int TERMINAL_REGISTERED = -10;
     private static final int DB_NO_TERMINAL = -11;
 
-    private static final String TERMINAL_SERVICE_EXCEPTION = "Failed to connect to /" + HttpConstant.WIFI_SERVER_IP_ADDRESS;
+    private static final String TERMINAL_SERVICE_EXCEPTION = "Failed to connect to /" + HttpConstant.USB_SERVER_IP_ADDRESS;
 
 
     public static void exceptionHandling(Context context
@@ -77,6 +78,8 @@ public class ExceptionUtils {
                 Toast.makeText(context, R.string.service_back_data_parse_error, Toast.LENGTH_SHORT).show();
             } else if (statusCode == FILE_IS_NOT_EXISTS) { //文件不存在
                 Toast.makeText(context, R.string.no_export_file, Toast.LENGTH_SHORT).show();
+            } else if (statusCode == FORMATTING_NOT_SUPPORTED) { //该设备为重要分区不支持格式化
+                Toast.makeText(context, R.string.formatting_not_supported, Toast.LENGTH_SHORT).show();
             } else if (statusCode == PARAMS_NO_COMPLETED) { //参数不完整
                 Toast.makeText(context, R.string.params_no_completed, Toast.LENGTH_SHORT).show();
             } else if (statusCode == INVALID_DATA) { //无效数据
