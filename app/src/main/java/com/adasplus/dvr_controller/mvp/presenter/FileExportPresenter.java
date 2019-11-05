@@ -1,23 +1,28 @@
 package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.adasplus.base.dialog.BasicDialog;
+import com.adasplus.base.dialog.CommonDialog;
 import com.adasplus.base.network.BaseWrapper;
 import com.adasplus.base.network.model.FileExportModel;
 import com.adasplus.base.popup.CommonPopupWindow;
-import com.adasplus.base.service.FloatWindowService;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.dvr_controller.R;
+import com.adasplus.dvr_controller.activity.MainActivity;
 import com.adasplus.dvr_controller.adapter.ChannelsNumberAdapter;
 import com.adasplus.dvr_controller.adapter.StreamTypeAdapter;
 import com.adasplus.dvr_controller.mvp.contract.IFileExportContract;
@@ -36,10 +41,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+import java.util.TimerTask;
 
 import rx.Subscriber;
 
@@ -49,26 +54,35 @@ import rx.Subscriber;
  * Description :
  */
 public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener, SwipeRefreshLayout.OnRefreshListener {
-    
+
     private IFileExportContract.View mFileExportView;
-    private Activity mActivity;
+    private MainActivity mActivity;
     private TextView mTvFileType;
-    private TextView mTvSelectDate;
-    private TextView mTvStartTime;
+//    private TextView mTvSelectDate;
+    private TextView mTvBeginTime;
     private TextView mTvEndTime;
     private TextView mTvChannel;
     private TextView mTvStreamType;
+    private TextView mTvStorageType;
     private TextView mTvExportFile;
     private TextView mTvChannelValue;
     private TextView mTvStreamTypeValue;
+    private TextView mTvStorageTypeValue;
     private static final String START_TIME_FLAG = "start";
     private static final String END_TIME_FLAG = "end";
 
     private CommonPopupWindow mFileTypePopupWindow;
-    private TextView mTvLog;
+    private CommonPopupWindow mStorageTypePopupWindow;
+
+    private TextView mTvAudioVideo;
+    private TextView mTvAudio;
     private TextView mTvVideo;
-    private List<ChannelNumbersModel> mChannelNumbersList = new ArrayList<>();
-    private List<StreamTypeModel> mStreamTypeList = new ArrayList<>();
+
+    private TextView mTvMainEquipment;
+    private TextView mTvReserveEquipment;
+
+    private List<ChannelNumbersModel> mChannelNumbersList;
+    private List<StreamTypeModel> mStreamTypeList;
 
     private ChannelsNumberAdapter mChannelsNumberAdapter;
     private CommonPopupWindow mChannelNumbersPopupWindow;
@@ -77,66 +91,79 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private int mWidth;
     private CommonPopupWindow mStreamTypePopupWindow;
     private ChannelNumbersModel mCurrentChannelNumbersModel;
-    private int mSelectFileType  = 0;
+    private int mSelectFileType;
+    private int mStorageType;
+    private int mWarningFlag;
     private SwipeRefreshLayout mSrlRefreshFileExportData;
 
-    public FileExportPresenter(Activity activity, IFileExportContract.View view){
+    private BasicDialog mDialog;
+
+    private java.util.Timer timer = new java.util.Timer(true);
+    private TimerTask task;
+    private ProgressBar mProgressbarFileExport;
+    private TextView mTvCurrentProgress;
+    private String mBeginTime;
+    private String mEndTime;
+
+    public FileExportPresenter(Activity activity, IFileExportContract.View view) {
         mFileExportView = view;
-        mActivity = activity;
+        mActivity = (MainActivity) activity;
     }
 
     @Override
     public void initData() {
+        mChannelNumbersList = new ArrayList<>();
+        mStreamTypeList = new ArrayList<>();
 
         mWidth = (int) mActivity.getResources().getDimension(R.dimen.dp_200);
 
-        isSelectLog(true);
+//        isSelectLog(true);
         String all = mActivity.getResources().getString(R.string.all);
         String main_stream = mActivity.getResources().getString(R.string.main_stream);
         String child_stream = mActivity.getResources().getString(R.string.child_stream);
 
+        mSelectFileType = 0;
+
         String[] streamTypeContent = {all, main_stream, child_stream};
         initStreamTypeData(streamTypeContent);
         //默认显示的是系统的当前的时间
-        String format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault()).format(new Date());
-        mTvSelectDate.setText(format);
+//        String format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String mBeginFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+        mBeginTime = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date()).substring(2);
+        Calendar calendars = Calendar.getInstance();
+        calendars.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        int year = calendars.get(Calendar.YEAR) - 1900;
+        int month = calendars.get(Calendar.MONTH);
+        int day = calendars.get(Calendar.DATE);
+
+        String mEndFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date(year,month,day,23,59));
+        mEndTime = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date(year,month,day,23,59)).substring(2);
+        mTvBeginTime.setText(mBeginFormat);
+        mTvEndTime.setText(mEndFormat);
         mChannels = mActivity.getResources().getString(R.string.channels);
 
-        BaseWrapper.getInstance().getFileExport().subscribe(new Subscriber<FileExportModel>() {
-            @Override
-            public void onCompleted() {
-
+        int channelCount = 6;
+        for (int i = 0; i < channelCount; i++) {
+            if (i == 0) {
+                mTvChannelValue.setText(String.format("%s %s", mChannels, String.valueOf((i+1))));
+                showStreamTypeTextContent(i);
+                mCurrentChannelNumbersModel = new ChannelNumbersModel((i+1), 0);
+                mCurrentChannelNumbersModel.setChecked(true);
+                mChannelNumbersList.add(mCurrentChannelNumbersModel);
+            } else {
+                ChannelNumbersModel channelNumbersModel = new ChannelNumbersModel((i+1), 0);
+                channelNumbersModel.setChecked(false);
+                mChannelNumbersList.add(channelNumbersModel);
             }
-
-            @Override
-            public void onError(Throwable e) {
-                mSrlRefreshFileExportData.setRefreshing(false);
-                ExceptionUtils.exceptionHandling(mActivity, e);
-            }
-
-            @Override
-            public void onNext(FileExportModel fileExportModel) {
-                mSrlRefreshFileExportData.setRefreshing(false);
-                int channelCount = fileExportModel.getChannelCount();
-                for (int i = 0; i < channelCount; i++) {
-                    if (i == 0) {
-                        mTvChannelValue.setText(String.format("%s %s", mChannels, String.valueOf((i + 1))));
-                        showStreamTypeTextContent(i);
-                        mCurrentChannelNumbersModel = new ChannelNumbersModel((i + 1), 0);
-                        mCurrentChannelNumbersModel.setChecked(true);
-                        mChannelNumbersList.add(mCurrentChannelNumbersModel);
-                    } else {
-                        ChannelNumbersModel channelNumbersModel = new ChannelNumbersModel((i + 1), 0);
-                        channelNumbersModel.setChecked(false);
-                        mChannelNumbersList.add(channelNumbersModel);
-                    }
-                }
-            }
-        });
+        }
+        mStorageType = 1;
+        mTvStorageTypeValue.setText(mActivity.getResources().getString(R.string.main_equipment));
+        mWarningFlag = 0;
     }
 
     /**
      * 初始化码流类型的数据
+     *
      * @param streamTypeContent
      */
     private void initStreamTypeData(String[] streamTypeContent) {
@@ -147,6 +174,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
     /**
      * 点击选择后选择对应的码流类型
+     *
      * @param streamIndex
      */
     private void showStreamTypeTextContent(int streamIndex) {
@@ -161,14 +189,16 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     @Override
     public void findViewById(View view) {
         mTvFileType = view.findViewById(R.id.tv_file_type);
-        mTvSelectDate = view.findViewById(R.id.tv_select_date);
-        mTvStartTime = view.findViewById(R.id.tv_start_time);
+//        mTvSelectDate = view.findViewById(R.id.tv_select_date);
+        mTvBeginTime = view.findViewById(R.id.tv_begin_time);
         mTvEndTime = view.findViewById(R.id.tv_end_time);
         mTvChannel = view.findViewById(R.id.tv_channel);
         mTvStreamType = view.findViewById(R.id.tv_stream_type);
+        mTvStorageType = view.findViewById(R.id.tv_storage_type);
         mTvExportFile = view.findViewById(R.id.tv_export_file);
         mTvChannelValue = view.findViewById(R.id.tv_channel_value);
         mTvStreamTypeValue = view.findViewById(R.id.tv_stream_type_value);
+        mTvStorageTypeValue = view.findViewById(R.id.tv_storage_type_value);
         mSrlRefreshFileExportData = view.findViewById(R.id.srl_refresh_file_export_data);
         mSrlRefreshFileExportData.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
@@ -185,11 +215,12 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     public void setClickEvent(View view) {
         mTvExportFile.setOnClickListener(this);
         mTvFileType.setOnClickListener(this);
-        mTvSelectDate.setOnClickListener(this);
-        mTvStartTime.setOnClickListener(this);
+//        mTvSelectDate.setOnClickListener(this);
+        mTvBeginTime.setOnClickListener(this);
         mTvEndTime.setOnClickListener(this);
         mTvStreamTypeValue.setOnClickListener(this);
         mTvChannelValue.setOnClickListener(this);
+        mTvStorageTypeValue.setOnClickListener(this);
         mTvStreamTypeValue.setOnClickListener(this);
         mChannelsNumberAdapter.setOnItemClickListener(this);
         mStreamTypeAdapter.setOnStreamTypeClickListener(this);
@@ -200,19 +231,24 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         int id = v.getId();
         if (id == R.id.tv_file_type) { //选择文件类型
             showFileTypePopup();
-        } else if (id == R.id.tv_log) { //日志
+        } else if (id == R.id.tv_audio_video) { //音视频
             dismissFileTypePopup();
             mSelectFileType = 0;
-            mTvFileType.setText(mTvLog.getText().toString());
-            isSelectLog(true);
-        } else if (id == R.id.tv_video) { //录像
+            mTvFileType.setText(mTvAudioVideo.getText().toString());
+//            isSelectLog(true);
+        } else if (id == R.id.tv_audio) { //音频
             dismissFileTypePopup();
             mSelectFileType = 1;
+            mTvFileType.setText(mTvAudio.getText().toString());
+//            isSelectLog(false);
+        }else if (id == R.id.tv_video) { //视频
+            dismissFileTypePopup();
+            mSelectFileType = 2;
             mTvFileType.setText(mTvVideo.getText().toString());
-            isSelectLog(false);
+//            isSelectLog(false);
         } else if (id == R.id.tv_select_date) { //选择日期
             selectDate();
-        } else if (id == R.id.tv_start_time) { // 开始时间
+        } else if (id == R.id.tv_begin_time) { // 开始时间
             selectTime(START_TIME_FLAG);
         } else if (id == R.id.tv_end_time) { //结束时间
             selectTime(END_TIME_FLAG);
@@ -220,67 +256,159 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             selectChannelNumbers();
         } else if (id == R.id.tv_stream_type_value) { //选择码流类型
             selectStreamType();
+        } else if (id == R.id.tv_storage_type_value) { //选择设备类型
+            showStorageTypePopup();
+        }else if (id == R.id.tv_main_equipment) { //主设备
+            dismissStorageTypePopup();
+            mStorageType = 1;
+            mTvStorageTypeValue.setText(mTvMainEquipment.getText().toString());
+        }else if (id == R.id.tv_reserve_equipment) { //备设备
+            dismissStorageTypePopup();
+            mStorageType = 2;
+            mTvStorageTypeValue.setText(mTvReserveEquipment.getText().toString());
         } else if (id == R.id.tv_export_file) { //导出文件
             exportFiles();
         }
     }
 
     private void exportFiles() {
-        String date = mTvSelectDate.getText().toString();
-        String startTime = mTvStartTime.getText().toString();
-        String endTime = mTvEndTime.getText().toString();
+//        mBeginTime = mTvBeginTime.getText().toString().trim();
+//        mEndTime = mTvEndTime.getText().toString();
 
         int channelNumber = -1;
-        for (int i = 0 ; i < mChannelNumbersList.size();i++){
+        for (int i = 0; i < mChannelNumbersList.size(); i++) {
             ChannelNumbersModel channelNumbersModel = mChannelNumbersList.get(i);
             boolean checked = channelNumbersModel.isChecked();
-            if (checked){
+            if (checked) {
                 channelNumber = channelNumbersModel.getChannelNumber();
                 break;
             }
         }
 
-        int streamType = -1;
-        for (int i = 0 ; i < mStreamTypeList.size() ; i++){
+        int streamType = 1;
+        for (int i = 0; i < mStreamTypeList.size(); i++) {
             StreamTypeModel streamTypeModel = mStreamTypeList.get(i);
             boolean checked = streamTypeModel.isChecked();
-            if (checked){
+            if (checked) {
                 streamType = streamTypeModel.getStreamIndex();
                 break;
             }
         }
 
-        mActivity.startService(new Intent(mActivity, FloatWindowService.class));
+//        mActivity.startService(new Intent(mActivity, FloatWindowService.class));
+        JSONObject jobj = new JSONObject();
+        try {
+            jobj.put("resourceType", mSelectFileType);
+            jobj.put("storageType", mStorageType);
+            jobj.put("warningFlag", mWarningFlag);
+//            jobj.put("data", date);
+            jobj.put("beginTime", mBeginTime);
+            jobj.put("endTime", mEndTime);
+            jobj.put("channelNum", channelNumber);
+            jobj.put("streamType", streamType);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-//        JSONObject jobj = new JSONObject();
-//        try {
-//            jobj.put("type",mSelectFileType);
-//            jobj.put("data",date);
-//            jobj.put("timeStart",startTime);
-//            jobj.put("endStart",endTime);
-//            jobj.put("channelNumber",channelNumber);
-//            jobj.put("streamType",streamType);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<FileExportModel>() {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                ExceptionUtils.exceptionHandling(mActivity,e);
-//            }
-//
-//            @Override
-//            public void onNext(FileExportModel fileExportModel) {
-//                //TODO 需要进行通过实时设备数据调试
+        BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<FileExportModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                ExceptionUtils.exceptionHandling(mActivity, e);
+            }
+
+            @Override
+            public void onNext(FileExportModel fileExportModel) {
+                //TODO 需要进行通过实时设备数据调试
+                if(fileExportModel.getStatuesCode() == 0){
+                    mActivity.showToast(mActivity.getString(R.string.no_related_documents));
+                    return;
+                }
+                getFileExportNeteork();
+                showFileExportDialog();
 //                mActivity.startService(new Intent(mActivity, FloatWindowService.class));
-//            }
-//        });
+            }
+        });
+    }
+
+    public Handler mHandler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            FileExportModel fileExportModel = (FileExportModel) msg.obj;
+            switch (msg.what) {
+                case 0x123:
+                    if (fileExportModel.getResult().getFileOutNumber() == 0) {
+                        timer.cancel();
+                        if (mDialog != null && mDialog.isAdded()) {
+                            mDialog.dismiss();
+                        }
+                    }
+                    mProgressbarFileExport.setProgress(fileExportModel.getResult().getFileOutProgress());
+                    mTvCurrentProgress.setText(fileExportModel.getResult().getFileOutProgress() + mActivity.getString(R.string.exporting));
+                    break;
+            }
+        }
+    };
+
+    private void getFileExportNeteork() {
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                BaseWrapper.getInstance().getFileExport().subscribe(new Subscriber<FileExportModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        timer.cancel();
+                        ExceptionUtils.exceptionHandling(mActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(FileExportModel fileExportModel) {
+                        //TODO 需要进行通过实时设备数据调试
+                        Message msg = new Message();
+                        msg.what = 0x123;
+                        msg.obj = fileExportModel;
+                        mHandler.sendMessage(msg);
+                    }
+                });
+            }
+        };
+        timer.schedule(task, 0, 1000);
+    }
+
+
+    private void showFileExportDialog() {
+        View view = View.inflate(mActivity, R.layout.dialog_file_export, null);
+        mProgressbarFileExport = view.findViewById(com.adasplus.homepager.R.id.progressbar_file_export);
+        mTvCurrentProgress = view.findViewById(com.adasplus.homepager.R.id.tv_dialog_description);
+        TextView tv_cancel = view.findViewById(com.adasplus.homepager.R.id.tv_cancel);
+
+        float margin = mActivity.getResources().getDimension(com.adasplus.homepager.R.dimen.dp_12);
+
+        mDialog = CommonDialog.init()
+                .setView(view)
+                .setMargin(margin)
+                .setOutCancel(false)
+                .setAnimStyle(com.adasplus.homepager.R.style.BottomAnimStyle)
+                .setDimAmount(0.8f)
+                .show(mActivity.getSupportFragmentManager());
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDialog != null && mDialog.isAdded()) {
+                    timer.cancel();
+                    mDialog.dismiss();
+                }
+            }
+        });
     }
 
     /**
@@ -323,20 +451,24 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
     /**
      * 选择时间 （包括 开始时间 和 结束时间）
+     *
      * @param type
      */
     private void selectTime(final String type) {
         TimePickerView timePickerView = new TimePickerBuilder(mActivity, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
-                String time = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(date);
+                String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(date);
+                String time1 = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(date);
                 if (START_TIME_FLAG.equals(type)) {
-                    mTvStartTime.setText(time);
+                    mTvBeginTime.setText(time);
+                    mBeginTime = time1.substring(2);
                 } else if (END_TIME_FLAG.equals(type)) {
                     mTvEndTime.setText(time);
+                    mEndTime = time1.substring(2);
                 }
             }
-        }).setType(new boolean[]{false, false, false, true, true, true})
+        }).setType(new boolean[]{true, true, true, true, true, true})
                 .build();
         timePickerView.show();
     }
@@ -352,7 +484,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             @Override
             public void onTimeSelect(Date date, View v) {
                 String selectData = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
-                mTvSelectDate.setText(selectData);
+//                mTvSelectDate.setText(selectData);
             }
         }).setDate(date)
                 .setTitleText(select_date)
@@ -396,19 +528,40 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         }
     }
 
+    private void dismissStorageTypePopup() {
+        if (mStorageTypePopupWindow != null && mStorageTypePopupWindow.isShowing()) {
+            mStorageTypePopupWindow.dismiss();
+        }
+    }
+
     private void showFileTypePopup() {
         View view = View.inflate(mActivity, R.layout.popup_file_type, null);
-        mTvLog = view.findViewById(R.id.tv_log);
+        mTvAudioVideo = view.findViewById(R.id.tv_audio_video);
+        mTvAudio = view.findViewById(R.id.tv_audio);
         mTvVideo = view.findViewById(R.id.tv_video);
-
-        mTvLog.setOnClickListener(this);
+        mTvAudioVideo.setOnClickListener(this);
+        mTvAudio.setOnClickListener(this);
         mTvVideo.setOnClickListener(this);
-
         mFileTypePopupWindow = new CommonPopupWindow.Builder(mActivity)
                 .setView(view)
                 .setWidthAndHeight(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
                 .create();
         mFileTypePopupWindow.showAsDropDown(mTvFileType);
+    }
+
+
+
+    private void showStorageTypePopup() {
+        View view = View.inflate(mActivity, R.layout.popup_storage_type, null);
+        mTvMainEquipment = view.findViewById(R.id.tv_main_equipment);
+        mTvReserveEquipment = view.findViewById(R.id.tv_reserve_equipment);
+        mTvMainEquipment.setOnClickListener(this);
+        mTvReserveEquipment.setOnClickListener(this);
+        mStorageTypePopupWindow = new CommonPopupWindow.Builder(mActivity)
+                .setView(view)
+                .setWidthAndHeight(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                .create();
+        mStorageTypePopupWindow.showAsDropDown(mTvStorageTypeValue);
     }
 
     @Override
@@ -422,7 +575,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                 channelNumbersModel.setChecked(false);
             }
         }
-
         ChannelNumbersModel channelNumbersModel = mChannelNumbersList.get(position);
         mCurrentChannelNumbersModel = channelNumbersModel;
         int channelNumber = channelNumbersModel.getChannelNumber();
@@ -441,6 +593,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
      */
     @Override
     public void streamTypeClickListener(int position) {
+
         for (int i = 0; i < mStreamTypeList.size(); i++) {
             StreamTypeModel streamTypeModel = mStreamTypeList.get(i);
             if (i == position) {

@@ -591,11 +591,10 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
     @Override
     public void onItemClick(int position) {
-        int channelNumber = position + 1;
-        mChannelNumber = channelNumber;
+        mChannelNumber = position + 1;
         String channels = mVideoSetActivity.getString(R.string.channels);
-        mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(channelNumber)));
-        requestChannelNumberData(channelNumber);
+        mTvSelectChannelsNumber.setText(String.format("%s %s", channels, String.valueOf(mChannelNumber)));
+        requestChannelNumberData(mChannelNumber);
 
         if (mChannelNumberPopupWindow != null && mChannelNumberPopupWindow.isShowing()) {
             mChannelNumberPopupWindow.dismiss();

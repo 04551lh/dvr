@@ -83,4 +83,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             mHomePresenter.initData(systemInfoModel);
         }
     }
+
+    public void setUSBStatus(boolean usbStatus) {
+        if (mHomePresenter != null){
+            mHomePresenter.setUSBStatus(usbStatus);
+        }
+    }
 }

@@ -75,13 +75,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void showToast(Context context,int msg) {
-        if (context!=null){
-            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-        }
-    }
-   public void showToast(int msg) {
-            Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT).show();
+    public void showToast(int msg) {
+        Toast.makeText(BaseActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    public void showToast(String string) {
+        Toast.makeText(BaseActivity.this, string, Toast.LENGTH_SHORT).show();
+    }
 }

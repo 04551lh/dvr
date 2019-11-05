@@ -130,8 +130,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_45</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginLeft">@dimen/dp_16</item>
-        <item name="android:layout_marginRight">@dimen/dp_16</item>
+        <item name="android:layout_marginStart">@dimen/dp_16</item>
+        <item name="android:paddingEnd">@dimen/dp_16</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
@@ -142,6 +142,5 @@
         <item name="android:layout_height">@dimen/dp_0.5</item>
         <item name="android:background">@color/under_line_color</item>
     </style>
-
 
 </resources>

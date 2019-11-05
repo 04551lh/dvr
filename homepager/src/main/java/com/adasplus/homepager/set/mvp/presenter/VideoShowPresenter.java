@@ -2,34 +2,46 @@ package com.adasplus.homepager.set.mvp.presenter;
 
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.adasplus.base.popup.CommonPopupWindow;
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.set.activity.VideoShowActivity;
+import com.adasplus.homepager.set.adapter.VideoChannelsSetAdapter;
 import com.adasplus.homepager.set.mvp.contract.IVideoShowContract;
+import com.adasplus.homepager.set.mvp.contract.OnChannelItemClickListener;
 import com.adasplus.homepager.set.mvp.model.VideoSetModel;
 import com.adasplus.homepager.set.mvp.model.VideoShowModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import rx.Subscriber;
 
-public class VideoShowPresenter implements IVideoShowContract.Presenter, View.OnClickListener {
+public class VideoShowPresenter implements IVideoShowContract.Presenter, View.OnClickListener, OnChannelItemClickListener {
 
     private VideoShowActivity mVideoShowActivity;
     private IVideoShowContract.View mVideoShowView;
 
     private ImageView mImVideoShowBack;
-    private EditText mEtVideoShowPlatform;
+    private TextView mTvVideoShowChannel;
     private ImageView mImFullScreen;
     private TextView mTvVideoShowSave;
 
+    private static final int mChannelTotalCount = 6;
+    private VideoChannelsSetAdapter mVideoChannelsSetAdapter;
+    private CommonPopupWindow mChannelNumberPopupWindow;
+    private int mChannelNumber;
+
     private int mFullScreen;
+    private int mWidth;
+    private String channels;
 
     public VideoShowPresenter(IVideoShowContract.View view){
         mVideoShowView = view;
@@ -39,10 +51,15 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
     @Override
     public void initData() {
         mImVideoShowBack = mVideoShowView.getImVideoShowBack();
-        mEtVideoShowPlatform = mVideoShowView.getEtVideoShowPlatform();
+        mTvVideoShowChannel = mVideoShowView.getTvVideoShowChannel();
         mImFullScreen = mVideoShowView.getImFullScreen();
         mTvVideoShowSave = mVideoShowView.getTvVideoShowSave();
+        channels = mVideoShowActivity.getString(R.string.channels);
+        mWidth = (int) mVideoShowActivity.getResources().getDimension(R.dimen.dp_60);
+        mVideoChannelsSetAdapter = new VideoChannelsSetAdapter();
         getNetWork();
+        initChannelNumberData();
+
     }
 
     @Override
@@ -50,6 +67,23 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
         mImVideoShowBack.setOnClickListener(this);
         mImFullScreen.setOnClickListener(this);
         mTvVideoShowSave.setOnClickListener(this);
+        mVideoChannelsSetAdapter.setOnItemClickListener(this);
+        mTvVideoShowChannel.setOnClickListener(this);
+
+    }
+
+    private void initChannelNumberData() {
+        View view = View.inflate(mVideoShowActivity, R.layout.popup_common_style, null);
+        RecyclerView rv_common_style_list = view.findViewById(R.id.rv_common_style_list);
+        rv_common_style_list.setLayoutManager(new LinearLayoutManager(mVideoShowActivity, RecyclerView.VERTICAL, false));
+        mVideoChannelsSetAdapter.setData(mChannelTotalCount);
+        rv_common_style_list.setAdapter(mVideoChannelsSetAdapter);
+
+        mChannelNumberPopupWindow = new CommonPopupWindow.Builder(mVideoShowActivity)
+                .setView(view)
+                .setWidthAndHeight(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                .setOutsideTouchable(true)
+                .create();
     }
 
     @Override
@@ -68,7 +102,8 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
             @Override
             public void onNext(VideoShowModel videoShowModel) {
                 mFullScreen = videoShowModel.getShowFullScreen();
-                mEtVideoShowPlatform.setText(videoShowModel.getChannelNumber()+"");
+                mChannelNumber = videoShowModel.getChannelNumber();
+                mTvVideoShowChannel.setText(String.format("%s %s", channels, String.valueOf(mChannelNumber)));
                 if(mFullScreen == 1){
                     mImFullScreen.setImageResource(R.mipmap.switch_open_icon);
                 }else{
@@ -84,7 +119,7 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
         if(id == R.id.iv_video_show_back){
             mVideoShowActivity.finish();
         }
-        if(id == R.id.iv_full_screen){
+        else if(id == R.id.iv_full_screen){
             if(mFullScreen == 1){
                 mImFullScreen.setImageResource(R.mipmap.switch_close_icon);
                 mFullScreen = 0;
@@ -92,15 +127,19 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
                 mImFullScreen.setImageResource(R.mipmap.switch_open_icon);
                 mFullScreen = 1;
             }
-        }
-        if(id == R.id.tv_video_show_save){
-            int channelNumber = Integer.valueOf(mEtVideoShowPlatform.getText().toString());
-            if(channelNumber<0 || channelNumber >6){
+        }else if (id == R.id.tv_video_show_channel) {
+                if (mChannelNumberPopupWindow != null) {
+                    mChannelNumberPopupWindow.showAsDropDown(mTvVideoShowChannel, 0, 0);
+                }
+            }
+        else if(id == R.id.tv_video_show_save){
+            if(mChannelNumber< 0 || mChannelNumber >6){
                 mVideoShowActivity.showToast(R.string.channel_number_one_six);
+                return;
             }
             JSONObject jobj = new JSONObject();
             try {
-                jobj.put("channelNumber", channelNumber);
+                jobj.put("channelNumber", mChannelNumber);
                 jobj.put("showFullScreen", mFullScreen);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -124,5 +163,15 @@ public class VideoShowPresenter implements IVideoShowContract.Presenter, View.On
                 }
             });
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        mChannelNumber = position+1;
+        mTvVideoShowChannel.setText(String.format("%s %s", channels, String.valueOf(position+1)));
+        if (mChannelNumberPopupWindow != null && mChannelNumberPopupWindow.isShowing()) {
+            mChannelNumberPopupWindow.dismiss();
+        }
+
     }
 }

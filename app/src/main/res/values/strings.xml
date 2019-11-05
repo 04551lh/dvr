@@ -29,7 +29,7 @@
 
     <string name="log">日志</string>
 
-    <string name="video">录像</string>
+    <string name="video">视频</string>
 
     <string name="channels">通道</string>
 
@@ -70,5 +70,20 @@
     <string name="end_time_default_value">23:59:00</string>
 
     <string name="look_plate_status">下滑查看车辆状态</string>
+
     <string name="please_open_usb_network_share">请打开USB网络共享~</string>
+
+    <string name="video_show">视频展示</string>
+
+    <string name="exporting">% 进行导出中…</string>
+
+    <string name="audio">音频</string>
+
+    <string name="audio_video">音视频</string>
+
+    <string name="main_equipment">主设备</string>
+
+    <string name="reserve_equipment">备设备</string>
+
+    <string name="no_related_documents">没有相关文件</string>
 </resources>

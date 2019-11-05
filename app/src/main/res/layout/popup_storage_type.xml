@@ -5,33 +5,21 @@
     android:background="@color/app_background"
     android:padding="@dimen/dp_1"
     android:orientation="vertical">
-
     <TextView
-        android:id="@+id/tv_audio_video"
+        android:id="@+id/tv_main_equipment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:text="@string/audio_video"
+        android:text="@string/main_equipment"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_20"
         android:paddingEnd="@dimen/dp_20"
         android:textSize="@dimen/sp_15"
         android:textColor="@color/font_color_666"/>
     <TextView
-        android:id="@+id/tv_audio"
+        android:id="@+id/tv_reserve_equipment"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
-        android:text="@string/audio"
-        android:gravity="center_vertical"
-        android:textSize="@dimen/sp_15"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20"
-        android:textColor="@color/font_color_666"/>
-
-    <TextView
-        android:id="@+id/tv_video"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_45"
-        android:text="@string/video"
+        android:text="@string/reserve_equipment"
         android:gravity="center_vertical"
         android:textSize="@dimen/sp_15"
         android:paddingStart="@dimen/dp_20"

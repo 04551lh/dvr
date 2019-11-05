@@ -13,6 +13,7 @@ public interface IHomeContract {
     }
 
     interface View {
+
     }
 
     interface Presenter {
@@ -29,5 +30,6 @@ public interface IHomeContract {
 
         void onDestroy();
 
+        void setUSBStatus(boolean usbStatus);
     }
 }

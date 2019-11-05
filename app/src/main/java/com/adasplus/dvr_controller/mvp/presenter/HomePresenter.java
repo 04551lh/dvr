@@ -61,6 +61,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private TextView mTvCarSpeed;
     private TextView mTvLocationInfo;
     private LinearLayout mLlDeviceConnect;
+    private LinearLayout mLlVideoShow;
     private LinearLayout mLlPlatformsConnect;
     private LinearLayout mLlFillParams;
     private LinearLayout mLlTerminalSet;
@@ -72,7 +73,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private ImageView mIvRightTurnStatus;
     private ImageView mIvBrakeStatus;
     private ImageView mIvTargetsPlatformStatus;
-    private  boolean isStartActivity = false;
+    private boolean mUSB = true;
 
     public HomePresenter(Activity activity, IHomeContract.View view) {
         mActivity = activity;
@@ -190,6 +191,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mTvCarSpeed = view.findViewById(R.id.tv_car_speed);
         mTvLocationInfo = view.findViewById(R.id.tv_location_info);
         mLlDeviceConnect = view.findViewById(R.id.ll_device_connect);
+        mLlVideoShow = view.findViewById(R.id.ll_video_show);
         mLlPlatformsConnect = view.findViewById(R.id.ll_platforms_connect);
         mLlFillParams = view.findViewById(R.id.ll_fill_params);
         mLlTerminalSet = view.findViewById(R.id.ll_terminal_set);
@@ -208,6 +210,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     @Override
     public void setClickEvent(View view) {
         mLlDeviceConnect.setOnClickListener(this);
+        mLlVideoShow.setOnClickListener(this);
         mLlPlatformsConnect.setOnClickListener(this);
         mLlFillParams.setOnClickListener(this);
         mLlTerminalSet.setOnClickListener(this);
@@ -215,9 +218,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onResume() {
-        if (isStartActivity){
-            isStartActivity = false;
-        }
+
     }
 
     @Override
@@ -230,35 +231,46 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     }
 
     @Override
+    public void setUSBStatus(boolean usbStatus) {
+        mUSB = usbStatus;
+    }
+
+    @Override
     public void onClick(View v) {
-        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-        String wifiName = wifiInfo.getSSID();
-        boolean isDeviceWifi = !wifiName.contains(HttpConstant.DEVICE_WIFI_TAG);
+//        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+//        String wifiName = wifiInfo.getSSID();
+//        boolean isDeviceWifi = !wifiName.contains(HttpConstant.DEVICE_WIFI_TAG);
 
         switch (v.getId()){
             case R.id.ll_device_connect:
                 startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
                 break;
+            case R.id.ll_video_show:
+                if (mUSB){
+                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
+                break;
             case R.id.ll_fill_params:
-                if (isDeviceWifi){
-                    Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
+                if (mUSB){
+                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 startActivity(ActivityPathConstant.PARAMS_PATH);
                 break;
             case R.id.ll_terminal_set:
-                if (isDeviceWifi){
-                    Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
+                if (mUSB){
+                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 startActivity(ActivityPathConstant.SETTINGS_PATH);
                 break;
             case R.id.ll_platforms_connect:
-                if (isDeviceWifi){
-                    Toast.makeText(mActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
+                if (mUSB){
+                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                     @Override
                     public void onCompleted() {
@@ -302,14 +314,12 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
             public void onNext(TerminalInfoModel terminalInfoModel) {
                 String phoneNumber = terminalInfoModel.getPhoneNumber();
                 if (TextUtils.isEmpty(phoneNumber)){
-                    isStartActivity = true;
                     ARouter.getInstance()
                             .build(ActivityPathConstant.FILL_TERMINAL_INFO_PATH)
                             .withString("type",ActivityPathConstant.FILL_TERMINAL_INFO)
                             .withBoolean("isFillTerminalInfo",true)
                             .navigation();
                 }else {
-                    isStartActivity = true;
                     ARouter.getInstance()
                             .build(ActivityPathConstant.ACTIVATE_DEVICE_PATH)
                             .withString("type",ActivityPathConstant.ADD_NEW_PLATFORMS)
@@ -320,7 +330,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     }
 
     private void startActivity(String path){
-        isStartActivity = true;
         ARouter.getInstance()
                 .build(path)
                 .navigation();

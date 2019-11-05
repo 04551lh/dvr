@@ -83,7 +83,7 @@
                 style="@style/EtInputText"
                 android:layout_marginEnd="@dimen/dp_18"
                 android:inputType="number"
-                android:maxLength="11"
+                android:maxLength="12"
                 android:hint="@string/please_enter" />
         </LinearLayout>
 

@@ -180,6 +180,16 @@ public class HomeWrapper extends RetrofitHelper {
         return homeService.getCalibrationSet().compose(this.<CalibrationSetModel>applySchedulers());
     }
 
+    public Observable<CalibrationSetModel> getCalibrationEnter() {
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.getCalibrationEnter().compose(this.<CalibrationSetModel>applySchedulers());
+    }
+
+    public Observable<CalibrationSetModel> getCalibrationExit() {
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.getCalibrationExit().compose(this.<CalibrationSetModel>applySchedulers());
+    }
+
     public Observable<CalibrationSetModel> updateCalibrationSet(JSONObject jsonObject) {
         RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
         IHomeService homeService = createServiceFrom(IHomeService.class);

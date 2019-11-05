@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,7 +140,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
                 @Override
                 public void onError(Throwable e) {
-                    ExceptionUtils.exceptionHandling(mActivateNewPlatformsActivity,e);
+                    ExceptionUtils.exceptionHandling(mActivateNewPlatformsActivity, e);
                 }
 
                 @Override
@@ -146,7 +148,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                     //查询当前 808 服务的运行状态，如果808服务未启动的话，
                     // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
                     int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
-                    if (jt808ServiceStatus == 0){
+                    if (jt808ServiceStatus == 0) {
                         Toast.makeText(mActivateNewPlatformsActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -162,10 +164,10 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             public void run() {
                 String licensePlateFileName = "license_plate_color.json";
                 //读取本地的 车辆颜色 数据
-                String plateColor = VehicleInfoUtil.readVehicleData(mContext,licensePlateFileName);
+                String plateColor = VehicleInfoUtil.readVehicleData(mContext, licensePlateFileName);
                 String administrativeRegionCodeFileName = "administrative_region_code.json";
                 //读取本地的 行政区域代码 数据
-                String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext,administrativeRegionCodeFileName);
+                String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext, administrativeRegionCodeFileName);
                 LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
                 List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
                 CarInfoModel carInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
@@ -416,6 +418,9 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 Toast.makeText(mContext, R.string.phone_number_is_not_empty, Toast.LENGTH_SHORT).show();
                 return;
             }
+            if(phoneNumber.indexOf("0") == 0){
+                phoneNumber = phoneNumber.substring(1,12);
+            }
             //判断输入的手机号是否是 11 位，如果是 11 位的手机号，进行检查输入的手机号的格式是否合法，
             if (phoneNumber.length() != 11) {
                 Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
@@ -424,13 +429,15 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(plateNumber.length() != 7){
-                Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(!PatternUtils.isVehicleNumber(plateNumber)){
-                Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
-                return;
+            if (!TextUtils.isEmpty(plateNumber)) {
+                if (plateNumber.length() != 7) {
+                    Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!PatternUtils.isVehicleNumber(plateNumber)) {
+                    Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
 
             JSONObject jobj = new JSONObject();

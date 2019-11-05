@@ -485,21 +485,24 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
     public void onSwitchListener(int position, ConvertWarningsModel convertWarningsModel, boolean status) {
         //mCloseWarningCount 用于统计当前关闭报警开关的数量，当关闭的数量 和 总数量一样的时候，将总的报警的开关进行
         // 关闭。当有其中一个报警进行打开，总开关的按钮同样也要进行打开
-        if (status) {
-            mCloseWarningCount--;
-            mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
-            convertWarningsModel.setEnable(1);
-        } else {
-            mCloseWarningCount++;
-            if (mCloseTotalCount == mCloseWarningCount) {
-                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
+        if(mAdasEnable == 1){
+            if (status) {
+                mCloseWarningCount--;
+                mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                convertWarningsModel.setEnable(1);
+            } else {
+                mCloseWarningCount++;
+                if (mCloseTotalCount == mCloseWarningCount) {
+                    mIvAdasTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
 
+                }
+                convertWarningsModel.setEnable(0);
             }
-            convertWarningsModel.setEnable(0);
+            if (mWarningsAdapter != null) {
+                mWarningsAdapter.notifyItemChanged(position);
+            }
         }
-        if (mWarningsAdapter != null) {
-            mWarningsAdapter.notifyItemChanged(position);
-        }
+
     }
 
     @Override

@@ -30,6 +30,10 @@ public interface ICalibrationSetContract {
 
         EditText getEtCameraHeight();
 
+        TextView getTvStep();
+
+        EditText getEtStep();
+
         ImageView getIvUp();
 
         ImageView getIvLeft();
@@ -47,5 +51,8 @@ public interface ICalibrationSetContract {
         void initData();
 
         void initListener();
+
+        void onMyDestroy();
+
     }
 }

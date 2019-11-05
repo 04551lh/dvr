@@ -10,9 +10,29 @@ import com.adasplus.homepager.set.mvp.contract.ICalibrationSetContract;
  */
 public class CalibrationSetModel implements ICalibrationSetContract.Model {
 
+    @Override
+    public String toString() {
+        return "CalibrationSetModel{" +
+                "autoReferenceLineEnable=" + autoReferenceLineEnable +
+                ", manualReferenceLineEnable=" + manualReferenceLineEnable +
+                ", cameraHight=" + cameraHight +
+                ", stepValue=" + stepValue +
+                ", cmd='" + cmd + '\'' +
+                '}';
+    }
+
+    /**
+     * autoReferenceLineEnable : 1
+     * manualReferenceLineEnable : 0
+     * cameraHight : 20
+     * stepValue : 20
+     * cmd : up
+     */
+
     private int autoReferenceLineEnable;
     private int manualReferenceLineEnable;
     private int cameraHight;
+    private int stepValue;
     private String cmd;
 
     public int getAutoReferenceLineEnable() {
@@ -39,21 +59,19 @@ public class CalibrationSetModel implements ICalibrationSetContract.Model {
         this.cameraHight = cameraHight;
     }
 
+    public int getStepValue() {
+        return stepValue;
+    }
+
+    public void setStepValue(int stepValue) {
+        this.stepValue = stepValue;
+    }
+
     public String getCmd() {
         return cmd;
     }
 
     public void setCmd(String cmd) {
         this.cmd = cmd;
-    }
-
-    @Override
-    public String toString() {
-        return "CalibrationSetModel{" +
-                "autoReferenceLineEnable=" + autoReferenceLineEnable +
-                ", manualReferenceLineEnable=" + manualReferenceLineEnable +
-                ", cameraHight=" + cameraHight +
-                ", cmd='" + cmd + '\'' +
-                '}';
     }
 }

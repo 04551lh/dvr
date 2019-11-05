@@ -10,6 +10,7 @@ public interface IFileExportContract {
     }
 
     interface View {
+
     }
 
     interface Presenter {

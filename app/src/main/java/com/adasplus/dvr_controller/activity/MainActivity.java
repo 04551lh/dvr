@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity implements IMainContract.View {
         mSrlRefreshLayout = findViewById(R.id.srl_refresh_layout);
         mTlhHeaderView = findViewById(R.id.tlh_header_view);
         mLlCloseMenu = findViewById(R.id.ll_close_menu);
+        this.getSupportFragmentManager();
     }
 
     @Override

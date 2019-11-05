@@ -179,13 +179,13 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-                String ssid = wifiInfo.getSSID();
-                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
+//                WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+//                String ssid = wifiInfo.getSSID();
+//                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
                     initData();
-                } else {
-                    mSrlRefreshLayout.finishRefresh();
-                }
+//                } else {
+//                    mSrlRefreshLayout.finishRefresh();
+//                }
             }
 
             @Override
@@ -217,9 +217,9 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
     public void initData() {
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof HomeFragment) {
-            WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-            String ssid = wifiInfo.getSSID();
-            if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
+//            WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
+//            String ssid = wifiInfo.getSSID();
+//            if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
                 BaseWrapper.getInstance().getSystemInfo().subscribe(new Subscriber<SystemInfoModel>() {
                     @Override
                     public void onCompleted() {
@@ -228,18 +228,22 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
+                        mUSB = true;
+                        mHomeFragment.setUSBStatus(true);
                         mSrlRefreshLayout.finishRefresh();
                         ExceptionUtils.exceptionHandling(mMainActivity, e);
                     }
 
                     @Override
                     public void onNext(SystemInfoModel systemInfoModel) {
+                        mUSB = false;
+                        mHomeFragment.setUSBStatus(false);
                         mSrlRefreshLayout.finishRefresh();
                         mHomeFragment.initData(systemInfoModel);
                         initSlideCarInfoData(systemInfoModel);
                     }
                 });
-            }
+//            }
         }
     }
 
@@ -449,16 +453,16 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                 clickTab(mHomeFragment);
                 break;
             case R.id.ll_basic_info_pager:
-                if (isDeviceWifi) {
-                    Toast.makeText(mMainActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
+                if (mUSB) {
+                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                     return;
                 }
                 mSrlRefreshLayout.setEnableRefresh(false);
                 clickTab(mBasicInfoFragment);
                 break;
             case R.id.ll_file_export_pager:
-                if (isDeviceWifi) {
-                    Toast.makeText(mMainActivity, R.string.please_connect_device, Toast.LENGTH_SHORT).show();
+                if (mUSB) {
+                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                     return;
                 }
                 mSrlRefreshLayout.setEnableRefresh(false);

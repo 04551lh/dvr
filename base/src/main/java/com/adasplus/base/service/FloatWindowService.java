@@ -4,7 +4,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,7 +18,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adasplus.base.R;
+import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.model.FileExportModel;
+import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.WindowUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import rx.Subscriber;
 
 /**
  * Author:刘净辉
@@ -27,7 +45,7 @@ public class FloatWindowService extends Service implements View.OnClickListener 
 
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
-    private  View mView;
+    private View mView;
 
 
     private ImageView mIvFileExport;
@@ -39,8 +57,8 @@ public class FloatWindowService extends Service implements View.OnClickListener 
     private ImageView mIvCloseRight;
     private int mWidth;
 
-
-
+    private java.util.Timer timer = new java.util.Timer(true);
+    private TimerTask task;
 
     @Override
     public void onCreate() {
@@ -80,9 +98,9 @@ public class FloatWindowService extends Service implements View.OnClickListener 
     }
 
     private void showFloatWindow() {
-        if (!WindowUtils.canOverDraw(this)){
+        if (!WindowUtils.canOverDraw(this)) {
             //TODO 跳转到设置界面
-            Log.e("FloatWindowService","跳转到设置界面");
+            Log.e("FloatWindowService", "跳转到设置界面");
         }
 
         mView = View.inflate(this, R.layout.float_window_layout, null);
@@ -90,42 +108,91 @@ public class FloatWindowService extends Service implements View.OnClickListener 
         mProgressbarFileExportLeft = mView.findViewById(R.id.progressbar_file_export_left);
         mTvCurrentLeft = mView.findViewById(R.id.tv_current_left);
         mProgressbarFileExportRight = mView.findViewById(R.id.progressbar_file_export_right);
-        mTvCurrentRight = mView.findViewById(R.id.tv_current_right );
-        mTvFileExportTip = mView.findViewById(R.id.tv_file_export_tip );
-        mIvCloseRight = mView.findViewById(R.id.iv_close_right );
+        mTvCurrentRight = mView.findViewById(R.id.tv_current_right);
+        mTvFileExportTip = mView.findViewById(R.id.tv_file_export_tip);
+        mIvCloseRight = mView.findViewById(R.id.iv_close_right);
         mIvFileExport.setOnClickListener(this);
         mIvCloseRight.setOnClickListener(this);
         mView.setOnTouchListener(new FloatingOnTouchListener());
-        mWindowManager.addView(mView,mLayoutParams);
+        mWindowManager.addView(mView, mLayoutParams);
+        getNeteork();
     }
 
     @Override
     public void onClick(View v) {
-       if(v.getId() == R.id.iv_close_right){
-           mProgressbarFileExportLeft.setVisibility(View.VISIBLE);
-           mTvCurrentLeft.setVisibility(View.VISIBLE);
-           mProgressbarFileExportRight.setVisibility(View.GONE);
-           mTvCurrentRight.setVisibility(View.GONE);
-           mTvFileExportTip.setVisibility(View.GONE);
-           mIvCloseRight.setVisibility(View.GONE);
+        if (v.getId() == R.id.iv_close_right) {
+            timer.cancel();
+            mProgressbarFileExportLeft.setVisibility(View.VISIBLE);
+            mTvCurrentLeft.setVisibility(View.VISIBLE);
+            mProgressbarFileExportRight.setVisibility(View.GONE);
+            mTvCurrentRight.setVisibility(View.GONE);
+            mTvFileExportTip.setVisibility(View.GONE);
+            mIvCloseRight.setVisibility(View.GONE);
+            mWidth = (int) getResources().getDimension(R.dimen.dp_80);
+            mLayoutParams.width = mWidth;
+            mWindowManager.updateViewLayout(mView, mLayoutParams);
+        } else if (v.getId() == R.id.iv_file_export) {
+            mProgressbarFileExportLeft.setVisibility(View.GONE);
+            mTvCurrentLeft.setVisibility(View.GONE);
+            mProgressbarFileExportRight.setVisibility(View.VISIBLE);
+            mTvCurrentRight.setVisibility(View.VISIBLE);
+            mTvFileExportTip.setVisibility(View.VISIBLE);
+            mIvCloseRight.setVisibility(View.VISIBLE);
+            mWidth = (int) getResources().getDimension(R.dimen.dp_238);
+            mLayoutParams.width = mWidth;
+            mWindowManager.updateViewLayout(mView, mLayoutParams);
 
-           mWidth = (int) getResources().getDimension(R.dimen.dp_80);
-           mLayoutParams.width = mWidth;
-           mWindowManager.updateViewLayout(mView, mLayoutParams);
-        }else if(v.getId() == R.id.iv_file_export) {
-           mProgressbarFileExportLeft.setVisibility(View.GONE);
-           mTvCurrentLeft.setVisibility(View.GONE);
-           mProgressbarFileExportRight.setVisibility(View.VISIBLE);
-           mTvCurrentRight.setVisibility(View.VISIBLE);
-           mTvFileExportTip.setVisibility(View.VISIBLE);
-           mIvCloseRight.setVisibility(View.VISIBLE);
-
-           mWidth = (int) getResources().getDimension(R.dimen.dp_238);
-           mLayoutParams.width = mWidth;
-           mWindowManager.updateViewLayout(mView, mLayoutParams);
-
-       }
+        }
     }
+
+
+    public Handler mHandler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            FileExportModel fileExportModel = (FileExportModel)msg.obj;
+            switch (msg.what) {
+                case 0x123:
+                    if(fileExportModel.getResult().getFileOutNumber() == 0){
+                        timer.cancel();
+                    }
+                    Log.i("Progress",fileExportModel.getResult().getFileOutProgress()+"");
+                    mProgressbarFileExportRight.setProgress(fileExportModel.getResult().getFileOutProgress());
+                    mTvCurrentRight.setText(fileExportModel.getResult().getFileOutProgress()+"jj");
+                    break;
+            }
+        }
+    };
+
+    private void getNeteork() {
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                BaseWrapper.getInstance().getFileExport().subscribe(new Subscriber<FileExportModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        timer.cancel();
+                        ExceptionUtils.exceptionHandling(getApplication(), e);
+                    }
+
+                    @Override
+                    public void onNext(FileExportModel fileExportModel) {
+                        Log.i("fileExportModel",fileExportModel.getResult().getFileOutProgress()+"");
+                        //TODO 需要进行通过实时设备数据调试
+                        Message msg = new Message();
+                        msg.what = 0x123;
+                        msg.obj = fileExportModel;
+                        mHandler.sendMessage(msg);
+                    }
+                });
+            }
+        };
+        timer.schedule(task,0,1000);
+    }
+
 
     private class FloatingOnTouchListener implements View.OnTouchListener {
         private int mX;
@@ -133,8 +200,9 @@ public class FloatWindowService extends Service implements View.OnClickListener 
 
         @Override
         public boolean onTouch(View view, MotionEvent event) {
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+
                     mX = (int) event.getRawX();
                     mY = (int) event.getRawY();
                     break;

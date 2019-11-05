@@ -18,16 +18,19 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
     private TextView mTvCameraHeight;
+    private TextView mTvStep;
     private EditText mEtCameraHeight;
+    private EditText mEtStep;
     private ImageView mIvUp;
     private ImageView mIvLeft;
     private ImageView mIvRight;
     private ImageView mIvDown;
     private TextView mTvCalibrationSave;
+    CalibrationSetPresenter calibrationSetPresenter;
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        CalibrationSetPresenter calibrationSetPresenter = new CalibrationSetPresenter(this);
+        calibrationSetPresenter = new CalibrationSetPresenter(this);
         calibrationSetPresenter.initData();
         calibrationSetPresenter.initListener();
     }
@@ -45,6 +48,8 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
         mIvManualCalibrate =  findViewById(R.id.iv_manual_calibrate);
         mTvCameraHeight= findViewById(R.id.tv_camera_height);
         mEtCameraHeight =  findViewById(R.id.et_camera_height);
+        mTvStep= findViewById(R.id.tv_step);
+        mEtStep =  findViewById(R.id.et_step);
         mIvUp =  findViewById(R.id.iv_up);
         mIvLeft =  findViewById(R.id.iv_left);
         mIvRight =  findViewById(R.id.iv_right);
@@ -60,6 +65,12 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     @Override
     public SwipeRefreshLayout getSwipeRefreshLayoutCalibrationSet() {
         return mSwipeRefreshLayoutCalibrationSet;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        calibrationSetPresenter.onMyDestroy();
     }
 
     @Override
@@ -80,6 +91,16 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     @Override
     public EditText getEtCameraHeight() {
         return mEtCameraHeight;
+    }
+
+    @Override
+    public TextView getTvStep() {
+        return mTvStep;
+    }
+
+    @Override
+    public EditText getEtStep() {
+        return mEtStep;
     }
 
     @Override

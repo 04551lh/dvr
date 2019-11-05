@@ -16,7 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 @Route(path = ActivityPathConstant.VIDEO_SHOW_PATH)
 public class VideoShowActivity extends BaseActivity implements IVideoShowContract.View {
     private ImageView mImVideoShowBack;
-    private EditText mEtVideoShowPlatform;
+    private TextView mTvVideoShowChannel;
     private ImageView mImFullScreen;
     private TextView mTvVideoShowSave;
     @Override
@@ -34,7 +34,7 @@ public class VideoShowActivity extends BaseActivity implements IVideoShowContrac
     @Override
     protected void initWidget() {
         mImVideoShowBack = findViewById(R.id.iv_video_show_back);
-        mEtVideoShowPlatform = findViewById(R.id.et_video_show_platform);
+        mTvVideoShowChannel = findViewById(R.id.tv_video_show_channel);
         mImFullScreen = findViewById(R.id.iv_full_screen);
         mTvVideoShowSave = findViewById(R.id.tv_video_show_save);
     }
@@ -46,8 +46,8 @@ public class VideoShowActivity extends BaseActivity implements IVideoShowContrac
     }
 
     @Override
-    public EditText getEtVideoShowPlatform() {
-        return mEtVideoShowPlatform;
+    public TextView getTvVideoShowChannel() {
+        return mTvVideoShowChannel;
     }
 
     @Override

@@ -11,7 +11,7 @@ public class HttpConstant {
 
     public static final String USB_SERVER_IP_ADDRESS = "192.168.42.254:8000";
 
-    static final String BASE_URL = "http://"+ WIFI_SERVER_IP_ADDRESS;
+    static final String BASE_URL = "http://"+ USB_SERVER_IP_ADDRESS;
 
     public static final String GET_PLATFORM_INFO = "/platformInfoRequest";
 
@@ -66,6 +66,10 @@ public class HttpConstant {
     public static final String DMS_RESTORE_DEFAULT_SET = "/dmsAlarmConfigDefault";
 
     public static final String GET_CALIBRATION_SET = "/referenceLineRequest";
+
+    public static final String GET_CALIBRATION_ENTER = "/enterReferenceLineRequest";
+
+    public static final String GET_CALIBRATION_EXIT = "/exitReferenceLineRequest";
 
     public static final String UPDATE_CALIBRATION_SET = "/referenceLineConfig";
 

@@ -187,7 +187,6 @@ public interface IHomeService {
     @POST(HttpConstant.ADAS_ALARM_CONFIG_DEFAULT)
     Observable<BaseResponse<WarningsRestoreDefaultSettingsModel>> adasRestoreDefaultSettings();
 
-
     @POST(HttpConstant.GET_DMS_SET)
     Observable<BaseResponse<DMSWarningModel>> getDMSSet();
 
@@ -199,6 +198,12 @@ public interface IHomeService {
 
     @POST(HttpConstant.GET_CALIBRATION_SET)
     Observable<BaseResponse<CalibrationSetModel>> getCalibrationSet();
+
+    @POST(HttpConstant.GET_CALIBRATION_ENTER)
+    Observable<BaseResponse<CalibrationSetModel>> getCalibrationEnter();
+
+    @POST(HttpConstant.GET_CALIBRATION_EXIT)
+    Observable<BaseResponse<CalibrationSetModel>> getCalibrationExit();
 
     @POST(HttpConstant.UPDATE_CALIBRATION_SET)
     Observable<BaseResponse<CalibrationSetModel>> updateCalibrationSet(@Body RequestBody requestBody);

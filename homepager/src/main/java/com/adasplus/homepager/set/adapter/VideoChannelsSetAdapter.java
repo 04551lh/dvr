@@ -19,13 +19,14 @@ import com.adasplus.homepager.set.mvp.contract.OnChannelItemClickListener;
 public class VideoChannelsSetAdapter extends RecyclerView.Adapter<VideoChannelsSetAdapter.VideoChannelsSetViewHolder> {
 
     private int mChannelTotalCount;
+    //0是从1开始计数，1是从零开始计数
     private OnChannelItemClickListener mOnItemClickListener;
 
-    public void setData(int channelTotalCount){
+    public void setData(int channelTotalCount) {
         mChannelTotalCount = channelTotalCount;
     }
 
-    public void setOnItemClickListener(OnChannelItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnChannelItemClickListener onItemClickListener) {
         mOnItemClickListener = onItemClickListener;
     }
 
@@ -39,11 +40,11 @@ public class VideoChannelsSetAdapter extends RecyclerView.Adapter<VideoChannelsS
     @Override
     public void onBindViewHolder(@NonNull VideoChannelsSetViewHolder holder, final int position) {
         String channels = holder.itemView.getContext().getString(R.string.channels);
-        holder.mTvChannelName.setText(String.format("%s %s",channels,String.valueOf((position+1))));
+        holder.mTvChannelName.setText(String.format("%s %s", channels, String.valueOf((position + 1))));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnItemClickListener != null){
+                if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(position);
                 }
             }
@@ -55,9 +56,10 @@ public class VideoChannelsSetAdapter extends RecyclerView.Adapter<VideoChannelsS
         return mChannelTotalCount;
     }
 
-    class VideoChannelsSetViewHolder extends RecyclerView.ViewHolder{
+    class VideoChannelsSetViewHolder extends RecyclerView.ViewHolder {
 
         TextView mTvChannelName;
+
         VideoChannelsSetViewHolder(@NonNull View itemView) {
             super(itemView);
             mTvChannelName = itemView.findViewById(R.id.tv_channel_name);

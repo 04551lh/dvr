@@ -56,7 +56,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="@dimen/dp_20"
                             android:gravity="center_vertical"
-                            android:text="@string/log"
+                            android:text="@string/audio_video"
                             android:textSize="@dimen/sp_15"
                             android:textColor="@color/font_color_666"/>
                         <ImageView
@@ -68,6 +68,7 @@
                     <View
                         style="@style/UnderLineStyle"/>
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_50"
                         android:layout_gravity="center_vertical"
@@ -100,6 +101,7 @@
                     </LinearLayout>
 
                     <View
+                        android:visibility="gone"
                         style="@style/UnderLineStyle"/>
 
                     <LinearLayout
@@ -118,7 +120,7 @@
                             android:textSize="@dimen/sp_15" />
 
                         <TextView
-                            android:id="@+id/tv_start_time"
+                            android:id="@+id/tv_begin_time"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/dp_40"
                             android:layout_weight="1"
@@ -245,22 +247,46 @@
 
                     <View
                         style="@style/UnderLineStyle"/>
+                   <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:layout_gravity="center_vertical"
+                        android:paddingStart="@dimen/dp_16"
+                        android:paddingEnd="@dimen/dp_16">
+                        <TextView
+                            android:id="@+id/tv_storage_type"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="存储类型"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/sp_15" />
+
+                        <TextView
+                            android:id="@+id/tv_storage_type_value"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/dp_40"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/dp_20"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/sp_15"
+                            android:textColor="@color/font_color_666"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/common_right_back_icon"/>
+                    </LinearLayout>
+
+                    <View
+                        style="@style/UnderLineStyle"/>
 
                     <TextView
                         android:id="@+id/tv_export_file"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_40"
-                        android:layout_marginBottom="@dimen/dp_30"
-                        android:paddingTop="@dimen/dp_8"
-                        android:paddingBottom="@dimen/dp_7"
-                        android:layout_gravity="center"
-                        android:paddingLeft="@dimen/dp_62"
-                        android:paddingRight="@dimen/dp_62"
-                        android:background="@drawable/btn_shape_style"
-                        android:gravity="center"
+                        style="@style/CommonSaveBtnStyle"
                         android:text="@string/export"
-                        android:textColor="@android:color/white"
                         />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

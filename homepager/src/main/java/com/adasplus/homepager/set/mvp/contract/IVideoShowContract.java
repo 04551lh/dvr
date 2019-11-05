@@ -12,7 +12,7 @@ public interface IVideoShowContract {
 
         ImageView getImVideoShowBack();
 
-        EditText getEtVideoShowPlatform();
+        TextView getTvVideoShowChannel();
 
         ImageView getImFullScreen();
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import com.adasplus.base.base.BaseFragment;
 import com.adasplus.dvr_controller.R;
+
 import com.adasplus.dvr_controller.mvp.contract.IFileExportContract;
 import com.adasplus.dvr_controller.mvp.presenter.FileExportPresenter;
 
@@ -21,7 +22,7 @@ public class FileExportFragment extends BaseFragment implements IFileExportContr
 
     @Override
     protected void init(View view, Bundle savedInstanceState) {
-        mFileExportPresenter = new FileExportPresenter(getAppCompatActivity(), this);
+        mFileExportPresenter = new FileExportPresenter(getActivity(), this );
     }
 
     @Override

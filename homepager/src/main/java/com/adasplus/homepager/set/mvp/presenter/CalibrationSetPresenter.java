@@ -35,6 +35,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private static final String LEFT = "left";
     private static final String RIGHT = "right";
     private static final String DOWN = "down";
+    private static final String SAVE = "save";
 
     private ICalibrationSetContract.View mCalibrationSetView;
     private CalibrationSetActivity mCalibrationSetActivity;
@@ -44,6 +45,9 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private ImageView mIvManualCalibrate;
     private TextView mTvCameraHeight;
     private EditText mEtCameraHeight;
+    private TextView mTvStep;
+    private EditText mEtStep;
+
     private ImageView mIvUp;
     private ImageView mIvLeft;
     private ImageView mIvRight;
@@ -69,12 +73,14 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         mIvManualCalibrate = mCalibrationSetView.getIvManualCalibrate();
         mTvCameraHeight = mCalibrationSetActivity.getTvCameraHeight();
         mEtCameraHeight = mCalibrationSetView.getEtCameraHeight();
+        mTvStep = mCalibrationSetActivity.getTvStep();
+        mEtStep = mCalibrationSetActivity.getEtStep();
         mIvUp = mCalibrationSetView.getIvUp();
         mIvLeft = mCalibrationSetView.getIvLeft();
         mIvRight = mCalibrationSetView.getIvRight();
         mIvDown = mCalibrationSetView.getIvDown();
         mTvCalibrationSave = mCalibrationSetView.getTvCalibrationSave();
-
+        getEnterNetwork();
         getNetworkData();
 
     }
@@ -113,6 +119,46 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
     }
 
+    //进入请求
+    private void getEnterNetwork(){
+        HomeWrapper.getInstance().getCalibrationEnter().subscribe(new Subscriber<CalibrationSetModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(CalibrationSetModel calibrationSetModel) {
+
+            }
+        });
+    }
+
+    //退出请求
+    private void getExitNetwork(){
+        HomeWrapper.getInstance().getCalibrationExit().subscribe(new Subscriber<CalibrationSetModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(CalibrationSetModel calibrationSetModel) {
+
+            }
+        });
+    }
+
     private void isAutoCalibration(boolean isAutoCalibration) {
         if (isAutoCalibration) {
             mIvAutoCalibration.setImageResource(R.mipmap.switch_open_icon);
@@ -121,6 +167,10 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             mEtCameraHeight.setClickable(false);
             mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
             mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
+            mEtStep.setEnabled(false);
+            mEtStep.setClickable(false);
+            mTvStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
+            mEtStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
             mIvUp.setClickable(false);
             mIvUp.setEnabled(false);
             mIvUp.setImageResource(R.mipmap.manual_calibrate_no_select_up);
@@ -140,6 +190,10 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             mEtCameraHeight.setClickable(true);
             mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
             mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
+            mEtStep.setEnabled(true);
+            mEtStep.setClickable(true);
+            mTvStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
+            mEtStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
             mIvUp.setClickable(true);
             mIvUp.setEnabled(true);
             mIvUp.setImageResource(R.mipmap.manual_calibrate_select_up);
@@ -167,6 +221,11 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         mIvDown.setOnClickListener(this);
         mIvLeft.setOnClickListener(this);
         mIvRight.setOnClickListener(this);
+    }
+
+    @Override
+    public void onMyDestroy() {
+        getExitNetwork();
     }
 
     @Override
@@ -214,7 +273,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
-            updateCalibrationSet(" ");
+            updateCalibrationSet(SAVE);
         }
     }
 
@@ -255,8 +314,9 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         tv_confirm.setOnClickListener(this);
     }
 
-    private void updateCalibrationSet(String cmd) {
+    private void updateCalibrationSet(final String cmd) {
         String cameraHigh = mEtCameraHeight.getText().toString();
+        String step = mEtStep.getText().toString();
         if (mCalibrationSetModel != null) {
             if (mAutoReferenceLineEnable == 1) {
                 mCalibrationSetModel.setAutoReferenceLineEnable(1);
@@ -271,7 +331,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             }
         }
 
-
+        mCalibrationSetModel.setStepValue(TextUtils.isEmpty(step) ? 1 : Integer.parseInt(step));
         String json = GsonUtils.getInstance().toJson(mCalibrationSetModel);
         try {
             JSONObject jsonObject = new JSONObject(json);
@@ -288,7 +348,12 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
                 @Override
                 public void onNext(CalibrationSetModel calibrationSetModel) {
-                    mCalibrationSetActivity.showToast(R.string.targets_set_save_success);
+                    switch (cmd){
+                        case SAVE:
+                            mCalibrationSetActivity.showToast(R.string.targets_set_save_success);
+                            break;
+                    }
+
                     if(mIsClickBack){
                         mCalibrationSetActivity.finish();
                     }
@@ -304,4 +369,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     public void onRefresh() {
         getNetworkData();
     }
+
+
 }

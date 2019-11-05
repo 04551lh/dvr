@@ -376,4 +376,8 @@
 
     <string name="please_fill_correct_license_plate_number">请填写正确的车牌号</string>
 
+    <string name="step">步长</string>
+
+    <string name="pixel">像素</string>
+
 </resources>
