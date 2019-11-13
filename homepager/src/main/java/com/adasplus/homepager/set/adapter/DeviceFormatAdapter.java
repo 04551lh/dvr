@@ -13,6 +13,7 @@ import androidx.collection.SparseArrayCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.adasplus.base.utils.PatternUtils;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.set.mvp.contract.IDeviceFormatItemListener;
 import com.adasplus.homepager.set.mvp.model.DeviceFormatModel;
@@ -121,11 +122,12 @@ public class DeviceFormatAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //设置磁盘名字
             deviceFormatViewHolder.mTvStorageName.setText(storageName);
             //设置总容量
-            deviceFormatViewHolder.mTvTotalCapacity.setText(String.format("%s", (capacity + mActivity.getResources().getString(R.string.storage_unit))));
+//            deviceFormatViewHolder.mTvTotalCapacity.setText(String.format("%s", (capacity + mActivity.getResources().getString(R.string.storage_unit))));
+            deviceFormatViewHolder.mTvTotalCapacity.setText(String.format("%s", PatternUtils.FormetFileSize(capacity)));
             //设置已用空间
-            deviceFormatViewHolder.mTvUsedSpace.setText(String.format("%s", (used + mActivity.getResources().getString(R.string.storage_unit))));
+            deviceFormatViewHolder.mTvUsedSpace.setText(String.format("%s", PatternUtils.FormetFileSize(used)));
             //设置可用空间
-            deviceFormatViewHolder.mTvAvailableSpace.setText(String.format("%s", (free + mActivity.getResources().getString(R.string.storage_unit))));
+            deviceFormatViewHolder.mTvAvailableSpace.setText(String.format("%s",PatternUtils.FormetFileSize(free)));
 
 
             if (selectEnable == 1) {

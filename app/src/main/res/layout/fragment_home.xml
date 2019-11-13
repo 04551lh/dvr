@@ -235,6 +235,7 @@
                         <LinearLayout
                             android:id="@+id/ll_video_show"
                             android:layout_width="match_parent"
+                            android:background="@drawable/ll_click_bg_style"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -274,6 +275,7 @@
                         <LinearLayout
                             android:id="@+id/ll_platforms_connect"
                             android:layout_width="match_parent"
+                            android:background="@drawable/ll_click_bg_style"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -315,6 +317,7 @@
                         <LinearLayout
                             android:id="@+id/ll_fill_params"
                             android:layout_width="match_parent"
+                            android:background="@drawable/ll_click_bg_style"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -354,6 +357,7 @@
                         <LinearLayout
                             android:id="@+id/ll_terminal_set"
                             android:layout_width="match_parent"
+                            android:background="@drawable/ll_click_bg_style"
                             android:layout_height="match_parent">
                             <ImageView
                                 android:layout_width="wrap_content"

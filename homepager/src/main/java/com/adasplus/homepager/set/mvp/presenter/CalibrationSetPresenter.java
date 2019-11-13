@@ -2,6 +2,7 @@ package com.adasplus.homepager.set.mvp.presenter;
 
 import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.EditText;
@@ -61,6 +62,8 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private boolean mIsClickBack = false;
     private int mAutoReferenceLineEnable;
 
+    private boolean isNetwork = false;
+
     public CalibrationSetPresenter(ICalibrationSetContract.View view) {
         mCalibrationSetView = view;
         mCalibrationSetActivity = (CalibrationSetActivity) view;
@@ -96,12 +99,14 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mCalibrationSetActivity, e);
+                isNetwork = false;
                 mSwipeRefreshLayoutCalibrationSet.setRefreshing(false); // close refresh animator
 
             }
 
             @Override
             public void onNext(CalibrationSetModel calibrationSetModel) {
+                isNetwork = true;
                 mSwipeRefreshLayoutCalibrationSet.setRefreshing(false); // close refresh animator
                 mCalibrationSetModel = calibrationSetModel;
                 mAutoReferenceLineEnable = calibrationSetModel.getAutoReferenceLineEnable();
@@ -120,7 +125,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     }
 
     //进入请求
-    private void getEnterNetwork(){
+    private void getEnterNetwork() {
         HomeWrapper.getInstance().getCalibrationEnter().subscribe(new Subscriber<CalibrationSetModel>() {
             @Override
             public void onCompleted() {
@@ -140,7 +145,7 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     }
 
     //退出请求
-    private void getExitNetwork(){
+    private void getExitNetwork() {
         HomeWrapper.getInstance().getCalibrationExit().subscribe(new Subscriber<CalibrationSetModel>() {
             @Override
             public void onCompleted() {
@@ -239,41 +244,46 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 } else {
                     showSaveCalibrationSetDialog();
                 }
+            } else {
+                mCalibrationSetActivity.finish();
             }
-        } else if (id == R.id.tv_cancel) { //取消保存
-            if (mDialog != null && mDialog.isAdded()) {
-                mDialog.dismiss();
-            }
-            mCalibrationSetActivity.finish();
-        } else if (id == R.id.iv_auto_calibration) { //选择自动标定
-            mAutoReferenceLineEnable = 1;
-            isAutoCalibration(true);
-        } else if (id == R.id.iv_manual_calibrate) { //选择手动标定
-            mAutoReferenceLineEnable = 0;
-            isAutoCalibration(false);
-        } else if (id == R.id.iv_up) { //手动标定:上
-            if (mAutoReferenceLineEnable == 0) {
-                updateCalibrationSet(UP);
-            }
+        } else if (isNetwork) { //网络状态判断
+            if (id == R.id.iv_auto_calibration) { //选择自动标定
+                mAutoReferenceLineEnable = 1;
+                isAutoCalibration(true);
+            } else if (id == R.id.iv_manual_calibrate) { //选择手动标定
+                mAutoReferenceLineEnable = 0;
+                isAutoCalibration(false);
+            } else if (id == R.id.iv_up) { //手动标定:上
+                if (mAutoReferenceLineEnable == 0) {
+                    updateCalibrationSet(UP);
+                }
 
-        } else if (id == R.id.iv_left) { //手动标定：左
-            if (mAutoReferenceLineEnable == 0) {
-                updateCalibrationSet(LEFT);
+            } else if (id == R.id.iv_left) { //手动标定：左
+                if (mAutoReferenceLineEnable == 0) {
+                    updateCalibrationSet(LEFT);
+                }
+            } else if (id == R.id.iv_right) {//手动标定 : 右
+                if (mAutoReferenceLineEnable == 0) {
+                    updateCalibrationSet(RIGHT);
+                }
+            } else if (id == R.id.iv_down) { //手动标定:下
+                if (mAutoReferenceLineEnable == 0) {
+                    updateCalibrationSet(DOWN);
+                }
+            }else if (id == R.id.tv_cancel) { //取消
+                if (mDialog != null && mDialog.isAdded()) {
+                    mDialog.dismiss();
+                }
+            } else if (id == R.id.tv_calibration_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
+                mIsClickBack = true;
+                if (mDialog != null && mDialog.isAdded()) {
+                    mDialog.dismiss();
+                }
+                updateCalibrationSet(SAVE);
             }
-        } else if (id == R.id.iv_right) {//手动标定 : 右
-            if (mAutoReferenceLineEnable == 0) {
-                updateCalibrationSet(RIGHT);
-            }
-        } else if (id == R.id.iv_down) { //手动标定:下
-            if (mAutoReferenceLineEnable == 0) {
-                updateCalibrationSet(DOWN);
-            }
-        } else if (id == R.id.tv_calibration_save || id == R.id.tv_confirm) {  // 保存 或者  确认保存并退出
-            mIsClickBack = true;
-            if (mDialog != null && mDialog.isAdded()) {
-                mDialog.dismiss();
-            }
-            updateCalibrationSet(SAVE);
+        }else{
+            mCalibrationSetActivity.showToast( R.string.disconnect_from_terminal_equipment);
         }
     }
 
@@ -348,13 +358,13 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
 
                 @Override
                 public void onNext(CalibrationSetModel calibrationSetModel) {
-                    switch (cmd){
+                    switch (cmd) {
                         case SAVE:
                             mCalibrationSetActivity.showToast(R.string.targets_set_save_success);
                             break;
                     }
 
-                    if(mIsClickBack){
+                    if (mIsClickBack) {
                         mCalibrationSetActivity.finish();
                     }
                 }

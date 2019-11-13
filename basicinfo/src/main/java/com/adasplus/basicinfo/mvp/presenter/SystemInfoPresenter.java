@@ -291,8 +291,8 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
                 int farTurnLightStatus = vehicleStatusInfo.getFarTurnLightStatus();
                 int brakeStatus = vehicleStatusInfo.getBrakeStatus();
 
-                mTvVehicleMileage.setText(String.format("%s Km",String.valueOf(mileage)));
-                mTvSpeed.setText(String.format("%s Km/h",String.valueOf(speed)));
+                mTvVehicleMileage.setText(String.format("%s km",String.valueOf(mileage)));
+                mTvSpeed.setText(String.format("%s km/h",String.valueOf(speed)));
                 mTvPulseNumber.setText(String.valueOf(pulseCount));
                 turnSignalState(mTvLeftTurnSignalState,leftTurnLightStatus);
                 turnSignalState(mTvRightTurnSignalState,rightTurnLightStatus);

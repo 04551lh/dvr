@@ -31,4 +31,6 @@
     <color name="video_set_font_color">#F7F7F7</color>
 
     <color name="save_btn_color">#F7F7F7</color>
+
+    <color name="ll_bg_color">#FCFFE4</color>
 </resources>

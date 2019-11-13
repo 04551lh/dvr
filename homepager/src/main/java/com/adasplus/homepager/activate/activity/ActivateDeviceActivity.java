@@ -43,6 +43,7 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     protected void init(Bundle savedInstanceState) {
         mActivateDevicePresenter = new ActivateDevicePresenter(this);
         mActivateDevicePresenter.initWidget();
+        mActivateDevicePresenter.initData();
         mActivateDevicePresenter.initListener();
     }
 
@@ -71,8 +72,8 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mTvCityAndCountyId = findViewById(R.id.tv_city_and_county_id);
         mTvEditBasicInfo = findViewById(R.id.tv_edit_basic_info);
         mTvPlatformList = findViewById(R.id.tv_platform_list);
-        mLlAddNewPlatform =  findViewById(R.id.ll_add_new_platform);
-        mSrlActivatePlatformData =  findViewById(R.id.srl_activate_platform_data);
+        mLlAddNewPlatform = findViewById(R.id.ll_add_new_platform);
+        mSrlActivatePlatformData = findViewById(R.id.srl_activate_platform_data);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mActivateDevicePresenter.showDefaultPlateInfo(carInfoModel);
     }
 
-    public void notifyPlatformsSizeShow(){
+    public void notifyPlatformsSizeShow() {
         mActivateDevicePresenter.notifyPlatformsSizeShow();
     }
 }

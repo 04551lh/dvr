@@ -72,13 +72,13 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
 
                 String name = driverInfoModel.getName();
 
-                if (TextUtils.isEmpty(name)){
-                    mLlDriverInfo.setVisibility(View.GONE);
-                    mTvNoData.setVisibility(View.VISIBLE);
-                }else {
-                    mLlDriverInfo.setVisibility(View.VISIBLE);
-                    mTvNoData.setVisibility(View.GONE);
-                }
+//                if (TextUtils.isEmpty(name)){
+//                    mLlDriverInfo.setVisibility(View.GONE);
+//                    mTvNoData.setVisibility(View.VISIBLE);
+//                }else {
+//                    mLlDriverInfo.setVisibility(View.VISIBLE);
+//                    mTvNoData.setVisibility(View.GONE);
+//                }
 
 
                 int sex = driverInfoModel.getSex();
@@ -95,6 +95,8 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
                 }else if (sex == 1){
                     mTvDriverSex.setText("女");
                 }
+
+
                 mTvDriverIdCard.setText(PatternUtils.idFormat(id));
                 mTvDriverIsLicense.setText(PatternUtils.idFormat(drivingLicenseId));
                 mTvValidityOfDriverIsLicense.setText(drivingLicenseValidTerm);

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,10 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.utils.GsonUtils;
-import com.adasplus.base.utils.ThreadPoolUtils;
 import com.adasplus.base.view.RecyclerViewDivider;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.activity.ActivateDeviceActivity;
@@ -66,22 +65,24 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private TextView mTvEditBasicInfo;
     private String mType;
     private String mPlatformList;
-    private int mPlateColor;
-    private String mProvincialDomainId;
-    private String mCityDomainId;
+    private String mPlateColorId = "";
+    private String mProvincialDomainId = "";
+    private String mCityDomainId = "";
+    private LinearLayout mLlAddNewPlatform;
+    private CarInfoModel mCarInfoModel;
+    private Message mMessage;
 
     private List<GetPlatformInfoModel.ArrayBean> mPlatformInfoArray;
     private static final int WHAT = 1;
     private VehicleInfoHandler mVehicleInfoHandler;
     private SwipeRefreshLayout mSrlActivatePlatformData;
 
-
     private static class VehicleInfoHandler extends Handler {
 
         private WeakReference<ActivateDeviceActivity> mActivateDeviceActivity;
 
-         VehicleInfoHandler(ActivateDeviceActivity activateDeviceActivity){
-            mActivateDeviceActivity = new WeakReference<>(activateDeviceActivity);
+        VehicleInfoHandler(ActivateDeviceActivity ActivateDeviceActivity){
+            mActivateDeviceActivity = new WeakReference<>(ActivateDeviceActivity);
         }
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -105,8 +106,14 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     @Override
     public void initWidget() {
-        mActivatedPlatformsAdapter = new ActivatedPlatformsAdapter();
+        String licensePlateColorData = VehicleInfoUtil.readPlateFileColor(mActivateDeviceActivity);
+        String administrativeRegionData = VehicleInfoUtil.readRegionCodeFileName(mActivateDeviceActivity);
 
+        LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
+        List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
+        mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+
+        mActivatedPlatformsAdapter = new ActivatedPlatformsAdapter();
         mRvActivatedPlatforms = mActivateDeviceView.getRvActivatedPlatforms();
         mTvNoData = mActivateDeviceView.getTvNoData();
         mTvPhoneNumber = mActivateDeviceView.getTvPhoneNumber();
@@ -138,29 +145,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     @Override
     public void initData() {
-
-        ThreadPoolUtils.execute(new Runnable() {
-            @Override
-            public void run() {
-                String licensePlateFileName = "license_plate_color.json";
-                String administrativeRegionCodeFileName = "administrative_region_code.json";
-
-                String licensePlateColorData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, licensePlateFileName);
-                String administrativeRegionData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, administrativeRegionCodeFileName);
-
-                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
-                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
-                CarInfoModel carInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
-
-                Message message = Message.obtain();
-                message.what = WHAT;
-                message.obj = carInfoModel;
-                mVehicleInfoHandler.sendMessage(message);
-            }
-        });
-
         mPlatformList = mActivateDeviceActivity.getResources().getString(R.string.platform_list);
-
+//        mActivateDeviceActivity.showNetRequestDialog();
         BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
             @Override
             public void onCompleted() {
@@ -188,8 +174,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
             }
         });
 
-
-
+//        mActivateDeviceActivity.dismissNetRequestDialog();
     }
 
     private void getPlatformInfoModel() {
@@ -203,16 +188,19 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+                mSrlActivatePlatformData.setRefreshing(false);
             }
 
             @Override
             public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                mSrlActivatePlatformData.setRefreshing(false);
                 mPlatformInfoArray = getPlatformInfoModel.getArray();
-
                 int size = mPlatformInfoArray.size();
                 // 判断是否有已连接的平台，如果有，进行显示已连接的WiFi 的列表，否则显示暂无数据
                 if (size > 0) {
                     showConnectedPlatforms();
+                    mLlAddNewPlatform.setVisibility(View.GONE);
+                    mLlAddNewPlatform.setEnabled(false);
                     mActivatedPlatformsAdapter.setData(mPlatformInfoArray, mActivateDeviceActivity);
                     if (!mActivatedPlatformsAdapter.hasObservers()) {
                         mRvActivatedPlatforms.setAdapter(mActivatedPlatformsAdapter);
@@ -222,6 +210,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                     //已连接平台的总数量
                     mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
                 } else {
+                    mLlAddNewPlatform.setVisibility(View.VISIBLE);
+                    mLlAddNewPlatform.setEnabled(true);
                     dismissConnectedPlatforms();
                     showAddNewPlatformBtn();
                 }
@@ -239,11 +229,13 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
             @Override
             public void onError(Throwable e) {
+                mSrlActivatePlatformData.setRefreshing(false);
                 ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
             }
 
             @Override
             public void onNext(TerminalInfoModel terminalInfoModel) {
+                mSrlActivatePlatformData.setRefreshing(false);
                 String phoneNumber = terminalInfoModel.getPhoneNumber();
                 String terminalId = terminalInfoModel.getTerminalId();
                 String plateNumber = terminalInfoModel.getPlateNumber();
@@ -252,10 +244,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 String vin = terminalInfoModel.getVin();
                 String provincialDomain = terminalInfoModel.getProvincialDomain();
                 String cityDomain = terminalInfoModel.getCityDomain();
-
-                mPlateColor = Integer.valueOf(plateColor);
-                mProvincialDomainId = provincialDomain;
-                mCityDomainId = cityDomain;
 
                 //设置手机号
                 mTvPhoneNumber.setText(phoneNumber);
@@ -266,10 +254,40 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 //车架号
                 mTvChassisNumber.setText(vin);
 
+                if(!plateColor.equals("")){
+                    mPlateColorId = plateColor;
+                }
+                if(!provincialDomain.equals("")){
+                    mProvincialDomainId = provincialDomain;
+                }
+                if(!cityDomain.equals("")){
+                    mCityDomainId = cityDomain;
+                }
             }
         });
-    }
+        mMessage = Message.obtain();
+        mMessage.what = WHAT;
 
+        mMessage.obj = mCarInfoModel;
+        mVehicleInfoHandler.sendMessage(mMessage);
+//        ThreadPoolUtils.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                String licensePlateFileName = "license_plate_color.json";
+//                String administrativeRegionCodeFileName = "administrative_region_code.json";
+//
+//                String licensePlateColorData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, licensePlateFileName);
+//                String administrativeRegionData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, administrativeRegionCodeFileName);
+//
+//                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
+//                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
+//                mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+//                mMessage.obj = mCarInfoModel;
+//                mVehicleInfoHandler.sendMessage(mMessage);
+//            }
+//        });
+
+    }
 
     private void dismissConnectedPlatforms() {
         mRvActivatedPlatforms.setVisibility(View.GONE);
@@ -309,10 +327,10 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     @Override
     public void initListener() {
         ImageView ivBack = mActivateDeviceView.getIvBack();
-        LinearLayout llAddNewPlatform = mActivateDeviceView.getLlAddNewPlatform();
+        mLlAddNewPlatform = mActivateDeviceView.getLlAddNewPlatform();
         ivBack.setOnClickListener(this);
         mTvEditBasicInfo.setOnClickListener(this);
-        llAddNewPlatform.setOnClickListener(this);
+        mLlAddNewPlatform.setOnClickListener(this);
     }
 
     @Override
@@ -337,17 +355,13 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     public void showDefaultPlateInfo(CarInfoModel carInfoModel) {
         getDefaultPlateColor(carInfoModel.getCarColor());
-        List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = carInfoModel.getAdministrativeRegionCodeModelList();
-        getDefaultProvincialIdOrCityId(administrativeRegionCodeModelList);
+        getDefaultProvincialIdOrCityId(carInfoModel.getAdministrativeRegionCodeModelList());
     }
 
     private void getDefaultPlateColor(List<CarColorModel> carColorModels){
         for (int i = 0; i < carColorModels.size(); i++) {
-            CarColorModel carColorModel = carColorModels.get(i);
-            String plate_color = carColorModel.getPlate_color();
-            int plate_code = carColorModel.getPlate_code();
-            if (mPlateColor == plate_code){
-                mTvLicensePlateColor.setText(plate_color);
+            if (mPlateColorId.equals(carColorModels.get(i).getPlate_code())){
+                mTvLicensePlateColor.setText(carColorModels.get(i).getPlate_color());
             }
         }
     }
@@ -386,16 +400,9 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     }
 
-
     @Override
     public void onRefresh() {
-        mVehicleInfoHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initData();
-                mSrlActivatePlatformData.setRefreshing(false);
-            }
-        }, HttpConstant.SWIPE_REFRESH_DELAYED);
+        initData();
     }
 
 }

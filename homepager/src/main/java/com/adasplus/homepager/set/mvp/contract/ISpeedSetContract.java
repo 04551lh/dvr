@@ -31,6 +31,8 @@ public interface ISpeedSetContract {
 
         EditText getEtCoefficientOfThePulseValue();
 
+        TextView getTvCoefficientDefaultSettings();
+
         TextView getTvAutomaticCalibration();
 
         ImageView getIvAutomaticCalibration();
@@ -44,6 +46,8 @@ public interface ISpeedSetContract {
         Button getBtnAdd();
 
         ImageView getIvSimulationSpeedStatus();
+
+        ImageView getIvGPSSpeedStatus();
 
         SignSeekBar getSsbSpeedValue();
 

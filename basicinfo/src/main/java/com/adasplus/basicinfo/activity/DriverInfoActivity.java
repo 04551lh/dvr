@@ -41,17 +41,17 @@ public class DriverInfoActivity extends BaseActivity implements IDriverInfoContr
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvNoData = (TextView) findViewById(R.id.tv_no_data);
-        mLlDriverInfo = (LinearLayout) findViewById(R.id.ll_driver_info);
-        mTvDriverName = (TextView) findViewById(R.id.tv_driver_name);
-        mTvDriverSex = (TextView) findViewById(R.id.tv_driver_sex);
-        mTvDriverIdCard = (TextView) findViewById(R.id.tv_driver_id_card);
-        mTvDriverIsLicense = (TextView) findViewById(R.id.tv_driver_is_license);
-        mTvValidityOfDriverIsLicense = (TextView) findViewById(R.id.tv_validity_of_driver_is_license);
-        mTvDriverNvq = (TextView) findViewById(R.id.tv_driver_nvq);
-        mTvCertificationAuthority = (TextView) findViewById(R.id.tv_certification_authority);
-        mTvBindVehicle = (TextView) findViewById(R.id.tv_bind_vehicle);
+        mIvBack =  findViewById(R.id.iv_back);
+        mTvNoData =  findViewById(R.id.tv_no_data);
+        mLlDriverInfo =  findViewById(R.id.ll_driver_info);
+        mTvDriverName =  findViewById(R.id.tv_driver_name);
+        mTvDriverSex =  findViewById(R.id.tv_driver_sex);
+        mTvDriverIdCard =  findViewById(R.id.tv_driver_id_card);
+        mTvDriverIsLicense =  findViewById(R.id.tv_driver_is_license);
+        mTvValidityOfDriverIsLicense =  findViewById(R.id.tv_validity_of_driver_is_license);
+        mTvDriverNvq =  findViewById(R.id.tv_driver_nvq);
+        mTvCertificationAuthority =  findViewById(R.id.tv_certification_authority);
+        mTvBindVehicle =  findViewById(R.id.tv_bind_vehicle);
     }
 
     @Override

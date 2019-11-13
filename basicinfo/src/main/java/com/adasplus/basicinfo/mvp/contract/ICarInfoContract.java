@@ -4,6 +4,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
+
 /**
  * Author:刘净辉
  * Date : 2019/10/11 18:21
@@ -34,6 +36,8 @@ public interface ICarInfoContract {
         LinearLayout getLlCarInfo();
 
         TextView getTvNoData();
+
+        void showDefaultPlateInfo(CarInfoModel carInfoModel);
     }
 
     interface Presenter {

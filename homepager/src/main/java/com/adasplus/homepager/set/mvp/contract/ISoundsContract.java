@@ -20,8 +20,6 @@ public interface ISoundsContract {
 
         ImageView getIvSoundBack();
 
-        SwipeRefreshLayout getSwipeRefreshLayoutSoundSet();
-
         ImageView getIvSoundsReduce();
 
         ImageView getIvSoundsAdd();

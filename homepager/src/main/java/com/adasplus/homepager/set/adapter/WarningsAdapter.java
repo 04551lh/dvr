@@ -124,7 +124,7 @@ public class WarningsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             warningsViewHolder.mTvWarningType.setText(warningNameResId);
             String speed = String.valueOf(lowestSpeed);
             warningsViewHolder.mEtErrorNumber.setText(speed);
-            warningsViewHolder.mEtErrorNumber.setSelection(speed.length());
+//            warningsViewHolder.mEtErrorNumber.setSelection(speed.length());
 
             //判断报警的类型 enable 值 1：代表的是打开报警类型的开关， 0 代表的关闭类型的开关
             if (enable == 1) {

@@ -2,9 +2,6 @@ package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.net.wifi.WifiInfo;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,32 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.cardview.widget.CardView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
-import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
-import com.adasplus.base.utils.DisplayUtils;
 import com.adasplus.base.utils.ExceptionUtils;
-import com.adasplus.base.utils.StatusBarUtil;
-import com.adasplus.base.utils.WifiHelper;
-import com.adasplus.base.view.SwipeRefreshView;
+import com.adasplus.base.utils.ToastUtil;
 import com.adasplus.dvr_controller.R;
-import com.adasplus.dvr_controller.activity.MainActivity;
 import com.adasplus.dvr_controller.mvp.contract.IHomeContract;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
-
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import rx.Subscriber;
@@ -57,7 +39,6 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private static final int FIVE = 5;
 
     private Activity mActivity;
-    private IHomeContract.View mHomeView;
     private TextView mTvCarSpeed;
     private TextView mTvLocationInfo;
     private LinearLayout mLlDeviceConnect;
@@ -75,9 +56,8 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private ImageView mIvTargetsPlatformStatus;
     private boolean mUSB = true;
 
-    public HomePresenter(Activity activity, IHomeContract.View view) {
+    public HomePresenter(Activity activity) {
         mActivity = activity;
-        mHomeView = view;
     }
 
     @Override
@@ -165,7 +145,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
         //车辆速度的
         if (speed > 0){
-            mTvCarSpeed.setText(String.format("%s Km/h",String.valueOf(speed)));
+            mTvCarSpeed.setText(String.format("%s km/h",String.valueOf(speed)));
         }else {
             mTvCarSpeed.setText(R.string.no_car_info);
         }
@@ -237,38 +217,34 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
-//        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-//        String wifiName = wifiInfo.getSSID();
-//        boolean isDeviceWifi = !wifiName.contains(HttpConstant.DEVICE_WIFI_TAG);
-
         switch (v.getId()){
             case R.id.ll_device_connect:
                 startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
                 break;
             case R.id.ll_video_show:
                 if (mUSB){
-                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
                 break;
             case R.id.ll_fill_params:
                 if (mUSB){
-                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.PARAMS_PATH);
                 break;
             case R.id.ll_terminal_set:
                 if (mUSB){
-                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.SETTINGS_PATH);
                 break;
             case R.id.ll_platforms_connect:
                 if (mUSB){
-                    Toast.makeText(mActivity, R.string.please_open_usb_network_share, Toast.LENGTH_SHORT).show();
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
@@ -288,7 +264,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                         // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
                         int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
                         if (jt808ServiceStatus == 0){
-                            Toast.makeText(mActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
+                            ToastUtil.showToast(mActivity,R.string.jt_808_service_status);
                             return;
                         }
                         getVehicleInfo();

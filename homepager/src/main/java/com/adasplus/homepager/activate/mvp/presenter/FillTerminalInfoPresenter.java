@@ -62,10 +62,10 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
     private OptionsPickerView<String> mLicensePlateColorPickerView;
-    private int mLicensePlateColor = 0;
-    private String mProvincialDomainId = "0";
+    private String mLicensePlateColor = "";
+    private String mProvincialDomainId = "";
     private int mProvincialDomainPositionId = -1;
-    private String mAreaId = "0";
+    private String mAreaId = "";
     private OptionsPickerView<String> mProvincialDomainIdPickerView;
     private OptionsPickerView mCityAndCountyIdPickerView;
 
@@ -75,6 +75,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private InitDataHandler mInitDataHandler;
     private RelativeLayout mRlHintMessage;
     private List<AdministrativeRegionCodeModel> mAdministrativeRegionCodeModelList;
+    private  CarInfoModel mCarInfoModel;
 
     private static class InitDataHandler extends Handler {
         private WeakReference<FillTerminalInfoActivity> mFillTerminalInfoWeakReference;
@@ -114,6 +115,30 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
     @Override
     public void initData() {
+        String licensePlateFileName = "license_plate_color.json";
+        //读取本地的 车辆颜色 数据
+        String plateColor = VehicleInfoUtil.readVehicleData(mContext, licensePlateFileName);
+        String administrativeRegionCodeFileName = "administrative_region_code.json";
+        //读取本地的 行政区域代码 数据
+        String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext, administrativeRegionCodeFileName);
+        LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
+        List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
+        mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+
+//        ThreadPoolUtils.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                String licensePlateFileName = "license_plate_color.json";
+//                //读取本地的 车辆颜色 数据
+//                String plateColor = VehicleInfoUtil.readVehicleData(mContext, licensePlateFileName);
+//                String administrativeRegionCodeFileName = "administrative_region_code.json";
+//                //读取本地的 行政区域代码 数据
+//                String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext, administrativeRegionCodeFileName);
+//                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
+//                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
+//                mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+//            }
+//        });
         mEtPlatformPhoneNumber = mFillTerminalInfoView.getEtPlatformPhoneNumber();
         mEtLicensePlateNumber = mFillTerminalInfoView.getEtLicensePlateNumber();
         mEtTerminalId = mFillTerminalInfoView.getEtTerminalId();
@@ -132,6 +157,8 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             tvTitle.setText(platform_connect);
         } else {
             tvTitle.setText(update_terminal_info);
+            mRlHintMessage.setVisibility(View.GONE);
+            mActivateNewPlatformsActivity.showNetRequestDialog();
             BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                 @Override
                 public void onCompleted() {
@@ -150,35 +177,17 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                     int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
                     if (jt808ServiceStatus == 0) {
                         Toast.makeText(mActivateNewPlatformsActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
-                        return;
+                    }else{
+                        getVehicleInfo();
+                        mActivateNewPlatformsActivity.dismissNetRequestDialog();
                     }
-                    getVehicleInfo();
                 }
             });
 
 
+
+
         }
-
-        ThreadPoolUtils.execute(new Runnable() {
-            @Override
-            public void run() {
-                String licensePlateFileName = "license_plate_color.json";
-                //读取本地的 车辆颜色 数据
-                String plateColor = VehicleInfoUtil.readVehicleData(mContext, licensePlateFileName);
-                String administrativeRegionCodeFileName = "administrative_region_code.json";
-                //读取本地的 行政区域代码 数据
-                String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext, administrativeRegionCodeFileName);
-                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
-                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
-                CarInfoModel carInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
-
-                Message message = Message.obtain();
-                message.what = WHAT;
-                message.obj = carInfoModel;
-                mInitDataHandler.sendMessage(message);
-            }
-        });
-
     }
 
     private void getVehicleInfo() {
@@ -204,14 +213,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 String cityDomain = terminalInfoModel.getCityDomain();
                 String terminalId = terminalInfoModel.getTerminalId();
 
-                //设置车牌颜色的初始值 :
-                mLicensePlateColor = Integer.parseInt(plateColor);
-                //设置省域初始值
-                mProvincialDomainId = provincialDomain;
-                //设置市县域初始值
-                mAreaId = cityDomain;
-
-                //设置手机号
+               //设置手机号
                 mEtPlatformPhoneNumber.setText(phoneNumber);
                 mEtPlatformPhoneNumber.setSelection(phoneNumber.length());
 
@@ -226,13 +228,31 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 //设置车架号
                 mEtChassisNumber.setText(vin);
                 mEtChassisNumber.setSelection(vin.length());
+
+                //设置车牌颜色的初始值 :
+                if(!plateColor.equals("")){
+                    mLicensePlateColor = (plateColor);
+                }
+
+                //设置省域初始值
+                mProvincialDomainId = provincialDomain;
+                //设置市县域初始值
+                mAreaId = cityDomain;
+                Message message = Message.obtain();
+                message.what = WHAT;
+                message.obj = mCarInfoModel;
+                mInitDataHandler.sendMessage(message);
+
+                initLicensePlateColor(mCarInfoModel.getCarColor());
+                initProvincialDomainId(mAdministrativeRegionCodeModelList);
+                initCityAndCountyId(mAdministrativeRegionCodeModelList);
             }
         });
     }
 
     //这个是市县域 ID，根据 GB2260 协议 中的行政区域代码进行定义，行政区域代码的后四位代表的是市县域Id
     private void initCityAndCountyId(final List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
-        if (mProvincialDomainId.equals("0") || mProvincialDomainPositionId < 0) {
+        if (mProvincialDomainId.equals("")) {
             Toast.makeText(mContext, R.string.please_choose_provincial_id, Toast.LENGTH_SHORT).show();
         } else {
             List<String> cityIdList = new ArrayList<>();//该省的城市列表（第二级）
@@ -296,7 +316,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     }
 
     public void showDefaultCityId(final List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
-        if (mProvincialDomainPositionId > 0 && !mProvincialDomainId.equals("0")) {
+        if (!mProvincialDomainId.equals("")) {
             AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(mProvincialDomainPositionId);
             List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
             if (city != null && city.size() > 0) {
@@ -359,8 +379,8 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         for (int i = 0; i < car_color.size(); i++) {
             CarColorModel carColorModel = car_color.get(i);
             String plate_color = carColorModel.getPlate_color();
-            int plate_code = carColorModel.getPlate_code();
-            if (mLicensePlateColor == plate_code) {
+            String plate_code = carColorModel.getPlate_code();
+            if (mLicensePlateColor.equals(plate_code)) {
                 mTvLicensePlateColor.setText(plate_color);
             }
             carColor.add(plate_color);
@@ -398,7 +418,6 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mTvCityAndCountyId.setOnClickListener(this);
     }
 
-    @Override
     public void setAdministrativeRegionCodeData(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
         mAdministrativeRegionCodeModelList = administrativeRegionCodeModelList;
     }
@@ -418,17 +437,17 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 Toast.makeText(mContext, R.string.phone_number_is_not_empty, Toast.LENGTH_SHORT).show();
                 return;
             }
-            if(phoneNumber.indexOf("0") == 0){
-                phoneNumber = phoneNumber.substring(1,12);
-            }
-            //判断输入的手机号是否是 11 位，如果是 11 位的手机号，进行检查输入的手机号的格式是否合法，
-            if (phoneNumber.length() != 11) {
-                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
-            }
-            if (!PatternUtils.checkPhoneNumber(phoneNumber)) {
-                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
-                return;
-            }
+//            if(phoneNumber.indexOf("0") == 0){
+//                phoneNumber = phoneNumber.substring(1,12);
+//            }
+//            //判断输入的手机号是否是 11 位，如果是 11 位的手机号，进行检查输入的手机号的格式是否合法，
+//            if (phoneNumber.length() != 11) {
+//                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
+//            }
+//            if (!PatternUtils.checkPhoneNumber(phoneNumber)) {
+//                Toast.makeText(mContext, R.string.phone_number_format_error, Toast.LENGTH_SHORT).show();
+//                return;
+//            }
             if (!TextUtils.isEmpty(plateNumber)) {
                 if (plateNumber.length() != 7) {
                     Toast.makeText(mContext, R.string.please_fill_correct_license_plate_number, Toast.LENGTH_SHORT).show();

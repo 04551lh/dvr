@@ -53,7 +53,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     private float mMargin;
     private String mDisconnect;
     private String mRetryConnect;
-    private String mConnected = "#ff4ddb6e";
+    private String mNoConnected = "#FFAB03";
 
     public void setData(List<GetPlatformInfoModel.ArrayBean> platformInfoArray,ActivateDeviceActivity activateDeviceActivity) {
         mPlatformInfoArray = platformInfoArray;
@@ -104,12 +104,15 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         });
 
         //终端连接状态
-        if (connectStatus == 1){
-            holder.mTvPlatformConnectStatus.setText(R.string.connected);
-            holder.mTvPlatformConnectStatus.setTextColor(Color.parseColor(mConnected));
-        }else if (connectStatus == 0){
-            holder.mTvPlatformConnectStatus.setText(R.string.disconnect);
+        if (connectStatus == 0){
+            holder.mTvPlatformConnectStatus.setText(R.string.link_disconnection);
             holder.mTvPlatformConnectStatus.setTextColor(Color.RED);
+        }else if (connectStatus == 1){
+            holder.mTvPlatformConnectStatus.setText(R.string.not_connected);
+            holder.mTvPlatformConnectStatus.setTextColor(Color.parseColor(mNoConnected));
+        }else if (connectStatus == 2){
+            holder.mTvPlatformConnectStatus.setText(R.string.connected);
+            holder.mTvPlatformConnectStatus.setTextColor(Color.GREEN);
         }
     }
 
@@ -142,9 +145,9 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
                 TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
 
-                if (connectStatus == 1 ){
+                if (connectStatus == 2){
                     tv_update_connect_status.setText(mDisconnect);
-                }else if (connectStatus == 0){
+                }else if (connectStatus == 1 || connectStatus == 0){
                     tv_update_connect_status.setText(mRetryConnect);
                 }
 
@@ -188,10 +191,10 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips) +"?";
         String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
 
-        if (connectStatus == 1 ){
+        if (connectStatus == 2 ){
             tv_dialog_title.setText(mDisconnect);
             tv_dialog_description.setText(disconnect_tips);
-        }else if (connectStatus == 0){
+        }else if (connectStatus == 0 || connectStatus == 1){
             tv_dialog_title.setText(mRetryConnect);
             tv_dialog_description.setText(retry_connect_tips);
         }
@@ -223,7 +226,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 try {
                     jobj.put("platformIp", arrayBean.getPlatformIp());
                     jobj.put("platformPort", Short.valueOf(String.valueOf(platformPort)));
-                    jobj.put("connectStatus", arrayBean.getConnectStatus() == 1 ? 0 : 1);
+                    jobj.put("connectStatus", arrayBean.getConnectStatus() == 2 ? 0 : 1);
                     jarr.put(jobj);
                     jsonObject.put("Array",jarr);
                 } catch (JSONException e) {
@@ -248,6 +251,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                             arrayBean.setConnectStatus(0);
                         }else if (status == 0){
                             arrayBean.setConnectStatus(1);
+                        }else if (status == 2){
+                            arrayBean.setConnectStatus(2);
                         }
                         notifyDataSetChanged();
                         basicDialog.dismiss();
@@ -310,6 +315,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                     public void onNext(LogoutPlatformsModel logoutPlatformsModel) {
                         mPlatformInfoArray.remove(arrayBean);
                         mActivateDeviceActivity.notifyPlatformsSizeShow();
+                        mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
+                        mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
                         notifyDataSetChanged();
                         basicDialog.dismiss();
                     }

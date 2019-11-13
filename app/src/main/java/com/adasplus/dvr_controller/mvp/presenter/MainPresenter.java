@@ -19,6 +19,8 @@ import com.adasplus.base.network.model.SystemInfoModel;
 
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.StatusBarUtil;
+import com.adasplus.base.utils.ToastUtil;
+import com.adasplus.base.utils.UIClickUtils;
 import com.adasplus.base.utils.WifiHelper;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.activity.MainActivity;
@@ -179,13 +181,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-//                WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-//                String ssid = wifiInfo.getSSID();
-//                if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
-                    initData();
-//                } else {
-//                    mSrlRefreshLayout.finishRefresh();
-//                }
+                initData();
             }
 
             @Override
@@ -217,9 +213,6 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
     public void initData() {
         Fragment currentFragment = getCurrentFragment();
         if (currentFragment instanceof HomeFragment) {
-//            WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-//            String ssid = wifiInfo.getSSID();
-//            if (ssid.contains(HttpConstant.DEVICE_WIFI_TAG)) {
                 BaseWrapper.getInstance().getSystemInfo().subscribe(new Subscriber<SystemInfoModel>() {
                     @Override
                     public void onCompleted() {
@@ -243,7 +236,6 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                         initSlideCarInfoData(systemInfoModel);
                     }
                 });
-//            }
         }
     }
 
@@ -442,36 +434,35 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        WifiInfo wifiInfo = WifiHelper.getInstance().getConnectionWifiInfo();
-        String wifiName = wifiInfo.getSSID();
-        boolean isDeviceWifi = !wifiName.contains(HttpConstant.DEVICE_WIFI_TAG);
+            switch (v.getId()) {
+                case R.id.ll_home_pager:
+                    initData();
+                    mSrlRefreshLayout.setEnableRefresh(true);
+                    clickTab(mHomeFragment);
+                    break;
+                case R.id.ll_basic_info_pager:
+                    if (mUSB) {
+                        ToastUtil.showToast(mMainActivity,R.string.please_open_usb_network_share);
+//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+                        return;
+                    }
+                    mSrlRefreshLayout.setEnableRefresh(false);
+                    clickTab(mBasicInfoFragment);
+                    break;
+                case R.id.ll_file_export_pager:
+                    if (mUSB) {
+                        ToastUtil.showToast(mMainActivity,R.string.please_open_usb_network_share);
+//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+                        return;
+                    }
+                    mSrlRefreshLayout.setEnableRefresh(false);
+                    clickTab(mFileExportFragment);
+                    break;
+                case R.id.iv_close_menu:
+                case R.id.ll_close_menu:
+                    mTlhHeaderView.finishTwoLevel();
+                    break;
+            }
 
-        switch (v.getId()) {
-            case R.id.ll_home_pager:
-                initData();
-                mSrlRefreshLayout.setEnableRefresh(true);
-                clickTab(mHomeFragment);
-                break;
-            case R.id.ll_basic_info_pager:
-                if (mUSB) {
-                    mMainActivity.showToast(R.string.please_open_usb_network_share);
-                    return;
-                }
-                mSrlRefreshLayout.setEnableRefresh(false);
-                clickTab(mBasicInfoFragment);
-                break;
-            case R.id.ll_file_export_pager:
-                if (mUSB) {
-                    mMainActivity.showToast(R.string.please_open_usb_network_share);
-                    return;
-                }
-                mSrlRefreshLayout.setEnableRefresh(false);
-                clickTab(mFileExportFragment);
-                break;
-            case R.id.iv_close_menu:
-            case R.id.ll_close_menu:
-                mTlhHeaderView.finishTwoLevel();
-                break;
-        }
     }
 }

@@ -21,12 +21,14 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     private ImageView mIvManualCalibration;
     private TextView mTvCoefficientOfThePulse;
     private EditText mEtCoefficientOfThePulseValue;
+    private TextView mTvCoefficientDefaultSettings;
     private TextView mTvAutomaticCalibration;
     private ImageView mIvAutomaticCalibration;
     private TextView mTvErrorValue;
     private Button mBtnSub;
     private EditText mEtErrorNumber;
     private Button mBtnAdd;
+    private ImageView mIvGPSSpeedStatus;
     private ImageView mIvSimulationSpeedStatus;
     private SignSeekBar mSsbSpeedValue;
     private TextView mTvCurrentSpeed;
@@ -53,12 +55,14 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
         mIvManualCalibration =  findViewById(R.id.iv_manual_calibration);
         mTvCoefficientOfThePulse =  findViewById(R.id.tv_coefficient_of_the_pulse);
         mEtCoefficientOfThePulseValue =  findViewById(R.id.et_coefficient_of_the_pulse_value);
+        mTvCoefficientDefaultSettings =  findViewById(R.id.tv_coefficient_default_settings);
         mTvAutomaticCalibration =  findViewById(R.id.tv_automatic_calibration);
         mIvAutomaticCalibration =  findViewById(R.id.iv_automatic_calibration);
         mTvErrorValue =  findViewById(R.id.tv_error_value);
         mBtnSub =  findViewById(R.id.btn_sub);
         mEtErrorNumber =  findViewById(R.id.et_error_number);
         mBtnAdd =  findViewById(R.id.btn_add);
+        mIvGPSSpeedStatus =  findViewById(R.id.iv_gps_speed);
         mIvSimulationSpeedStatus =  findViewById(R.id.iv_simulation_speed_status);
         mSsbSpeedValue =  findViewById(R.id.ssb_speed_value);
         mTvCurrentSpeed =  findViewById(R.id.tv_current_speed);
@@ -100,6 +104,11 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     }
 
     @Override
+    public TextView getTvCoefficientDefaultSettings() {
+        return mTvCoefficientDefaultSettings;
+    }
+
+    @Override
     public TextView getTvAutomaticCalibration() {
         return mTvAutomaticCalibration;
     }
@@ -132,6 +141,11 @@ public class SpeedSetActivity extends BaseActivity implements ISpeedSetContract.
     @Override
     public ImageView getIvSimulationSpeedStatus() {
         return mIvSimulationSpeedStatus;
+    }
+
+    @Override
+    public ImageView getIvGPSSpeedStatus() {
+        return mIvGPSSpeedStatus;
     }
 
     @Override

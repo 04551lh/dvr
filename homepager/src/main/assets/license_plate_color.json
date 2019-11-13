@@ -1,16 +1,16 @@
 {"car_color": [{
   "plate_color": "蓝色",
-  "plate_code": 1
+  "plate_code": "1"
 }, {
   "plate_color": "黄色",
-  "plate_code": 2
+  "plate_code": "2"
 }, {
   "plate_color": "黑色",
-  "plate_code": 3
+  "plate_code": "3"
 }, {
   "plate_color": "白色",
-  "plate_code": 4
+  "plate_code": "4"
 }, {
   "plate_color": "其他",
-  "plate_code": 9
+  "plate_code": "9"
 }]}

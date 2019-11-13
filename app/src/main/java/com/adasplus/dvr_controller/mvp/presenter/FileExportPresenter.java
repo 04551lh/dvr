@@ -362,7 +362,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                     @Override
                     public void onCompleted() {
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         timer.cancel();

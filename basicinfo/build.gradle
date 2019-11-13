@@ -41,4 +41,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation project(path: ':base')
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
+    compile project(path: ':homepager')
 }

@@ -31,7 +31,6 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
     private ISoundsContract.View mSoundsView;
     private SoundsActivity mSoundsActivity;
-    private SwipeRefreshLayout mSwipeRefreshLayoutSoundSet;
     private SoundsModel mSoundsModel;
 
     private SignSeekBar mSsbSoundsValue;
@@ -50,11 +49,6 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
     public void initData() {
         mSsbSoundsValue = mSoundsView.getSsbSoundsValue();
         mTvCurrentSounds = mSoundsView.getTvCurrentSounds();
-        mSwipeRefreshLayoutSoundSet = mSoundsActivity.getSwipeRefreshLayoutSoundSet();
-        mSwipeRefreshLayoutSoundSet.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSwipeRefreshLayoutSoundSet.setProgressBackgroundColorSchemeResource(android.R.color.white);
         getNetwork();
     }
 
@@ -69,13 +63,11 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
             @Override
             public void onError(Throwable e) {
-                mSwipeRefreshLayoutSoundSet.setRefreshing(false);
                 ExceptionUtils.exceptionHandling(mSoundsActivity, e);
             }
 
             @Override
             public void onNext(SoundsModel soundsModel) {
-                mSwipeRefreshLayoutSoundSet.setRefreshing(false);
                 mSoundsModel = soundsModel;
                 //获取声音值，并设置声音值
                 mSoundValue = soundsModel.getSoundValue();
@@ -94,7 +86,6 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
         TextView tvSoundSave = mSoundsView.getTvSoundSave();
 
         ivSoundBack.setOnClickListener(this);
-        mSwipeRefreshLayoutSoundSet.setOnRefreshListener(this);
         ivSoundsReduce.setOnClickListener(this);
         mSsbSoundsValue.setOnProgressChangedListener(this);
         mIvSoundsAdd.setOnClickListener(this);
@@ -157,7 +148,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
 
 
     private void setCurrentSounds(int progress){
-        if(progress == R.string.sounds_set_max){
+        if(progress == 10){
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_max_icon);
         }else{
             mIvSoundsAdd.setImageResource(R.mipmap.sounds_middle_icon);

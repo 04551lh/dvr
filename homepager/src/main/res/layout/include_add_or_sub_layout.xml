@@ -26,6 +26,7 @@
         android:layout_marginRight="@dimen/dp_1"
         android:inputType="number"
         android:textColor="@color/font_color_333"
+        android:maxLength="3"
         android:background="@drawable/btn_bg_rectangle_style"
         android:textSize="@dimen/sp_15"/>
     <Button

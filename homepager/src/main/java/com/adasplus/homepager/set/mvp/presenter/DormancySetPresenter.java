@@ -51,7 +51,9 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
         mSwipeRefreshLayoutDormancySet.setProgressBackgroundColorSchemeResource(android.R.color.white);
         mEtErrorNumber = mDormancySetView.getEtErrorNumber();
         mRlHintMessage = mDormancySetView.getRlHintMessage();
+        mDormancySetActivity.showNetRequestDialog();
         getNetwork();
+        mEtErrorNumber.setText("60");
     }
 
     private void getNetwork(){
@@ -76,6 +78,7 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
                 String sleep = String.valueOf(timeoutValue);
                 mEtErrorNumber.setText(sleep);
                 mEtErrorNumber.setSelection(sleep.length());
+                mDormancySetActivity.dismissNetRequestDialog();
             }
         });
     }
@@ -137,7 +140,7 @@ public class DormancySetPresenter implements IDormancySetContract.Presenter, Vie
             String sleep = mEtErrorNumber.getText().toString().trim();
             int currentSleepValue = Integer.parseInt(sleep);
             //判断休眠值是否小于等于60或大于等于600，如果超出这个范围，进行做友好的提示
-            if (currentSleepValue <= mMinSleepValue || currentSleepValue >= mMaxSleepValue) {
+            if (currentSleepValue < mMinSleepValue || currentSleepValue > mMaxSleepValue) {
                 Toast.makeText(mDormancySetActivity, R.string.sleep_value_between_60_600_range, Toast.LENGTH_SHORT).show();
                 return;
             }

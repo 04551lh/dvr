@@ -150,13 +150,28 @@
                                 android:textColor="@color/font_color_333"
                                 android:textSize="@dimen/sp_16" />
                         </LinearLayout>
-                    </LinearLayout>
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/dp_1"-->
+<!--                            android:layout_marginStart="@dimen/dp_60"-->
+<!--                            android:background="@color/under_line_color" />-->
+                        <TextView
+                            android:id="@+id/tv_coefficient_default_settings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_16"
+                            android:layout_marginBottom="@dimen/dp_16"
+                            android:gravity="right"
+                            android:textSize="@dimen/sp_12"
+                            android:paddingEnd="@dimen/dp_16"
+                            android:text="@string/restore_the_default_settings"
+                            android:textColor="@color/system_navigation_bar_color" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_1"
+                            android:background="@color/under_line_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_1"
-                        android:layout_marginStart="@dimen/dp_60"
-                        android:background="@color/under_line_color" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -216,6 +231,42 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:background="@color/under_line_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_1"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/under_line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="GPS速度"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/dp_16"
+                        android:textColor="@color/font_color_333"
+                        android:textSize="@dimen/sp_16" />
+
+                    <ImageView
+                        android:padding="@dimen/dp_16"
+                        android:id="@+id/iv_gps_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/switch_open_icon"
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <View

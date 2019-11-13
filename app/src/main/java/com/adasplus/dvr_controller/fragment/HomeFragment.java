@@ -28,7 +28,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     protected void init(View view, Bundle savedInstanceState) {
-        mHomePresenter = new HomePresenter(getAppCompatActivity(), this);
+        mHomePresenter = new HomePresenter(getAppCompatActivity());
 
     }
 

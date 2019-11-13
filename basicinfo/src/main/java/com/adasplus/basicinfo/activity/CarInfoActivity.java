@@ -10,6 +10,7 @@ import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.basicinfo.R;
 import com.adasplus.basicinfo.mvp.contract.ICarInfoContract;
 import com.adasplus.basicinfo.mvp.presenter.CarInfoPresenter;
+import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
 import com.alibaba.android.arouter.facade.annotation.Route;
 
 @Route(path = ActivityPathConstant.CAR_INFO_PATH)
@@ -25,12 +26,13 @@ public class CarInfoActivity extends BaseActivity implements ICarInfoContract.Vi
     private TextView mTvCityAndCountyId;
     private LinearLayout mLlCarInfo;
     private TextView mTvNoData;
+    private CarInfoPresenter mCarInfoPresenter;
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        CarInfoPresenter carInfoPresenter = new CarInfoPresenter(this);
-        carInfoPresenter.initData();
-        carInfoPresenter.initListener();
+        mCarInfoPresenter = new CarInfoPresenter(this);
+        mCarInfoPresenter.initData();
+        mCarInfoPresenter.initListener();
     }
 
     @Override
@@ -40,14 +42,14 @@ public class CarInfoActivity extends BaseActivity implements ICarInfoContract.Vi
 
     @Override
     protected void initWidget() {
-        mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvPhoneNumber = (TextView) findViewById(R.id.tv_phone_number);
-        mTvLicensePlateNumber = (TextView) findViewById(R.id.tv_license_plate_number);
-        mTvChassisNumber = (TextView) findViewById(R.id.tv_chassis_number);
-        mTvLicensePlateColor = (TextView) findViewById(R.id.tv_license_plate_color);
-        mTvTerminalId = (TextView) findViewById(R.id.tv_terminal_id);
-        mTvProvincialDomainId = (TextView) findViewById(R.id.tv_provincial_domain_id);
-        mTvCityAndCountyId = (TextView) findViewById(R.id.tv_city_and_county_id);
+        mIvBack =  findViewById(R.id.iv_back);
+        mTvPhoneNumber =  findViewById(R.id.tv_phone_number);
+        mTvLicensePlateNumber =  findViewById(R.id.tv_license_plate_number);
+        mTvChassisNumber =  findViewById(R.id.tv_chassis_number);
+        mTvLicensePlateColor =  findViewById(R.id.tv_license_plate_color);
+        mTvTerminalId =  findViewById(R.id.tv_terminal_id);
+        mTvProvincialDomainId =  findViewById(R.id.tv_provincial_domain_id);
+        mTvCityAndCountyId =  findViewById(R.id.tv_city_and_county_id);
         mLlCarInfo = findViewById(R.id.ll_car_info);
         mTvNoData = findViewById(R.id.tv_no_data);
     }
@@ -100,5 +102,10 @@ public class CarInfoActivity extends BaseActivity implements ICarInfoContract.Vi
     @Override
     public TextView getTvNoData() {
         return mTvNoData;
+    }
+
+    @Override
+    public void showDefaultPlateInfo(CarInfoModel carInfoModel) {
+        mCarInfoPresenter.showDefaultPlateInfo(carInfoModel);
     }
 }

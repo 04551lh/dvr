@@ -1,5 +1,6 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,6 +88,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
         mWarningsAdapter.addFooterView(footerView);
 
         mRvDmsList.setLayoutManager(new LinearLayoutManager(mDmsWarningActivity, RecyclerView.VERTICAL, false));
+        mDmsWarningActivity.showNetRequestDialog();
         getDMSDefaultSet();
     }
 
@@ -463,6 +465,7 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
                     mWarningsAdapter.notifyDataSetChanged();
                 }
 
+                mDmsWarningActivity.dismissNetRequestDialog();
             }
         });
     }
@@ -475,10 +478,12 @@ public class DMSWarningPresenter implements IDMSWarningContract.Presenter, View.
             if (status) {
                 mCloseWarningCount--;
                 mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_open_icon);
+                mDmsEnable = 1;
                 convertWarningsModel.setEnable(1);
             } else {
                 mCloseWarningCount++;
                 if (mCloseTotalCount == mCloseWarningCount) {
+                    mDmsEnable = 0;
                     mIvDMSTotalSwitch.setImageResource(R.mipmap.switch_close_icon);
                 }
                 convertWarningsModel.setEnable(0);

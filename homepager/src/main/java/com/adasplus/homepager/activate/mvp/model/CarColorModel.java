@@ -7,7 +7,7 @@ package com.adasplus.homepager.activate.mvp.model;
  */
 public class CarColorModel {
     private String plate_color;
-    private int plate_code;
+    private String plate_code;
 
     public String getPlate_color() {
         return plate_color;
@@ -17,11 +17,11 @@ public class CarColorModel {
         this.plate_color = plate_color;
     }
 
-    public int getPlate_code() {
+    public String getPlate_code() {
         return plate_code;
     }
 
-    public void setPlate_code(int plate_code) {
+    public void setPlate_code(String plate_code) {
         this.plate_code = plate_code;
     }
 }

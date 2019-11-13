@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.adasplus.homepager.activate.mvp.model.AdministrativeRegionCodeModel;
 import com.adasplus.homepager.activate.mvp.model.CarColorModel;
+import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
 
 import java.util.List;
 
@@ -63,7 +64,5 @@ public interface IFillTerminalInfoContract {
         void initData();
 
         void initListener();
-
-        void setAdministrativeRegionCodeData(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
     }
 }

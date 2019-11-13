@@ -15,7 +15,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 public class SoundsActivity extends BaseActivity implements ISoundsContract.View {
 
     private ImageView mIvSoundBack;
-    private SwipeRefreshLayout mSwipeRefreshLayoutSoundSet;
     private ImageView mIvSoundsReduce;
     private ImageView mIvSoundsAdd;
     private SignSeekBar mSsbSoundsValue;
@@ -37,7 +36,6 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
     @Override
     protected void initWidget() {
         mIvSoundBack = findViewById(R.id.iv_sound_back);
-        mSwipeRefreshLayoutSoundSet = findViewById(R.id.swipeRefreshLayout_sound_set);
         mIvSoundsReduce = findViewById(R.id.iv_sounds_reduce);
         mIvSoundsAdd = findViewById(R.id.iv_sounds_add);
         mSsbSoundsValue = findViewById(R.id.ssb_sounds_value);
@@ -48,11 +46,6 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
     @Override
     public ImageView getIvSoundBack() {
         return mIvSoundBack;
-    }
-
-    @Override
-    public SwipeRefreshLayout getSwipeRefreshLayoutSoundSet() {
-        return mSwipeRefreshLayoutSoundSet;
     }
 
     @Override

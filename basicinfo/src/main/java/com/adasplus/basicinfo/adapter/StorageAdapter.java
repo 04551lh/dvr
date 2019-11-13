@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adasplus.base.network.model.SystemInfoModel;
+import com.adasplus.base.utils.PatternUtils;
 import com.adasplus.basicinfo.R;
 
 import java.util.List;
@@ -71,7 +72,8 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.StorageV
             holder.mTvDiskStatus.setText(R.string.disk_status_no);
         }
 
-        holder.mTvSpecialVideo.setText(String.format("%sM;",String.valueOf(specialVideoSize)));
+//        holder.mTvSpecialVideo.setText(String.format("%sM;",String.valueOf(specialVideoSize)));
+        holder.mTvSpecialVideo.setText(PatternUtils.FormetFileSize(specialVideoSize));
     }
 
     @Override

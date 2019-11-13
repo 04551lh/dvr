@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -41,14 +40,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/speed_set"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/speed_settings_icon"
+                android:drawableStart="@mipmap/speed_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -61,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/video_settings_icon"
+                android:drawableStart="@mipmap/video_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -81,14 +80,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/active_security_settings_icon"
+                android:drawableStart="@mipmap/active_security_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -101,14 +100,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/calibration_settings_icon"
+                android:drawableStart="@mipmap/calibration_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -121,14 +120,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/general_settings_icon"
+                android:drawableStart="@mipmap/general_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -142,14 +141,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/can_settings_icon"
+                android:drawableStart="@mipmap/can_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 
@@ -164,14 +163,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="@dimen/dp_8"
-                android:drawableLeft="@mipmap/network_settings_icon"
+                android:drawableStart="@mipmap/network_settings_icon"
                 android:textColor="@color/font_color_333"
                 android:textSize="@dimen/sp_16"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:drawableRight="@mipmap/right_arrow"
+                android:drawableEnd="@mipmap/right_arrow"
                 android:layout_height="match_parent"/>
         </LinearLayout>
 

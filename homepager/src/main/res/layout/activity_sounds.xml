@@ -22,11 +22,6 @@
             style="@style/CommonTitleTvStyle"
             android:text="@string/sound_set" />
     </LinearLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefreshLayout_sound_set"
-        android:layout_width="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -113,7 +108,5 @@
                 android:background="@color/under_line_color" />
         </LinearLayout>
     </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 </LinearLayout>

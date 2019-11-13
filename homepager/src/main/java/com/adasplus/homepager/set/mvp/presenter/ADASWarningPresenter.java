@@ -90,6 +90,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
 
         mRvAdasList.setLayoutManager(new LinearLayoutManager(mAdasWarningActivity, RecyclerView.VERTICAL, false));
         //获取 ADAS 默认设置
+        mAdasWarningActivity.showNetRequestDialog();
         getADASDefaultSet();
     }
 
@@ -164,6 +165,7 @@ public class ADASWarningPresenter implements IADASWarningContract.Presenter, Vie
                 } else {
                     mWarningsAdapter.notifyDataSetChanged();
                 }
+                mAdasWarningActivity.dismissNetRequestDialog();
             }
         });
     }
