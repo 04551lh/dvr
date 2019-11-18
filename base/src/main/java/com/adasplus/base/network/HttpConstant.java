@@ -12,7 +12,7 @@ public class HttpConstant {
 
     public static final String USB_SERVER_IP_ADDRESS = "192.168.42.254:8000";
 
-    static final String BASE_URL = "http://"+ USB_SERVER_IP_ADDRESS;
+    static final String BASE_URL = "http://"+ WIFI_SERVER_IP_ADDRESS1;
 
     public static final String GET_PLATFORM_INFO = "/platformInfoRequest";
 
