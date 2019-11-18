@@ -135,7 +135,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/dp_10"
                             android:gravity="center_vertical"
-                            android:text="@string/unit" />
+                            android:text="@string/distance_unit" />
                     </LinearLayout>
 
                     <View style="@style/DividerLineStyle" />
