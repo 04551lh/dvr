@@ -1,13 +1,12 @@
 package com.adasplus.homepager.params.mvp.presenter;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
@@ -30,7 +29,7 @@ import rx.Subscriber;
  * Date : 2019/9/29 18:46
  * Description :
  */
-public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.OnClickListener {
 
     private IParamsSetContract.View mParamsSetView;
     private ParamsSetActivity mParamsSetActivity;
@@ -41,7 +40,6 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
     private ParamsSetModel mParamsSetModel;
     private BasicDialog mDialog;
     private TextView mTvRestoreTheDefaultParams;
-    private SwipeRefreshLayout mSrlRefreshParamsFill;
 
     public ParamsSetPresenter(IParamsSetContract.View view) {
         mParamsSetView = view;
@@ -55,13 +53,6 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         mEtRightWheelDistance = mParamsSetView.getEtRightWheelDistance();
         mEtFrontWheelDistance = mParamsSetView.getEtFrontWheelDistance();
         mTvRestoreTheDefaultParams = mParamsSetView.getTvRestoreTheDefaultParams();
-        mSrlRefreshParamsFill = mParamsSetView.getSrlRefreshParamsFill();
-        mSrlRefreshParamsFill.setOnRefreshListener(this);
-        mSrlRefreshParamsFill.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSrlRefreshParamsFill.setProgressBackgroundColorSchemeResource(android.R.color.white);
-
     }
 
     @Override
@@ -76,22 +67,20 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
             @Override
             public void onError(Throwable e) {
                 ExceptionUtils.exceptionHandling(mParamsSetActivity, e);
-                mSrlRefreshParamsFill.setRefreshing(false);
             }
 
             @Override
             public void onNext(ParamsSetModel paramsSetModel) {
-                mSrlRefreshParamsFill.setRefreshing(false);
                 mParamsSetModel = paramsSetModel;
-                int bumperDistance = paramsSetModel.getBumperDistance();
-                int leftWheelDistance = paramsSetModel.getLeftWheelDistance();
-                int rightWheelDistance = paramsSetModel.getRightWheelDistance();
-                int frontWheelDistance = paramsSetModel.getFrontWheelDistance();
+                float bumperDistance = (float) paramsSetModel.getBumperDistance() / 1000;
+                float leftWheelDistance = (float) paramsSetModel.getLeftWheelDistance() / 1000;
+                float rightWheelDistance = (float) paramsSetModel.getRightWheelDistance() / 1000;
+                float frontWheelDistance = (float) paramsSetModel.getFrontWheelDistance() / 1000;
 
-                String bumper = String.valueOf(bumperDistance);
-                String leftWheel = String.valueOf(leftWheelDistance);
-                String rightWheel = String.valueOf(rightWheelDistance);
-                String frontWheel = String.valueOf(frontWheelDistance);
+                String bumper = String.format("%.2f", bumperDistance);
+                String leftWheel = String.format("%.2f", leftWheelDistance);
+                String rightWheel = String.format("%.2f", rightWheelDistance);
+                String frontWheel = String.format("%.2f", frontWheelDistance);
 
                 //设置保险杠距离
                 mEtBumperDistance.setText(bumper);
@@ -116,6 +105,94 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         ivBack.setOnClickListener(this);
         tvSaveParamsSetInfo.setOnClickListener(this);
         mTvRestoreTheDefaultParams.setOnClickListener(this);
+        mEtBumperDistance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) return;
+                float distanceFloat = Float.valueOf(s.toString());
+                int distanceInt = (int) (distanceFloat * 100);
+                if (distanceInt > 250) {
+                    mParamsSetActivity.showToast("最大距离2.5米（m）~");
+                    mEtBumperDistance.setText(String.format("%.2f", 2.5));
+                }
+            }
+        });
+        mEtLeftWheelDistance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) return;
+                float distanceFloat = Float.valueOf(s.toString());
+                int distanceInt = (int) (distanceFloat * 100);
+                if (distanceInt > 250) {
+                    mParamsSetActivity.showToast("最大距离2.5米（m）~");
+                    mEtLeftWheelDistance.setText(String.format("%.2f", 2.5));
+                }
+            }
+        });
+        mEtRightWheelDistance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) return;
+                float distanceFloat = Float.valueOf(s.toString());
+                int distanceInt = (int) (distanceFloat * 100);
+                if (distanceInt > 250) {
+                    mParamsSetActivity.showToast("最大距离2.5米（m）~");
+                    mEtRightWheelDistance.setText(String.format("%.2f", 2.5));
+                }
+            }
+        });
+        mEtFrontWheelDistance.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) return;
+                float distanceFloat = Float.valueOf(s.toString());
+                int distanceInt = (int) (distanceFloat * 100);
+                if (distanceInt > 250) {
+                    mParamsSetActivity.showToast("最大距离2.5米（m）~");
+                    mEtFrontWheelDistance.setText(String.format("%.2f", 2.5));
+                }
+            }
+        });
     }
 
     @Override
@@ -127,10 +204,11 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         String frontWheelDistanceStr = mEtFrontWheelDistance.getText().toString();
 
         //获取 保险杠距离、左车轮距离、右车轮距离和前车轮距离
-        int bumperDistance = TextUtils.isEmpty(bumperDistanceStr) ? 0 : Integer.parseInt(bumperDistanceStr);
-        int leftWheelDistance = TextUtils.isEmpty(leftWheelDistanceStr) ? 0 : Integer.parseInt(leftWheelDistanceStr);
-        int rightWheelDistance = TextUtils.isEmpty(rightWheelDistanceStr) ? 0 : Integer.parseInt(rightWheelDistanceStr);
-        int frontWheelDistance = TextUtils.isEmpty(frontWheelDistanceStr) ? 0 : Integer.parseInt(frontWheelDistanceStr);
+        int bumperDistance =(int)(TextUtils.isEmpty(bumperDistanceStr) ? 0 : Float.parseFloat(bumperDistanceStr) * 1000);
+        int leftWheelDistance =(int)( TextUtils.isEmpty(leftWheelDistanceStr) ? 0 :  Float.parseFloat(leftWheelDistanceStr) * 1000);
+        int rightWheelDistance = (int)(TextUtils.isEmpty(rightWheelDistanceStr) ? 0 :  Float.parseFloat(rightWheelDistanceStr) * 1000);
+        int frontWheelDistance = (int)(TextUtils.isEmpty(frontWheelDistanceStr) ? 0 :  Float.parseFloat(frontWheelDistanceStr) * 1000);
+
 
         if (id == R.id.iv_back) {
             //点击返回的时候，进行来判断当前更改的数据是否进行保存。如果是保存了，我们直接进行退出
@@ -182,14 +260,13 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
 
                     @Override
                     public void onNext(ParamsSetModel paramsSetModel) {
-                        Toast.makeText(mParamsSetActivity, R.string.save_params_write_success, Toast.LENGTH_SHORT).show();
+                        mParamsSetActivity.showToast(R.string.save_params_write_success);
                         mParamsSetActivity.finish();
                     }
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -217,7 +294,6 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
 
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
-
 
         mDialog = CommonDialog.init()
                 .setView(view)
@@ -251,7 +327,7 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
 
                     @Override
                     public void onNext(RestoreDefaultParamsSetModel restoreDefaultParamsSetModel) {
-                        Toast.makeText(mParamsSetActivity, R.string.restore_default_params_set_success, Toast.LENGTH_SHORT).show();
+                        mParamsSetActivity.showToast(R.string.restore_default_params_set_success);
                         initData();
                         if (mDialog != null && mDialog.isAdded()) {
                             mDialog.dismiss();
@@ -268,7 +344,6 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
-
         String description = mParamsSetActivity.getResources().getString(R.string.save_params_write_dialog_description);
         String no = mParamsSetActivity.getResources().getString(R.string.no);
         String yes = mParamsSetActivity.getResources().getString(R.string.yes);
@@ -283,10 +358,8 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
         tv_dialog_description.setText(description);
         tv_dialog_description.setTextColor(mParamsSetActivity.getResources().getColor(R.color.font_color_333));
         tv_dialog_description.setPadding(paddingTop, paddingLeft, paddingRight, paddingBottom);
-
         tv_cancel.setText(no);
         tv_confirm.setText(yes);
-
 
         mDialog = CommonDialog.init()
                 .setView(view)
@@ -295,13 +368,7 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
                 .setAnimStyle(R.style.BottomAnimStyle)
                 .setDimAmount(0.8f)
                 .show(mParamsSetActivity.getSupportFragmentManager());
-
         tv_cancel.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
-    }
-
-    @Override
-    public void onRefresh() {
-        initData();
     }
 }

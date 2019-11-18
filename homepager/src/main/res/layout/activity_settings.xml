@@ -94,6 +94,7 @@
         <View style="@style/UnderLineStyle"/>
         <LinearLayout
             style="@style/LinearLayoutDisplayDataStyle"
+            android:visibility="gone"
             android:id="@+id/ll_calibration_set">
             <TextView
                 android:text="@string/calibration_set"

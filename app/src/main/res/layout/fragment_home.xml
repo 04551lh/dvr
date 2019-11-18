@@ -315,7 +315,7 @@
                         app:cardMaxElevation="@dimen/dp_3"
                         app:cardBackgroundColor="@android:color/white">
                         <LinearLayout
-                            android:id="@+id/ll_fill_params"
+                            android:id="@+id/ll_adas_calibration"
                             android:layout_width="match_parent"
                             android:background="@drawable/ll_click_bg_style"
                             android:layout_height="match_parent">
@@ -330,7 +330,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
-                                android:text="@string/params_write"
+                                android:text="@string/adas_calibration"
                                 android:gravity="center_vertical"
                                 android:textSize="@dimen/sp_15"
                                 android:textColor="@android:color/black"

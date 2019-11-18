@@ -3,8 +3,11 @@
     package="com.adasplus.homepager">
 
     <application>
-        <activity android:name=".set.activity.VideoShowActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".params.activity.ADASCalibrationActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".set.activity.VideoShowActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".connect.activity.ConnectDeviceActivity"
             android:screenOrientation="portrait" />
@@ -38,8 +41,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".set.activity.SettingsActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".set.activity.SoundsActivity"
             android:screenOrientation="portrait" />

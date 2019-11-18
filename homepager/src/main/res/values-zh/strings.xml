@@ -385,5 +385,8 @@
     <string name="speed_set_success">速度设置保存成功</string>
 
     <string name="link_disconnection">链路断开</string>
+    <string name="adas_calibration">ADAS标定</string>
+    <string name="adas_calibration_set">ADAS标定设置</string>
+    <string name="adas_calibration_param_set">ADAS标定参数填写</string>
 
 </resources>

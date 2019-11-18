@@ -8,13 +8,10 @@ import android.widget.TextView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.base.BaseActivity;
-import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.params.mvp.contract.IParamsSetContract;
 import com.adasplus.homepager.params.mvp.presenter.ParamsSetPresenter;
-import com.alibaba.android.arouter.facade.annotation.Route;
 
-@Route(path = ActivityPathConstant.PARAMS_PATH)
 public class ParamsSetActivity extends BaseActivity implements IParamsSetContract.View {
 
     private ImageView mIvBack;

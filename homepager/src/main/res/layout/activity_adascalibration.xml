@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical"
+    tools:context=".params.activity.ADASCalibrationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_adas_calibration_back"
+            style="@style/CommonTitleImageBackStyle" />
+
+        <TextView
+            style="@style/CommonTitleTvStyle"
+            android:text="@string/adas_calibration" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/under_line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_adas_calibration_set"
+            style="@style/LinearLayoutDisplayDataStyle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/time_settings_icon"
+                android:drawablePadding="@dimen/dp_8"
+                android:text="@string/adas_calibration_set"
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/right_arrow" />
+        </LinearLayout>
+
+        <View style="@style/UnderLineStyle" />
+
+        <LinearLayout
+            android:id="@+id/ll_adas_calibration_param_set"
+            style="@style/LinearLayoutDisplayDataStyle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/sound_settings_icon"
+                android:drawablePadding="@dimen/dp_8"
+                android:text="@string/adas_calibration_param_set"
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/right_arrow" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/under_line_color" />
+</LinearLayout>

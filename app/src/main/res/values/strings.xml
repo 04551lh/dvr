@@ -86,4 +86,6 @@
     <string name="reserve_equipment">备设备</string>
 
     <string name="no_related_documents">没有相关文件</string>
+
+    <string name="adas_calibration">ADAS标定</string>
 </resources>

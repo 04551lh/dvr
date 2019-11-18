@@ -44,7 +44,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private LinearLayout mLlDeviceConnect;
     private LinearLayout mLlVideoShow;
     private LinearLayout mLlPlatformsConnect;
-    private LinearLayout mLlFillParams;
+    private LinearLayout mLlADASCalibration;
     private LinearLayout mLlTerminalSet;
     private ImageView mIvFourGSignalStatus;
     private ImageView mIvLocationStatus;
@@ -173,7 +173,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mLlDeviceConnect = view.findViewById(R.id.ll_device_connect);
         mLlVideoShow = view.findViewById(R.id.ll_video_show);
         mLlPlatformsConnect = view.findViewById(R.id.ll_platforms_connect);
-        mLlFillParams = view.findViewById(R.id.ll_fill_params);
+        mLlADASCalibration = view.findViewById(R.id.ll_adas_calibration);
         mLlTerminalSet = view.findViewById(R.id.ll_terminal_set);
         mIvFourGSignalStatus = view.findViewById(R.id.iv_four_g_signal_status);
         mIvLocationStatus = view.findViewById(R.id.iv_location_status);
@@ -192,7 +192,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mLlDeviceConnect.setOnClickListener(this);
         mLlVideoShow.setOnClickListener(this);
         mLlPlatformsConnect.setOnClickListener(this);
-        mLlFillParams.setOnClickListener(this);
+        mLlADASCalibration.setOnClickListener(this);
         mLlTerminalSet.setOnClickListener(this);
     }
 
@@ -228,7 +228,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                 }
                 startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
                 break;
-            case R.id.ll_fill_params:
+            case R.id.ll_adas_calibration:
                 if (mUSB){
                     ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
