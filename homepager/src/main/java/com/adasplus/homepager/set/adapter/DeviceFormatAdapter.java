@@ -119,8 +119,27 @@ public class DeviceFormatAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             int free = arrayBean.getFree();
             int selectEnable = arrayBean.getSelectEnable();
 
+
             //设置磁盘名字
-            deviceFormatViewHolder.mTvStorageName.setText(storageName);
+            String sn = "";
+            switch (storageName){
+                case "sdcard1":
+                    sn = mActivity.getString(R.string.sdcard_one);
+                    break;
+                case "sdcard2":
+                    sn = mActivity.getString(R.string.sdcard_two);
+                    break;
+                case "sata":
+                    sn =mActivity.getString(R.string.sata);
+                    break;
+                case "usb":
+                    sn = mActivity.getString(R.string.usb);
+                    break;
+            }
+            //设置磁盘名字
+            deviceFormatViewHolder.mTvStorageName.setText(sn);
+
+//            deviceFormatViewHolder.mTvStorageName.setText(storageName);
             //设置总容量
 //            deviceFormatViewHolder.mTvTotalCapacity.setText(String.format("%s", (capacity + mActivity.getResources().getString(R.string.storage_unit))));
             deviceFormatViewHolder.mTvTotalCapacity.setText(String.format("%s", PatternUtils.FormetFileSize(capacity)));
