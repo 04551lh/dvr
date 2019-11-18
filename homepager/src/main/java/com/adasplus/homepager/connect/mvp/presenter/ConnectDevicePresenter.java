@@ -386,9 +386,9 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     private void setConnectedWifiInfo(String wifiName) {
         ScanResult scanResult = WifiHelper.getInstance().getScanResult(wifiName);
         if (scanResult != null){
-            if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
-                mLlConnectedWifi.setVisibility(View.VISIBLE);
-            }
+//            if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
+//                mLlConnectedWifi.setVisibility(View.VISIBLE);
+//            }
             mTvWifiName.setText(String.format("\"%s\"", scanResult.SSID));
             int level = WifiHelper.getInstance().getLevel(scanResult.level);
             //显示WiFi信号值大小
@@ -479,7 +479,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     }
 
     private void convertScanResult() {
-        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid(HttpConstant.DEVICE_WIFI_TAG);
+        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid("ky_test");
         if (scanResults.size() > 0) {
             mRealWifiList.clear();
             if (!isNullOrEmpty(scanResults)) {

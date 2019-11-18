@@ -12,7 +12,7 @@ public class HttpConstant {
 
     public static final String USB_SERVER_IP_ADDRESS = "192.168.42.254:8000";
 
-    static final String BASE_URL = "http://"+ WIFI_SERVER_IP_ADDRESS1;
+    static final String BASE_URL = "http://"+ USB_SERVER_IP_ADDRESS;
 
     public static final String GET_PLATFORM_INFO = "/platformInfoRequest";
 
@@ -103,8 +103,4 @@ public class HttpConstant {
     public static final String SEARCH_SERVICE_RUN_STATUS = "/softwareStatusRequest";
 
     public static final String MEDIA_TYPE = "application/json;charset=GBK";
-
-    public static final String DEVICE_WIFI_TAG = "ky_test";
-
-    public static final int SWIPE_REFRESH_DELAYED = 2000;
 }
