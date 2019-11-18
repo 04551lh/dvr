@@ -302,17 +302,21 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     }
 
     private void saveSpeedSetData() {
-        if (TextUtils.isEmpty(mEtCoefficientOfThePulseValue.getText())) {
-            mSpeedSetActivity.showToast(R.string.please_fill_in_coefficient_of_the_pulse);
-            return;
-        }
         int pulseSpeedValue = Integer.valueOf(mEtCoefficientOfThePulseValue.getText().toString());
         String allowErrorValue = mEtErrorNumber.getText().toString();
         int currentSpeedProgress = mSsbSpeedValue.getProgress();
-        if (pulseSpeedValue < 1 || pulseSpeedValue > 100) {
-            mSpeedSetActivity.showToast(R.string.coefficient_of_the_pulse);
+        if (mPulseSpeedEnable == 1 && mAutoCalibration == 0) {
+            if (TextUtils.isEmpty(mEtCoefficientOfThePulseValue.getText())) {
+                mSpeedSetActivity.showToast(R.string.please_fill_in_coefficient_of_the_pulse);
+                return;
+            }
+            if (pulseSpeedValue < 1 || pulseSpeedValue > 100) {
+                mSpeedSetActivity.showToast(R.string.coefficient_of_the_pulse);
+                return;
+            }
             return;
         }
+
         JSONObject jsonObject = new JSONObject();
         JSONObject pulseSpeed = new JSONObject();
         JSONObject simulateSpeed = new JSONObject();
