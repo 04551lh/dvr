@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
@@ -53,7 +52,7 @@ import rx.Subscriber;
  * Date : 2019/10/18 16:44
  * Description :
  */
-public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener {
 
     private IFileExportContract.View mFileExportView;
     private MainActivity mActivity;
@@ -94,7 +93,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private int mSelectFileType;
     private int mStorageType;
     private int mWarningFlag;
-    private SwipeRefreshLayout mSrlRefreshFileExportData;
 
     private BasicDialog mDialog;
 
@@ -199,12 +197,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mTvChannelValue = view.findViewById(R.id.tv_channel_value);
         mTvStreamTypeValue = view.findViewById(R.id.tv_stream_type_value);
         mTvStorageTypeValue = view.findViewById(R.id.tv_storage_type_value);
-        mSrlRefreshFileExportData = view.findViewById(R.id.srl_refresh_file_export_data);
-        mSrlRefreshFileExportData.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light, android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-        mSrlRefreshFileExportData.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        mSrlRefreshFileExportData.setOnRefreshListener(this);
 
         mChannelsNumberAdapter = new ChannelsNumberAdapter();
         mStreamTypeAdapter = new StreamTypeAdapter();
@@ -613,10 +605,5 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         if (mStreamTypePopupWindow != null && mStreamTypePopupWindow.isShowing()) {
             mStreamTypePopupWindow.dismiss();
         }
-    }
-
-    @Override
-    public void onRefresh() {
-        initData();
     }
 }

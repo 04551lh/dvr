@@ -171,7 +171,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 tv_update_connect_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        updateDeviceConnectStatus(arrayBean);
+                        updateDeviceConnectStatus(arrayBean,position);
                         commonPopupWindow.dismiss();
                     }
                 });
@@ -181,14 +181,14 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     }
 
-    private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean){
+    private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean, final int position){
         int connectStatus = arrayBean.getConnectStatus();
         View view = View.inflate(mActivateDeviceActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
         TextView tv_dialog_description = view.findViewById(R.id.tv_dialog_description);
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
-        String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips) +"?";
+        String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips);
         String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
 
         if (connectStatus == 2 ){
@@ -246,16 +246,25 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
                     @Override
                     public void onNext(UpdateDeviceConnectStatus updateDeviceConnectStatus) {
-                        int status = arrayBean.getConnectStatus();
-                        if (status == 1){
-                            arrayBean.setConnectStatus(0);
-                        }else if (status == 0){
-                            arrayBean.setConnectStatus(1);
-                        }else if (status == 2){
-                            arrayBean.setConnectStatus(2);
-                        }
-                        notifyDataSetChanged();
-                        basicDialog.dismiss();
+                        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+                            }
+
+                            @Override
+                            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                                mPlatformInfoArray = getPlatformInfoModel.getArray();
+                                arrayBean.setConnectStatus(mPlatformInfoArray.get(position).getConnectStatus());
+                                notifyDataSetChanged();
+                                basicDialog.dismiss();
+                                }
+                        });
                     }
                 });
             }

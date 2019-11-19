@@ -124,7 +124,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         for (int i = 0 ; i < platformStatusArray.size();i++){
             SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
             int connectStatus = platformStatusArrayBean.getConnectStatus();
-            if (connectStatus == 1){
+            if (connectStatus == 2){
                 isConnectTargetsPlatforms = true;
                 break;
             }
