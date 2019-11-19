@@ -2,6 +2,7 @@ package com.adasplus.dvr_controller.app;
 
 import com.adasplus.base.BuildConfig;
 import com.adasplus.base.app.App;
+import com.adasplus.base.utils.CrashHandler;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 /**
@@ -18,6 +19,7 @@ public class BaseApp extends App {
             ARouter.openDebug();
         }
         ARouter.init(this);
+        CrashHandler.getInstance(this);
     }
 
     @Override

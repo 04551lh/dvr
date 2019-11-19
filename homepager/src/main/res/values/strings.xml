@@ -401,6 +401,7 @@
 
     <string name="usb">USB</string>
     <string name="distance_unit">mm</string>
+    <string name="five">5</string>
 
 
 </resources>

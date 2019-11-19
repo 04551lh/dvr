@@ -26,10 +26,6 @@ public interface ICalibrationSetContract {
 
         ImageView getIvManualCalibrate();
 
-        TextView getTvCameraHeight();
-
-        EditText getEtCameraHeight();
-
         TextView getTvStep();
 
         EditText getEtStep();

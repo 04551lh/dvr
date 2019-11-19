@@ -25,13 +25,14 @@ public interface IParamsSetContract {
 
         EditText getEtRightWheelDistance();
 
-        EditText getEtFrontWheelDistance();
+//        EditText getEtFrontWheelDistance();
+
+        EditText getEtCameraHeight();
 
         TextView getTvSaveParamsSet();
 
         TextView getTvRestoreTheDefaultParams();
 
-        SwipeRefreshLayout getSrlRefreshParamsFill();
     }
 
     interface Presenter {

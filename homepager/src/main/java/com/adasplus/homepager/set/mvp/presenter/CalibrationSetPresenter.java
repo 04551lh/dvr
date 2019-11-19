@@ -1,13 +1,10 @@
 package com.adasplus.homepager.set.mvp.presenter;
 
-import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
@@ -44,8 +41,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     private SwipeRefreshLayout mSwipeRefreshLayoutCalibrationSet;
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
-    private TextView mTvCameraHeight;
-    private EditText mEtCameraHeight;
     private TextView mTvStep;
     private EditText mEtStep;
 
@@ -74,8 +69,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         mSwipeRefreshLayoutCalibrationSet = mCalibrationSetActivity.getSwipeRefreshLayoutCalibrationSet();
         mIvAutoCalibration = mCalibrationSetView.getIvAutoCalibration();
         mIvManualCalibrate = mCalibrationSetView.getIvManualCalibrate();
-        mTvCameraHeight = mCalibrationSetActivity.getTvCameraHeight();
-        mEtCameraHeight = mCalibrationSetView.getEtCameraHeight();
         mTvStep = mCalibrationSetActivity.getTvStep();
         mEtStep = mCalibrationSetActivity.getEtStep();
         mIvUp = mCalibrationSetView.getIvUp();
@@ -116,9 +109,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
                 } else {
                     isAutoCalibration(false);
                 }
-                //设置镜头高度
-                int cameraHigh = calibrationSetModel.getCameraHight();
-                mEtCameraHeight.setText(String.valueOf(cameraHigh));
             }
         });
 
@@ -168,10 +158,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         if (isAutoCalibration) {
             mIvAutoCalibration.setImageResource(R.mipmap.switch_open_icon);
             mIvManualCalibrate.setImageResource(R.mipmap.switch_close_icon);
-            mEtCameraHeight.setEnabled(false);
-            mEtCameraHeight.setClickable(false);
-            mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
-            mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
             mEtStep.setEnabled(false);
             mEtStep.setClickable(false);
             mTvStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.under_line_color));
@@ -191,10 +177,6 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
         } else {
             mIvAutoCalibration.setImageResource(R.mipmap.switch_close_icon);
             mIvManualCalibrate.setImageResource(R.mipmap.switch_open_icon);
-            mEtCameraHeight.setEnabled(true);
-            mEtCameraHeight.setClickable(true);
-            mTvCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
-            mEtCameraHeight.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
             mEtStep.setEnabled(true);
             mEtStep.setClickable(true);
             mTvStep.setTextColor(mCalibrationSetActivity.getResources().getColor(R.color.font_color_333));
@@ -325,17 +307,14 @@ public class CalibrationSetPresenter implements ICalibrationSetContract.Presente
     }
 
     private void updateCalibrationSet(final String cmd) {
-        String cameraHigh = mEtCameraHeight.getText().toString();
         String step = mEtStep.getText().toString();
         if (mCalibrationSetModel != null) {
             if (mAutoReferenceLineEnable == 1) {
                 mCalibrationSetModel.setAutoReferenceLineEnable(1);
-                mCalibrationSetModel.setCameraHight(0);
                 mCalibrationSetModel.setManualReferenceLineEnable(0);
                 mCalibrationSetModel.setCmd("");
             } else {
                 mCalibrationSetModel.setAutoReferenceLineEnable(0);
-                mCalibrationSetModel.setCameraHight(TextUtils.isEmpty(cameraHigh) ? 0 : Integer.parseInt(cameraHigh));
                 mCalibrationSetModel.setManualReferenceLineEnable(1);
                 mCalibrationSetModel.setCmd(cmd);
             }

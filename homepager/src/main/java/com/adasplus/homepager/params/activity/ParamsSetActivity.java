@@ -5,8 +5,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.adasplus.base.base.BaseActivity;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.params.mvp.contract.IParamsSetContract;
@@ -15,13 +13,13 @@ import com.adasplus.homepager.params.mvp.presenter.ParamsSetPresenter;
 public class ParamsSetActivity extends BaseActivity implements IParamsSetContract.View {
 
     private ImageView mIvBack;
+    private EditText mEtCameraHeight;
     private EditText mEtBumperDistance;
     private EditText mEtLeftWheelDistance;
     private EditText mEtRightWheelDistance;
-    private EditText mEtFrontWheelDistance;
+//    private EditText mEtFrontWheelDistance;
     private TextView mTvSaveParamsSetInfo;
     private TextView mTvRestoreTheDefaultParams;
-    private SwipeRefreshLayout mSrlRefreshParamsFill;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -39,13 +37,13 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mEtCameraHeight = findViewById(R.id.et_camera_height);
         mEtBumperDistance = findViewById(R.id.et_bumper_distance);
         mEtLeftWheelDistance = findViewById(R.id.et_left_wheel_distance);
         mEtRightWheelDistance = findViewById(R.id.et_right_wheel_distance);
-        mEtFrontWheelDistance = findViewById(R.id.et_front_wheel_distance);
+//        mEtFrontWheelDistance = findViewById(R.id.et_front_wheel_distance);
         mTvSaveParamsSetInfo = findViewById(R.id.tv_save_params_set_info);
         mTvRestoreTheDefaultParams = findViewById(R.id.tv_restore_the_default_params);
-        mSrlRefreshParamsFill = findViewById(R.id.srl_refresh_params_fill);
     }
 
     @Override
@@ -68,9 +66,14 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
         return mEtRightWheelDistance;
     }
 
+//    @Override
+//    public EditText getEtFrontWheelDistance() {
+//        return mEtFrontWheelDistance;
+//    }
+
     @Override
-    public EditText getEtFrontWheelDistance() {
-        return mEtFrontWheelDistance;
+    public EditText getEtCameraHeight() {
+        return mEtCameraHeight;
     }
 
     @Override
@@ -83,8 +86,4 @@ public class ParamsSetActivity extends BaseActivity implements IParamsSetContrac
         return mTvRestoreTheDefaultParams;
     }
 
-    @Override
-    public SwipeRefreshLayout getSrlRefreshParamsFill() {
-        return mSrlRefreshParamsFill;
-    }
 }

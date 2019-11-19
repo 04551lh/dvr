@@ -17,9 +17,7 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     private SwipeRefreshLayout mSwipeRefreshLayoutCalibrationSet;
     private ImageView mIvAutoCalibration;
     private ImageView mIvManualCalibrate;
-    private TextView mTvCameraHeight;
     private TextView mTvStep;
-    private EditText mEtCameraHeight;
     private EditText mEtStep;
     private ImageView mIvUp;
     private ImageView mIvLeft;
@@ -46,8 +44,6 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
         mSwipeRefreshLayoutCalibrationSet = findViewById(R.id.swipeRefreshLayout_calibration_set);
         mIvAutoCalibration =  findViewById(R.id.iv_auto_calibration);
         mIvManualCalibrate =  findViewById(R.id.iv_manual_calibrate);
-        mTvCameraHeight= findViewById(R.id.tv_camera_height);
-        mEtCameraHeight =  findViewById(R.id.et_camera_height);
         mTvStep= findViewById(R.id.tv_step);
         mEtStep =  findViewById(R.id.et_step);
         mIvUp =  findViewById(R.id.iv_up);
@@ -81,16 +77,6 @@ public class CalibrationSetActivity extends BaseActivity implements ICalibration
     @Override
     public ImageView getIvManualCalibrate() {
         return mIvManualCalibrate;
-    }
-
-    @Override
-    public TextView getTvCameraHeight() {
-        return mTvCameraHeight;
-    }
-
-    @Override
-    public EditText getEtCameraHeight() {
-        return mEtCameraHeight;
     }
 
     @Override

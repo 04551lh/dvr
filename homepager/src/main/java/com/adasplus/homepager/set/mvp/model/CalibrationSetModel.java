@@ -15,7 +15,6 @@ public class CalibrationSetModel implements ICalibrationSetContract.Model {
         return "CalibrationSetModel{" +
                 "autoReferenceLineEnable=" + autoReferenceLineEnable +
                 ", manualReferenceLineEnable=" + manualReferenceLineEnable +
-                ", cameraHight=" + cameraHight +
                 ", stepValue=" + stepValue +
                 ", cmd='" + cmd + '\'' +
                 '}';
@@ -31,7 +30,6 @@ public class CalibrationSetModel implements ICalibrationSetContract.Model {
 
     private int autoReferenceLineEnable;
     private int manualReferenceLineEnable;
-    private int cameraHight;
     private int stepValue;
     private String cmd;
 
@@ -49,14 +47,6 @@ public class CalibrationSetModel implements ICalibrationSetContract.Model {
 
     public void setManualReferenceLineEnable(int manualReferenceLineEnable) {
         this.manualReferenceLineEnable = manualReferenceLineEnable;
-    }
-
-    public int getCameraHight() {
-        return cameraHight;
-    }
-
-    public void setCameraHight(int cameraHight) {
-        this.cameraHight = cameraHight;
     }
 
     public int getStepValue() {

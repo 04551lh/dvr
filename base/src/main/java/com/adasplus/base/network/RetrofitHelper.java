@@ -9,6 +9,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -51,6 +52,7 @@ public class RetrofitHelper {
     private final static int READ_TIMEOUT = 3000;
     private final static int WRITE_TIMEOUT = 3000;
     private static final Charset GBK = Charset.forName("GBK");
+
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl(HttpConstant.BASE_URL)
@@ -120,6 +122,7 @@ public class RetrofitHelper {
     public static <T> T createServiceFrom(Class<T> serviceClass) {
         return builder.build().create(serviceClass);
     }
+
 
     private <T> Observable<T> flatResponse(final BaseResponse<T> response) {
 
