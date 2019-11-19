@@ -168,6 +168,7 @@ public class SpeedSetPresenter implements ISpeedSetContract.Presenter, View.OnCl
     }
 
     private void startAutomaticCalibration() {
+        mPulseCoefficient = Integer.parseInt(mEtCoefficientOfThePulseValue.getText().toString().trim());
         if(mPulseCoefficient != 0){
             mTvAutomaticCalibration.setText(mSpeedSetActivity.getString(R.string.automatic_calibration) + "（" + (mPulseCoefficient*100) + "）");
         }

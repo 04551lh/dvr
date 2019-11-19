@@ -177,15 +177,15 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
             @Override
             public void onNext(VideoSetModel videoSetModel) {
-                mCompareStreamEnable =  videoSetModel.getStreamEnable();
-                mCompareVideoFrameRate =  videoSetModel.getVideoFrameRate();
-                mComparePictureQuality =  videoSetModel.getPictureQuality();
-                mCompareResolutionRate =  videoSetModel.getResolutionRate();
-                mCompareDateEnable =  videoSetModel.getDateEnable();
-                mComparePlateNumberEnable =  videoSetModel.getPlateNumberEnable();
-                mCompareChannalNameEnable =  videoSetModel.getChannalNameEnable();
-                mCompareLocaltionSignleEnable =  videoSetModel.getLocaltionSignleEnable();
-                mCompareSpeedEnable =  videoSetModel.getSpeedEnable();
+                mCompareStreamEnable = videoSetModel.getStreamEnable();
+                mCompareVideoFrameRate = videoSetModel.getVideoFrameRate();
+                mComparePictureQuality = videoSetModel.getPictureQuality();
+                mCompareResolutionRate = videoSetModel.getResolutionRate();
+                mCompareDateEnable = videoSetModel.getDateEnable();
+                mComparePlateNumberEnable = videoSetModel.getPlateNumberEnable();
+                mCompareChannalNameEnable = videoSetModel.getChannalNameEnable();
+                mCompareLocaltionSignleEnable = videoSetModel.getLocaltionSignleEnable();
+                mCompareSpeedEnable = videoSetModel.getSpeedEnable();
 
                 mCloseSwitchCount = 0;
                 mSwipeRefreshLayoutVideoSet.setRefreshing(false); // close refresh animator
@@ -440,24 +440,25 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
         int id = v.getId();
         if (id == R.id.iv_video_back) {
             mVideoSetModel.setVideoFrameRate(Integer.valueOf(videoFrameRate));
-            if(mVideoSetModel.getStreamEnable()!= mCompareStreamEnable ||
-                    mVideoSetModel.getVideoFrameRate()!=mCompareVideoFrameRate ||
-                    mVideoSetModel.getPictureQuality()!=mComparePictureQuality ||
-                    mVideoSetModel.getResolutionRate()!=mCompareResolutionRate ||
-                    mVideoSetModel.getDateEnable()!=mCompareDateEnable ||
-                    mVideoSetModel.getPlateNumberEnable()!= mComparePlateNumberEnable ||
-                    mVideoSetModel.getChannalNameEnable()!=mCompareChannalNameEnable ||
-                    mVideoSetModel.getLocaltionSignleEnable()!=mCompareLocaltionSignleEnable ||
-                    mVideoSetModel.getSpeedEnable()!=mCompareSpeedEnable){
+            if (mVideoSetModel.getStreamEnable() != mCompareStreamEnable ||
+                    mVideoSetModel.getVideoFrameRate() != mCompareVideoFrameRate ||
+                    mVideoSetModel.getPictureQuality() != mComparePictureQuality ||
+                    mVideoSetModel.getResolutionRate() != mCompareResolutionRate ||
+                    mVideoSetModel.getDateEnable() != mCompareDateEnable ||
+                    mVideoSetModel.getPlateNumberEnable() != mComparePlateNumberEnable ||
+                    mVideoSetModel.getChannalNameEnable() != mCompareChannalNameEnable ||
+                    mVideoSetModel.getLocaltionSignleEnable() != mCompareLocaltionSignleEnable ||
+                    mVideoSetModel.getSpeedEnable() != mCompareSpeedEnable) {
                 showSaveADASSetDialog();
-            }else{
+            } else {
                 mVideoSetActivity.finish();
             }
         } else if (id == R.id.tv_select_channels_number) {
             if (mChannelNumberPopupWindow != null) {
                 mChannelNumberPopupWindow.showAsDropDown(mTvSelectChannelsNumber, 0, 0);
             }
-        } else if (id == R.id.tv_main_stream_set) { //切换为主码流
+        }
+        else if (id == R.id.tv_main_stream_set) { //切换为主码流
             if (mVideoSetModel.getStreamType() == 2) {
                 isMainStream();
                 mStreamType = 1;
@@ -483,29 +484,30 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
                 }
                 getNetworkData(jobj);
             }
-        } else if (id == R.id.iv_stream_total_switch) {
+        }
+        else if (id == R.id.iv_stream_total_switch) {
             switchTotalStatus(mVideoSetModel.getStreamEnable() == 1 ? 0 : 1);
-        } else if (id == R.id.iv_date_time) {
+        } else if (id == R.id.iv_date_time && mVideoSetModel.getStreamEnable() == 1) {
             dateTimeSwitchStatus(mVideoSetModel.getDateEnable() == 1 ? 0 : 1);
-        } else if (id == R.id.iv_license_plate_number) {
+        } else if (id == R.id.iv_license_plate_number && mVideoSetModel.getStreamEnable() == 1) {
             plateNumberStatus(mVideoSetModel.getPlateNumberEnable() == 1 ? 0 : 1);
-        } else if (id == R.id.iv_channel_name) {
+        } else if (id == R.id.iv_channel_name && mVideoSetModel.getStreamEnable() == 1) {
             channelNumberStatus(mVideoSetModel.getChannalNameEnable() == 1 ? 0 : 1);
-        } else if (id == R.id.iv_gps_signal) {
+        } else if (id == R.id.iv_gps_signal && mVideoSetModel.getStreamEnable() == 1) {
             locationSignalStatus(mVideoSetModel.getLocaltionSignleEnable() == 1 ? 0 : 1);
-        } else if (id == R.id.iv_speed) {
+        } else if (id == R.id.iv_speed && mVideoSetModel.getStreamEnable() == 1) {
             carSpeedStatus(mVideoSetModel.getSpeedEnable() == 1 ? 0 : 1);
         } else if (id == R.id.tv_cancel) {
             if (mDialog != null && mDialog.isAdded()) {
                 mDialog.dismiss();
             }
             mVideoSetActivity.finish();
-        }
-        else if (id == R.id.tv_resolution_ratio) {
+        } else if (id == R.id.tv_resolution_ratio) {
             if (mResolutionRatioPopupWindow != null) {
                 mResolutionRatioPopupWindow.showAsDropDown(mTvResolutionRatio, 0, 0);
             }
-        } else if (id == R.id.btn_sub) { //降低画质等级
+        }
+        else if (id == R.id.btn_sub) { //降低画质等级
             if (pictureQualityLevel <= 1) {
                 Toast.makeText(mVideoSetActivity, R.string.picture_quality_min_level_tips, Toast.LENGTH_SHORT).show();
                 return;
@@ -521,8 +523,7 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
             pictureQualityLevel++;
             setPictureQualityLevel(pictureQualityLevel);
             mEtErrorNumber.setText(String.valueOf(pictureQualityLevel));
-        }
-        else if (id == R.id.tv_video_save ||id == R.id.tv_confirm) { //保存视频设置的数据
+        } else if (id == R.id.tv_video_save || id == R.id.tv_confirm) { //保存视频设置的数据
             if (mVideoSetModel != null) {
                 if (TextUtils.isEmpty(mEtVideoFrameRate.getText())) {
                     mVideoSetActivity.showToast(R.string.please_fill_in_the_video_frame_rate);
@@ -660,9 +661,9 @@ public class VideoSetPresenter implements IVideoSetContract.Presenter, View.OnCl
 
         float margin = mVideoSetActivity.getResources().getDimension(R.dimen.dp_12);
         int paddingTop = (int) mVideoSetActivity.getResources().getDimension(R.dimen.dp_28);
-        int paddingLeft = (int)mVideoSetActivity.getResources().getDimension(R.dimen.dp_19);
-        int paddingRight = (int)mVideoSetActivity.getResources().getDimension(R.dimen.dp_19);
-        int paddingBottom = (int)mVideoSetActivity.getResources().getDimension(R.dimen.dp_28);
+        int paddingLeft = (int) mVideoSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingRight = (int) mVideoSetActivity.getResources().getDimension(R.dimen.dp_19);
+        int paddingBottom = (int) mVideoSetActivity.getResources().getDimension(R.dimen.dp_28);
 
         tv_dialog_title.setVisibility(View.GONE);
         tv_dialog_description.setText(description);
