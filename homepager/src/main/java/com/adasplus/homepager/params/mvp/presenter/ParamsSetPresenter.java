@@ -87,8 +87,8 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
 //                String frontWheel = String.format("%.2f", frontWheelDistance);
 
                 //设置镜头高度
-                mEtBumperDistance.setText(camera);
-                mEtBumperDistance.setSelection(camera.length());
+                mEtCameraHeight.setText(camera);
+                mEtCameraHeight.setSelection(camera.length());
                 //设置保险杠距离
                 mEtBumperDistance.setText(bumper);
                 mEtBumperDistance.setSelection(bumper.length());
