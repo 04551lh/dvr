@@ -13,18 +13,29 @@ public class SoundsModel implements ISoundsContract.Model {
 
     private int soundValue;
 
-    public int getSoundValue() {
-        return soundValue;
+    public int getSoundType() {
+        return soundType;
     }
 
-    public void setSoundValue(int soundValue) {
-        this.soundValue = soundValue;
+    public void setSoundType(int soundType) {
+        this.soundType = soundType;
+    }
+
+    private int soundType;
+
+    public int getSoundValue() {
+        return soundValue;
     }
 
     @Override
     public String toString() {
         return "SoundsModel{" +
                 "soundValue=" + soundValue +
+                ", soundType=" + soundType +
                 '}';
+    }
+
+    public void setSoundValue(int soundValue) {
+        this.soundValue = soundValue;
     }
 }

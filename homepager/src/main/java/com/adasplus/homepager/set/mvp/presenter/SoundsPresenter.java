@@ -101,7 +101,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
             if (mSoundsModel != null) {
                 //将 SeekBar 中滑动的最新的进度进行设置到 SoundsModel
                 mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress());
-
+                mSoundsModel.setSoundType(1);
                 String json = GsonUtils.getInstance().toJson(mSoundsModel);
                 try {
                     //更新设备的的声音大小设置
