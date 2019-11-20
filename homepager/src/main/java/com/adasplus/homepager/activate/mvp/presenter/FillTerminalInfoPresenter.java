@@ -76,6 +76,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private RelativeLayout mRlHintMessage;
     private List<AdministrativeRegionCodeModel> mAdministrativeRegionCodeModelList;
     private  CarInfoModel mCarInfoModel;
+    private boolean isFirst = true;
 
     private static class InitDataHandler extends Handler {
         private WeakReference<FillTerminalInfoActivity> mFillTerminalInfoWeakReference;
@@ -97,7 +98,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                     fillTerminalInfoActivity.setAdministrativeRegionCodeData(administrativeRegionCodeModelList);
                     //初始化 车辆颜色 数据
                     fillTerminalInfoActivity.initLicensePlateColor(carColor);
-                    //初始化 省域ID 数据
+//                    //初始化 省域ID 数据
                     fillTerminalInfoActivity.initProvincialDomainId(administrativeRegionCodeModelList);
 
                     fillTerminalInfoActivity.showDefaultCityId(administrativeRegionCodeModelList);
@@ -124,6 +125,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
         List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
         mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+
 
 //        ThreadPoolUtils.execute(new Runnable() {
 //            @Override
@@ -155,6 +157,10 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
         if (mIsFillTerminalInfo) {
             tvTitle.setText(platform_connect);
+            initLicensePlateColor(mCarInfoModel.getCarColor());
+            initProvincialDomainId(mCarInfoModel.getAdministrativeRegionCodeModelList());
+            initCityAndCountyId(mCarInfoModel.getAdministrativeRegionCodeModelList());
+            isFirst = false;
         } else {
             tvTitle.setText(update_terminal_info);
             mRlHintMessage.setVisibility(View.GONE);
@@ -242,10 +248,6 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 message.what = WHAT;
                 message.obj = mCarInfoModel;
                 mInitDataHandler.sendMessage(message);
-
-                initLicensePlateColor(mCarInfoModel.getCarColor());
-                initProvincialDomainId(mAdministrativeRegionCodeModelList);
-                initCityAndCountyId(mAdministrativeRegionCodeModelList);
             }
         });
     }
@@ -253,6 +255,9 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     //这个是市县域 ID，根据 GB2260 协议 中的行政区域代码进行定义，行政区域代码的后四位代表的是市县域Id
     private void initCityAndCountyId(final List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
         if (mProvincialDomainId.equals("")) {
+            if(mIsFillTerminalInfo && isFirst){
+                return;
+            }
             Toast.makeText(mContext, R.string.please_choose_provincial_id, Toast.LENGTH_SHORT).show();
         } else {
             List<String> cityIdList = new ArrayList<>();//该省的城市列表（第二级）

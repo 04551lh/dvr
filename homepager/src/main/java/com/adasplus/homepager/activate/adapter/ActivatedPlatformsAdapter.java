@@ -260,6 +260,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                             @Override
                             public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
                                 mPlatformInfoArray = getPlatformInfoModel.getArray();
+                                mActivateDeviceActivity.notifyPlatformsSizeShow();
                                 arrayBean.setConnectStatus(mPlatformInfoArray.get(position).getConnectStatus());
                                 notifyDataSetChanged();
                                 basicDialog.dismiss();
@@ -322,12 +323,30 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
                     @Override
                     public void onNext(LogoutPlatformsModel logoutPlatformsModel) {
-                        mPlatformInfoArray.remove(arrayBean);
-                        mActivateDeviceActivity.notifyPlatformsSizeShow();
-                        mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
-                        mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
-                        notifyDataSetChanged();
-                        basicDialog.dismiss();
+
+                        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+                            }
+
+                            @Override
+                            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                                mPlatformInfoArray = getPlatformInfoModel.getArray();
+                                if(mPlatformInfoArray.size() == 0){
+                                    mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
+                                    mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
+                                }
+                                mPlatformInfoArray.remove(arrayBean);
+                                notifyDataSetChanged();
+                                basicDialog.dismiss();
+                            }
+                        });
                     }
                 });
             }

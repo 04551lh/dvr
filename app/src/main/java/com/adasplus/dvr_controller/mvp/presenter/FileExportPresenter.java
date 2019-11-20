@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
@@ -29,6 +30,8 @@ import com.adasplus.dvr_controller.mvp.contract.OnItemChannelNumbersClickListene
 import com.adasplus.dvr_controller.mvp.contract.OnItemStreamTypeClickListener;
 import com.adasplus.dvr_controller.mvp.model.ChannelNumbersModel;
 import com.adasplus.dvr_controller.mvp.model.StreamTypeModel;
+import com.adasplus.homepager.network.HomeWrapper;
+import com.adasplus.homepager.set.mvp.model.DeviceFormatModel;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
@@ -52,7 +55,7 @@ import rx.Subscriber;
  * Date : 2019/10/18 16:44
  * Description :
  */
-public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener {
+public class FileExportPresenter implements IFileExportContract.Presenter, View.OnClickListener, OnItemChannelNumbersClickListener, OnItemStreamTypeClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private IFileExportContract.View mFileExportView;
     private MainActivity mActivity;
@@ -67,11 +70,13 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private TextView mTvChannelValue;
     private TextView mTvStreamTypeValue;
     private TextView mTvStorageTypeValue;
+    private TextView mTvStorageNameValue;
     private static final String START_TIME_FLAG = "start";
     private static final String END_TIME_FLAG = "end";
 
     private CommonPopupWindow mFileTypePopupWindow;
     private CommonPopupWindow mStorageTypePopupWindow;
+    private CommonPopupWindow mStorageNamePopupWindow;
 
     private TextView mTvAudioVideo;
     private TextView mTvAudio;
@@ -79,6 +84,10 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
     private TextView mTvMainEquipment;
     private TextView mTvReserveEquipment;
+    private TextView mTvSDOne;
+    private TextView mTvSDTwo;
+    private TextView mTvSata;
+    private TextView mTvUsb;
 
     private List<ChannelNumbersModel> mChannelNumbersList;
     private List<StreamTypeModel> mStreamTypeList;
@@ -92,7 +101,9 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private ChannelNumbersModel mCurrentChannelNumbersModel;
     private int mSelectFileType;
     private int mStorageType;
+    private String mStorageName ="";
     private int mWarningFlag;
+    private SwipeRefreshLayout mSrlRefreshFileExportData;
 
     private BasicDialog mDialog;
 
@@ -102,6 +113,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     private TextView mTvCurrentProgress;
     private String mBeginTime;
     private String mEndTime;
+    private List<DeviceFormatModel.ArrayBean> mArray;
 
     public FileExportPresenter(Activity activity, IFileExportContract.View view) {
         mFileExportView = view;
@@ -113,6 +125,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mChannelNumbersList = new ArrayList<>();
         mStreamTypeList = new ArrayList<>();
 
+        getStorageNetwork();
         mWidth = (int) mActivity.getResources().getDimension(R.dimen.dp_200);
 
 //        isSelectLog(true);
@@ -159,6 +172,39 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mWarningFlag = 0;
     }
 
+
+    private void getStorageNetwork(){
+        //获取存储器的列表
+        HomeWrapper.getInstance().getStorageInfoList().subscribe(new Subscriber<DeviceFormatModel>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mSrlRefreshFileExportData.setRefreshing(false);
+                ExceptionUtils.exceptionHandling(mActivity, e);
+            }
+
+
+            @Override
+            public void onNext(DeviceFormatModel deviceFormatModel) {
+                mSrlRefreshFileExportData.setRefreshing(false);
+                if(mArray != null){
+                    mArray.clear();
+                }
+                mArray = deviceFormatModel.getArray();
+                if(mArray.size() == 0){
+                    mTvStorageNameValue.setText(R.string.no_export_device);
+                }else{
+                    mTvStorageNameValue.setText(selectStorageName(mArray.get(0).getStorageName()));
+                }
+            }
+        });
+
+    }
+
     /**
      * 初始化码流类型的数据
      *
@@ -197,6 +243,13 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mTvChannelValue = view.findViewById(R.id.tv_channel_value);
         mTvStreamTypeValue = view.findViewById(R.id.tv_stream_type_value);
         mTvStorageTypeValue = view.findViewById(R.id.tv_storage_type_value);
+        mTvStorageNameValue = view.findViewById(R.id.tv_storage_name_value);
+        mSrlRefreshFileExportData = view.findViewById(R.id.srl_refresh_file_export_data);
+        mSrlRefreshFileExportData.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+        mSrlRefreshFileExportData.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        mSrlRefreshFileExportData.setOnRefreshListener(this);
 
         mChannelsNumberAdapter = new ChannelsNumberAdapter();
         mStreamTypeAdapter = new StreamTypeAdapter();
@@ -213,6 +266,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mTvStreamTypeValue.setOnClickListener(this);
         mTvChannelValue.setOnClickListener(this);
         mTvStorageTypeValue.setOnClickListener(this);
+        mTvStorageNameValue.setOnClickListener(this);
         mTvStreamTypeValue.setOnClickListener(this);
         mChannelsNumberAdapter.setOnItemClickListener(this);
         mStreamTypeAdapter.setOnStreamTypeClickListener(this);
@@ -250,6 +304,12 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             selectStreamType();
         } else if (id == R.id.tv_storage_type_value) { //选择设备类型
             showStorageTypePopup();
+        }else if (id == R.id.tv_storage_name_value) { //选择导出设备
+            if(mArray == null || mArray.size() == 0){
+               mActivity.showToast(R.string.no_export_device);
+               return;
+            }
+            showDSTStorageNamePopup();
         }else if (id == R.id.tv_main_equipment) { //主设备
             dismissStorageTypePopup();
             mStorageType = 1;
@@ -258,6 +318,22 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             dismissStorageTypePopup();
             mStorageType = 2;
             mTvStorageTypeValue.setText(mTvReserveEquipment.getText().toString());
+        } else if (id == R.id.tv_sd_one) { //sd1
+            dismissStorageNamePopup();
+            mStorageName = "sdcard1";
+            mTvStorageNameValue.setText(mActivity.getString(R.string.sdcard_one));
+        } else if (id == R.id.tv_sd_two) { //sd2
+            dismissStorageNamePopup();
+            mStorageName = "sdcard1";
+            mTvStorageNameValue.setText(mActivity.getString(R.string.sdcard_two));
+        }  else if (id == R.id.tv_sata) { //sata
+            dismissStorageNamePopup();
+            mStorageName = "sata";
+            mTvStorageNameValue.setText(mActivity.getString(R.string.sata));
+        } else if (id == R.id.tv_reserve_equipment) { //备设备
+            dismissStorageNamePopup();
+            mStorageName = "usb";
+            mTvStorageNameValue.setText(mActivity.getString(R.string.usb));
         } else if (id == R.id.tv_export_file) { //导出文件
             exportFiles();
         }
@@ -298,6 +374,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             jobj.put("endTime", mEndTime);
             jobj.put("channelNum", channelNumber);
             jobj.put("streamType", streamType);
+            jobj.put("dstStorageName", mStorageName);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -321,7 +398,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                     return;
                 }
                 getFileExportNeteork();
-                showFileExportDialog();
+                showFileExportDialog(fileExportModel.getStatuesCode());
 //                mActivity.startService(new Intent(mActivity, FloatWindowService.class));
             }
         });
@@ -339,8 +416,8 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                             mDialog.dismiss();
                         }
                     }
-                    mProgressbarFileExport.setProgress(fileExportModel.getResult().getFileOutProgress());
-                    mTvCurrentProgress.setText(fileExportModel.getResult().getFileOutProgress() + mActivity.getString(R.string.exporting));
+                    mProgressbarFileExport.setProgress(fileExportModel.getResult().getFileOutIndex());
+                    mTvCurrentProgress.setText(fileExportModel.getResult().getFileOutIndex()/fileExportModel.getResult().getFileOutNumber() + mActivity.getString(R.string.exporting));
                     break;
             }
         }
@@ -375,12 +452,12 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     }
 
 
-    private void showFileExportDialog() {
+    private void showFileExportDialog(int max) {
         View view = View.inflate(mActivity, R.layout.dialog_file_export, null);
         mProgressbarFileExport = view.findViewById(com.adasplus.homepager.R.id.progressbar_file_export);
         mTvCurrentProgress = view.findViewById(com.adasplus.homepager.R.id.tv_dialog_description);
         TextView tv_cancel = view.findViewById(com.adasplus.homepager.R.id.tv_cancel);
-
+        mProgressbarFileExport.setMax(max);
         float margin = mActivity.getResources().getDimension(com.adasplus.homepager.R.dimen.dp_12);
 
         mDialog = CommonDialog.init()
@@ -525,6 +602,12 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         }
     }
 
+    private void dismissStorageNamePopup() {
+        if (mStorageNamePopupWindow != null && mStorageNamePopupWindow.isShowing()) {
+            mStorageNamePopupWindow.dismiss();
+        }
+    }
+
     private void showFileTypePopup() {
         View view = View.inflate(mActivity, R.layout.popup_file_type, null);
         mTvAudioVideo = view.findViewById(R.id.tv_audio_video);
@@ -540,8 +623,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         mFileTypePopupWindow.showAsDropDown(mTvFileType);
     }
 
-
-
     private void showStorageTypePopup() {
         View view = View.inflate(mActivity, R.layout.popup_storage_type, null);
         mTvMainEquipment = view.findViewById(R.id.tv_main_equipment);
@@ -553,6 +634,26 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                 .setWidthAndHeight(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
                 .create();
         mStorageTypePopupWindow.showAsDropDown(mTvStorageTypeValue);
+    }
+
+    private void showDSTStorageNamePopup() {
+        View view = View.inflate(mActivity, R.layout.popup_storage_name, null);
+        mTvSDOne = view.findViewById(R.id.tv_sd_one);
+        mTvSDTwo = view.findViewById(R.id.tv_sd_two);
+        mTvSata = view.findViewById(R.id.tv_sata);
+        mTvUsb = view.findViewById(R.id.tv_usb);
+        for (DeviceFormatModel.ArrayBean device: mArray) {
+            selectStorageName(device.getStorageName());
+        }
+        mTvSDOne.setOnClickListener(this);
+        mTvSDTwo.setOnClickListener(this);
+        mTvUsb.setOnClickListener(this);
+        mTvSata.setOnClickListener(this);
+        mStorageNamePopupWindow = new CommonPopupWindow.Builder(mActivity)
+                .setView(view)
+                .setWidthAndHeight(mWidth, LinearLayout.LayoutParams.WRAP_CONTENT)
+                .create();
+        mStorageNamePopupWindow.showAsDropDown(mTvStorageNameValue);
     }
 
     @Override
@@ -606,4 +707,40 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             mStreamTypePopupWindow.dismiss();
         }
     }
+
+    @Override
+    public void onRefresh() {
+        initData();
+    }
+
+    //设置磁盘名字
+    private String selectStorageName(String type){
+        String sn = "";
+        switch (type){
+            case "sdcard1":
+                sn = mActivity.getString(R.string.sdcard_one);
+                mTvSDOne.setText(sn);
+                mTvSDOne.setVisibility(View.VISIBLE);
+                break;
+            case "sdcard2":
+                sn = mActivity.getString(R.string.sdcard_two);
+                mTvSDOne.setText(sn);
+                mTvSDTwo.setVisibility(View.VISIBLE);
+                break;
+            case "sata":
+                sn = mActivity.getString(R.string.sata);
+                mTvSata.setText(sn);
+                mTvSata.setVisibility(View.VISIBLE);
+                break;
+            case "usb":
+                sn = mActivity.getString(R.string.usb);
+                mTvUsb.setText(mActivity.getString(R.string.usb));
+                mTvUsb.setVisibility(View.VISIBLE);
+                break;
+        }
+        return sn;
+
+    }
+
+
 }
