@@ -5,18 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_45"
         android:layout_gravity="center"
-        android:text="@string/system_info"
-        android:gravity="center"
         android:layout_marginBottom="@dimen/dp_10"
+        android:gravity="center"
+        android:text="@string/system_info"
         android:textColor="@color/font_color_333"
         android:textSize="@dimen/sp_18" />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh_file_export_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,240 +47,287 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/sp_15" />
 
-                        <TextView
-                            android:id="@+id/tv_file_type"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:text="@string/audio_video"
-                            android:textSize="@dimen/sp_15"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
-                    <View
-                        style="@style/UnderLineStyle"/>
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                    <TextView
+                        android:id="@+id/tv_file_type"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="@string/select_date"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/audio_video"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
 
-                        <TextView
-                            android:id="@+id/tv_select_date"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
-
-                    <View
-                        android:visibility="gone"
-                        style="@style/UnderLineStyle"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="@string/start_time"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_begin_time"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:text="@string/start_time_default_value"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
+                <View style="@style/UnderLineStyle" />
 
-                    <View
-                        style="@style/UnderLineStyle"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16"
+                    android:visibility="gone">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="@string/end_time"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:gravity="center_vertical"
+                        android:text="@string/select_date"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
 
-                        <TextView
-                            android:id="@+id/tv_end_time"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:text="@string/end_time_default_value"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
-
-                    <View
-                        style="@style/UnderLineStyle"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                    <TextView
+                        android:id="@+id/tv_select_date"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:id="@+id/tv_channel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="@string/channel"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
 
-                        <TextView
-                            android:id="@+id/tv_channel_value"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_48"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
-
-                    <View
-                        style="@style/UnderLineStyle"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:id="@+id/tv_stream_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="@string/stream_type"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tv_stream_type_value"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
+                <View
+                    style="@style/UnderLineStyle"
+                    android:visibility="gone" />
 
-                    <View
-                        style="@style/UnderLineStyle"/>
-                   <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_50"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:paddingStart="@dimen/dp_16"
-                        android:paddingEnd="@dimen/dp_16">
-                        <TextView
-                            android:id="@+id/tv_storage_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:text="存储类型"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/sp_15" />
+                        android:gravity="center_vertical"
+                        android:text="@string/start_time"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
 
-                        <TextView
-                            android:id="@+id/tv_storage_type_value"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/dp_40"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/dp_20"
-                            android:gravity="center_vertical"
-                            android:textSize="@dimen/sp_15"
-                            android:textColor="@color/font_color_666"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/common_right_back_icon"/>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_begin_time"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/start_time_default_value"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
 
-                    <View
-                        style="@style/UnderLineStyle"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/end_time"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_end_time"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="@string/end_time_default_value"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:id="@+id/tv_channel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/channel"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_channel_value"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_48"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:id="@+id/tv_stream_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/stream_type"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_stream_type_value"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:id="@+id/tv_storage_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="存储类型"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_storage_type_value"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_50"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/dp_16"
+                    android:paddingEnd="@dimen/dp_16">
+
+                    <TextView
+                        android:id="@+id/tv_storage_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="@string/export_equipment"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/sp_15" />
+
+                    <TextView
+                        android:id="@+id/tv_storage_name_value"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_40"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/font_color_666"
+                        android:textSize="@dimen/sp_15" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/common_right_back_icon" />
+                </LinearLayout>
+
+                <View style="@style/UnderLineStyle" />
 
                     <TextView
                         android:id="@+id/tv_export_file"
@@ -287,5 +337,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

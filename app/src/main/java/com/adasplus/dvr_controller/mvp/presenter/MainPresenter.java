@@ -442,7 +442,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     break;
                 case R.id.ll_basic_info_pager:
                     if (mUSB) {
-                        ToastUtil.showToast(mMainActivity,R.string.please_open_usb_network_share);
+                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
 //                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                         return;
                     }
@@ -451,7 +451,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     break;
                 case R.id.ll_file_export_pager:
                     if (mUSB) {
-                        ToastUtil.showToast(mMainActivity,R.string.please_open_usb_network_share);
+                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
 //                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                         return;
                     }
@@ -463,6 +463,7 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     mTlhHeaderView.finishTwoLevel();
                     break;
             }
-
     }
+
+
 }
