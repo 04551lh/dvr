@@ -400,8 +400,12 @@
     <string name="sata">硬盘</string>
 
     <string name="usb">USB</string>
+
     <string name="distance_unit">mm</string>
+
     <string name="five">5</string>
+
+    <string name="sound_type">声音类型</string>
 
 
 </resources>
