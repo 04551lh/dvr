@@ -1,5 +1,6 @@
 package com.adasplus.base.network;
 
+import com.adasplus.base.network.model.ExportFileModel;
 import com.adasplus.base.network.model.FileExportModel;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
@@ -53,10 +54,10 @@ public class BaseWrapper extends RetrofitHelper {
         return baseService.getFileExport().compose(this.<FileExportModel>applySchedulers());
     }
 
-    public Observable<FileExportModel> exportFileData(JSONObject jsonObject) {
+    public Observable<ExportFileModel> exportFileData(JSONObject jsonObject) {
         RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
         IBaseService baseService = createServiceFrom(IBaseService.class);
-        return baseService.exportFileData(requestBody).compose(this.<FileExportModel>applySchedulers());
+        return baseService.exportFileData(requestBody).compose(this.<ExportFileModel>applySchedulers());
     }
 
     public Observable<SystemInfoModel> getSystemInfo(){

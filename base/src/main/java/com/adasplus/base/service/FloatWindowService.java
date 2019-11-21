@@ -152,12 +152,9 @@ public class FloatWindowService extends Service implements View.OnClickListener 
             FileExportModel fileExportModel = (FileExportModel)msg.obj;
             switch (msg.what) {
                 case 0x123:
-                    if(fileExportModel.getResult().getFileOutNumber() == 0){
-                        timer.cancel();
-                    }
-                    Log.i("Progress",fileExportModel.getResult().getFileOutProgress()+"");
-                    mProgressbarFileExportRight.setProgress(fileExportModel.getResult().getFileOutProgress());
-                    mTvCurrentRight.setText(fileExportModel.getResult().getFileOutProgress()+"jj");
+                    Log.i("Progress",fileExportModel.getFileOutProgress()+"");
+                    mProgressbarFileExportRight.setProgress(fileExportModel.getFileOutProgress());
+                    mTvCurrentRight.setText(fileExportModel.getFileOutProgress()+"jj");
                     break;
             }
         }
@@ -180,7 +177,10 @@ public class FloatWindowService extends Service implements View.OnClickListener 
 
                     @Override
                     public void onNext(FileExportModel fileExportModel) {
-                        Log.i("fileExportModel",fileExportModel.getResult().getFileOutProgress()+"");
+                        Log.i("fileExportModel",fileExportModel.getFileOutProgress()+"");
+                        if(fileExportModel.getFileOutNumber() == 0){
+                            timer.cancel();
+                        }
                         //TODO 需要进行通过实时设备数据调试
                         Message msg = new Message();
                         msg.what = 0x123;

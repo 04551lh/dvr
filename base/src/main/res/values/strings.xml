@@ -91,4 +91,8 @@
 
     <string name="jt_808_service_status">808服务异常,请检查服务是否开启!</string>
 
+    <string name="file_export_destination_not_ready">文件导出目标存储设备未就绪</string>
+
+    <string name="format_failure">格式化失败</string>
+
 </resources>
