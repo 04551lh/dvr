@@ -29,6 +29,10 @@ public interface ISoundsContract {
         TextView getTvCurrentSounds();
 
         TextView getTvSoundSave();
+
+        TextView getTvSoundType();
+
+        ImageView getIvSoundType();
     }
 
     interface Presenter {

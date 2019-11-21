@@ -20,6 +20,9 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
     private SignSeekBar mSsbSoundsValue;
     private TextView mTvCurrentSounds;
     private TextView mTvSoundSave;
+    private TextView mTvSoundType;
+    private ImageView mIvSoundType;
+
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -35,6 +38,8 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
 
     @Override
     protected void initWidget() {
+        mTvSoundType = findViewById(R.id.tv_sound_type);
+        mIvSoundType = findViewById(R.id.iv_sound_type);
         mIvSoundBack = findViewById(R.id.iv_sound_back);
         mIvSoundsReduce = findViewById(R.id.iv_sounds_reduce);
         mIvSoundsAdd = findViewById(R.id.iv_sounds_add);
@@ -70,5 +75,15 @@ public class SoundsActivity extends BaseActivity implements ISoundsContract.View
     @Override
     public TextView getTvSoundSave() {
         return mTvSoundSave;
+    }
+
+    @Override
+    public TextView getTvSoundType() {
+        return mTvSoundType;
+    }
+
+    @Override
+    public ImageView getIvSoundType() {
+        return mIvSoundType;
     }
 }
