@@ -5,11 +5,13 @@ import android.graphics.Color;
 
 import android.os.Handler;
 import android.os.Message;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -128,7 +130,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         getStorageNetwork();
         mWidth = (int) mActivity.getResources().getDimension(R.dimen.dp_200);
 
-//        isSelectLog(true);
         String all = mActivity.getResources().getString(R.string.all);
         String main_stream = mActivity.getResources().getString(R.string.main_stream);
         String child_stream = mActivity.getResources().getString(R.string.child_stream);
@@ -138,7 +139,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
         String[] streamTypeContent = {all, main_stream, child_stream};
         initStreamTypeData(streamTypeContent);
         //默认显示的是系统的当前的时间
-//        String format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String mBeginFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
         mBeginTime = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(new Date()).substring(2);
         Calendar calendars = Calendar.getInstance();
@@ -198,7 +198,22 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                 if(mArray.size() == 0){
                     mTvStorageNameValue.setText(R.string.no_export_device);
                 }else{
-                    mTvStorageNameValue.setText(selectStorageName(mArray.get(0).getStorageName()));
+                    String storageName = "";
+                    switch (mArray.get(0).getStorageName()){
+                        case "sdcard1":
+                            storageName = mActivity.getString(R.string.sdcard_one);
+                            break;
+                        case "sdcard2":
+                            storageName = mActivity.getString(R.string.sdcard_two);
+                            break;
+                        case "sata":
+                            storageName = mActivity.getString(R.string.sata);
+                            break;
+                        case "usb":
+                            storageName = mActivity.getString(R.string.usb);
+                            break;
+                    }
+                    mTvStorageNameValue.setText(storageName);
                 }
             }
         });
@@ -379,6 +394,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             e.printStackTrace();
         }
 
+
         BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<FileExportModel>() {
             @Override
             public void onCompleted() {
@@ -394,11 +410,14 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             public void onNext(FileExportModel fileExportModel) {
                 //TODO 需要进行通过实时设备数据调试
                 if(fileExportModel.getStatuesCode() == 0){
-                    mActivity.showToast(mActivity.getString(R.string.no_related_documents));
+                    Toast.makeText(mActivity,mActivity.getString(R.string.no_related_documents),Toast.LENGTH_SHORT).show();
                     return;
                 }
-                getFileExportNeteork();
+                Log.i("yzg","!!!!!!!!!!!!!!!!!!!!");
                 showFileExportDialog(fileExportModel.getStatuesCode());
+                Log.i("yzg","!!!!!!!!!!!!!!!!!!!!");
+                getFileExportNeteork();
+
 //                mActivity.startService(new Intent(mActivity, FloatWindowService.class));
             }
         });
@@ -440,6 +459,9 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                     @Override
                     public void onNext(FileExportModel fileExportModel) {
                         //TODO 需要进行通过实时设备数据调试
+                        if(fileExportModel.getResult().getFileOutNumber() == 0){
+                            return;
+                        }
                         Message msg = new Message();
                         msg.what = 0x123;
                         msg.obj = fileExportModel;
@@ -714,32 +736,25 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     }
 
     //设置磁盘名字
-    private String selectStorageName(String type){
-        String sn = "";
+    private void selectStorageName(String type){
         switch (type){
             case "sdcard1":
-                sn = mActivity.getString(R.string.sdcard_one);
-                mTvSDOne.setText(sn);
+                mTvSDOne.setText(mActivity.getString(R.string.sdcard_one));
                 mTvSDOne.setVisibility(View.VISIBLE);
                 break;
             case "sdcard2":
-                sn = mActivity.getString(R.string.sdcard_two);
-                mTvSDOne.setText(sn);
+                mTvSDOne.setText(mActivity.getString(R.string.sdcard_two));
                 mTvSDTwo.setVisibility(View.VISIBLE);
                 break;
             case "sata":
-                sn = mActivity.getString(R.string.sata);
-                mTvSata.setText(sn);
+                mTvSata.setText(mActivity.getString(R.string.sata));
                 mTvSata.setVisibility(View.VISIBLE);
                 break;
             case "usb":
-                sn = mActivity.getString(R.string.usb);
                 mTvUsb.setText(mActivity.getString(R.string.usb));
                 mTvUsb.setVisibility(View.VISIBLE);
                 break;
         }
-        return sn;
-
     }
 
 
