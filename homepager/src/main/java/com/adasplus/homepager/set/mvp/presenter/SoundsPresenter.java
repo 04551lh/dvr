@@ -36,8 +36,12 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
     private SignSeekBar mSsbSoundsValue;
     private TextView mTvCurrentSounds;
     private ImageView mIvSoundsAdd;
+    private TextView mTvSoundType;
+    private ImageView mIvSoundType;
+
 
     private int mSoundValue;
+    private int mSoundType;
 
 
     public SoundsPresenter(ISoundsContract.View view) {
@@ -49,6 +53,8 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
     public void initData() {
         mSsbSoundsValue = mSoundsView.getSsbSoundsValue();
         mTvCurrentSounds = mSoundsView.getTvCurrentSounds();
+        mIvSoundType = mSoundsView.getIvSoundType();
+        mTvSoundType = mSoundsView.getTvSoundType();
         getNetwork();
     }
 
@@ -71,6 +77,14 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
                 mSoundsModel = soundsModel;
                 //获取声音值，并设置声音值
                 mSoundValue = soundsModel.getSoundValue();
+                mSoundType = soundsModel.getSoundType();
+                if(mSoundType == 0){
+                    mTvSoundType.setText((String.format("%s：%s",mSoundsActivity.getString(R.string.sound_type),"滴滴声")));
+                    mIvSoundType.setImageResource(R.mipmap.switch_open_icon);
+                }else{
+                    mTvSoundType.setText((String.format("%s：%s",mSoundsActivity.getString(R.string.sound_type),"语音")));
+                    mIvSoundType.setImageResource(R.mipmap.switch_close_icon);
+                }
                 mSsbSoundsValue.setProgress(mSoundValue);
                 mTvCurrentSounds.setText((String.format("%s%%",String.valueOf(mSoundValue*10))));
             }
@@ -90,6 +104,7 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
         mSsbSoundsValue.setOnProgressChangedListener(this);
         mIvSoundsAdd.setOnClickListener(this);
         tvSoundSave.setOnClickListener(this);
+        mIvSoundType.setOnClickListener(this);
     }
 
     @Override
@@ -101,7 +116,9 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
             if (mSoundsModel != null) {
                 //将 SeekBar 中滑动的最新的进度进行设置到 SoundsModel
                 mSoundsModel.setSoundValue(mSsbSoundsValue.getProgress());
-                mSoundsModel.setSoundType(1);
+
+                mSoundsModel.setSoundType(mSoundType);
+
                 String json = GsonUtils.getInstance().toJson(mSoundsModel);
                 try {
                     //更新设备的的声音大小设置
@@ -127,6 +144,17 @@ public class SoundsPresenter implements ISoundsContract.Presenter, View.OnClickL
                     e.printStackTrace();
                 }
 
+            }
+        }
+        else if(id == R.id.iv_sound_type){
+            if(mSoundType == 1){
+                mTvSoundType.setText((String.format("%s：%s",mSoundsActivity.getString(R.string.sound_type),"滴滴声")));
+                mIvSoundType.setImageResource(R.mipmap.switch_open_icon);
+                mSoundType = 0;
+            }else{
+                mTvSoundType.setText((String.format("%s：%s",mSoundsActivity.getString(R.string.sound_type),"语音")));
+                mIvSoundType.setImageResource(R.mipmap.switch_close_icon);
+                mSoundType = 1;
             }
         }
     }
