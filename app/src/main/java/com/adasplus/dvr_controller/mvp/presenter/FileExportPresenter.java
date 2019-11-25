@@ -110,13 +110,15 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
 
     private BasicDialog mDialog;
 
-    private java.util.Timer timer = new java.util.Timer(true);
+    private java.util.Timer timer;
     private TimerTask task;
     private ProgressBar mProgressbarFileExport;
     private TextView mTvCurrentProgress;
     private String mBeginTime;
     private String mEndTime;
     private List<DeviceFormatModel.ArrayBean> mArray;
+
+    private JSONObject mJSONObject;
 
     public FileExportPresenter(Activity activity, IFileExportContract.View view) {
         mFileExportView = view;
@@ -356,6 +358,46 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
     }
 
     private void exportFiles() {
+        mJSONObject = new JSONObject();
+        try {
+            mJSONObject.put("stopFlag", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                BaseWrapper.getInstance().getFileExport(mJSONObject).subscribe(new Subscriber<FileExportModel>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        timer.cancel();
+                        ExceptionUtils.exceptionHandling(mActivity, e);
+                    }
+
+                    @Override
+                    public void onNext(FileExportModel fileExportModel) {
+                        //TODO 需要进行通过实时设备数据调试
+                        if (fileExportModel.getFileOutNumber() == 0) {
+                            timer.cancel();
+                            if (mDialog != null && mDialog.isAdded()) {
+                                mDialog.dismiss();
+                            }
+                            return;
+                        }
+                        Message msg = new Message();
+                        msg.what = 0x123;
+                        msg.obj = fileExportModel;
+                        mHandler.sendMessage(msg);
+                    }
+                });
+            }
+        };
+
+
+
         int channelNumber = -1;
         for (int i = 0; i < mChannelNumbersList.size(); i++) {
             ChannelNumbersModel channelNumbersModel = mChannelNumbersList.get(i);
@@ -391,7 +433,6 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             e.printStackTrace();
         }
 
-
         BaseWrapper.getInstance().exportFileData(jobj).subscribe(new Subscriber<ExportFileModel>() {
             @Override
             public void onCompleted() {
@@ -411,7 +452,7 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
                     return;
                 }
                 showFileExportDialog(exportFileModel.getFileOutNumber());
-                getFileExportNeteork();
+                getFileExportNetwork();
 
 //                mActivity.startService(new Intent(mActivity, FloatWindowService.class));
             }
@@ -425,55 +466,28 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             switch (msg.what) {
                 case 0x123:
                     mProgressbarFileExport.setProgress(fileExportModel.getFileOutIndex());
-                    mTvCurrentProgress.setText(fileExportModel.getFileOutIndex()/fileExportModel.getFileOutNumber() + mActivity.getString(R.string.exporting));
+                    mTvCurrentProgress.setText((fileExportModel.getFileOutIndex()+"/"+fileExportModel.getFileOutNumber()) + mActivity.getString(R.string.exporting));
                     break;
             }
         }
     };
 
-    private void getFileExportNeteork() {
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                BaseWrapper.getInstance().getFileExport().subscribe(new Subscriber<FileExportModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        timer.cancel();
-                        ExceptionUtils.exceptionHandling(mActivity, e);
-                    }
-
-                    @Override
-                    public void onNext(FileExportModel fileExportModel) {
-                        //TODO 需要进行通过实时设备数据调试
-                        if (fileExportModel.getFileOutNumber() == 0) {
-                            timer.cancel();
-                            if (mDialog != null && mDialog.isAdded()) {
-                                mDialog.dismiss();
-                            }
-                        }
-                        Message msg = new Message();
-                        msg.what = 0x123;
-                        msg.obj = fileExportModel;
-                        mHandler.sendMessage(msg);
-                    }
-                });
-            }
-        };
+    private void getFileExportNetwork() {
+        timer = new java.util.Timer(true);
         timer.schedule(task, 0, 1000);
     }
 
 
     private void showFileExportDialog(int max) {
         View view = View.inflate(mActivity, R.layout.dialog_file_export, null);
-        mProgressbarFileExport = view.findViewById(com.adasplus.homepager.R.id.progressbar_file_export);
-        mTvCurrentProgress = view.findViewById(com.adasplus.homepager.R.id.tv_dialog_description);
-        TextView tv_cancel = view.findViewById(com.adasplus.homepager.R.id.tv_cancel);
+        mProgressbarFileExport = view.findViewById(R.id.progressbar_file_export);
+        mTvCurrentProgress = view.findViewById(R.id.tv_file_export);
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel_file_export);
         float margin = mActivity.getResources().getDimension(com.adasplus.homepager.R.dimen.dp_12);
 
         mProgressbarFileExport.setMax(max);
+        mTvCurrentProgress.setText((0+"/"+max) + mActivity.getString(R.string.exporting));
+
         mDialog = CommonDialog.init()
                 .setView(view)
                 .setMargin(margin)
@@ -486,7 +500,11 @@ public class FileExportPresenter implements IFileExportContract.Presenter, View.
             @Override
             public void onClick(View v) {
                 if (mDialog != null && mDialog.isAdded()) {
-                    timer.cancel();
+                    try {
+                        mJSONObject.put("stopFlag", 1);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     mDialog.dismiss();
                 }
             }
