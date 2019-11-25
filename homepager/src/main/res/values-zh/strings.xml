@@ -405,6 +405,7 @@
     <string name="five">5</string>
 
     <string name="sound_type">声音类型</string>
+    <string name="landmark_type">地标类型</string>
 
 
 </resources>

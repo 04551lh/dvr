@@ -13,6 +13,7 @@ import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.mvp.contract.IFillTerminalInfoContract;
 import com.adasplus.homepager.activate.mvp.model.AdministrativeRegionCodeModel;
 import com.adasplus.homepager.activate.mvp.model.CarColorModel;
+import com.adasplus.homepager.activate.mvp.model.LandmarkTypeModel;
 import com.adasplus.homepager.activate.mvp.presenter.FillTerminalInfoPresenter;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -32,6 +33,7 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     TextView mTvCityAndCountyId;
     TextView mTvSaveTerminalInfo;
     TextView mTvTitle;
+    TextView mTvLandmarkType;
     EditText mEtChassisNumber;
     RelativeLayout mRlHintMessage;
 
@@ -58,6 +60,7 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     @Override
     protected void initWidget() {
         mIvBack = findViewById(R.id.iv_back);
+        mTvLandmarkType = findViewById(R.id.tv_landmark_type_id);
         mIvCloseHintMessage = findViewById(R.id.iv_close_hint_message);
         mEtPlatformPhoneNumber = findViewById(R.id.et_platform_phone_number);
         mEtLicensePlateNumber = findViewById(R.id.et_license_plate_number);
@@ -74,6 +77,11 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     @Override
     public ImageView getIvBack() {
         return mIvBack;
+    }
+
+    @Override
+    public TextView getTvLandmarkType() {
+        return mTvLandmarkType;
     }
 
     @Override
@@ -147,6 +155,11 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     }
 
     @Override
+    public void initLandmarkType(List<LandmarkTypeModel.LandmarkBean> landmark_type) {
+        mFillTerminalInfoPresenter.initLandmarkTypeColor(landmark_type);
+    }
+
+    @Override
     public void initProvincialDomainId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
         mFillTerminalInfoPresenter.initProvincialDomainId(administrativeRegionCodeModelList);
     }
@@ -154,6 +167,11 @@ public class FillTerminalInfoActivity extends BaseActivity implements IFillTermi
     @Override
     public void showDefaultCityId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
         mFillTerminalInfoPresenter.showDefaultCityId(administrativeRegionCodeModelList);
+    }
+
+    @Override
+    public List<LandmarkTypeModel.LandmarkBean> getLandmarkTypeList() {
+        return mFillTerminalInfoPresenter.getmLandmarkTypeList();
     }
 
     public void setAdministrativeRegionCodeData(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {

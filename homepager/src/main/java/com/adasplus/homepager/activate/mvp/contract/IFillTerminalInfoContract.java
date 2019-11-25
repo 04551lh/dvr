@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.adasplus.homepager.activate.mvp.model.AdministrativeRegionCodeModel;
 import com.adasplus.homepager.activate.mvp.model.CarColorModel;
 import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
+import com.adasplus.homepager.activate.mvp.model.LandmarkTypeModel;
 
 import java.util.List;
 
@@ -25,6 +26,8 @@ public interface IFillTerminalInfoContract {
     interface View {
 
         ImageView getIvBack();
+
+        TextView getTvLandmarkType();
 
         ImageView getIvCloseHintMessage();
 
@@ -54,9 +57,13 @@ public interface IFillTerminalInfoContract {
 
         void initLicensePlateColor(List<CarColorModel> car_color);
 
+        void initLandmarkType(List<LandmarkTypeModel.LandmarkBean> landmark_type);
+
         void initProvincialDomainId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
 
         void showDefaultCityId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList);
+
+        List<LandmarkTypeModel.LandmarkBean> getLandmarkTypeList();
 
     }
 

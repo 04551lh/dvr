@@ -33,12 +33,14 @@ import com.adasplus.homepager.activate.mvp.model.AdministrativeRegionCodeModel;
 import com.adasplus.homepager.activate.mvp.model.CarColorModel;
 import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
 import com.adasplus.homepager.activate.mvp.model.GetPlatformInfoModel;
+import com.adasplus.homepager.activate.mvp.model.LandmarkTypeModel;
 import com.adasplus.homepager.activate.mvp.model.LicensePlateColorModel;
 import com.adasplus.homepager.network.HomeWrapper;
 import com.adasplus.homepager.utils.VehicleInfoUtil;
 import com.alibaba.android.arouter.launcher.ARouter;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -72,10 +74,14 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private CarInfoModel mCarInfoModel;
     private Message mMessage;
 
+    private List<LandmarkTypeModel.LandmarkBean> mLandmarkTypeList;
+
     private List<GetPlatformInfoModel.ArrayBean> mPlatformInfoArray;
     private static final int WHAT = 1;
     private VehicleInfoHandler mVehicleInfoHandler;
     private SwipeRefreshLayout mSrlActivatePlatformData;
+    private String mLandmarkId;
+    private TextView mTvLandmarkType;
 
     private static class VehicleInfoHandler extends Handler {
 
@@ -108,7 +114,9 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     public void initWidget() {
         String licensePlateColorData = VehicleInfoUtil.readPlateFileColor(mActivateDeviceActivity);
         String administrativeRegionData = VehicleInfoUtil.readRegionCodeFileName(mActivateDeviceActivity);
+        String landMarkTypeData = VehicleInfoUtil.readLandMarkTypeName(mActivateDeviceActivity);
 
+        mLandmarkTypeList =  GsonUtils.getInstance().jsonToBean(landMarkTypeData,LandmarkTypeModel.class).getLandmark();
         LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
         List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
         mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
@@ -116,6 +124,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         mActivatedPlatformsAdapter = new ActivatedPlatformsAdapter();
         mRvActivatedPlatforms = mActivateDeviceView.getRvActivatedPlatforms();
         mTvNoData = mActivateDeviceView.getTvNoData();
+        mTvLandmarkType = mActivateDeviceActivity.getTvLandmarkType();
         mTvPhoneNumber = mActivateDeviceView.getTvPhoneNumber();
         mTvLicensePlateNumber = mActivateDeviceView.getTvLicensePlateNumber();
         mTvChassisNumber = mActivateDeviceView.getTvChassisNumber();
@@ -244,7 +253,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 String vin = terminalInfoModel.getVin();
                 String provincialDomain = terminalInfoModel.getProvincialDomain();
                 String cityDomain = terminalInfoModel.getCityDomain();
-
+                String mLandmarkId = terminalInfoModel.getProtocolType();
+//                mLandmarkId = "1";
                 //设置手机号
                 mTvPhoneNumber.setText(phoneNumber);
                 //设置终端Id
@@ -256,15 +266,24 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
                 if(!plateColor.equals("")){
                     mPlateColorId = plateColor;
+                    return;
                 }
                 if(!provincialDomain.equals("")){
                     mProvincialDomainId = provincialDomain;
+                    return;
                 }
                 if(!cityDomain.equals("")){
                     mCityDomainId = cityDomain;
+                    return;
+                }
+                if(!mLandmarkId.equals("")){
+                    mLandmarkId = mLandmarkId;
+                    return;
                 }
             }
         });
+
+        initLandmarkTypeColor(mLandmarkTypeList);
         mMessage = Message.obtain();
         mMessage.what = WHAT;
 
@@ -398,6 +417,18 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
             }
         }
 
+    }
+
+    //地标选择
+    public void initLandmarkTypeColor(final List<LandmarkTypeModel.LandmarkBean> landmark) {
+        for (int i = 0; i < landmark.size(); i++) {
+            LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(i);
+            String landmark_type = landmarkTypeModel.getLandmark_type();
+            String landmark_code = landmarkTypeModel.getLandmark_code();
+            if (mLandmarkId.equals(landmark_code)) {
+                mTvLandmarkType.setText(landmark_type);
+            }
+        }
     }
 
     @Override

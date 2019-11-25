@@ -24,6 +24,7 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     private ImageView mIvBack;
     private RecyclerView mRvActivatedPlatforms;
     private TextView mTvNoData;
+    private TextView mTvLandmarkType;
     private TextView mTvPhoneNumber;
     private TextView mTvLicensePlateNumber;
     private TextView mTvChassisNumber;
@@ -64,6 +65,7 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
         mRvActivatedPlatforms = findViewById(R.id.rv_activated_platforms);
         mTvNoData = findViewById(R.id.tv_no_data);
         mTvPhoneNumber = findViewById(R.id.tv_phone_number);
+        mTvLandmarkType = findViewById(R.id.tv_landmark_id);
         mTvLicensePlateNumber = findViewById(R.id.tv_license_plate_number);
         mTvChassisNumber = findViewById(R.id.tv_chassis_number);
         mTvLicensePlateColor = findViewById(R.id.tv_license_plate_color);
@@ -94,6 +96,11 @@ public class ActivateDeviceActivity extends BaseActivity implements IActivateDev
     @Override
     public TextView getTvPhoneNumber() {
         return mTvPhoneNumber;
+    }
+
+    @Override
+    public TextView getTvLandmarkType() {
+        return mTvLandmarkType;
     }
 
     @Override

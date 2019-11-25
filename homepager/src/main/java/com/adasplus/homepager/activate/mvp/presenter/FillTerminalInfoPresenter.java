@@ -28,6 +28,7 @@ import com.adasplus.homepager.activate.mvp.contract.IFillTerminalInfoContract;
 import com.adasplus.homepager.activate.mvp.model.AdministrativeRegionCodeModel;
 import com.adasplus.homepager.activate.mvp.model.CarColorModel;
 import com.adasplus.homepager.activate.mvp.model.CarInfoModel;
+import com.adasplus.homepager.activate.mvp.model.LandmarkTypeModel;
 import com.adasplus.homepager.activate.mvp.model.LicensePlateColorModel;
 import com.adasplus.homepager.utils.VehicleInfoUtil;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -62,10 +63,12 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private TextView mTvProvincialDomainId;
     private TextView mTvCityAndCountyId;
     private OptionsPickerView<String> mLicensePlateColorPickerView;
+    private OptionsPickerView<String> mLandmarkTypePickerView;
     private String mLicensePlateColor = "";
     private String mProvincialDomainId = "";
     private int mProvincialDomainPositionId = -1;
     private String mAreaId = "";
+    private String mLandmarkId = "";
     private OptionsPickerView<String> mProvincialDomainIdPickerView;
     private OptionsPickerView mCityAndCountyIdPickerView;
 
@@ -75,6 +78,18 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
     private InitDataHandler mInitDataHandler;
     private RelativeLayout mRlHintMessage;
     private List<AdministrativeRegionCodeModel> mAdministrativeRegionCodeModelList;
+    private TextView mTvLandmarkType;
+
+
+    public List<LandmarkTypeModel.LandmarkBean> getmLandmarkTypeList() {
+        return mLandmarkTypeList;
+    }
+
+    public void setmLandmarkTypeList(List<LandmarkTypeModel.LandmarkBean> mLandmarkTypeList) {
+        this.mLandmarkTypeList = mLandmarkTypeList;
+    }
+
+    private List<LandmarkTypeModel.LandmarkBean> mLandmarkTypeList;
     private  CarInfoModel mCarInfoModel;
     private boolean isFirst = true;
 
@@ -102,6 +117,8 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                     fillTerminalInfoActivity.initProvincialDomainId(administrativeRegionCodeModelList);
 
                     fillTerminalInfoActivity.showDefaultCityId(administrativeRegionCodeModelList);
+
+                    fillTerminalInfoActivity.initLandmarkType(fillTerminalInfoActivity.getLandmarkTypeList());
                 }
             }
         }
@@ -122,6 +139,11 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         String administrativeRegionCodeFileName = "administrative_region_code.json";
         //读取本地的 行政区域代码 数据
         String administrativeRegionCode = VehicleInfoUtil.readVehicleData(mContext, administrativeRegionCodeFileName);
+
+        String landmarkType = VehicleInfoUtil.readLandMarkTypeName(mContext);
+        LandmarkTypeModel landmarkTypeModel = GsonUtils.getInstance().jsonToBean(landmarkType,LandmarkTypeModel.class);
+        mLandmarkTypeList = landmarkTypeModel.getLandmark();
+
         LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(plateColor, LicensePlateColorModel.class);
         List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionCode, AdministrativeRegionCodeModel.class);
         mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
@@ -141,6 +163,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 //                mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
 //            }
 //        });
+        mTvLandmarkType = mFillTerminalInfoView.getTvLandmarkType();
         mEtPlatformPhoneNumber = mFillTerminalInfoView.getEtPlatformPhoneNumber();
         mEtLicensePlateNumber = mFillTerminalInfoView.getEtLicensePlateNumber();
         mEtTerminalId = mFillTerminalInfoView.getEtTerminalId();
@@ -160,6 +183,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             initLicensePlateColor(mCarInfoModel.getCarColor());
             initProvincialDomainId(mCarInfoModel.getAdministrativeRegionCodeModelList());
             initCityAndCountyId(mCarInfoModel.getAdministrativeRegionCodeModelList());
+            initLandmarkTypeColor(mLandmarkTypeList);
             isFirst = false;
         } else {
             tvTitle.setText(update_terminal_info);
@@ -217,6 +241,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 String plateColor = terminalInfoModel.getPlateColor();
                 String provincialDomain = terminalInfoModel.getProvincialDomain();
                 String cityDomain = terminalInfoModel.getCityDomain();
+                String protocolTypeId = terminalInfoModel.getProtocolType();
                 String terminalId = terminalInfoModel.getTerminalId();
 
                //设置手机号
@@ -244,6 +269,8 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 mProvincialDomainId = provincialDomain;
                 //设置市县域初始值
                 mAreaId = cityDomain;
+                //设置地标
+                mLandmarkId = protocolTypeId;
                 Message message = Message.obtain();
                 message.what = WHAT;
                 message.obj = mCarInfoModel;
@@ -408,6 +435,36 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mLicensePlateColorPickerView.setPicker(carColor);
     }
 
+    //地标选择
+    public void initLandmarkTypeColor(final List<LandmarkTypeModel.LandmarkBean> landmark) {
+        List<String> landmarkType = new ArrayList<>();
+        for (int i = 0; i < landmark.size(); i++) {
+            LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(i);
+            String landmark_type = landmarkTypeModel.getLandmark_type();
+            String landmark_code = landmarkTypeModel.getLandmark_code();
+            if (mLandmarkId.equals(landmark_code)) {
+                mTvLandmarkType.setText(landmark_type);
+            }
+            landmarkType.add(landmark_type);
+        }
+        mLandmarkTypePickerView = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
+
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(options1);
+                String plate_color = landmarkTypeModel.getLandmark_type();
+                mLandmarkId = landmarkTypeModel.getLandmark_code();
+                mTvLandmarkType.setText(plate_color);
+            }
+        })
+                .setCancelText(mContext.getString(R.string.cancel))
+                .setSubmitText(mContext.getString(R.string.confirm))
+                .setTitleText(mContext.getString(R.string.landmark_type))
+                .setOutSideCancelable(false)
+                .build();
+        mLandmarkTypePickerView.setPicker(landmarkType);
+    }
+
 
     @Override
     public void initListener() {
@@ -421,6 +478,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mTvLicensePlateColor.setOnClickListener(this);
         mTvProvincialDomainId.setOnClickListener(this);
         mTvCityAndCountyId.setOnClickListener(this);
+        mTvLandmarkType.setOnClickListener(this);
     }
 
     public void setAdministrativeRegionCodeData(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
@@ -466,6 +524,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
 
             JSONObject jobj = new JSONObject();
             try {
+                jobj.put("protocolType", mLandmarkId);
                 jobj.put("phoneNumber", phoneNumber);
                 jobj.put("terminalId", terminalId);
                 jobj.put("plateNumber", plateNumber);
@@ -506,6 +565,11 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         } else if (i == R.id.tv_provincial_domain_id) {
             if (mProvincialDomainIdPickerView != null) {
                 mProvincialDomainIdPickerView.show();
+            }
+        } else if (i == R.id.tv_landmark_type_id) {
+            Log.i("yzg","11111111111");
+            if (mLandmarkTypePickerView != null) {
+                mLandmarkTypePickerView.show();
             }
         } else if (i == R.id.tv_city_and_county_id) {
             initCityAndCountyId(mAdministrativeRegionCodeModelList);

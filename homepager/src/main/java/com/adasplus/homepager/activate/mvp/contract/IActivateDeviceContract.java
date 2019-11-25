@@ -27,6 +27,8 @@ public interface IActivateDeviceContract {
 
         TextView getTvPhoneNumber();
 
+        TextView getTvLandmarkType();
+
         TextView getTvLicensePlateNumber();
 
         TextView getTvChassisNumber();
