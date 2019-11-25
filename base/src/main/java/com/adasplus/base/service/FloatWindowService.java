@@ -161,10 +161,16 @@ public class FloatWindowService extends Service implements View.OnClickListener 
     };
 
     private void getNeteork() {
+        final JSONObject mJSONObject = new JSONObject();
+        try {
+            mJSONObject.put("stopFlag", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         task = new TimerTask() {
             @Override
             public void run() {
-                BaseWrapper.getInstance().getFileExport().subscribe(new Subscriber<FileExportModel>() {
+                BaseWrapper.getInstance().getFileExport(mJSONObject).subscribe(new Subscriber<FileExportModel>() {
                     @Override
                     public void onCompleted() {
                     }

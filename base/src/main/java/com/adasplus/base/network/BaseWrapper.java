@@ -49,9 +49,10 @@ public class BaseWrapper extends RetrofitHelper {
         return baseService.saveVehicleInfo(requestBody).compose(this.<TerminalInfoModel>applySchedulers());
     }
 
-    public Observable<FileExportModel> getFileExport() {
+    public Observable<FileExportModel> getFileExport(JSONObject jsonObject) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
         IBaseService baseService = createServiceFrom(IBaseService.class);
-        return baseService.getFileExport().compose(this.<FileExportModel>applySchedulers());
+        return baseService.getFileExport(requestBody).compose(this.<FileExportModel>applySchedulers());
     }
 
     public Observable<ExportFileModel> exportFileData(JSONObject jsonObject) {

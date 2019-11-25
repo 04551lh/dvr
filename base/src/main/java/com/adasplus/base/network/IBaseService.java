@@ -6,6 +6,7 @@ import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
 
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
@@ -25,7 +26,7 @@ public interface IBaseService {
     Observable<BaseResponse<TerminalInfoModel>> saveVehicleInfo(@Body RequestBody requestBody);
 
     @POST(HttpConstant.GET_FILE_EXPORT_REQUEST)
-    Observable<BaseResponse<FileExportModel>> getFileExport();
+    Observable<BaseResponse<FileExportModel>> getFileExport(@Body RequestBody requestBody);
 
     @POST(HttpConstant.FILE_EXPORT_DATA)
     Observable<BaseResponse<ExportFileModel>> exportFileData(@Body RequestBody requestBody);
