@@ -83,3 +83,4 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(BaseActivity.this, string, Toast.LENGTH_SHORT).show();
     }
 }
+

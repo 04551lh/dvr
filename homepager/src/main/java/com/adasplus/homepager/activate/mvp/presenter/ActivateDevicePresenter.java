@@ -115,8 +115,9 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         String licensePlateColorData = VehicleInfoUtil.readPlateFileColor(mActivateDeviceActivity);
         String administrativeRegionData = VehicleInfoUtil.readRegionCodeFileName(mActivateDeviceActivity);
         String landMarkTypeData = VehicleInfoUtil.readLandMarkTypeName(mActivateDeviceActivity);
+        LandmarkTypeModel landmarkTypeModel=  GsonUtils.getInstance().jsonToBean(landMarkTypeData,LandmarkTypeModel.class);
+        mLandmarkTypeList = landmarkTypeModel.getLandmark();
 
-        mLandmarkTypeList =  GsonUtils.getInstance().jsonToBean(landMarkTypeData,LandmarkTypeModel.class).getLandmark();
         LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
         List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
         mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
@@ -180,6 +181,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 getVehicleInfo();
                 SystemClock.sleep(50);
                 getPlatformInfoModel();
+                initLandmarkTypeColor(mLandmarkTypeList);
             }
         });
 
@@ -253,7 +255,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 String vin = terminalInfoModel.getVin();
                 String provincialDomain = terminalInfoModel.getProvincialDomain();
                 String cityDomain = terminalInfoModel.getCityDomain();
-                String mLandmarkId = terminalInfoModel.getProtocolType();
+                String protocolType = terminalInfoModel.getProtocolType();
 //                mLandmarkId = "1";
                 //设置手机号
                 mTvPhoneNumber.setText(phoneNumber);
@@ -266,24 +268,18 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
                 if(!plateColor.equals("")){
                     mPlateColorId = plateColor;
-                    return;
                 }
                 if(!provincialDomain.equals("")){
                     mProvincialDomainId = provincialDomain;
-                    return;
                 }
                 if(!cityDomain.equals("")){
                     mCityDomainId = cityDomain;
-                    return;
                 }
-                if(!mLandmarkId.equals("")){
-                    mLandmarkId = mLandmarkId;
-                    return;
+                if(!protocolType.equals("")){
+                    mLandmarkId = protocolType;
                 }
             }
         });
-
-        initLandmarkTypeColor(mLandmarkTypeList);
         mMessage = Message.obtain();
         mMessage.what = WHAT;
 
@@ -421,12 +417,19 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     //地标选择
     public void initLandmarkTypeColor(final List<LandmarkTypeModel.LandmarkBean> landmark) {
+        Log.i("protocolType","2222222");
+        Log.i("protocolType",landmark.size()+"");
         for (int i = 0; i < landmark.size(); i++) {
-            LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(i);
-            String landmark_type = landmarkTypeModel.getLandmark_type();
-            String landmark_code = landmarkTypeModel.getLandmark_code();
-            if (mLandmarkId.equals(landmark_code)) {
-                mTvLandmarkType.setText(landmark_type);
+            Log.i("protocolType",mLandmarkId+"#########");
+            Log.i("protocolType",landmark.get(i).getLandmark_type());
+            Log.i("protocolType",landmark.get(i).getLandmark_code());
+//            LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(i);
+//            String landmark_type = landmarkTypeModel.getLandmark_type();
+//            String landmark_code = landmarkTypeModel.getLandmark_code();
+            Log.i("protocolType",mLandmarkId.equals(landmark.get(i).getLandmark_code())+"");
+            if (mLandmarkId.equals(landmark.get(i).getLandmark_code())) {
+                Log.i("protocolType","4444444");
+                mTvLandmarkType.setText(landmark.get(i).getLandmark_type());
             }
         }
     }

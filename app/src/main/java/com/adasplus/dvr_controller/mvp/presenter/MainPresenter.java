@@ -187,9 +187,9 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
                 if (oldState == RefreshState.TwoLevelReleased) {
-                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(1).setDuration(300);
+                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(1).setDuration(30);
                 } else if (oldState == RefreshState.TwoLevel) {
-                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(0).setDuration(300);
+                    mMainActivity.findViewById(R.id.fl_plate_info_status).animate().alpha(0).setDuration(30);
                 }
 
             }
@@ -442,8 +442,8 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     break;
                 case R.id.ll_basic_info_pager:
                     if (mUSB) {
-                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
-//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+//                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
+                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                         return;
                     }
                     mSrlRefreshLayout.setEnableRefresh(false);
@@ -451,8 +451,8 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                     break;
                 case R.id.ll_file_export_pager:
                     if (mUSB) {
-                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
-//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+//                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
+                    mMainActivity.showToast(R.string.please_open_usb_network_share);
                         return;
                     }
                     mSrlRefreshLayout.setEnableRefresh(false);

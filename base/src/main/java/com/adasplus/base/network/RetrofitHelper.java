@@ -48,9 +48,9 @@ public class RetrofitHelper {
 
     private static final String TAG = "RetrofitHelper";
 
-    private final static int CONNECT_TIMEOUT = 3000;
-    private final static int READ_TIMEOUT = 3000;
-    private final static int WRITE_TIMEOUT = 3000;
+    private final static int CONNECT_TIMEOUT = 3;
+    private final static int READ_TIMEOUT = 3;
+    private final static int WRITE_TIMEOUT = 3;
     private static final Charset GBK = Charset.forName("GBK");
 
 

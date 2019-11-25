@@ -15,6 +15,16 @@ public class TerminalInfoModel {
     private String provincialDomain;
     private String cityDomain;
 
+    public String getProtocolType() {
+        return protocolType;
+    }
+
+    public void setProtocolType(String protocolType) {
+        this.protocolType = protocolType;
+    }
+
+    private String protocolType;
+
     public String getPhoneNumber() {
         return phoneNumber;
     }

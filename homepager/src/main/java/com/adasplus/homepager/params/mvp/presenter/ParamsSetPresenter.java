@@ -1,8 +1,10 @@
 package com.adasplus.homepager.params.mvp.presenter;
 
+import android.nfc.Tag;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -80,12 +82,14 @@ public class ParamsSetPresenter implements IParamsSetContract.Presenter, View.On
                 float rightWheelDistance = (float) paramsSetModel.getRightWheelDistance() / 1000;
 //                float frontWheelDistance = (float) paramsSetModel.getFrontWheelDistance() / 1000;
 
+                Log.i("yzg",bumperDistance+"&&&&&&&"+cameraHight+"&&&&&&&&"+leftWheelDistance+"&&&&&&"+rightWheelDistance);
                 String camera = String.format("%.2f", cameraHight);
                 String bumper = String.format("%.2f", bumperDistance);
                 String leftWheel = String.format("%.2f", leftWheelDistance);
                 String rightWheel = String.format("%.2f", rightWheelDistance);
 //                String frontWheel = String.format("%.2f", frontWheelDistance);
 
+                Log.i("yzg",camera+"&&&&&&&"+bumper+"&&&&&&&&"+leftWheel+"&&&&&&"+rightWheel);
                 //设置镜头高度
                 mEtCameraHeight.setText(camera);
                 mEtCameraHeight.setSelection(camera.length());

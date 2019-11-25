@@ -45,8 +45,7 @@
                 <EditText
                     android:id="@+id/et_camera_height"
                     style="@style/EditTextParamsFillStyle"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4" />
+                    android:inputType="numberDecimal" />
 
                 <TextView style="@style/TextViewUnitStyle" />
             </LinearLayout>
@@ -62,8 +61,7 @@
                 <EditText
                     android:id="@+id/et_bumper_distance"
                     style="@style/EditTextParamsFillStyle"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4" />
+                    android:inputType="numberDecimal" />
 
                 <TextView style="@style/TextViewUnitStyle" />
             </LinearLayout>
@@ -79,8 +77,7 @@
                 <EditText
                     android:id="@+id/et_left_wheel_distance"
                     style="@style/EditTextParamsFillStyle"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4" />
+                    android:inputType="numberDecimal" />
 
                 <TextView style="@style/TextViewUnitStyle" />
             </LinearLayout>
@@ -96,8 +93,7 @@
                 <EditText
                     android:id="@+id/et_right_wheel_distance"
                     style="@style/EditTextParamsFillStyle"
-                    android:inputType="numberDecimal"
-                    android:maxLength="4" />
+                    android:inputType="numberDecimal" />
 
                 <TextView style="@style/TextViewUnitStyle" />
             </LinearLayout>
