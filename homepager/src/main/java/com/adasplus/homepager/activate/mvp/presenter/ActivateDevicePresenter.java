@@ -19,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.utils.GsonUtils;
+import com.adasplus.base.utils.ThreadPoolUtils;
 import com.adasplus.base.view.RecyclerViewDivider;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.activity.ActivateDeviceActivity;
@@ -80,16 +81,17 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
     private static final int WHAT = 1;
     private VehicleInfoHandler mVehicleInfoHandler;
     private SwipeRefreshLayout mSrlActivatePlatformData;
-    private String mLandmarkId;
+    private String mLandmarkId = "";
     private TextView mTvLandmarkType;
 
     private static class VehicleInfoHandler extends Handler {
 
         private WeakReference<ActivateDeviceActivity> mActivateDeviceActivity;
 
-        VehicleInfoHandler(ActivateDeviceActivity ActivateDeviceActivity){
+        VehicleInfoHandler(ActivateDeviceActivity ActivateDeviceActivity) {
             mActivateDeviceActivity = new WeakReference<>(ActivateDeviceActivity);
         }
+
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -97,7 +99,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
             if (what == WHAT) {
                 CarInfoModel carInfoModel = (CarInfoModel) msg.obj;
                 ActivateDeviceActivity activateDeviceActivity = mActivateDeviceActivity.get();
-                if (activateDeviceActivity != null){
+                if (activateDeviceActivity != null) {
                     activateDeviceActivity.showDefaultPlateInfo(carInfoModel);
                 }
             }
@@ -112,15 +114,20 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     @Override
     public void initWidget() {
-        String licensePlateColorData = VehicleInfoUtil.readPlateFileColor(mActivateDeviceActivity);
-        String administrativeRegionData = VehicleInfoUtil.readRegionCodeFileName(mActivateDeviceActivity);
-        String landMarkTypeData = VehicleInfoUtil.readLandMarkTypeName(mActivateDeviceActivity);
-        LandmarkTypeModel landmarkTypeModel=  GsonUtils.getInstance().jsonToBean(landMarkTypeData,LandmarkTypeModel.class);
-        mLandmarkTypeList = landmarkTypeModel.getLandmark();
+//        ThreadPoolUtils.execute(new Runnable() {
+//            @Override
+//            public void run() {
+                String licensePlateColorData = VehicleInfoUtil.readPlateFileColor(mActivateDeviceActivity);
+                String administrativeRegionData = VehicleInfoUtil.readRegionCodeFileName(mActivateDeviceActivity);
+                String landMarkTypeData = VehicleInfoUtil.readLandMarkTypeName(mActivateDeviceActivity);
+                LandmarkTypeModel landmarkTypeModel = GsonUtils.getInstance().jsonToBean(landMarkTypeData, LandmarkTypeModel.class);
+                mLandmarkTypeList = landmarkTypeModel.getLandmark();
 
-        LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
-        List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
-        mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
+                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
+                mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
+//            }
+//        });
 
         mActivatedPlatformsAdapter = new ActivatedPlatformsAdapter();
         mRvActivatedPlatforms = mActivateDeviceView.getRvActivatedPlatforms();
@@ -150,7 +157,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         });
 
         int height = (int) mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_10);
-        mRvActivatedPlatforms.addItemDecoration(new RecyclerViewDivider(RecyclerView.VERTICAL,height, Color.parseColor("#EEEEEE")));
+        mRvActivatedPlatforms.addItemDecoration(new RecyclerViewDivider(RecyclerView.VERTICAL, height, Color.parseColor("#EEEEEE")));
     }
 
     @Override
@@ -173,7 +180,7 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 //查询当前 808 服务的运行状态，如果808服务未启动的话，
                 // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
                 int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
-                if (jt808ServiceStatus == 0){
+                if (jt808ServiceStatus == 0) {
                     Toast.makeText(mActivateDeviceActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -181,7 +188,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 getVehicleInfo();
                 SystemClock.sleep(50);
                 getPlatformInfoModel();
-                initLandmarkTypeColor(mLandmarkTypeList);
             }
         });
 
@@ -256,7 +262,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 String provincialDomain = terminalInfoModel.getProvincialDomain();
                 String cityDomain = terminalInfoModel.getCityDomain();
                 String protocolType = terminalInfoModel.getProtocolType();
-//                mLandmarkId = "1";
                 //设置手机号
                 mTvPhoneNumber.setText(phoneNumber);
                 //设置终端Id
@@ -266,18 +271,19 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                 //车架号
                 mTvChassisNumber.setText(vin);
 
-                if(!plateColor.equals("")){
+                if (!plateColor.equals("")) {
                     mPlateColorId = plateColor;
                 }
-                if(!provincialDomain.equals("")){
+                if (!provincialDomain.equals("")) {
                     mProvincialDomainId = provincialDomain;
                 }
-                if(!cityDomain.equals("")){
+                if (!cityDomain.equals("")) {
                     mCityDomainId = cityDomain;
                 }
                 if(!protocolType.equals("")){
                     mLandmarkId = protocolType;
                 }
+                initLandmarkTypeColor(mLandmarkTypeList);
             }
         });
         mMessage = Message.obtain();
@@ -285,23 +291,6 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
         mMessage.obj = mCarInfoModel;
         mVehicleInfoHandler.sendMessage(mMessage);
-//        ThreadPoolUtils.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                String licensePlateFileName = "license_plate_color.json";
-//                String administrativeRegionCodeFileName = "administrative_region_code.json";
-//
-//                String licensePlateColorData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, licensePlateFileName);
-//                String administrativeRegionData = VehicleInfoUtil.readVehicleData(mActivateDeviceActivity, administrativeRegionCodeFileName);
-//
-//                LicensePlateColorModel licensePlateColorModel = GsonUtils.getInstance().jsonToBean(licensePlateColorData, LicensePlateColorModel.class);
-//                List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList = GsonUtils.getInstance().jsonToList(administrativeRegionData, AdministrativeRegionCodeModel.class);
-//                mCarInfoModel = new CarInfoModel(administrativeRegionCodeModelList, licensePlateColorModel.getCar_color());
-//                mMessage.obj = mCarInfoModel;
-//                mVehicleInfoHandler.sendMessage(mMessage);
-//            }
-//        });
-
     }
 
     private void dismissConnectedPlatforms() {
@@ -320,18 +309,18 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     @Override
     public void notifyPlatformsSizeShow() {
-        if (mPlatformInfoArray != null){
+        if (mPlatformInfoArray != null) {
             int size = mPlatformInfoArray.size();
-            if (size > 0){
+            if (size > 0) {
                 showConnectedPlatforms();
                 //已连接平台的总数量
                 mTvPlatformList.setText(String.format("%s ( %s )", mPlatformList, String.valueOf(size)));
-            }else {
+            } else {
                 dismissConnectedPlatforms();
                 mTvPlatformList.setText(String.format("%s", mPlatformList));
                 showAddNewPlatformBtn();
             }
-        }else {
+        } else {
             dismissConnectedPlatforms();
             mTvPlatformList.setText(String.format("%s", mPlatformList));
             showAddNewPlatformBtn();
@@ -373,20 +362,20 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
         getDefaultProvincialIdOrCityId(carInfoModel.getAdministrativeRegionCodeModelList());
     }
 
-    private void getDefaultPlateColor(List<CarColorModel> carColorModels){
+    private void getDefaultPlateColor(List<CarColorModel> carColorModels) {
         for (int i = 0; i < carColorModels.size(); i++) {
-            if (mPlateColorId.equals(carColorModels.get(i).getPlate_code())){
+            if (mPlateColorId.equals(carColorModels.get(i).getPlate_code())) {
                 mTvLicensePlateColor.setText(carColorModels.get(i).getPlate_color());
             }
         }
     }
 
-    private void getDefaultProvincialIdOrCityId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList){
+    private void getDefaultProvincialIdOrCityId(List<AdministrativeRegionCodeModel> administrativeRegionCodeModelList) {
         for (int i = 0; i < administrativeRegionCodeModelList.size(); i++) {
             AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(i);
             String provincialCode = administrativeRegionCodeModel.getCode();
             String provincialName = administrativeRegionCodeModel.getName();
-            if (provincialCode.substring(0, 2).equals(mProvincialDomainId)){
+            if (provincialCode.substring(0, 2).equals(mProvincialDomainId)) {
                 //省域Id
                 mTvProvincialDomainId.setText(provincialName);
                 List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
@@ -398,12 +387,12 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
                             for (int z = 0; z < area.size(); z++) {
                                 AdministrativeRegionCodeModel.CityBean.AreaBean areaBean = area.get(z);
                                 String areaBeanCode = areaBean.getCode();
-                                if (mCityDomainId.equals(areaBeanCode.substring(2))){
-                                    if (cityBean.getName().equals(mActivateDeviceActivity.getString(R.string.municipal_districts))){
+                                if (mCityDomainId.equals(areaBeanCode.substring(2))) {
+                                    if (cityBean.getName().equals(mActivateDeviceActivity.getString(R.string.municipal_districts))) {
                                         //市县域Id
-                                        mTvCityAndCountyId.setText( String.format("%s-%s",administrativeRegionCodeModel.getName(),areaBean.getName()));
-                                    }else {
-                                        mTvCityAndCountyId.setText(String.format("%s-%s-%s",administrativeRegionCodeModel.getName(),cityBean.getName(),areaBean.getName()));
+                                        mTvCityAndCountyId.setText(String.format("%s-%s", administrativeRegionCodeModel.getName(), areaBean.getName()));
+                                    } else {
+                                        mTvCityAndCountyId.setText(String.format("%s-%s-%s", administrativeRegionCodeModel.getName(), cityBean.getName(), areaBean.getName()));
                                     }
                                 }
                             }
@@ -417,18 +406,8 @@ public class ActivateDevicePresenter implements IActivateDeviceContract.Presente
 
     //地标选择
     public void initLandmarkTypeColor(final List<LandmarkTypeModel.LandmarkBean> landmark) {
-        Log.i("protocolType","2222222");
-        Log.i("protocolType",landmark.size()+"");
         for (int i = 0; i < landmark.size(); i++) {
-            Log.i("protocolType",mLandmarkId+"#########");
-            Log.i("protocolType",landmark.get(i).getLandmark_type());
-            Log.i("protocolType",landmark.get(i).getLandmark_code());
-//            LandmarkTypeModel.LandmarkBean landmarkTypeModel = landmark.get(i);
-//            String landmark_type = landmarkTypeModel.getLandmark_type();
-//            String landmark_code = landmarkTypeModel.getLandmark_code();
-            Log.i("protocolType",mLandmarkId.equals(landmark.get(i).getLandmark_code())+"");
             if (mLandmarkId.equals(landmark.get(i).getLandmark_code())) {
-                Log.i("protocolType","4444444");
                 mTvLandmarkType.setText(landmark.get(i).getLandmark_type());
             }
         }

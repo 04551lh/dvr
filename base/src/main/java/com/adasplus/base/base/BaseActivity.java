@@ -61,12 +61,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void showNetRequestDialog() {
         int wh = (int) getResources().getDimension(R.dimen.dp_65);
-        mNetRequestDialog = CommonDialog.init()
-                .setView(mLoadView)
-                .setWidth(wh)
-                .setHeight(wh)
-                .setOutCancel(false)
-                .show(getSupportFragmentManager());
+        if(mNetRequestDialog == null){
+            mNetRequestDialog = CommonDialog.init()
+                    .setView(mLoadView)
+                    .setWidth(wh)
+                    .setHeight(wh)
+                    .setOutCancel(false)
+                    .show(getSupportFragmentManager());
+        }
+        else{
+            mNetRequestDialog.show(getSupportFragmentManager());
+        }
+
     }
 
     public void dismissNetRequestDialog() {

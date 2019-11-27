@@ -3,6 +3,7 @@ package com.adasplus.homepager.activate.adapter;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adasplus.base.dialog.BasicDialog;
 import com.adasplus.base.dialog.CommonDialog;
 import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.HttpConstant;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.popup.CommonPopupWindow;
 import com.adasplus.base.utils.ExceptionUtils;
+import com.adasplus.base.utils.ThreadPoolUtils;
 import com.adasplus.homepager.R;
 import com.adasplus.homepager.activate.activity.ActivateDeviceActivity;
 import com.adasplus.homepager.activate.mvp.model.GetPlatformInfoModel;
@@ -42,7 +45,7 @@ import rx.Subscriber;
  * Description :
  */
 public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPlatformsAdapter.ActivatedPlatformsViewHolder> {
-    private static final String  COLON = " : ";
+    private static final String COLON = " : ";
 
     private List<GetPlatformInfoModel.ArrayBean> mPlatformInfoArray;
     private ActivateDeviceActivity mActivateDeviceActivity;
@@ -54,8 +57,11 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
     private String mDisconnect;
     private String mRetryConnect;
     private String mNoConnected = "#FFAB03";
+    private BasicDialog mNetRequestDialog;
+    private View mLoadView;
+    private TextView mTvSetLoadContent;
 
-    public void setData(List<GetPlatformInfoModel.ArrayBean> platformInfoArray,ActivateDeviceActivity activateDeviceActivity) {
+    public void setData(List<GetPlatformInfoModel.ArrayBean> platformInfoArray, ActivateDeviceActivity activateDeviceActivity) {
         mPlatformInfoArray = platformInfoArray;
         mActivateDeviceActivity = activateDeviceActivity;
         mConfirmTheCancellation = mActivateDeviceActivity.getResources().getString(R.string.confirm_the_cancellation);
@@ -64,7 +70,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         mConfirm = mActivateDeviceActivity.getResources().getString(R.string.confirm);
         mMargin = mActivateDeviceActivity.getResources().getDimension(R.dimen.dp_12);
         mDisconnect = mActivateDeviceActivity.getString(R.string.disconnect);
-        mRetryConnect =  mActivateDeviceActivity.getString(R.string.retry_connect);
+        mRetryConnect = mActivateDeviceActivity.getString(R.string.retry_connect);
     }
 
     @NonNull
@@ -81,8 +87,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         String platform_ip_address = mActivateDeviceActivity.getResources().getString(R.string.platform_ip_address);
         String platform_port = mActivateDeviceActivity.getResources().getString(R.string.platform_port);
 
-        holder.mTvPlatformIpAddress.setText(platform_ip_address+COLON);
-        holder.mTvPlatformPort.setText(platform_port+COLON);
+        holder.mTvPlatformIpAddress.setText(platform_ip_address + COLON);
+        holder.mTvPlatformPort.setText(platform_port + COLON);
 
 
         final GetPlatformInfoModel.ArrayBean arrayBean = mPlatformInfoArray.get(position);
@@ -93,24 +99,24 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         //设置部标平台的IP 地址
         holder.mTvPlatformIpAddressValue.setText(platformIp);
         //设置部标平台的端口号
-        holder.mTvPlatformPortValue.setText(platformPort+"");
+        holder.mTvPlatformPortValue.setText(platformPort + "");
         //平台列表的更多操作
         holder.mIvPlatformsMoreOperation.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                platformMoreOperation(holder.mIvPlatformsMoreOperation,position);
+                platformMoreOperation(holder.mIvPlatformsMoreOperation, position);
             }
         });
 
         //终端连接状态
-        if (connectStatus == 0){
+        if (connectStatus == 0) {
             holder.mTvPlatformConnectStatus.setText(R.string.link_disconnection);
             holder.mTvPlatformConnectStatus.setTextColor(Color.RED);
-        }else if (connectStatus == 1){
+        } else if (connectStatus == 1) {
             holder.mTvPlatformConnectStatus.setText(R.string.not_connected);
             holder.mTvPlatformConnectStatus.setTextColor(Color.parseColor(mNoConnected));
-        }else if (connectStatus == 2){
+        } else if (connectStatus == 2) {
             holder.mTvPlatformConnectStatus.setText(R.string.connected);
             holder.mTvPlatformConnectStatus.setTextColor(Color.GREEN);
         }
@@ -126,7 +132,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mActivateDeviceActivity,e);
+                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
             }
 
             @Override
@@ -134,7 +140,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 //查询当前 808 服务的运行状态，如果808服务未启动的话，
                 // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
                 int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
-                if (jt808ServiceStatus == 0){
+                if (jt808ServiceStatus == 0) {
                     Toast.makeText(mActivateDeviceActivity, R.string.jt_808_service_status, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -145,9 +151,9 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 TextView tv_logout_platform = view.findViewById(R.id.tv_logout_platform);
                 TextView tv_update_connect_status = view.findViewById(R.id.tv_update_connect_status);
 
-                if (connectStatus == 2){
+                if (connectStatus == 2) {
                     tv_update_connect_status.setText(mDisconnect);
-                }else if (connectStatus == 1 || connectStatus == 0){
+                } else if (connectStatus == 1 || connectStatus == 0) {
                     tv_update_connect_status.setText(mRetryConnect);
                 }
 
@@ -158,7 +164,16 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                         .setOutsideTouchable(true)
                         .setView(view)
                         .create();
-                commonPopupWindow.showAsDropDown(ivPlatformsMoreOperation,0,20, Gravity.RIGHT);
+                commonPopupWindow.showAsDropDown(ivPlatformsMoreOperation, 0, 20, Gravity.RIGHT);
+
+                mLoadView = View.inflate(mActivateDeviceActivity, com.adasplus.base.R.layout.dialog_load_progress, null);
+                mTvSetLoadContent = mLoadView.findViewById(com.adasplus.base.R.id.tv_text_content);
+                int wh = (int) mActivateDeviceActivity.getResources().getDimension(com.adasplus.base.R.dimen.dp_65);
+                mNetRequestDialog = CommonDialog.init()
+                        .setView(mLoadView)
+                        .setWidth(wh)
+                        .setHeight(wh)
+                        .setOutCancel(false);
 
                 tv_logout_platform.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -171,7 +186,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                 tv_update_connect_status.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        updateDeviceConnectStatus(arrayBean,position);
+                        updateDeviceConnectStatus(arrayBean, position);
                         commonPopupWindow.dismiss();
                     }
                 });
@@ -181,7 +196,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     }
 
-    private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean, final int position){
+    private void updateDeviceConnectStatus(final GetPlatformInfoModel.ArrayBean arrayBean, final int position) {
         int connectStatus = arrayBean.getConnectStatus();
         View view = View.inflate(mActivateDeviceActivity, R.layout.dialog_common_styles, null);
         TextView tv_dialog_title = view.findViewById(R.id.tv_dialog_title);
@@ -191,10 +206,10 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
         String disconnect_tips = mActivateDeviceActivity.getString(R.string.disconnect_tips);
         String retry_connect_tips = mActivateDeviceActivity.getString(R.string.retry_connect_tips);
 
-        if (connectStatus == 2 ){
+        if (connectStatus == 2) {
             tv_dialog_title.setText(mDisconnect);
             tv_dialog_description.setText(disconnect_tips);
-        }else if (connectStatus == 0 || connectStatus == 1){
+        } else if (connectStatus == 0 || connectStatus == 1) {
             tv_dialog_title.setText(mRetryConnect);
             tv_dialog_description.setText(retry_connect_tips);
         }
@@ -228,7 +243,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                     jobj.put("platformPort", Short.valueOf(String.valueOf(platformPort)));
                     jobj.put("connectStatus", arrayBean.getConnectStatus() == 2 ? 0 : 1);
                     jarr.put(jobj);
-                    jsonObject.put("Array",jarr);
+                    jsonObject.put("Array", jarr);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -241,31 +256,46 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
                     @Override
                     public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity,e);
+                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
                     }
 
                     @Override
                     public void onNext(UpdateDeviceConnectStatus updateDeviceConnectStatus) {
-                        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                        basicDialog.dismiss();
+                        mNetRequestDialog.show(mActivateDeviceActivity.getSupportFragmentManager());
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
                             @Override
-                            public void onCompleted() {
+                            public void run() {
+                                /**
+                                 *要执行的操作
+                                 */
+                                HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                                    @Override
+                                    public void onCompleted() {
 
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        mActivateDeviceActivity.dismissNetRequestDialog();
+                                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+                                    }
+
+                                    @Override
+                                    public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                                        if (mNetRequestDialog != null && mNetRequestDialog.isAdded())
+                                        mNetRequestDialog.dismiss();
+                                        mPlatformInfoArray = getPlatformInfoModel.getArray();
+                                        mActivateDeviceActivity.notifyPlatformsSizeShow();
+                                        arrayBean.setConnectStatus(mPlatformInfoArray.get(position).getConnectStatus());
+                                        notifyDataSetChanged();
+                                    }
+                                });
                             }
+                        }, 2000);//2秒后执行Runnable中的run方法
 
-                            @Override
-                            public void onError(Throwable e) {
-                                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
-                            }
 
-                            @Override
-                            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
-                                mPlatformInfoArray = getPlatformInfoModel.getArray();
-                                mActivateDeviceActivity.notifyPlatformsSizeShow();
-                                arrayBean.setConnectStatus(mPlatformInfoArray.get(position).getConnectStatus());
-                                notifyDataSetChanged();
-                                basicDialog.dismiss();
-                                }
-                        });
                     }
                 });
             }
@@ -304,8 +334,8 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
             public void onClick(View v) {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("platformIp",arrayBean.getPlatformIp());
-                    jsonObject.put("platformPort",arrayBean.getPlatformPort());
+                    jsonObject.put("platformIp", arrayBean.getPlatformIp());
+                    jsonObject.put("platformPort", arrayBean.getPlatformPort());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -318,35 +348,52 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
                     @Override
                     public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity,e);
+                        if (mNetRequestDialog != null && mNetRequestDialog.isAdded())
+                            mNetRequestDialog.dismiss();
+                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
                     }
 
                     @Override
                     public void onNext(LogoutPlatformsModel logoutPlatformsModel) {
-
-                        HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                        basicDialog.dismiss();
+                        mNetRequestDialog.show(mActivateDeviceActivity.getSupportFragmentManager());
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
                             @Override
-                            public void onCompleted() {
+                            public void run() {
+                                /**
+                                 *要执行的操作
+                                 */
+                                HomeWrapper.getInstance().getPlatformInfoModel().subscribe(new Subscriber<GetPlatformInfoModel>() {
+                                    @Override
+                                    public void onCompleted() {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
-                            }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        if (mNetRequestDialog != null && mNetRequestDialog.isAdded())
+                                            mNetRequestDialog.dismiss();
+                                        ExceptionUtils.exceptionHandling(mActivateDeviceActivity, e);
+                                    }
 
-                            @Override
-                            public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
-                                mPlatformInfoArray = getPlatformInfoModel.getArray();
-                                if(mPlatformInfoArray.size() == 0){
-                                    mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
-                                    mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
-                                }
-                                mPlatformInfoArray.remove(arrayBean);
-                                notifyDataSetChanged();
-                                basicDialog.dismiss();
+                                    @Override
+                                    public void onNext(GetPlatformInfoModel getPlatformInfoModel) {
+                                        if (mNetRequestDialog != null && mNetRequestDialog.isAdded())
+                                            mNetRequestDialog.dismiss();
+                                        mPlatformInfoArray = getPlatformInfoModel.getArray();
+                                        if (mPlatformInfoArray.size() == 0) {
+                                            mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
+                                            mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
+                                        }
+                                        mPlatformInfoArray.remove(arrayBean);
+                                        notifyDataSetChanged();
+                                    }
+                                });
                             }
-                        });
+                        }, 2000);//3秒后执行Runnable中的run方法
+
+
                     }
                 });
             }
@@ -360,13 +407,13 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
 
     class ActivatedPlatformsViewHolder extends RecyclerView.ViewHolder {
 
-//        private TextView mTvPlatformCancellation;
+        //        private TextView mTvPlatformCancellation;
         private TextView mTvPlatformIpAddress;
         private TextView mTvPlatformIpAddressValue;
         private TextView mTvPlatformPort;
         private TextView mTvPlatformPortValue;
         private TextView mTvPlatformConnectStatus;
-//        private TextView mTvUpdateConnectStatus;
+        //        private TextView mTvUpdateConnectStatus;
         private ImageView mIvPlatformsMoreOperation;
 
         ActivatedPlatformsViewHolder(@NonNull View itemView) {

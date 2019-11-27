@@ -223,28 +223,28 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                 break;
             case R.id.ll_video_show:
                 if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.terminal_communication_services_disconnect);
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
                 break;
             case R.id.ll_adas_calibration:
                 if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.terminal_communication_services_disconnect);
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.PARAMS_PATH);
                 break;
             case R.id.ll_terminal_set:
                 if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.terminal_communication_services_disconnect);
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 startActivity(ActivityPathConstant.SETTINGS_PATH);
                 break;
             case R.id.ll_platforms_connect:
                 if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.terminal_communication_services_disconnect);
+                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
                 BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {

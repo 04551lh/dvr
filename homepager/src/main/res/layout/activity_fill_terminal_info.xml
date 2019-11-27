@@ -63,7 +63,8 @@
         </RelativeLayout>
 
 
-        <LinearLayout style="@style/LinearLayoutFillDataStyle">
+        <LinearLayout style="@style/LinearLayoutFillDataStyle"
+            android:visibility="visible">
 
             <TextView
                 style="@style/TvActivateText"

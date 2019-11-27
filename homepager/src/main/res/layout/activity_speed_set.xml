@@ -331,6 +331,7 @@
                             app:ssb_show_thumb_shadow="false"
                             app:ssb_sign_show_border="true"
                             app:ssb_thumb_radius_on_dragging="@dimen/dp_9"
+                            app:ssb_max="150"
                             app:ssb_thumb_radius="@dimen/dp_16"
                             app:ssb_sign_border_size="@dimen/dp_1"
                             app:ssb_sign_border_color="@color/under_line_color"
