@@ -182,7 +182,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
             tvTitle.setText(platform_connect);
             initLicensePlateColor(mCarInfoModel.getCarColor());
             initProvincialDomainId(mCarInfoModel.getAdministrativeRegionCodeModelList());
-            initCityAndCountyId(mCarInfoModel.getAdministrativeRegionCodeModelList());
+//            initCityAndCountyId(mCarInfoModel.getAdministrativeRegionCodeModelList());
             initLandmarkTypeColor(mLandmarkTypeList);
             isFirst = false;
         } else {
@@ -289,6 +289,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         } else {
             List<String> cityIdList = new ArrayList<>();//该省的城市列表（第二级）
             final List<ArrayList<String>> areaIdList = new ArrayList<>();
+            Log.i("YZG",administrativeRegionCodeModelList.size()+"");
             AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(mProvincialDomainPositionId);
             List<AdministrativeRegionCodeModel.CityBean> city = administrativeRegionCodeModel.getCity();
             if (city != null && city.size() > 0) {
@@ -391,7 +392,9 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
         mProvincialDomainIdPickerView = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
+
                 mProvincialDomainPositionId = options1;
+                Log.i("YZG",mProvincialDomainPositionId+"");
                 AdministrativeRegionCodeModel administrativeRegionCodeModel = administrativeRegionCodeModelList.get(options1);
                 String code = administrativeRegionCodeModel.getCode();
                 mProvincialDomainId = code.substring(0, 2);
@@ -572,7 +575,7 @@ public class FillTerminalInfoPresenter implements IFillTerminalInfoContract.Pres
                 mLandmarkTypePickerView.show();
             }
         } else if (i == R.id.tv_city_and_county_id) {
-            initCityAndCountyId(mAdministrativeRegionCodeModelList);
+            initCityAndCountyId(mCarInfoModel.getAdministrativeRegionCodeModelList());
             if (mCityAndCountyIdPickerView != null) {
                 mCityAndCountyIdPickerView.show();
             }

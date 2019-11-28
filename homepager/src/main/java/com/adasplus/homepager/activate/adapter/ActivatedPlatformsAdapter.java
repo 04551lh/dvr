@@ -385,6 +385,7 @@ public class ActivatedPlatformsAdapter extends RecyclerView.Adapter<ActivatedPla
                                         if (mPlatformInfoArray.size() == 0) {
                                             mActivateDeviceActivity.getLlAddNewPlatform().setEnabled(true);
                                             mActivateDeviceActivity.getLlAddNewPlatform().setVisibility(View.VISIBLE);
+                                            mActivateDeviceActivity.getTvPlatformList().setText(String.format("%s",mActivateDeviceActivity.getString(R.string.platform_list)));
                                         }
                                         mPlatformInfoArray.remove(arrayBean);
                                         notifyDataSetChanged();
