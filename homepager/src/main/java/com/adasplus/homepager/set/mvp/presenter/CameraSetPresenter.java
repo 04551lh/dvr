@@ -69,21 +69,18 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
 
             @Override
             public void onNext(ManualWarningSoundModel warningSoundModel) {
-                if(warningSoundModel.getSwitchStatus() == 0){
+                if(warningSoundModel.getSwitchStatus() == 1){
                     mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_open_icon);
                     mSoundSwitch = 1;
-                    mSoundType = 0;
+                    mSoundType = 1;
                     mTvWarningSoundSave.setText("滴滴");
 
                 }else{
                     mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_close_icon);
                     mSoundSwitch = 0;
-                    mSoundType = 1;
+                    mSoundType = 0;
                     mTvWarningSoundSave.setText("保存");
                 }
-
-                mCameraSetActivity.showToast(R.string.setting_success);
-                mCameraSetActivity.finish();
             }
         });
     }
@@ -140,13 +137,13 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
             if(mSoundSwitch == 0){
                 mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mSoundSwitch = 1;
-                mSoundType = 0;
-                mTvWarningSoundSave.setText("保存");
+                mSoundType = 1;
+                mTvWarningSoundSave.setText("滴滴");
             }else{
                 mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_close_icon);
                 mSoundSwitch = 0;
-                mSoundType = 1;
-                mTvWarningSoundSave.setText("滴滴");
+                mSoundType = 0;
+                mTvWarningSoundSave.setText("保存");
             }
         }else if(id == R.id.tv_warning_sound__save){
 
