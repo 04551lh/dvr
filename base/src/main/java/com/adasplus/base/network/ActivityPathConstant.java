@@ -13,6 +13,9 @@ public class ActivityPathConstant {
     //视频展示的Activity
     public static final String VIDEO_SHOW_PATH = "/video/videoShow";
 
+    //视频展示的Activity
+    public static final String CAMERA_SET_PATH = "/camera/cameraSet";
+
     //填写终端信息的Activity
     public static final String FILL_TERMINAL_INFO_PATH = "/platforms/terminalInfo";
 

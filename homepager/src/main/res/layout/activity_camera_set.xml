@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".set.activity.CameraSetActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_camera_set_back"
+            style="@style/CommonTitleImageBackStyle" />
+
+        <TextView
+            android:text="@string/camera_setting"
+            style="@style/CommonTitleTvStyle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:textColor="@color/system_navigation_bar_color"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:textSize="@dimen/sp_10"
+            android:background="@android:color/white"
+            android:text="@string/camera_setting"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="@dimen/dp_16">
+            <TextView
+                style="@style/RequiredFlag"
+                android:text="@string/required_flag" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/open_or_close"
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:id="@+id/iv_camera_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/switch_close_icon"
+                android:visibility="visible" />
+
+        </LinearLayout>
+        <View style="@style/UnderLineStyle" />
+
+        <TextView
+            android:id="@+id/tv_camera_save"
+            style="@style/CommonSaveBtnStyle"/>
+    </LinearLayout>
+
+    <View style="@style/UnderLineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:textColor="@color/system_navigation_bar_color"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:textSize="@dimen/sp_10"
+            android:background="@android:color/white"
+            android:text="报警声音设置"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:padding="@dimen/dp_16">
+            <TextView
+                style="@style/RequiredFlag"
+                android:text="@string/required_flag" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/open_or_close"
+                android:textColor="@color/font_color_333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:id="@+id/iv_warning_sound_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/switch_close_icon"
+                android:visibility="visible" />
+
+        </LinearLayout>
+        <View style="@style/UnderLineStyle" />
+
+        <TextView
+            android:id="@+id/tv_warning_sound__save"
+            style="@style/CommonSaveBtnStyle"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

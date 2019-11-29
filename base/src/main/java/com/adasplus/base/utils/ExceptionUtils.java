@@ -61,7 +61,7 @@ public class ExceptionUtils {
     private static final int  STORAGE_RELATED_SERVICE_EXCEPTION = -31;
     private static final int  EXPORTING_FILE = -32;
 
-    private static final String TERMINAL_SERVICE_EXCEPTION = "Failed to connect to /" + HttpConstant.USB_SERVER_IP_ADDRESS;
+    private static final String TERMINAL_SERVICE_EXCEPTION = "Failed to connect to /" + HttpConstant.WIFI_SERVER_IP_ADDRESS;
 
 
     public static void exceptionHandling(Context context

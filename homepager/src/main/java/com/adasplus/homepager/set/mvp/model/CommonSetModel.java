@@ -9,4 +9,6 @@ import com.adasplus.homepager.set.mvp.contract.ICommonSetContract;
  * Description :
  */
 public class CommonSetModel implements ICommonSetContract.Model {
+
+
 }

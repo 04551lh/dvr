@@ -11,9 +11,11 @@ import com.adasplus.homepager.params.mvp.model.RestoreDefaultParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
 import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
+import com.adasplus.homepager.set.mvp.model.CameraSetModel;
 import com.adasplus.homepager.set.mvp.model.DMSWarningModel;
 import com.adasplus.homepager.set.mvp.model.DeviceFormatModel;
 import com.adasplus.homepager.set.mvp.model.DormancySetModel;
+import com.adasplus.homepager.set.mvp.model.ManualWarningSoundModel;
 import com.adasplus.homepager.set.mvp.model.NetworkSetModel;
 import com.adasplus.homepager.set.mvp.model.ResetFactoryModel;
 import com.adasplus.homepager.set.mvp.model.RestartDeviceModel;
@@ -257,5 +259,22 @@ public class HomeWrapper extends RetrofitHelper {
     public Observable<RestoreDefaultParamsSetModel> restoreDefaultParamsSet(){
         IHomeService homeService = createServiceFrom(IHomeService.class);
         return homeService.restoreDefaultParamsSet().compose(this.<RestoreDefaultParamsSetModel>applySchedulers());
+    }
+
+    public Observable<CameraSetModel> updateCameraSet(JSONObject jsonObject) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.updateCameraSet(requestBody).compose(this.<CameraSetModel>applySchedulers());
+    }
+
+    public Observable<ManualWarningSoundModel> getManualWarningSound(){
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.getManualWarningSound().compose(this.<ManualWarningSoundModel>applySchedulers());
+    }
+
+    public Observable<ManualWarningSoundModel> updateManualWarningSound(JSONObject jsonObject) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.updateManualWarningSound(requestBody).compose(this.<ManualWarningSoundModel>applySchedulers());
     }
 }

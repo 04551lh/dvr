@@ -54,6 +54,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private ImageView mIvLeftTurnStatus;
     private ImageView mIvRightTurnStatus;
     private ImageView mIvBrakeStatus;
+    private LinearLayout mLlCameraSet;
     private ImageView mIvTargetsPlatformStatus;
     private boolean mUSB = true;
 
@@ -172,6 +173,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mTvCarSpeed = view.findViewById(R.id.tv_car_speed);
         mTvLocationInfo = view.findViewById(R.id.tv_location_info);
         mLlDeviceConnect = view.findViewById(R.id.ll_device_connect);
+        mLlCameraSet = view.findViewById(R.id.ll_camera_set);
         mLlVideoShow = view.findViewById(R.id.ll_video_show);
         mLlPlatformsConnect = view.findViewById(R.id.ll_platforms_connect);
         mLlADASCalibration = view.findViewById(R.id.ll_adas_calibration);
@@ -192,6 +194,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     public void setClickEvent(View view) {
         mLlDeviceConnect.setOnClickListener(this);
         mLlVideoShow.setOnClickListener(this);
+        mLlCameraSet.setOnClickListener(this);
         mLlPlatformsConnect.setOnClickListener(this);
         mLlADASCalibration.setOnClickListener(this);
         mLlTerminalSet.setOnClickListener(this);
@@ -229,6 +232,14 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                 }
                 startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
                 break;
+            case R.id.ll_camera_set:
+                if (mUSB){
+                    ToastUtil.showToast(mActivity,R.string.please_check_network_is_available);
+                    return;
+                }
+                startActivity(ActivityPathConstant.CAMERA_SET_PATH);
+                break;
+
             case R.id.ll_adas_calibration:
                 if (mUSB){
                     ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);

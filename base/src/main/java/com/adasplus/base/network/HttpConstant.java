@@ -98,6 +98,12 @@ public class HttpConstant {
 
     public static final String UPDATE_VIDEO_SHOW = "/videoSwitchShowConfig";
 
+    public static final String UPDATE_CAMERA_SET = "/cameraSwitchRequest";
+
+    public static final String  GET_MANUAL_WARNING_SOUND = "/manualWarningSoundRequest";
+
+    public static final String  UPDATE_MANUAL_WARNING_SOUND = "/manualWarningSoundConfig";
+
     public static final String UPDATE_VIDEO_SET = "/videoConfig";
 
     public static final String UPDATE_DEVICE_CONNECT_STATUS = "/platformInfoConnectConfig";

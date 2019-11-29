@@ -3,7 +3,10 @@
     package="com.adasplus.homepager">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+
     <application>
+        <activity android:name=".set.activity.CameraSetActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".params.activity.ADASCalibrationActivity"
             android:screenOrientation="portrait"></activity>
         <activity

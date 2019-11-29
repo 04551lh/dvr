@@ -233,6 +233,47 @@
                         app:cardMaxElevation="@dimen/dp_3"
                         app:cardBackgroundColor="@android:color/white">
                         <LinearLayout
+                            android:id="@+id/ll_camera_set"
+                            android:layout_width="match_parent"
+                            android:background="@drawable/ll_click_bg_style"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="@dimen/dp_20"
+                                android:src="@mipmap/device_connect_icon"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/camera_setting"
+                                android:gravity="center_vertical"
+                                android:textSize="@dimen/sp_15"
+                                android:textColor="@android:color/black"
+                                android:layout_marginStart="@dimen/dp_20"/>
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/dp_21"
+                                android:src="@drawable/common_right_back_icon"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_50"
+                        android:layout_marginTop="@dimen/dp_13"
+                        android:layout_marginStart="@dimen/dp_20"
+                        android:layout_marginEnd="@dimen/dp_20"
+                        app:cardCornerRadius="@dimen/dp_8"
+                        app:cardElevation="@dimen/dp_3"
+                        app:cardMaxElevation="@dimen/dp_3"
+                        app:cardBackgroundColor="@android:color/white">
+                        <LinearLayout
                             android:id="@+id/ll_video_show"
                             android:layout_width="match_parent"
                             android:background="@drawable/ll_click_bg_style"

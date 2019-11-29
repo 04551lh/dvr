@@ -11,9 +11,12 @@ import com.adasplus.homepager.params.mvp.model.RestoreDefaultParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
 import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
+import com.adasplus.homepager.set.mvp.model.CameraSetModel;
+import com.adasplus.homepager.set.mvp.model.CommonSetModel;
 import com.adasplus.homepager.set.mvp.model.DMSWarningModel;
 import com.adasplus.homepager.set.mvp.model.DeviceFormatModel;
 import com.adasplus.homepager.set.mvp.model.DormancySetModel;
+import com.adasplus.homepager.set.mvp.model.ManualWarningSoundModel;
 import com.adasplus.homepager.set.mvp.model.NetworkSetModel;
 import com.adasplus.homepager.set.mvp.model.ResetFactoryModel;
 import com.adasplus.homepager.set.mvp.model.RestartDeviceModel;
@@ -231,4 +234,15 @@ public interface IHomeService {
 
     @POST(HttpConstant.RESTORE_DEFAULT_PARAMS_SET)
     Observable<BaseResponse<RestoreDefaultParamsSetModel>> restoreDefaultParamsSet();
+
+    @POST(HttpConstant.UPDATE_CAMERA_SET)
+    Observable<BaseResponse<CameraSetModel>> updateCameraSet(@Body RequestBody requestBody);
+
+    @POST(HttpConstant.GET_MANUAL_WARNING_SOUND)
+    Observable<BaseResponse<ManualWarningSoundModel>> getManualWarningSound();
+
+    @POST(HttpConstant.UPDATE_MANUAL_WARNING_SOUND)
+    Observable<BaseResponse<ManualWarningSoundModel>> updateManualWarningSound(@Body RequestBody requestBody);
+
+
 }

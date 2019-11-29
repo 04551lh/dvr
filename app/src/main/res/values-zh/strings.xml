@@ -90,4 +90,5 @@
     <string name="adas_calibration">ADAS标定</string>
     <string name="export_equipment">导出设备</string>
     <string name="no_export_device">没有导出设备</string>
+    <string name="camera_setting">摄像头设置</string>
 </resources>
