@@ -182,7 +182,7 @@
                     android:background="@android:color/white">
 
                     <androidx.cardview.widget.CardView
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_50"
                         android:layout_marginTop="@dimen/dp_50"
@@ -225,7 +225,7 @@
                         android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dp_50"
-                        android:layout_marginTop="@dimen/dp_50"
+                        android:layout_marginTop="@dimen/dp_13"
                         android:layout_marginStart="@dimen/dp_20"
                         android:layout_marginEnd="@dimen/dp_20"
                         app:cardCornerRadius="@dimen/dp_8"

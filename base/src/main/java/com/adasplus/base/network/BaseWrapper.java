@@ -1,5 +1,6 @@
 package com.adasplus.base.network;
 
+import com.adasplus.base.network.model.DriverInfoModel;
 import com.adasplus.base.network.model.ExportFileModel;
 import com.adasplus.base.network.model.FileExportModel;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
@@ -74,4 +75,5 @@ public class BaseWrapper extends RetrofitHelper {
         IBaseService baseService = createServiceFrom(IBaseService.class);
         return baseService.searchServiceRunStatus().compose(this.<SearchServiceRunStatusModel>applySchedulers());
     }
+
 }

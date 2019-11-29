@@ -479,7 +479,8 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
     }
 
     private void convertScanResult() {
-        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid("ky_test");
+//        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResultsBySsid("ky_test");
+        List<ScanResult> scanResults = WifiHelper.getInstance().getFilterScanResults();
         if (scanResults.size() > 0) {
             mRealWifiList.clear();
             if (!isNullOrEmpty(scanResults)) {

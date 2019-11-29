@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 
 import com.adasplus.base.network.ActivityPathConstant;
 import com.adasplus.base.network.BaseWrapper;
+import com.adasplus.base.network.model.DriverInfoModel;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
 import com.adasplus.base.network.model.SystemInfoModel;
 import com.adasplus.base.network.model.TerminalInfoModel;
@@ -247,6 +248,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                     ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
                     return;
                 }
+
                 BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                     @Override
                     public void onCompleted() {

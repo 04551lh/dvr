@@ -1,5 +1,6 @@
 package com.adasplus.base.network;
 
+import com.adasplus.base.network.model.DriverInfoModel;
 import com.adasplus.base.network.model.ExportFileModel;
 import com.adasplus.base.network.model.FileExportModel;
 import com.adasplus.base.network.model.SearchServiceRunStatusModel;
