@@ -221,45 +221,33 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        if(v.getId() ==  R.id.ll_device_connect){
+            startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
+            return;
+        }
+        if (mUSB){
+//                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
+            ToastUtil.showToast(mActivity,R.string.please_check_network_is_available);
+            return;
+        }
         switch (v.getId()){
-            case R.id.ll_device_connect:
-                startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
-                break;
+//            case R.id.ll_device_connect:
+//                startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
+//                break;
             case R.id.ll_video_show:
-                if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
-                    return;
-                }
                 startActivity(ActivityPathConstant.VIDEO_SHOW_PATH);
                 break;
             case R.id.ll_camera_set:
-                if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.please_check_network_is_available);
-                    return;
-                }
                 startActivity(ActivityPathConstant.CAMERA_SET_PATH);
                 break;
 
             case R.id.ll_adas_calibration:
-                if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
-                    return;
-                }
                 startActivity(ActivityPathConstant.PARAMS_PATH);
                 break;
             case R.id.ll_terminal_set:
-                if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
-                    return;
-                }
                 startActivity(ActivityPathConstant.SETTINGS_PATH);
                 break;
             case R.id.ll_platforms_connect:
-                if (mUSB){
-                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
-                    return;
-                }
-
                 BaseWrapper.getInstance().searchServiceRunStatus().subscribe(new Subscriber<SearchServiceRunStatusModel>() {
                     @Override
                     public void onCompleted() {

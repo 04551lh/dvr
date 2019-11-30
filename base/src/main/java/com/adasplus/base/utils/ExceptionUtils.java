@@ -139,7 +139,8 @@ public class ExceptionUtils {
         switch (reason) {
             case BAD_NETWORK:
 //                Toast.makeText(context, R.string.terminal_communication_services_disconnect, Toast.LENGTH_SHORT).show();
-                Toast.makeText(context,"请打开USB网络共享~", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"请打开USB网络共享~", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,R.string.please_check_network_is_available, Toast.LENGTH_SHORT).show();
                 break;
             case CONNECT_ERROR:
                 Toast.makeText(context, R.string.please_check_network_is_available, Toast.LENGTH_SHORT).show();

@@ -387,7 +387,7 @@ public class ConnectDevicePresenter implements IConnectDeviceContract.Presenter,
         ScanResult scanResult = WifiHelper.getInstance().getScanResult(wifiName);
         if (scanResult != null){
 //            if (scanResult.SSID.contains(HttpConstant.DEVICE_WIFI_TAG)){
-//                mLlConnectedWifi.setVisibility(View.VISIBLE);
+                mLlConnectedWifi.setVisibility(View.VISIBLE);
 //            }
             mTvWifiName.setText(String.format("\"%s\"", scanResult.SSID));
             int level = WifiHelper.getInstance().getLevel(scanResult.level);

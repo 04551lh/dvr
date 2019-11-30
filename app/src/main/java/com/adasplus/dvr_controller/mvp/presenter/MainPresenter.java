@@ -434,8 +434,15 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
-            switch (v.getId()) {
+
+        switch (v.getId()) {
                 case R.id.ll_home_pager:
+                    if (mUSB) {
+//                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
+//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+                        mMainActivity.showToast(R.string.please_check_network_is_available);
+                        return;
+                    }
                     initData();
                     mSrlRefreshLayout.setEnableRefresh(true);
                     clickTab(mHomeFragment);
@@ -443,16 +450,18 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
                 case R.id.ll_basic_info_pager:
                     if (mUSB) {
 //                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
-                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+                        mMainActivity.showToast(R.string.please_check_network_is_available);
                         return;
                     }
-                    mSrlRefreshLayout.setEnableRefresh(false);
+                 mSrlRefreshLayout.setEnableRefresh(false);
                     clickTab(mBasicInfoFragment);
                     break;
                 case R.id.ll_file_export_pager:
                     if (mUSB) {
 //                        ToastUtil.showToast(mMainActivity,R.string.terminal_communication_services_disconnect);
-                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+//                    mMainActivity.showToast(R.string.please_open_usb_network_share);
+                        mMainActivity.showToast(R.string.please_check_network_is_available);
                         return;
                     }
                     mSrlRefreshLayout.setEnableRefresh(false);
