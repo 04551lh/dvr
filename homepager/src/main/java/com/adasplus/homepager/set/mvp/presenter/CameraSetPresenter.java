@@ -53,9 +53,10 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
         mTvWarningSoundSave = mCameraSetView.getWarningSoundSave();
         mCameraSetModel = new CameraSetModel();
         mSwitch = 0;
-        mTvWarningSoundSave.setText("滴滴");
         mSoundSwitch = 1;
-        mSoundType = 1;
+        mSoundType = 0;
+        mTvWarningSoundSave.setText("滴滴");
+        mTvWarningSoundSave.setVisibility(View.GONE);
         HomeWrapper.getInstance().getManualWarningSound().subscribe(new Subscriber<ManualWarningSoundModel>() {
             @Override
             public void onCompleted() {
@@ -69,17 +70,16 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
 
             @Override
             public void onNext(ManualWarningSoundModel warningSoundModel) {
-                if(warningSoundModel.getSwitchStatus() == 1){
+                if (warningSoundModel.getSwitchStatus() == 1) {
                     mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_open_icon);
                     mSoundSwitch = 1;
-                    mSoundType = 1;
-                    mTvWarningSoundSave.setText("滴滴");
-
-                }else{
+                    mSoundType = 0;
+                    mTvWarningSoundSave.setVisibility(View.VISIBLE);
+                } else {
                     mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_close_icon);
                     mSoundSwitch = 0;
                     mSoundType = 0;
-                    mTvWarningSoundSave.setText("保存");
+                    mTvWarningSoundSave.setVisibility(View.GONE);
                 }
             }
         });
@@ -97,17 +97,17 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.iv_camera_set_back){
+        if (id == R.id.iv_camera_set_back) {
             mCameraSetActivity.finish();
-        }else if(id == R.id.iv_camera_switch){
-            if(mSwitch == 0){
+        } else if (id == R.id.iv_camera_switch) {
+            if (mSwitch == 0) {
                 mIvCameraSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mSwitch = 1;
-            }else{
+            } else {
                 mIvCameraSwitch.setImageResource(R.mipmap.switch_close_icon);
                 mSwitch = 0;
             }
-        }else if(id == R.id.tv_camera_save){
+        } else if (id == R.id.tv_camera_save) {
             mCameraSetModel.setSwitchX(mSwitch);
             String json = GsonUtils.getInstance().toJson(mCameraSetModel);
             try {
@@ -133,24 +133,22 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
                 e.printStackTrace();
             }
 
-        }else if(id == R.id.iv_warning_sound_switch){
-            if(mSoundSwitch == 0){
+        } else if (id == R.id.iv_warning_sound_switch) {
+            if (mSoundSwitch == 0) {
                 mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_open_icon);
                 mSoundSwitch = 1;
-                mSoundType = 1;
-                mTvWarningSoundSave.setText("滴滴");
-            }else{
+                mSoundType = 0;
+                mTvWarningSoundSave.setVisibility(View.VISIBLE);
+            } else {
                 mIvWarningSoundSwitch.setImageResource(R.mipmap.switch_close_icon);
                 mSoundSwitch = 0;
                 mSoundType = 0;
-                mTvWarningSoundSave.setText("保存");
+                mTvWarningSoundSave.setVisibility(View.GONE);
             }
-        }else if(id == R.id.tv_warning_sound__save){
-
             try {
                 JSONObject jobj = new JSONObject();
-                jobj.put("switchStatus",mSoundSwitch);
-                jobj.put("do",mSoundType);
+                jobj.put("switchStatus", mSoundSwitch);
+                jobj.put("do", mSoundType);
                 HomeWrapper.getInstance().updateManualWarningSound(jobj).subscribe(new Subscriber<ManualWarningSoundModel>() {
                     @Override
                     public void onCompleted() {
@@ -164,7 +162,32 @@ public class CameraSetPresenter implements ICameraSetContract.Presenter, View.On
 
                     @Override
                     public void onNext(ManualWarningSoundModel warningSoundModel) {
-                        if(mTvWarningSoundSave.getText().toString().trim().equals("保存")){
+                        mCameraSetActivity.showToast(R.string.setting_success);
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (id == R.id.tv_warning_sound__save) {
+            mSoundType = 1;
+            try {
+                JSONObject jobj = new JSONObject();
+                jobj.put("switchStatus", mSoundSwitch);
+                jobj.put("do", mSoundType);
+                HomeWrapper.getInstance().updateManualWarningSound(jobj).subscribe(new Subscriber<ManualWarningSoundModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ManualWarningSoundModel warningSoundModel) {
+                        if (mTvWarningSoundSave.getText().toString().trim().equals("保存")) {
                             mCameraSetActivity.showToast(R.string.setting_success);
                             mCameraSetActivity.finish();
                         }
