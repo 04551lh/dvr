@@ -9,6 +9,7 @@ import com.adasplus.homepager.activate.mvp.model.UpdateDeviceConnectStatus;
 import com.adasplus.homepager.params.mvp.model.ParamsSetModel;
 import com.adasplus.homepager.params.mvp.model.RestoreDefaultParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
+import com.adasplus.homepager.set.mvp.model.AlarmTTSIntervalSwitchModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
 import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
 import com.adasplus.homepager.set.mvp.model.CameraSetModel;
@@ -217,6 +218,17 @@ public class HomeWrapper extends RetrofitHelper {
     public Observable<VideoShowModel> getVideoShowData() {
         IHomeService homeService = createServiceFrom(IHomeService.class);
         return homeService.getVideoShowData().compose(this.<VideoShowModel>applySchedulers());
+    }
+
+   public Observable<AlarmTTSIntervalSwitchModel> getAlarmSwitchData() {
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        return homeService.getAlarmSwitchData().compose(this.<AlarmTTSIntervalSwitchModel>applySchedulers());
+    }
+
+    public Observable<AlarmTTSIntervalSwitchModel> updateAlarmSwitchData(JSONObject jsonObject) {
+        IHomeService homeService = createServiceFrom(IHomeService.class);
+        RequestBody requestBody = RequestBody.create(MediaType.parse(HttpConstant.MEDIA_TYPE), jsonObject.toString());
+        return homeService.updateAlarmSwitchData(requestBody).compose(this.<AlarmTTSIntervalSwitchModel>applySchedulers());
     }
 
     public Observable<VideoSetModel> updateVideoShowData(JSONObject jsonObject) {

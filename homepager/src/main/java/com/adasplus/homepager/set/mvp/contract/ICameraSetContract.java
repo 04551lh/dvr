@@ -17,12 +17,15 @@ public interface ICameraSetContract {
         ImageView getIvCameraSetBack();
 
         ImageView getIvCameraSwitch();
-
         TextView getTvCameraSave();
 
         ImageView getIvWarningSoundSwitch();
-
         TextView getWarningSoundSave();
+
+        ImageView getIvWarningSixSwitch();
+        ImageView getIvWarningThreeSwitch();
+        ImageView getIvWarningDefaultSwitch();
+        TextView getWarningSecondSave();
     }
 
     interface Presenter {

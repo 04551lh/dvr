@@ -96,6 +96,10 @@ public class HttpConstant {
 
     public static final String GET_VIDEO_SHOW_DATA = "/videoSwitchShowRequest";
 
+    public static final String GET_ALARM_SWITCH = "/alarmTTSIntervalSwitchRequest";
+
+    public static final String UPDATE_ALARM_SWITCH = "/alarmTTSIntervalSwitchConfig";
+
     public static final String UPDATE_VIDEO_SHOW = "/videoSwitchShowConfig";
 
     public static final String UPDATE_CAMERA_SET = "/cameraSwitchRequest";

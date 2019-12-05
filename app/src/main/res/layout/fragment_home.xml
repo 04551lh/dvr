@@ -248,7 +248,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
-                                android:text="@string/camera_setting"
+                                android:text="过检设置"
                                 android:gravity="center_vertical"
                                 android:textSize="@dimen/sp_15"
                                 android:textColor="@android:color/black"

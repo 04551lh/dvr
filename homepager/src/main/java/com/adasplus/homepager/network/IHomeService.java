@@ -9,6 +9,7 @@ import com.adasplus.homepager.activate.mvp.model.UpdateDeviceConnectStatus;
 import com.adasplus.homepager.params.mvp.model.ParamsSetModel;
 import com.adasplus.homepager.params.mvp.model.RestoreDefaultParamsSetModel;
 import com.adasplus.homepager.set.mvp.model.ADASWarningModel;
+import com.adasplus.homepager.set.mvp.model.AlarmTTSIntervalSwitchModel;
 import com.adasplus.homepager.set.mvp.model.CANChannelsModel;
 import com.adasplus.homepager.set.mvp.model.CalibrationSetModel;
 import com.adasplus.homepager.set.mvp.model.CameraSetModel;
@@ -225,6 +226,12 @@ public interface IHomeService {
 
     @POST(HttpConstant.GET_VIDEO_SHOW_DATA)
     Observable<BaseResponse<VideoShowModel>> getVideoShowData();
+
+    @POST(HttpConstant.GET_ALARM_SWITCH)
+    Observable<BaseResponse<AlarmTTSIntervalSwitchModel>> getAlarmSwitchData();
+
+    @POST(HttpConstant.UPDATE_ALARM_SWITCH)
+    Observable<BaseResponse<AlarmTTSIntervalSwitchModel>> updateAlarmSwitchData(@Body RequestBody requestBody);
 
     @POST(HttpConstant.UPDATE_VIDEO_SHOW)
     Observable<BaseResponse<VideoSetModel>>  updateVideoShowData(@Body RequestBody requestBody);
