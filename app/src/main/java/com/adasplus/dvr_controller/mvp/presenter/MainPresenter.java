@@ -364,14 +364,14 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
             fragmentTransaction.hide(mHomeFragment);
         }
 
-        if (!mBasicInfoFragment.isAdded()) {
-            fragmentTransaction.add(R.id.fl_frame_layout, mBasicInfoFragment);
-            fragmentTransaction.hide(mBasicInfoFragment);
-        }
-
         if (!mFileExportFragment.isAdded()) {
             fragmentTransaction.add(R.id.fl_frame_layout, mFileExportFragment);
             fragmentTransaction.hide(mFileExportFragment);
+        }
+
+        if (!mBasicInfoFragment.isAdded()) {
+            fragmentTransaction.add(R.id.fl_frame_layout, mBasicInfoFragment);
+            fragmentTransaction.hide(mBasicInfoFragment);
         }
 
 
@@ -383,8 +383,8 @@ public class MainPresenter implements IMainContract.Presenter, View.OnClickListe
 
     private void hideAllFragment(FragmentTransaction fragmentTransaction) {
         fragmentTransaction.hide(mHomeFragment);
-        fragmentTransaction.hide(mBasicInfoFragment);
         fragmentTransaction.hide(mFileExportFragment);
+        fragmentTransaction.hide(mBasicInfoFragment);
     }
 
     private void clickTab(Fragment fragment) {

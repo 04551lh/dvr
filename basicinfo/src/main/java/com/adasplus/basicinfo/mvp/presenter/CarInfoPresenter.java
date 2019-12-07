@@ -138,6 +138,7 @@ public class CarInfoPresenter implements ICarInfoContract.Presenter, View.OnClic
                 if (TextUtils.isEmpty(phoneNumber)){
                     mLlCarInfo.setVisibility(View.GONE);
                     mTvNoData.setVisibility(View.VISIBLE);
+                    return;
                 }else {
                     mLlCarInfo.setVisibility(View.VISIBLE);
                     mTvNoData.setVisibility(View.GONE);
@@ -178,7 +179,7 @@ public class CarInfoPresenter implements ICarInfoContract.Presenter, View.OnClic
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.iv_back){
+        if (id == R.id.iv_car_back){
             mCarInfoActivity.finish();
         }
     }

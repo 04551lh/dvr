@@ -83,6 +83,36 @@
         android:layout_marginBottom="@dimen/dp_10"
         app:cardBackgroundColor="@android:color/white">
         <LinearLayout
+            android:id="@+id/ll_file_export"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/file_export_unchecked_icon"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                style="@style/tvTextShow"
+                android:layout_height="@dimen/dp_45"
+                android:text="@string/files_export"
+                android:textSize="@dimen/sp_15"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/common_right_back_icon"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardBackgroundColor="@android:color/white">
+        <LinearLayout
             android:id="@+id/ll_system_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

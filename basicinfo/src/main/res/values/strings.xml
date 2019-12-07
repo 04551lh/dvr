@@ -144,4 +144,6 @@
     <string name="disk_status_no">未使用</string>
 
     <string name="camera">镜头</string>
+    <string name="no_car_infor">请到平台连接菜单中填写车辆基本信息</string>
+    <string name="no_id_infor">请到平台连接菜单中填写车辆基本信息</string>
 </resources>

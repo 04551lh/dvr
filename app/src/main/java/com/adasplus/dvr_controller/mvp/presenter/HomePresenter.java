@@ -2,12 +2,17 @@ package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.cardview.widget.CardView;
 
 import com.adasplus.base.network.ActivityPathConstant;
@@ -21,6 +26,7 @@ import com.adasplus.base.utils.ToastUtil;
 import com.adasplus.dvr_controller.R;
 import com.adasplus.dvr_controller.mvp.contract.IHomeContract;
 import com.alibaba.android.arouter.launcher.ARouter;
+
 import java.util.List;
 
 import rx.Subscriber;
@@ -57,6 +63,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
     private LinearLayout mLlCameraSet;
     private ImageView mIvTargetsPlatformStatus;
     private boolean mUSB = true;
+    private TextView mTvTips;
 
     public HomePresenter(Activity activity) {
         mActivity = activity;
@@ -76,93 +83,93 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         int brakeStatus = vehicleStatusInfo.getBrakeStatus();
         int speed = vehicleStatusInfo.getSpeed();
         SystemInfoModel.FourGBean fourG = systemInfoModel.getFourG();
-        int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6 ;
+        int fourGLSignalLevel = fourG.getFourGSignalLevel() / 6;
 
         //定位状态
         int gpsValid = gps.getGpsValid();
-        if (ONE ==  gpsValid){
+        if (ONE == gpsValid) {
             mIvLocationStatus.setImageResource(R.drawable.location_signal_checked_icon);
-        }else if (ZERO == gpsValid){
+        } else if (ZERO == gpsValid) {
             mIvLocationStatus.setImageResource(R.drawable.location_signal_unchecked_icon);
         }
 
         //近光灯状态 0:已接入，未开启 1: 已接入，打开 2: 已接入，关闭
-        if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus){
+        if (ZERO == nearTurnLightStatus || TWO == nearTurnLightStatus) {
             mIvNearLightStatus.setImageResource(R.drawable.near_light_unchecked_icon);
-        }else if (ONE == nearTurnLightStatus){
+        } else if (ONE == nearTurnLightStatus) {
             mIvNearLightStatus.setImageResource(R.drawable.near_light_checked_icon);
         }
 
         //远光灯状态
-        if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus){
+        if (ZERO == farTurnLightStatus || TWO == farTurnLightStatus) {
             mIvFarLightStatus.setImageResource(R.drawable.far_light_unchecked_icon);
-        }else if (ONE == farTurnLightStatus){
+        } else if (ONE == farTurnLightStatus) {
             mIvFarLightStatus.setImageResource(R.drawable.far_light_checked_icon);
         }
 
         //左转向灯状态
-        if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus){
+        if (ZERO == leftTurnLightStatus || TWO == leftTurnLightStatus) {
             mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_unchecked_icon);
-        }else if (ONE == leftTurnLightStatus){
+        } else if (ONE == leftTurnLightStatus) {
             mIvLeftTurnStatus.setImageResource(R.drawable.left_turn_signal_checked_icon);
         }
 
         //右转向灯状态
-        if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus){
+        if (ZERO == rightTurnLightStatus || TWO == rightTurnLightStatus) {
             mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_unchecked_icon);
-        }else if (ONE == rightTurnLightStatus){
+        } else if (ONE == rightTurnLightStatus) {
             mIvRightTurnStatus.setImageResource(R.drawable.right_turn_signal_checked_icon);
         }
 
         //刹车状态
-        if (ONE == brakeStatus){
+        if (ONE == brakeStatus) {
             mIvBrakeStatus.setImageResource(R.drawable.brake_checked_icon);
-        }else if (0 == brakeStatus){
+        } else if (0 == brakeStatus) {
             mIvBrakeStatus.setImageResource(R.drawable.brake_unchecked_icon);
         }
 
         //部标平台是否有连接的状态
         boolean isConnectTargetsPlatforms = false;
-        for (int i = 0 ; i < platformStatusArray.size();i++){
+        for (int i = 0; i < platformStatusArray.size(); i++) {
             SystemInfoModel.PlatformStatusArrayBean platformStatusArrayBean = platformStatusArray.get(i);
             int connectStatus = platformStatusArrayBean.getConnectStatus();
-            if (connectStatus == 2){
+            if (connectStatus == 2) {
                 isConnectTargetsPlatforms = true;
                 break;
             }
         }
 
-        if (isConnectTargetsPlatforms){
+        if (isConnectTargetsPlatforms) {
             mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_checked_icon);
-        }else {
+        } else {
             mIvTargetsPlatformStatus.setImageResource(R.drawable.targets_platform_unchecked_icon);
         }
 
         //经纬度信息的展示
-        if ( ZERO == longitude && ZERO == latitude){
+        if (ZERO == longitude && ZERO == latitude) {
             mTvLocationInfo.setText(R.string.no_car_info);
-        }else {
-            mTvLocationInfo.setText(String.format("%s°N,%s°E",String.valueOf((int)latitude),String.valueOf((int)longitude)));
+        } else {
+            mTvLocationInfo.setText(String.format("%s°N,%s°E", String.valueOf((int) latitude), String.valueOf((int) longitude)));
         }
 
         //车辆速度的
-        if (speed > 0){
-            mTvCarSpeed.setText(String.format("%s km/h",String.valueOf(speed)));
-        }else {
+        if (speed > 0) {
+            mTvCarSpeed.setText(String.format("%s km/h", String.valueOf(speed)));
+        } else {
             mTvCarSpeed.setText(R.string.no_car_info);
         }
 
-        if (ZERO == fourGLSignalLevel){
+        if (ZERO == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_no_signal);
-        }else if (ONE == fourGLSignalLevel){
+        } else if (ONE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_1);
-        }else if (TWO == fourGLSignalLevel){
+        } else if (TWO == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_2);
-        }else if (THREE == fourGLSignalLevel){
+        } else if (THREE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_3);
-        }else if (FOUR == fourGLSignalLevel){
+        } else if (FOUR == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_4);
-        }else if (FIVE == fourGLSignalLevel){
+        } else if (FIVE == fourGLSignalLevel) {
             mIvFourGSignalStatus.setImageResource(R.mipmap.four_g_signal_full_icon);
         }
     }
@@ -186,6 +193,11 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
         mIvRightTurnStatus = view.findViewById(R.id.iv_right_turn_status);
         mIvBrakeStatus = view.findViewById(R.id.iv_brake_status);
         mIvTargetsPlatformStatus = view.findViewById(R.id.iv_targets_platform_status);
+        mTvTips = view.findViewById(R.id.tv_tips);
+        SpannableString spannableString = new SpannableString("温馨提示：安装部标机时，请先按顺序进行平台连接- 参数填写操作，然后再做其他设置。");
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#F4891F")), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mTvTips.setText(spannableString);
+
         CardView cr_platforms_basic_info = view.findViewById(R.id.cr_platforms_basic_info);
         cr_platforms_basic_info.bringToFront();
     }
@@ -221,16 +233,16 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if(v.getId() ==  R.id.ll_device_connect){
+        if (v.getId() == R.id.ll_device_connect) {
             startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
             return;
         }
-        if (mUSB){
+        if (mUSB) {
 //                    ToastUtil.showToast(mActivity,R.string.please_open_usb_network_share);
-            ToastUtil.showToast(mActivity,R.string.please_check_network_is_available);
+            ToastUtil.showToast(mActivity, R.string.please_check_network_is_available);
             return;
         }
-        switch (v.getId()){
+        switch (v.getId()) {
 //            case R.id.ll_device_connect:
 //                startActivity(ActivityPathConstant.CONNECT_DEVICE_PATH);
 //                break;
@@ -256,7 +268,7 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
                     @Override
                     public void onError(Throwable e) {
-                        ExceptionUtils.exceptionHandling(mActivity,e);
+                        ExceptionUtils.exceptionHandling(mActivity, e);
                     }
 
                     @Override
@@ -264,8 +276,8 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
                         //查询当前 808 服务的运行状态，如果808服务未启动的话，
                         // 会获取一些空数据或垃圾数据等，所以进行服务的状态判断
                         int jt808ServiceStatus = searchServiceRunStatusModel.getJt808Service();
-                        if (jt808ServiceStatus == 0){
-                            ToastUtil.showToast(mActivity,R.string.jt_808_service_status);
+                        if (jt808ServiceStatus == 0) {
+                            ToastUtil.showToast(mActivity, R.string.jt_808_service_status);
                             return;
                         }
                         getVehicleInfo();
@@ -284,29 +296,29 @@ public class HomePresenter implements IHomeContract.Presenter, View.OnClickListe
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mActivity,e);
+                ExceptionUtils.exceptionHandling(mActivity, e);
             }
 
             @Override
             public void onNext(TerminalInfoModel terminalInfoModel) {
                 String phoneNumber = terminalInfoModel.getPhoneNumber();
-                if (TextUtils.isEmpty(phoneNumber)){
+                if (TextUtils.isEmpty(phoneNumber)) {
                     ARouter.getInstance()
                             .build(ActivityPathConstant.FILL_TERMINAL_INFO_PATH)
-                            .withString("type",ActivityPathConstant.FILL_TERMINAL_INFO)
-                            .withBoolean("isFillTerminalInfo",true)
+                            .withString("type", ActivityPathConstant.FILL_TERMINAL_INFO)
+                            .withBoolean("isFillTerminalInfo", true)
                             .navigation();
-                }else {
+                } else {
                     ARouter.getInstance()
                             .build(ActivityPathConstant.ACTIVATE_DEVICE_PATH)
-                            .withString("type",ActivityPathConstant.ADD_NEW_PLATFORMS)
+                            .withString("type", ActivityPathConstant.ADD_NEW_PLATFORMS)
                             .navigation();
                 }
             }
         });
     }
 
-    private void startActivity(String path){
+    private void startActivity(String path) {
         ARouter.getInstance()
                 .build(path)
                 .navigation();

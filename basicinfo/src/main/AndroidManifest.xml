@@ -3,12 +3,15 @@
     package="com.adasplus.basicinfo">
 
     <application>
-        <activity android:name=".activity.SystemInfoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.DriverInfoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CarInfoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.SystemInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.DriverInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CarInfoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

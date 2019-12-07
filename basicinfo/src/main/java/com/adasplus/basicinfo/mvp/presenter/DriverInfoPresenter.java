@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.adasplus.base.utils.ExceptionUtils;
 import com.adasplus.base.utils.PatternUtils;
+import com.adasplus.basicinfo.R;
 import com.adasplus.basicinfo.activity.DriverInfoActivity;
 import com.adasplus.basicinfo.mvp.contract.IDriverInfoContract;
 import com.adasplus.basicinfo.mvp.model.DriverInfoModel;
@@ -36,7 +37,7 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
     private TextView mTvCertificationAuthority;
     private TextView mTvBindVehicle;
 
-    public DriverInfoPresenter(IDriverInfoContract.View view){
+    public DriverInfoPresenter(IDriverInfoContract.View view) {
         mDriverInfoView = view;
         mDriverInfoActivity = (DriverInfoActivity) view;
     }
@@ -63,24 +64,13 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
 
             @Override
             public void onError(Throwable e) {
-                ExceptionUtils.exceptionHandling(mDriverInfoActivity,e);
+                ExceptionUtils.exceptionHandling(mDriverInfoActivity, e);
             }
 
             @Override
             public void onNext(DriverInfoModel driverInfoModel) {
-                Log.e("driverInfoModel","-----"+driverInfoModel.toString());
-
+                Log.e("driverInfoModel", "-----" + driverInfoModel.toString());
                 String name = driverInfoModel.getName();
-
-//                if (TextUtils.isEmpty(name)){
-//                    mLlDriverInfo.setVisibility(View.GONE);
-//                    mTvNoData.setVisibility(View.VISIBLE);
-//                }else {
-//                    mLlDriverInfo.setVisibility(View.VISIBLE);
-//                    mTvNoData.setVisibility(View.GONE);
-//                }
-
-
                 int sex = driverInfoModel.getSex();
                 String id = driverInfoModel.getId();
                 String drivingLicenseId = driverInfoModel.getDrivingLicenseId();
@@ -89,10 +79,21 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
                 String affiliate = driverInfoModel.getAffiliate();
                 String bindVehiclePlate = driverInfoModel.getBindVehiclePlate();
 
+                if (name.equals("") && sex == 0 && id.equals("") && drivingLicenseId.equals("")
+                        && drivingLicenseValidTerm.equals("") && qualificationCertificateId.equals("")
+                        && affiliate.equals("") && bindVehiclePlate.equals("")) {
+                    mLlDriverInfo.setVisibility(View.GONE);
+                    mTvNoData.setVisibility(View.VISIBLE);
+                    return;
+                } else {
+                    mLlDriverInfo.setVisibility(View.VISIBLE);
+                    mTvNoData.setVisibility(View.GONE);
+                }
+
                 mTvDriverName.setText(name);
-                if (sex ==  0){
+                if (sex == 0) {
                     mTvDriverSex.setText("男");
-                }else if (sex == 1){
+                } else if (sex == 1) {
                     mTvDriverSex.setText("女");
                 }
 
@@ -115,6 +116,8 @@ public class DriverInfoPresenter implements IDriverInfoContract.Presenter, View.
 
     @Override
     public void onClick(View v) {
-
+        if(v.getId() == R.id.iv_driver_back){
+            mDriverInfoActivity.finish();
+        }
     }
 }

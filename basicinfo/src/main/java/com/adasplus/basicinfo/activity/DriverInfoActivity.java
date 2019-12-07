@@ -41,7 +41,7 @@ public class DriverInfoActivity extends BaseActivity implements IDriverInfoContr
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvBack =  findViewById(R.id.iv_driver_back);
         mTvNoData =  findViewById(R.id.tv_no_data);
         mLlDriverInfo =  findViewById(R.id.ll_driver_info);
         mTvDriverName =  findViewById(R.id.tv_driver_name);

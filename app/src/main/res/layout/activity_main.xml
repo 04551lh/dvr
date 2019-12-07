@@ -81,6 +81,28 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_file_export_pager"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/iv_file_export_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/file_export_unchecked_icon"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_file_export_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/video_preview"
+                        android:layout_marginTop="@dimen/dp_5"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_basic_info_pager"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -99,28 +121,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/basic_info"
-                        android:layout_marginTop="@dimen/dp_5"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_file_export_pager"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/iv_file_export_pager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/file_export_unchecked_icon"
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_file_export_pager"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/files_export"
                         android:layout_marginTop="@dimen/dp_5"/>
                 </LinearLayout>
             </LinearLayout>

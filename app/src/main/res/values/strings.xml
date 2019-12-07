@@ -7,6 +7,8 @@
 
     <string name="home_text">首页</string>
 
+    <string name="video_preview">视屏预览</string>
+
     <string name="car_speed">车速</string>
 
     <string name="location">定位</string>
@@ -94,4 +96,8 @@
     <string name="no_export_device">没有导出设备</string>
 
     <string name="camera_setting">摄像头设置</string>
+    <string name="data_export">数据导出</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

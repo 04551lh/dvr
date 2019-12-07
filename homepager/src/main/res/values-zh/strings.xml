@@ -406,7 +406,7 @@
 
     <string name="sound_type">声音类型</string>
 
-    <string name="landmark_type">地标类型</string>
+    <string name="landmark_type">平台类型</string>
 
     <string name="camera_setting">摄像头设置</string>
 

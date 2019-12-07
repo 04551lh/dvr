@@ -16,7 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 @Route(path = ActivityPathConstant.CAR_INFO_PATH)
 public class CarInfoActivity extends BaseActivity implements ICarInfoContract.View {
 
-    private ImageView mIvBack;
+    private ImageView mIvCarBack;
     private TextView mTvPhoneNumber;
     private TextView mTvLicensePlateNumber;
     private TextView mTvChassisNumber;
@@ -42,7 +42,7 @@ public class CarInfoActivity extends BaseActivity implements ICarInfoContract.Vi
 
     @Override
     protected void initWidget() {
-        mIvBack =  findViewById(R.id.iv_back);
+        mIvCarBack =  findViewById(R.id.iv_car_back);
         mTvPhoneNumber =  findViewById(R.id.tv_phone_number);
         mTvLicensePlateNumber =  findViewById(R.id.tv_license_plate_number);
         mTvChassisNumber =  findViewById(R.id.tv_chassis_number);
@@ -56,7 +56,7 @@ public class CarInfoActivity extends BaseActivity implements ICarInfoContract.Vi
 
     @Override
     public ImageView getIvBack() {
-        return mIvBack;
+        return mIvCarBack;
     }
 
     @Override
