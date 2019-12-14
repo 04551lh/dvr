@@ -23,8 +23,100 @@
             android:text="@string/data_export" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/ll_pwd"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:text="请输入密码"
+            android:textColor="@color/font_color_333"
+            android:textSize="@dimen/sp_16"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/dp_50"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_one"
+                android:textColor="@color/font_color_333"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_two"
+                android:layout_marginStart="@dimen/dp_20"
+                android:textColor="@color/font_color_333"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_three"
+                android:textColor="@color/font_color_333"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_four"
+                android:textColor="@color/font_color_333"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_five"
+                android:textColor="@color/font_color_333"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_height="wrap_content"/>
+            <EditText
+                android:layout_width="@dimen/dp_40"
+                android:textSize="@dimen/dp_26"
+                android:inputType="number"
+                android:maxLength="1"
+                android:gravity="center"
+                android:id="@+id/et_six"
+                android:textColor="@color/font_color_333"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_submit"
+            style="@style/CommonSaveBtnStyle"
+            android:text="@string/submit" />
+
+
+
+    </LinearLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/srl_refresh_file_export_data"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -1,7 +1,9 @@
 package com.adasplus.dvr_controller.activity;
 
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.adasplus.base.base.BaseActivity;
@@ -11,6 +13,15 @@ import com.adasplus.dvr_controller.mvp.presenter.ExportFilePresenter;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class FileExportActivity extends BaseActivity implements IExportFileContract.View {
+
+    private LinearLayout mLlPwd;
+    private EditText mEtOne;
+    private EditText mEtTwo;
+    private EditText mEtThree;
+    private EditText mEtFour;
+    private EditText mEtFive;
+    private EditText mEtSix;
+    private TextView mTvSubmit;
 
     private ImageView mIvExportBack;
     private SwipeRefreshLayout mSrlRefreshFileExportData;
@@ -39,6 +50,15 @@ public class FileExportActivity extends BaseActivity implements IExportFileContr
 
     @Override
     protected void initWidget() {
+        mLlPwd = findViewById(R.id.ll_pwd);
+        mEtOne = findViewById(R.id.et_one);
+        mEtTwo = findViewById(R.id.et_two);
+        mEtThree = findViewById(R.id.et_three);
+        mEtFour = findViewById(R.id.et_four);
+        mEtFive= findViewById(R.id.et_five);
+        mEtSix= findViewById(R.id.et_six);
+        mTvSubmit= findViewById(R.id.tv_submit);
+
         mIvExportBack = findViewById(R.id.iv_export_back);
         mTvFileType = findViewById(R.id.tv_file_type);
         mTvChannelValue = findViewById(R.id.tv_channel_value);
@@ -51,6 +71,46 @@ public class FileExportActivity extends BaseActivity implements IExportFileContr
         mTvStorageNameValue = findViewById(R.id.tv_storage_name_value);
         mTvExportFile =findViewById(R.id.tv_export_file);
         mSrlRefreshFileExportData = findViewById(R.id.srl_refresh_file_export_data);
+    }
+
+    @Override
+    public LinearLayout getLlPwd() {
+        return mLlPwd;
+    }
+
+    @Override
+    public EditText getEtOne() {
+        return mEtOne;
+    }
+
+    @Override
+    public EditText getEtTwo() {
+        return mEtTwo;
+    }
+
+    @Override
+    public EditText getEtThree() {
+        return mEtThree;
+    }
+
+    @Override
+    public EditText getEtFour() {
+        return mEtFour;
+    }
+
+    @Override
+    public EditText getEtFive() {
+        return mEtFive;
+    }
+
+    @Override
+    public EditText getEtSix() {
+        return mEtSix;
+    }
+
+    @Override
+    public TextView getTvSubmit() {
+        return mTvSubmit;
     }
 
     @Override

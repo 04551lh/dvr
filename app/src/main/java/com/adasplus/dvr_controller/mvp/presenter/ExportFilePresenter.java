@@ -2,7 +2,12 @@ package com.adasplus.dvr_controller.mvp.presenter;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -58,6 +63,17 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
     private FileExportActivity mActivity;
 
     private ImageView mIvExportBack;
+
+    private LinearLayout mLlPwd;
+    private EditText mEtOne;
+    private EditText mEtTwo;
+    private EditText mEtThree;
+    private EditText mEtFour;
+    private EditText mEtFive;
+    private EditText mEtSix;
+    private TextView mTvSubmit;
+
+
     private SwipeRefreshLayout mSrlRefreshFileExportData;
     private TextView mTvFileType;
     private TextView mTvChannelValue;
@@ -117,6 +133,9 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
 
     private JSONObject mJSONObject;
 
+    //密码
+    String[] mPwd = new String[]{"8", "8", "8", "8", "8", "8"};
+
 
     public ExportFilePresenter(IExportFileContract.View view) {
         mExportFileView = view;
@@ -127,6 +146,16 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
     public void initData() {
         mBeginData = "";
         mEndData = "";
+
+        mLlPwd = mExportFileView.getLlPwd();
+        mEtOne = mExportFileView.getEtOne();
+        mEtTwo = mExportFileView.getEtTwo();
+        mEtThree = mExportFileView.getEtThree();
+        mEtFour = mExportFileView.getEtFour();
+        mEtFive = mExportFileView.getEtFive();
+        mEtSix = mExportFileView.getEtSix();
+        mTvSubmit = mExportFileView.getTvSubmit();
+
         mIvExportBack = mExportFileView.getIvExportBack();
         mSrlRefreshFileExportData = mExportFileView.getSrlRefreshFileExportData();
         mTvFileType = mExportFileView.getTvFileType();
@@ -208,6 +237,9 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
     @Override
     public void initListener() {
         mIvExportBack.setOnClickListener(this);
+//        myRequestFocus();
+        mTvSubmit.setOnClickListener(this);
+
         mTvFileType.setOnClickListener(this);
         mTvStartDate.setOnClickListener(this);
         mTvStartTime.setOnClickListener(this);
@@ -222,6 +254,99 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
         mTvStreamTypeValue.setOnClickListener(this);
         mChannelsNumberAdapter.setOnItemClickListener(this);
         mStreamTypeAdapter.setOnStreamTypeClickListener(this);
+    }
+
+    private void myRequestFocus() {
+        mEtOne.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s)) {
+                    mEtTwo.requestFocus();
+                }
+            }
+        });
+        mEtTwo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s)) {
+                    mEtThree.requestFocus();
+                }
+            }
+        });
+        mEtThree.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s)) {
+                    mEtFour.requestFocus();
+                }
+            }
+        });
+        mEtFour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s)) {
+                    mEtFive.requestFocus();
+                }
+            }
+        });
+        mEtFive.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s)) {
+                    mEtSix.requestFocus();
+                }
+            }
+        });
     }
 
 
@@ -297,14 +422,47 @@ public class ExportFilePresenter implements IExportFileContract.Presenter, Swipe
         }
     }
 
+    private boolean submitPwd() {
+        String one = mEtOne.getText().toString();
+        String two = mEtTwo.getText().toString();
+        String three = mEtThree.getText().toString();
+        String four = mEtFour.getText().toString();
+        String five = mEtFive.getText().toString();
+        String six = mEtSix.getText().toString();
+
+        if (TextUtils.isEmpty(one) || TextUtils.isEmpty(two) ||
+                TextUtils.isEmpty(three) || TextUtils.isEmpty(four) ||
+                TextUtils.isEmpty(five) || TextUtils.isEmpty(six)) {
+            Toast.makeText(mActivity, "请输入密码~", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        Log.i("boolean", "one : " + one.equals(mPwd[0]));
+        Log.i("boolean", "two : " + two.equals(mPwd[1]));
+        Log.i("boolean", "three : " + three.equals(mPwd[2]));
+        Log.i("boolean", "four : " + four.equals(mPwd[3]));
+        Log.i("boolean", "five : " + five.equals(mPwd[4]));
+        Log.i("boolean", "six : " + six.equals(mPwd[5]));
+        if (!one.equals(mPwd[0]) || !two.equals(mPwd[1]) ||
+                !three.equals(mPwd[2]) || !four.equals(mPwd[3]) ||
+                !five.equals(mPwd[4]) || !six.equals(mPwd[5])) {
+            Toast.makeText(mActivity, "密码不正确~", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
+
+    }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if(id == R.id.iv_export_back){
+        if (id == R.id.iv_export_back) {
             mActivity.finish();
-        }
-        else if (id == R.id.tv_file_type) { //选择文件类型
+        } else if (id == R.id.tv_submit) { //选择文件类型
+            //todo 验证密码
+            if (submitPwd()) return;
+            mLlPwd.setVisibility(View.GONE);
+            mSrlRefreshFileExportData.setVisibility(View.VISIBLE);
+        } else if (id == R.id.tv_file_type) { //选择文件类型
             showFileTypePopup();
         } else if (id == R.id.tv_audio_video) { //音视频
             dismissFileTypePopup();

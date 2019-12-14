@@ -238,9 +238,9 @@ public class SystemInfoPresenter implements ISystemInfoContract.Presenter, View.
 
                 mTvGpsModel.setText(gpsModel);
                 if (gpsAntStatus == 1){
-                    mTvDirectionalAntenna.setText(R.string.open_circuit);
+                    mTvDirectionalAntenna.setText(R.string.no_access);
                 }else {
-                    mTvDirectionalAntenna.setText(R.string.close_circuit);
+                    mTvDirectionalAntenna.setText(R.string.have_access);
                 }
 
                 if (gpsSignalLevel == 0){

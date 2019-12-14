@@ -1,6 +1,8 @@
 package com.adasplus.dvr_controller.mvp.contract;
 
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -15,17 +17,44 @@ public interface IExportFileContract {
     }
 
     interface View {
+        LinearLayout getLlPwd();
+
+        EditText getEtOne();
+
+        EditText getEtTwo();
+
+        EditText getEtThree();
+
+        EditText getEtFour();
+
+        EditText getEtFive();
+
+        EditText getEtSix();
+
+        TextView getTvSubmit();
+
         ImageView getIvExportBack();
+
         SwipeRefreshLayout getSrlRefreshFileExportData();
+
         TextView getTvFileType();
+
         TextView getTvChannelValue();
+
         TextView getTvStreamTypeValue();
+
         TextView getTvStartDate();
+
         TextView getTvStartTime();
+
         TextView getTvEndData();
+
         TextView getTvEndTime();
+
         TextView getTvStorageTypeValue();
+
         TextView getTvStorageNameValue();
+
         TextView getTvExportFile();
     }
 
